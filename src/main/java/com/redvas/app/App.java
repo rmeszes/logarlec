@@ -16,5 +16,7 @@ public class App
         logger.addHandler(handler);
         logger.setLevel(Level.FINEST);
         logger.log(Level.FINE, "App started");
+
+        logger.log(Level.FINE, "App finish");
     }
 }
