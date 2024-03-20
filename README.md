@@ -1,1 +1,3 @@
-Pull requesteket update with rebase opcióval mergeljük majd masterbe, így mindenki megkapja a többiek változtatását és nem kell végtelen branch
+Pull requestek előtt az update gomb-ot nyomjátok meg.
+
+Ha azt mondja hogy failed lehet hazudik, nyomd meg hogy try again
