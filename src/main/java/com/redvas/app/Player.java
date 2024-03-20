@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 //absztrakt class, majd az implementációk lesznek tesztelve
 public abstract class Player implements Steppable {
-    private static final Logger logger = Logger.getLogger("Player");
+    protected static final Logger logger = Logger.getLogger("Player");
 
     static {
         ConsoleHandler handler = new ConsoleHandler();
@@ -14,12 +14,10 @@ public abstract class Player implements Steppable {
         logger.addHandler(handler);
         logger.setLevel(Level.FINEST);
     }
-    public void faint() {
-        logger.fine("Fainted");
-    }
+    public void faint() {}
 
     public void step() {
-        logger.fine("Ready for next round");
+        logger.fine("Kész a következő körre");
     }
 
     public void removeFromInventory(Item item) {
@@ -38,10 +36,15 @@ public abstract class Player implements Steppable {
     }
 
     public void moveTo(Room room) {
-        logger.fine("moved room"); //TODO: megint kéne implementáció
+        logger.fine("szobát lépett"); //TODO: megint kéne implementáció
     }
 
     public void useFFP2() {
-        logger.fine("used FFP2 mask.");
+        logger.fine("használt egy FFP2-es maszkot");
+    }
+
+    public void winGame() {
+        logger.fine("hallgatók megnyerték a játékot!");
+        //TODO: not sure még hogy ezt hogy csináljuk, boilerplatet írok rn
     }
 }
