@@ -5,7 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 //absztrakt class, majd az implementációk lesznek tesztelve
-public abstract class Player {
+public abstract class Player implements Steppable {
     private static final Logger logger = Logger.getLogger("Player");
 
     static {
