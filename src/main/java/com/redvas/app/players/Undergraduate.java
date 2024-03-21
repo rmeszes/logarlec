@@ -1,13 +1,12 @@
 package com.redvas.app.players;
 
 import com.redvas.app.items.Item;
-import com.redvas.app.players.Player;
 
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class UnderGraduate extends Player {
+public class Undergraduate extends Player {
 
     protected static final Logger logger = Logger.getLogger("UnderGraduate");
 
@@ -20,6 +19,26 @@ public class UnderGraduate extends Player {
     @Override
     public void faint() {
         logger.fine("Elájult és elejtett minden tárgyat");
+    }
+
+    @Override
+    public void undergraduateVictory() {
+        getGame().undergraduateVictory();
+    }
+
+    @Override
+    public void professorVictory() {
+        // nothing happens
+    }
+
+    @Override
+    public void paralyze() {
+        // nothing happens
+    }
+
+    @Override
+    public void dropout() {
+        logger.fine("Undergradiate object is dropped out");
     }
 
     public void getItem(int itemIndex) {
