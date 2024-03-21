@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Game {
-    protected static final Logger logger = Logger.getLogger("Professor");
+    protected static final Logger logger = Logger.getLogger("Game");
 
     static {
         ConsoleHandler handler = new ConsoleHandler();
