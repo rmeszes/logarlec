@@ -1,2 +1,5 @@
-package com.redvas.app.map;public class Door {
+package com.redvas.app.map;
+
+public class Door {
+
 }

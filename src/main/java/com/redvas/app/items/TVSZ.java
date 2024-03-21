@@ -1,4 +1,4 @@
 package com.redvas.app.items;
 
-public class TVSZ {
+public class TVSZ extends Item {
 }

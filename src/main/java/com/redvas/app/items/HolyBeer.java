@@ -1,4 +1,4 @@
 package com.redvas.app.items;
 
-public class HolyBeer {
+public class HolyBeer extends Item {
 }

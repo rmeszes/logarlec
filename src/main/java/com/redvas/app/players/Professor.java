@@ -1,10 +1,19 @@
 package com.redvas.app.players;
 
+import com.redvas.app.map.Room;
+
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Professor extends Player {
+    @Override
+    public void moveTo(Room to) {
+        where().professorLeft();
+        to.professorEntered();
+        super.moveTo(to);
+    }
+
     protected static final Logger logger = Logger.getLogger("Professor");
 
     static {
@@ -20,5 +29,25 @@ public class Professor extends Player {
     @Override
     public void step() {
         logger.fine("bot lépés");
+    }
+
+    @Override
+    public void undergraduateVictory() {
+        // nothing happens
+    }
+
+    @Override
+    public void professorVictory() {
+        getGame().professorVictory();
+    }
+
+    @Override
+    public void paralyze() {
+        logger.fine("Professor object is paralyzed");
+    }
+
+    @Override
+    public void dropout() {
+        // nothing happens
     }
 }
