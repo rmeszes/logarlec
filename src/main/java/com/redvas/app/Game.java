@@ -1,0 +1,32 @@
+package com.redvas.app;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class Game {
+    protected static final Logger logger = Logger.getLogger("Game");
+
+    static {
+        ConsoleHandler handler = new ConsoleHandler();
+        handler.setLevel(Level.FINEST);
+        logger.addHandler(handler);
+        logger.setLevel(Level.FINEST);
+    }
+    private List<Steppable> getSteppables() { return new ArrayList<>();    }
+
+    private void playRound() {
+        for (Steppable s : getSteppables())
+            s.step();
+    }
+
+    public void undergraduateVictory() {
+        logger.fine("Undergraduate team won the game!");
+    }
+
+    public void professorVictory() {
+        logger.fine("Professor team won the game!");
+    }
+}

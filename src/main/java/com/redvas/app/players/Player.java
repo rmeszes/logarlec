@@ -1,4 +1,10 @@
-package com.redvas.app;
+package com.redvas.app.players;
+
+import com.redvas.app.App;
+import com.redvas.app.Game;
+import com.redvas.app.map.Room;
+import com.redvas.app.Steppable;
+import com.redvas.app.items.Item;
 
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
@@ -6,7 +12,14 @@ import java.util.logging.Logger;
 
 //absztrakt class, majd az implementációk lesznek tesztelve
 public abstract class Player implements Steppable {
+    protected Game getGame() { return new Game(); }
     protected static final Logger logger = Logger.getLogger("Player");
+
+    public void setProtectionFor(int rounds) {
+            // nem csinal semmit
+    }
+
+    public abstract void pickLogarlec();
 
     static {
         ConsoleHandler handler = new ConsoleHandler();
@@ -27,6 +40,13 @@ public abstract class Player implements Steppable {
     public void addToInventory(Item item) {
         logger.fine("Item felvéve"); //TODO: itt kéne az item implementáció
     }
+
+    public abstract void undergraduateVictory();
+
+    public abstract void professorVictory();
+
+    public abstract void paralyze();
+    public abstract void dropout();
 
     public Room where() {
         System.out.print("Melyik szobában van a player?");
