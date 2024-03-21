@@ -7,7 +7,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Undergraduate extends Player {
+    @Override
+    public void setProtectionFor(int rounds) {
 
+    }
     protected static final Logger logger = Logger.getLogger("UnderGraduate");
 
     static {

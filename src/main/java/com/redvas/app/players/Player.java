@@ -15,6 +15,10 @@ public abstract class Player implements Steppable {
     protected Game getGame() { return new Game(); }
     protected static final Logger logger = Logger.getLogger("Player");
 
+    public void setProtectionFor(int rounds) {
+            // nem csinal semmit
+    }
+
     public abstract void pickLogarlec();
 
     static {
