@@ -1,5 +1,6 @@
 package com.redvas.app;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
@@ -14,7 +15,7 @@ public class Game {
         logger.addHandler(handler);
         logger.setLevel(Level.FINEST);
     }
-    private List<Steppable> getSteppables() {}
+    private List<Steppable> getSteppables() { return new ArrayList<>();    }
 
     private void playRound() {
         for (Steppable s : getSteppables())

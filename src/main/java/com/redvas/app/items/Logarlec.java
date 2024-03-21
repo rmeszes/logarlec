@@ -5,6 +5,6 @@ import com.redvas.app.players.Player;
 public class Logarlec extends Item {
     @Override
     public void pickup(Player who) {
-        
+        who.pickLogarlec();
     }
 }

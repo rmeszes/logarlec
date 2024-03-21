@@ -15,6 +15,8 @@ public abstract class Player implements Steppable {
     protected Game getGame() { return new Game(); }
     protected static final Logger logger = Logger.getLogger("Player");
 
+    public abstract void pickLogarlec();
+
     static {
         ConsoleHandler handler = new ConsoleHandler();
         handler.setLevel(Level.FINEST);

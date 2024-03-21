@@ -4,6 +4,7 @@ import com.redvas.app.Steppable;
 import com.redvas.app.items.Item;
 import com.redvas.app.players.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
@@ -13,8 +14,8 @@ public class Room implements Steppable {
 
 
 
-    private int getProfessorCounter() {}
-    private boolean isGaseous() {}
+    private int getProfessorCounter() { return 0; }
+    private boolean isGaseous() { return false; }
     protected static final Logger logger = Logger.getLogger("Item");
 
     static {
@@ -29,7 +30,7 @@ public class Room implements Steppable {
             p.faint();
     }
 
-    private List<Player> getOccupants() {}
+    private List<Player> getOccupants() { return new ArrayList<>();    }
     private void removeOccupant(Player player) {}
 
     private void addOccupant(Player player) {}
@@ -37,9 +38,9 @@ public class Room implements Steppable {
     private void dropoutUndergraduates() {
 
     }
-    private Boolean canAccept() {}
+    private Boolean canAccept() { return true; }
 
-    private Boolean isAccessible(Room targetRoom) {}
+    private Boolean isAccessible(Room targetRoom) { return true; }
 
     public void setGas() {
         logger.fine("Setting gaseous state for Room object to true");

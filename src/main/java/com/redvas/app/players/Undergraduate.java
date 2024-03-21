@@ -16,6 +16,12 @@ public class Undergraduate extends Player {
         logger.addHandler(handler);
         logger.setLevel(Level.FINEST);
     }
+
+    @Override
+    public void pickLogarlec() {
+        getGame().undergraduateVictory();
+    }
+
     @Override
     public void faint() {
         logger.fine("Elájult és elejtett minden tárgyat");
