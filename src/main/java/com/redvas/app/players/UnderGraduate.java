@@ -1,10 +1,13 @@
-package com.redvas.app;
+package com.redvas.app.players;
+
+import com.redvas.app.items.Item;
+import com.redvas.app.players.Player;
 
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class UnderGraduate extends Player{
+public class UnderGraduate extends Player {
 
     protected static final Logger logger = Logger.getLogger("UnderGraduate");
 

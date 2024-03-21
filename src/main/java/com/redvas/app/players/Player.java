@@ -1,4 +1,9 @@
-package com.redvas.app;
+package com.redvas.app.players;
+
+import com.redvas.app.App;
+import com.redvas.app.map.Room;
+import com.redvas.app.Steppable;
+import com.redvas.app.items.Item;
 
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;

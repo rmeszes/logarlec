@@ -1,4 +1,4 @@
 package com.redvas.app;
 
-public class Room {
+public class Game {
 }

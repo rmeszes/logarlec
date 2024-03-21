@@ -1,4 +1,4 @@
-package com.redvas.app;
+package com.redvas.app.players;
 
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
