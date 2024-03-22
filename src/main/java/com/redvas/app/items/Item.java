@@ -1,5 +1,6 @@
 package com.redvas.app.items;
 
+import com.redvas.app.map.Room;
 import com.redvas.app.players.Player;
 import com.redvas.app.players.Undergraduate;
 
@@ -8,6 +9,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public abstract class Item {
+    private Room where() { return new Room();
+    }
     protected void destroy() {
         owner().removeFromInventory(this);
     }
@@ -38,6 +41,7 @@ public abstract class Item {
     public void pickup(Player who) {
         setOwner(who);
         who.addToInventory(this);
+        where().removeItem(this);
     }
     public void merge(Transistor item) { logger.fine("Ez a tárgy nem vonható össze másikkal"); }
 

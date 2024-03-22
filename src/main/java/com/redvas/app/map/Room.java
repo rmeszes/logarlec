@@ -2,6 +2,7 @@ package com.redvas.app.map;
 
 import com.redvas.app.Steppable;
 import com.redvas.app.items.Item;
+import com.redvas.app.items.RottenCamembert;
 import com.redvas.app.players.Player;
 
 import java.util.ArrayList;
@@ -11,6 +12,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Room implements Steppable {
+    public void removeItem(Item item) {}
+
+    public Item getItem(int index) { return new RottenCamembert();
+    }
+
     private int getProfessorCounter() { return 0; }
     private boolean isGaseous() { return false; }
     protected static final Logger logger = Logger.getLogger("Item");
