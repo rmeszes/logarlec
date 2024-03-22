@@ -4,6 +4,6 @@ public class FFP2 extends Item {
     @Override
     public void use() {
         owner().useFFP2();
-        // TODO: megsemmisul
+        destroy();
     }
 }

@@ -8,6 +8,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public abstract class Item {
+    protected void destroy() {
+        owner().removeFromInventory(this);
+    }
+
     public Player owner() {
         return new Undergraduate();
     }

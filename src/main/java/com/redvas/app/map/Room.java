@@ -11,9 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Room implements Steppable {
-
-
-
     private int getProfessorCounter() { return 0; }
     private boolean isGaseous() { return false; }
     protected static final Logger logger = Logger.getLogger("Item");

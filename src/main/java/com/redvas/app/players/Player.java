@@ -2,6 +2,7 @@ package com.redvas.app.players;
 
 import com.redvas.app.App;
 import com.redvas.app.Game;
+import com.redvas.app.items.RottenCamembert;
 import com.redvas.app.map.Room;
 import com.redvas.app.Steppable;
 import com.redvas.app.items.Item;
@@ -17,6 +18,9 @@ public abstract class Player implements Steppable {
 
     public void setProtectionFor(int rounds) {
             // nem csinal semmit
+    }
+
+    protected Item getItem(int index) { return new RottenCamembert();
     }
 
     public abstract void pickLogarlec();
@@ -41,12 +45,12 @@ public abstract class Player implements Steppable {
         logger.fine("Item felvéve"); //TODO: itt kéne az item implementáció
     }
 
-    public abstract void undergraduateVictory();
-
-    public abstract void professorVictory();
-
     public abstract void paralyze();
     public abstract void dropout();
+
+    private void setWhere(Room location) {
+        logger.fine("Setting location of Player");
+    }
 
     public Room where() {
         System.out.print("Melyik szobában van a player?");
@@ -56,7 +60,7 @@ public abstract class Player implements Steppable {
     }
 
     public void moveTo(Room room) {
-        logger.fine("szobát lépett"); //TODO: megint kéne implementáció
+        setWhere(room);
     }
 
     public void useFFP2() {
@@ -66,5 +70,15 @@ public abstract class Player implements Steppable {
     public void winGame() {
         logger.fine("hallgatók megnyerték a játékot!");
         //TODO: not sure még hogy ezt hogy csináljuk, boilerplatet írok rn
+    }
+
+    protected void pickItem(int index) {
+        getItem(index).pickup(this);
+    }
+
+    protected abstract void useItem(int index);
+
+    protected void disposeItem(int index) {
+        getItem(index).dispose();
     }
 }
