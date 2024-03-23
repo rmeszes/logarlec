@@ -20,8 +20,21 @@ public class Labyrinth implements Steppable {
         logger.fine("Labirintus objektumra kerult a sor, atalakul");
     }
 
+    public Labyrinth() {
+        logger.fine("Labyrinth created");
+        generateRooms();
+    }
+  
     @Override
     public void step() {
+        logger.fine("Labyrinth step");
         update();
+    }
+
+    private void generateRooms() {
+        logger.fine("Room generation start");
+        //majd itt csinálunk szobákat, most egyet tesztnek
+        // ezt még lehet máshogy kell megoldani, mert össze is kéne őket kötni, de sztem itt még nem, az már state
+        new Room();
     }
 }

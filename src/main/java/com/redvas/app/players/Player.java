@@ -17,11 +17,10 @@ public abstract class Player implements Steppable {
     protected static final Logger logger = Logger.getLogger("Player");
 
     public void setProtectionFor(int rounds) {
-            // nem csinal semmit
+            logger.fine(() -> "Ez a játékos védelmet élvez " + rounds + "körig!");
     }
 
-    protected Item getItem(int index) { return new RottenCamembert();
-    }
+    protected Item getItem(int index) { return new RottenCamembert(); }
 
     public abstract void pickLogarlec();
 
@@ -38,14 +37,17 @@ public abstract class Player implements Steppable {
     }
 
     public void removeFromInventory(Item item) {
-        logger.fine("Item eldobva"); //TODO: itt kéne az item implementáció
+        logger.fine("Item eldobva");
     }
 
     public void addToInventory(Item item) {
-        logger.fine("Item felvéve"); //TODO: itt kéne az item implementáció
+        logger.fine("Item felvéve");
     }
 
     public abstract void paralyze();
+
+    public abstract void paralyze(int rounds);
+
     public abstract void dropout();
 
     private void setWhere(Room location) {
@@ -56,7 +58,7 @@ public abstract class Player implements Steppable {
         System.out.print("Melyik szobában van a player?");
         String input = App.reader.nextLine();
         logger.fine("A játékos a(z) " + input + "szobában van");
-        return new Room(); //TODO: Room implementation
+        return new Room();
     }
 
     public void moveTo(Room room) {
@@ -68,8 +70,7 @@ public abstract class Player implements Steppable {
     }
 
     public void winGame() {
-        logger.fine("hallgatók megnyerték a játékot!");
-        //TODO: not sure még hogy ezt hogy csináljuk, boilerplatet írok rn
+        Game.undergraduateVictory();
     }
 
     protected void pickItem(int index) {
