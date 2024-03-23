@@ -46,8 +46,6 @@ public abstract class Player implements Steppable {
 
     public abstract void paralyze();
 
-    public abstract void paralyze(int rounds); //TODO
-
     public abstract void dropout();
 
     private void setWhere(Room location) {
