@@ -20,6 +20,9 @@ public class App
         logger.setLevel(Level.FINEST);
         logger.log(Level.FINE, "App started");
 
+        new Game();
+
+
         logger.log(Level.FINE, "App finish");
     }
 }

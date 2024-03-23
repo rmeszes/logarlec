@@ -16,10 +16,8 @@ public abstract class Player implements Steppable {
     protected static final Logger logger = Logger.getLogger("Player");
 
     public void setProtectionFor(int rounds) {
-            // nem csinal semmit
+            logger.fine(() -> "Ez a játékos védelmet élvez " + rounds + "körig!");
     }
-
-    public abstract void pickLogarlec();
 
     static {
         ConsoleHandler handler = new ConsoleHandler();
@@ -34,29 +32,29 @@ public abstract class Player implements Steppable {
     }
 
     public void removeFromInventory(Item item) {
-        logger.fine("Item eldobva"); //TODO: itt kéne az item implementáció
+        logger.fine("Item eldobva");
     }
 
     public void addToInventory(Item item) {
-        logger.fine("Item felvéve"); //TODO: itt kéne az item implementáció
+        logger.fine("Item felvéve");
     }
 
     public abstract void undergraduateVictory();
 
     public abstract void professorVictory();
 
-    public abstract void paralyze();
+    public abstract void paralyze(int rounds);
     public abstract void dropout();
 
     public Room where() {
         System.out.print("Melyik szobában van a player?");
         String input = App.reader.nextLine();
         logger.fine("A játékos a(z) " + input + "szobában van");
-        return new Room(); //TODO: Room implementation
+        return new Room();
     }
 
     public void moveTo(Room room) {
-        logger.fine("szobát lépett"); //TODO: megint kéne implementáció
+        logger.fine("szobát lépett");
     }
 
     public void useFFP2() {
@@ -64,7 +62,6 @@ public abstract class Player implements Steppable {
     }
 
     public void winGame() {
-        logger.fine("hallgatók megnyerték a játékot!");
-        //TODO: not sure még hogy ezt hogy csináljuk, boilerplatet írok rn
+        Game.undergraduateVictory();
     }
 }

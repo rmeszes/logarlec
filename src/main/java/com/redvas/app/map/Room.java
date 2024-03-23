@@ -6,6 +6,7 @@ import com.redvas.app.players.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +24,10 @@ public class Room implements Steppable {
         handler.setLevel(Level.FINEST);
         logger.addHandler(handler);
         logger.setLevel(Level.FINEST);
+    }
+
+    public Room() {
+        logger.fine("Room init");
     }
 
     private void knockoutEveyone() {
@@ -57,8 +62,10 @@ public class Room implements Steppable {
     }
 
     public void paralyzeProfessors() {
+        System.out.print("Hány körre bénuljanak a professzorok?");
+        Scanner scanner = new Scanner(System.in);
         for (Player p : getOccupants())
-            p.paralyze();
+            p.paralyze(scanner.nextInt());
     }
 
     public void addItem(Item item) {

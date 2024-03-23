@@ -22,13 +22,9 @@ public class Professor extends Player {
         logger.addHandler(handler);
         logger.setLevel(Level.FINEST);
     }
-    void paralyze(int rounds) { //TODO: doksiban nincs argumentum, azt át kell írni, vagy mindig ugyanannyit bénul?
-        logger.fine("bénítva " + rounds + " körre!");
-    }
-
     @Override
-    public void pickLogarlec() {
-        // nothing happens
+    public void paralyze(int rounds) { //TODO: doksiban nincs argumentum, azt át kell írni, vagy mindig ugyanannyit bénul?
+        logger.fine(() ->"bénítva " + rounds + " körre!");
     }
 
     @Override
@@ -44,11 +40,6 @@ public class Professor extends Player {
     @Override
     public void professorVictory() {
         getGame().professorVictory();
-    }
-
-    @Override
-    public void paralyze() {
-        logger.fine("Professor object is paralyzed");
     }
 
     @Override
