@@ -9,7 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public abstract class Item {
-    private Room where() { return new Room();
+    protected Room where() { return new Room();
     }
     protected void destroy() {
         owner().removeFromInventory(this);
@@ -19,7 +19,7 @@ public abstract class Item {
         return new Undergraduate();
     }
 
-    private void setOwner(Player player) {
+    protected void setOwner(Player player) {
         logger.fine("Item owner regisztrálva ehhez az Item-hez");
     }
 
