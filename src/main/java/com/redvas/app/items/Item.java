@@ -15,7 +15,7 @@ public abstract class Item {
         owner().removeFromInventory(this);
     }
 
-    protected Player owner() {
+    public Player owner() {
         return new Undergraduate();
     }
 
