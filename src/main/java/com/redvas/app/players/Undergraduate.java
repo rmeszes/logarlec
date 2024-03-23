@@ -13,6 +13,12 @@ public class Undergraduate extends Player {
     public void setProtectionFor(int rounds) {
         setProtectedRounds(rounds);
     }
+
+    @Override
+    public void pickLogarlec() {
+
+    }
+
     protected static final Logger logger = Logger.getLogger("UnderGraduate");
 
     static {

@@ -31,6 +31,11 @@ public class Professor extends Player {
     }
 
     @Override
+    public void pickLogarlec() {
+        // does nothing
+    }
+
+    @Override
     public void step() {
         logger.fine("bot lépés");
     }
