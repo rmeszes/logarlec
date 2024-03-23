@@ -28,6 +28,7 @@ public class CombinedTransistor extends Item{
         System.out.print("Is this the first transistor placement?");
         String input = App.reader.nextLine();
         if (input.equals("y")){
+            setDisposedPair(new Transistor());
             logger.fine("Placed first part of Combined Transistor");
         }
         else{
@@ -44,7 +45,8 @@ public class CombinedTransistor extends Item{
     }
 
     private void setDisposedPair(Transistor transistor){
-        // idk what this is
+        logger.fine("Disposed " + transistor.toString() +
+                         " in this room: " + transistor.where());
     }
 
     /**
