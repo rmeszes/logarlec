@@ -36,5 +36,8 @@ public class Labyrinth implements Steppable {
         //majd itt csinálunk szobákat, most egyet tesztnek
         // ezt még lehet máshogy kell megoldani, mert össze is kéne őket kötni, de sztem itt még nem, az már state
         new Room();
+
+        //ide még esetleg jöhetne egy door is?
+        new Door();
     }
 }
