@@ -7,10 +7,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Undergraduate extends Player {
+    private int getProtectedRounds() { return 0; }
+    private void setProtectedRounds(int rounds) {}
     @Override
     public void setProtectionFor(int rounds) {
+        setProtectedRounds(rounds);
+    }
+
+    @Override
+    public void pickLogarlec() {
 
     }
+
     protected static final Logger logger = Logger.getLogger("UnderGraduate");
 
     static {
@@ -26,13 +34,8 @@ public class Undergraduate extends Player {
     }
 
     @Override
-    public void undergraduateVictory() {
-        getGame().undergraduateVictory();
-    }
-
-    @Override
-    public void professorVictory() {
-        // nothing happens
+    public void paralyze() {
+      // Nem csinal semmit
     }
 
     @Override
@@ -42,11 +45,15 @@ public class Undergraduate extends Player {
 
     @Override
     public void dropout() {
-        logger.fine("Undergradiate object is dropped out");
+        if (getProtectedRounds() > 0)
+            logger.fine("Undergraduate was protected from being dropped out");
+        else
+            logger.fine("Undergraduate object is dropped out");
     }
 
-    public void getItem(int itemIndex) {
-        logger.fine("Kiválasztott item index: " + itemIndex);
+    @Override
+    protected void useItem(int index) {
+        getItem(index).use();
     }
 
     public void usePickedItem(Item item) {
@@ -64,7 +71,7 @@ public class Undergraduate extends Player {
         //TODO: a logarléc part ha lesz implementáció
     }
 
-    public void mergePickedItem() {
+    public void mergeItems() {
         //TODO: no idea rn
     }
 

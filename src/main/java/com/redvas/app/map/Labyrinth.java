@@ -16,13 +16,19 @@ public class Labyrinth implements Steppable {
         logger.setLevel(Level.FINEST);
     }
 
+    private void update() {
+        logger.fine("Labirintus objektumra kerult a sor, atalakul");
+    }
+
     public Labyrinth() {
         logger.fine("Labyrinth created");
         generateRooms();
     }
+  
     @Override
     public void step() {
         logger.fine("Labyrinth step");
+        update();
     }
 
     private void generateRooms() {

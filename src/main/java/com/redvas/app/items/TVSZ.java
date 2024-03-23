@@ -1,9 +1,15 @@
 package com.redvas.app.items;
 
 public class TVSZ extends Item {
+    private int getUses() { return 3; }
+    private void used() { }
+
     @Override
     public void use() {
         owner().setProtectionFor(1);
-        // TODO: megsemmisul
+        used();
+
+        if (getUses() == 0)
+            destroy();
     }
 }

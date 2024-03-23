@@ -14,6 +14,9 @@ public class Professor extends Player {
         super.moveTo(to);
     }
 
+    @Override
+    protected void useItem(int index) {}
+
     protected static final Logger logger = Logger.getLogger("Professor");
 
     static {
@@ -28,18 +31,18 @@ public class Professor extends Player {
     }
 
     @Override
+    public void pickLogarlec() {
+        // does nothing
+    }
+
+    @Override
     public void step() {
         logger.fine("bot lépés");
     }
 
     @Override
-    public void undergraduateVictory() {
-        // nothing happens
-    }
-
-    @Override
-    public void professorVictory() {
-        getGame().professorVictory();
+    public void paralyze() {
+        logger.fine("Professor object is paralyzed");
     }
 
     @Override
