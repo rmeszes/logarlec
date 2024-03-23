@@ -1,5 +1,7 @@
 package com.redvas.app;
 
+import com.redvas.app.map.Labyrinth;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.ConsoleHandler;
@@ -15,18 +17,29 @@ public class Game {
         logger.addHandler(handler);
         logger.setLevel(Level.FINEST);
     }
-    private List<Steppable> getSteppables() { return new ArrayList<>();    }
+
+    public Game() {
+        logger.fine("Game init");
+        createLabyrinth();
+    }
+
+    private List<Steppable> getSteppables() { return new ArrayList<>(); }
 
     private void playRound() {
+        logger.fine("Új kör indulás");
         for (Steppable s : getSteppables())
             s.step();
     }
 
-    public void undergraduateVictory() {
+    private void createLabyrinth() {
+        /* this.labyrinth = */new Labyrinth();
+    }
+
+    public static void undergraduateVictory() {
         logger.fine("Undergraduate team won the game!");
     }
 
-    public void professorVictory() {
+    public static void professorVictory() {
         logger.fine("Professor team won the game!");
     }
 }

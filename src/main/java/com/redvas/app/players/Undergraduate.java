@@ -21,11 +21,6 @@ public class Undergraduate extends Player {
     }
 
     @Override
-    public void pickLogarlec() {
-        getGame().undergraduateVictory();
-    }
-
-    @Override
     public void faint() {
         logger.fine("Elájult és elejtett minden tárgyat");
     }
@@ -41,7 +36,7 @@ public class Undergraduate extends Player {
     }
 
     @Override
-    public void paralyze() {
+    public void paralyze(int rounds) {
         // nothing happens
     }
 
