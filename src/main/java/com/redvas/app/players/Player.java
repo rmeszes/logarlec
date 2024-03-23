@@ -37,16 +37,14 @@ public abstract class Player implements Steppable {
     }
 
     public void removeFromInventory(Item item) {
-        logger.fine("Item eldobva");
+        logger.fine(()-> item.toString() + " eldobva");
     }
 
     public void addToInventory(Item item) {
-        logger.fine("Item felvéve");
+        logger.fine(()-> item.toString() + " felvéve");
     }
 
     public abstract void paralyze();
-
-    public abstract void paralyze(int rounds);
 
     public abstract void dropout();
 

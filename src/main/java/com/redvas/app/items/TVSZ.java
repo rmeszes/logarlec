@@ -12,4 +12,12 @@ public class TVSZ extends Item {
         if (getUses() == 0)
             destroy();
     }
+
+    /**
+     * @return Az Item neve
+     */
+    @Override
+    public String toString() {
+        return "TVSZ";
+    }
 }

@@ -46,4 +46,11 @@ public abstract class Item {
     }
     public void merge(Transistor item) { logger.fine("Ez a tárgy nem vonható össze másikkal"); }
 
+
+    /**
+     *
+     * @return Az Item neve
+     */
+    @Override
+    public abstract String toString();
 }

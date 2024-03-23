@@ -39,11 +39,6 @@ public class Undergraduate extends Player {
     }
 
     @Override
-    public void paralyze(int rounds) {
-        // nothing happens
-    }
-
-    @Override
     public void dropout() {
         if (getProtectedRounds() > 0)
             logger.fine("Undergraduate was protected from being dropped out");

@@ -25,10 +25,6 @@ public class Professor extends Player {
         logger.addHandler(handler);
         logger.setLevel(Level.FINEST);
     }
-    @Override
-    public void paralyze(int rounds) { //TODO: doksiban nincs argumentum, azt át kell írni, vagy mindig ugyanannyit bénul?
-        logger.fine(() ->"bénítva " + rounds + " körre!");
-    }
 
     @Override
     public void pickLogarlec() {

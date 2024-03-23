@@ -65,10 +65,8 @@ public class Room implements Steppable {
     }
 
     public void paralyzeProfessors() {
-        System.out.print("Hány körre bénuljanak a professzorok?");
-        Scanner scanner = new Scanner(System.in);
         for (Player p : getOccupants())
-            p.paralyze(scanner.nextInt());
+            p.paralyze();
     }
 
     public void addItem(Item item) {
