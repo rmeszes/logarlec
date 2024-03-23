@@ -31,6 +31,7 @@ public abstract class Item {
         logger.addHandler(handler);
         logger.setLevel(Level.FINEST);
     }
+
     public void use() {
         logger.fine("Ez a tárgy nem használható");
     }
