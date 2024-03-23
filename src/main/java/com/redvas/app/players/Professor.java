@@ -9,13 +9,16 @@ import java.util.logging.Logger;
 public class Professor extends Player {
     @Override
     public void moveTo(Room to) {
+        logger.fine(this + " notifies its origin and target rooms about his/her transfer");
         where().professorLeft();
         to.professorEntered();
         super.moveTo(to);
     }
 
     @Override
-    protected void useItem(int index) {}
+    protected void useItem(int index) {
+        // Nothing happens
+    }
 
     protected static final Logger logger = Logger.getLogger("Professor");
 
@@ -28,21 +31,21 @@ public class Professor extends Player {
 
     @Override
     public void pickLogarlec() {
-        // does nothing
-    }
-
-    @Override
-    public void step() {
-        logger.fine("bot lépés");
+        // Nothing happens
     }
 
     @Override
     public void paralyze() {
-        logger.fine("Professor object is paralyzed");
+        logger.fine(this + " is paralyzed");
     }
 
     @Override
     public void dropout() {
-        // nothing happens
+        // Nothing happens
+    }
+
+    @Override
+    public String toString() {
+        return "Professor";
     }
 }

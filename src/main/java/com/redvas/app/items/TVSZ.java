@@ -6,6 +6,7 @@ public class TVSZ extends Item {
 
     @Override
     public void use() {
+        logger.fine(this + " is being used...");
         owner().setProtectionFor(1);
         used();
 

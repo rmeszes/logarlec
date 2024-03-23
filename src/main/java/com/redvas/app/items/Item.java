@@ -9,10 +9,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public abstract class Item {
-    private Room where() { return new Room();
-    }
+    private Room where() { return new Room(); }
     protected void destroy() {
         owner().removeFromInventory(this);
+        logger.fine(this + " was garbage collected (destroyed)");
     }
 
     public Player owner() {
@@ -20,7 +20,7 @@ public abstract class Item {
     }
 
     private void setOwner(Player player) {
-        logger.fine("Item owner regisztrálva ehhez az Item-hez");
+        logger.fine(this + " was registered to " + player);
     }
 
     protected static final Logger logger = Logger.getLogger("Item");
@@ -33,19 +33,19 @@ public abstract class Item {
     }
 
     public void use() {
-        logger.fine("Ez a tárgy nem használható");
+        logger.fine(this + " can not be used");
     }
     public void dispose() {
+        logger.fine(this + " is being disposed of");
         owner().removeFromInventory(this);
         owner().where().addItem(this);
     }
     public void pickup(Player who) {
+        logger.fine(this + " is being picked up by " + who);
         setOwner(who);
         who.addToInventory(this);
         where().removeItem(this);
     }
-    public void merge(Transistor item) { logger.fine("Ez a tárgy nem vonható össze másikkal"); }
-
 
     /**
      *
@@ -53,4 +53,5 @@ public abstract class Item {
      */
     @Override
     public abstract String toString();
+    public void merge(Transistor item) { logger.fine(this + " can not be merged"); }
 }

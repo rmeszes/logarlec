@@ -15,9 +15,7 @@ public class Undergraduate extends Player {
     }
 
     @Override
-    public void pickLogarlec() {
-
-    }
+    public void pickLogarlec() {}
 
     protected static final Logger logger = Logger.getLogger("UnderGraduate");
 
@@ -48,29 +46,21 @@ public class Undergraduate extends Player {
 
     @Override
     protected void useItem(int index) {
+        logger.fine(this + " chose to use a(n) " + getItem(index));
         getItem(index).use();
     }
 
-    public void usePickedItem(Item item) {
-        item.use();
-        logger.fine("használt egy tárgyat");
-    }
-
-    public void disposePickedItem(Item item) {
-        item.use();
-        logger.fine("eldobott egy tárgyat");
-    }
-
-    public void pickItem(Item item) {
-        logger.fine("felvett egy tárgyat");
-        //TODO: a logarléc part ha lesz implementáció
-    }
 
     public void mergeItems() {
         //TODO: no idea rn
     }
 
     void dropOut() {
-        logger.fine("kiesett az egyetemről.");
+        logger.fine(this + " dropped out");
+    }
+
+    @Override
+    public String toString() {
+        return "Undergraduate";
     }
 }

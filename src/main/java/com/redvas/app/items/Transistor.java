@@ -6,6 +6,6 @@ public class Transistor extends Item {
      */
     @Override
     public String toString() {
-        return "tranzisztor";
+        return "Transistor";
     }
 }
