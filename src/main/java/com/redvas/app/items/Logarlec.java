@@ -8,4 +8,14 @@ public class Logarlec extends Item {
     public void pickup(Player who) {
         Game.undergraduateVictory();
     }
+
+    /**
+     * @return Az Item neve
+     */
+    @Override
+    public String toString() {
+        return "logarléc";
+    }
+
+
 }

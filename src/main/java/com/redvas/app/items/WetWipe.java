@@ -6,4 +6,12 @@ public class WetWipe extends Item {
         owner().where().paralyzeProfessors();
         destroy();
     }
+
+    /**
+     * @return Az Item neve
+     */
+    @Override
+    public String toString() {
+        return "nedves táblatörlő rongy";
+    }
 }

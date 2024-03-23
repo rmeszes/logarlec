@@ -6,4 +6,12 @@ public class RottenCamembert extends Item {
         owner().where().setGas();
         destroy();
     }
+
+    /**
+     * @return Az Item neve
+     */
+    @Override
+    public String toString() {
+        return "káposztás Camembert";
+    }
 }
