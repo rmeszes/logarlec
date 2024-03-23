@@ -9,7 +9,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public abstract class Item {
-    private Room where() { return new Room(); }
+    protected Room where() {
+        return new Room();
+    }
+
     protected void destroy() {
         owner().removeFromInventory(this);
         logger.fine(this + " was garbage collected (destroyed)");
