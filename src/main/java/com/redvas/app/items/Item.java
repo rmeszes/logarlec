@@ -22,7 +22,7 @@ public abstract class Item {
         return new Undergraduate();
     }
 
-    private void setOwner(Player player) {
+    protected void setOwner(Player player) {
         logger.fine(this + " was registered to " + player);
     }
 
