@@ -26,7 +26,7 @@ public class Game {
     private List<Steppable> getSteppables() { return new ArrayList<>(); }
 
     private void playRound() {
-        logger.fine("Új kör indulás");
+        logger.fine("New round");
         for (Steppable s : getSteppables())
             s.step();
     }

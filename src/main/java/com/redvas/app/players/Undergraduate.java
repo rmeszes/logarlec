@@ -7,8 +7,22 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Undergraduate extends Player {
+    /**
+     *
+     * @return int: how long are they protected from profs
+     */
     private int getProtectedRounds() { return 0; }
+
+    /**
+     *
+     * @param rounds: how long are they protected from profs
+     */
     private void setProtectedRounds(int rounds) {}
+
+    /**
+     *
+     * @param rounds: number of rounds until they are protected
+     */
     @Override
     public void setProtectionFor(int rounds) {
         setProtectedRounds(rounds);
@@ -26,16 +40,25 @@ public class Undergraduate extends Player {
         logger.setLevel(Level.FINEST);
     }
 
+    /** has fainted and dropped all their items
+     *
+     */
     @Override
     public void faint() {
-        logger.fine("Elájult és elejtett minden tárgyat");
+        logger.fine("Has fainted and dropped all items.");
     }
 
+    /** only profs can be
+     *
+     */
     @Override
     public void paralyze() {
       // Nem csinal semmit
     }
 
+    /** losing the game
+     *
+     */
     @Override
     public void dropout() {
         if (getProtectedRounds() > 0)
@@ -44,6 +67,10 @@ public class Undergraduate extends Player {
             logger.fine("Undergraduate object is dropped out");
     }
 
+    /**
+     *
+     * @param index: picked items index
+     */
     @Override
     protected void useItem(int index) {
         logger.fine(this + " chose to use a(n) " + getItem(index));
@@ -55,6 +82,9 @@ public class Undergraduate extends Player {
         //TODO: no idea rn
     }
 
+    /**
+     * ?????????
+     */
     void dropOut() {
         logger.fine(this + " dropped out");
     }
