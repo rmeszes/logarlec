@@ -5,7 +5,10 @@ import com.redvas.app.map.Room;
 import com.redvas.app.players.Player;
 
 public class CombinedTransistor extends Item{
-
+    /** if user says yes, transistors are activated
+     * player can teleport
+     *
+     */
     @Override
     public void use(){
         System.out.print("Has the first transistor been placed?");
@@ -18,11 +21,21 @@ public class CombinedTransistor extends Item{
         }
     }
 
+    /**
+     *
+     * @param who: player that will pick up
+     */
     @Override
     public void pickup(Player who) {
         logger.fine("Combined Transistor can't be picked up");
     }
 
+    /** 3 possible outcomes:
+     * a) this is the first transistor
+     * b) this is the second, but it is not activated yet
+     * c) this is the second and it is already activated
+     *
+     */
     @Override
     public void dispose() {
         System.out.print("Is this the first transistor placement?");
@@ -44,6 +57,10 @@ public class CombinedTransistor extends Item{
         }
     }
 
+    /**
+     *
+     * @param transistor: the one that will be put to the floor
+     */
     private void setDisposedPair(Transistor transistor){
         logger.fine("Disposed " + transistor.toString() +
                          " in this room: " + transistor.where());

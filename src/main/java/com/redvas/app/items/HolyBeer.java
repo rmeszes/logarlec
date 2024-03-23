@@ -1,6 +1,9 @@
 package com.redvas.app.items;
 
 public class HolyBeer extends Item {
+    /** activate the item (protection from prof)
+     *
+     */
     @Override
     public void use() {
         logger.fine(this + " is being used...");

@@ -22,7 +22,7 @@ public class Door {
 
     /**
      *
-     * @return Room
+     * @return Room: that is accessible through this door
      */
     public Room connectsTo(){
         logger.fine("The door connects to this room.");
@@ -31,11 +31,12 @@ public class Door {
 
     /**
      *
-     * @param room
+     * @param room: neighboring room
      */
     public void setConnection(Room room){
+        System.out.print("Are these rooms connected? (y/n)");
         String value = App.reader.nextLine();
-        if(value.equals("true"))
+        if(value.equals("y"))
             logger.fine("Connection of rooms set to true (eg. due to a door's appearance).");
 
         else
@@ -47,9 +48,10 @@ public class Door {
      * @return bool
      */
     public boolean isPassable(){
+        System.out.print("Is this door passable? (y/n)");
         String value = App.reader.nextLine();
 
-        if(value.equals("true")) {
+        if(value.equals("y")) {
             logger.fine("This door is active.");
             return true;
         }
@@ -61,7 +63,7 @@ public class Door {
 
     /**
      *
-     * @param bool
+     * @param bool: true if door is open (?)
      */
     public void setPassable(boolean bool){
         logger.fine("This door is set to active.");
@@ -72,9 +74,10 @@ public class Door {
      * @return bool
      */
     public boolean isVanished(){
+        System.out.print("Is this door vanished? (y/n)");
         String value = App.reader.nextLine();
 
-        if(value.equals("true")) {
+        if(value.equals("y")) {
             logger.fine("This door has vanished.");
             return true;
         }
@@ -86,7 +89,7 @@ public class Door {
 
     /**
      *
-     * @param bool
+     * @param bool: true if the door is vanished
      */
     public void setVanished(boolean bool){
         logger.fine("This door is set to vanished.");

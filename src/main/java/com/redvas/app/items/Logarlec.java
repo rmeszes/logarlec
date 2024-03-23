@@ -4,6 +4,10 @@ import com.redvas.app.Game;
 import com.redvas.app.players.Player;
 
 public class Logarlec extends Item {
+    /** it means winning the game
+     *
+     * @param who: player that will pick up
+     */
     @Override
     public void pickup(Player who) {
         logger.fine(this + " is being picked up by " + who);

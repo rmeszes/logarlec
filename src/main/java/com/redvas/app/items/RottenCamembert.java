@@ -1,6 +1,9 @@
 package com.redvas.app.items;
 
 public class RottenCamembert extends Item {
+    /** sets the gas of the room to true
+     *
+     */
     @Override
     public void use() {
         logger.fine(this + " is being used...");
