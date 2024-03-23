@@ -13,11 +13,12 @@ import java.util.logging.Logger;
 
 //absztrakt class, majd az implementációk lesznek tesztelve
 public abstract class Player implements Steppable {
+    private String getName() { return ""; }
     protected Game getGame() { return new Game(); }
     protected static final Logger logger = Logger.getLogger("Player");
 
     public void setProtectionFor(int rounds) {
-            logger.fine(() -> "Ez a játékos védelmet élvez " + rounds + "körig!");
+        logger.fine(this + " gained protection from being dropped out for " + rounds + " rounds");
     }
 
     protected Item getItem(int index) { return new RottenCamembert(); }
@@ -30,18 +31,20 @@ public abstract class Player implements Steppable {
         logger.addHandler(handler);
         logger.setLevel(Level.FINEST);
     }
-    public void faint() {}
+    public void faint() {
+        logger.fine(this + " fainted");
+    }
 
     public void step() {
-        logger.fine("Kész a következő körre");
+        logger.fine(this + " is on his/her turn");
     }
 
     public void removeFromInventory(Item item) {
-        logger.fine(()-> item.toString() + " eldobva");
+        logger.fine(this + " was confiscated of a(n) " + item);
     }
 
     public void addToInventory(Item item) {
-        logger.fine(()-> item.toString() + " felvéve");
+        logger.fine(this + " acquired a(n) " + item);
     }
 
     public abstract void paralyze();
@@ -49,35 +52,37 @@ public abstract class Player implements Steppable {
     public abstract void dropout();
 
     private void setWhere(Room location) {
-        logger.fine("Setting location of Player");
+        logger.fine(this + " reset its location");
     }
 
     public Room where() {
-        System.out.print("Melyik szobában van a player?");
+        System.out.print(this + " asks for its position");
         String input = App.reader.nextLine();
-        logger.fine("A játékos a(z) " + input + "szobában van");
+        logger.fine(this + " is at: " + input);
         return new Room();
     }
 
     public void moveTo(Room room) {
+        logger.fine(this + " commences its relocation");
         setWhere(room);
     }
 
     public void useFFP2() {
-        logger.fine("használt egy FFP2-es maszkot");
-    }
-
-    public void winGame() {
-        Game.undergraduateVictory();
+        logger.fine(this + " began using an FFP2 mask");
     }
 
     protected void pickItem(int index) {
+        logger.fine(this + " chose to pick up " + where().getItem(index));
         where().getItem(index).pickup(this);
     }
 
     protected abstract void useItem(int index);
 
     protected void disposeItem(int index) {
+        logger.fine(this + " chose to dispose of " + getItem(index));
         getItem(index).dispose();
     }
+
+    @Override
+    public abstract String toString();
 }

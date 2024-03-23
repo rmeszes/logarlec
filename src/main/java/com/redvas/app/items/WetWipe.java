@@ -3,6 +3,7 @@ package com.redvas.app.items;
 public class WetWipe extends Item {
     @Override
     public void use() {
+        logger.fine(this + " is being used...");
         owner().where().paralyzeProfessors();
         destroy();
     }
@@ -12,6 +13,6 @@ public class WetWipe extends Item {
      */
     @Override
     public String toString() {
-        return "nedves táblatörlő rongy";
+        return "Wet Wipe";
     }
 }

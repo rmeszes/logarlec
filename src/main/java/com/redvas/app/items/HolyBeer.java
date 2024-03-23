@@ -3,6 +3,7 @@ package com.redvas.app.items;
 public class HolyBeer extends Item {
     @Override
     public void use() {
+        logger.fine(this + " is being used...");
         owner().setProtectionFor(3);
         destroy();
     }
@@ -12,6 +13,6 @@ public class HolyBeer extends Item {
      */
     @Override
     public String toString() {
-        return "szent söröspohár";
+        return "Holy Beer";
     }
 }

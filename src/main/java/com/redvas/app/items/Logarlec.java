@@ -6,7 +6,8 @@ import com.redvas.app.players.Player;
 public class Logarlec extends Item {
     @Override
     public void pickup(Player who) {
-        Game.undergraduateVictory();
+        logger.fine(this + " is being picked up by " + who);
+        who.pickLogarlec();
     }
 
     /**
@@ -14,8 +15,6 @@ public class Logarlec extends Item {
      */
     @Override
     public String toString() {
-        return "logarléc";
+        return "Logarléc";
     }
-
-
 }
