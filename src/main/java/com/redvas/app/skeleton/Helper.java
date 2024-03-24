@@ -23,8 +23,11 @@ public class Helper {
     }
 
     public static void useCase3() {
-        System.out.println("Use case 3:");
-        //TODO ezt most végül nem tudom hogy oldjuk meg
+        System.out.println("Use case 3: Undegraduate picks up Logarléc");
+
+        Logarlec logarlec = new Logarlec();
+
+        logarlec.pickup(new Undergraduate());
     }
 
     public static void useCase4() {
