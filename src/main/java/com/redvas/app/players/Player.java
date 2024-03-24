@@ -97,9 +97,6 @@ public abstract class Player implements Steppable {
      * @return room: identifier of currently occupied room (by this player)
      */
     public Room where() {
-        System.out.print(this + " asks for its position: ");
-        String input = App.reader.nextLine();
-        logger.fine(() -> this + " is at: " + input);
         return new Room();
     }
 

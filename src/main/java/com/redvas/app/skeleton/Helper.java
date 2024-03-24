@@ -5,6 +5,8 @@ import com.redvas.app.map.*;
 import com.redvas.app.items.*;
 import com.redvas.app.*;
 
+import java.util.HashMap;
+
 
 public class Helper {
 
@@ -21,15 +23,24 @@ public class Helper {
     }
 
     public static void useCase3() {
-        System.out.println("use case 3 runs");
+        System.out.println("Use case 3:");
+        //TODO ezt most végül nem tudom hogy oldjuk meg
     }
 
     public static void useCase4() {
-        System.out.println("use case 4 runs");
+
     }
 
     public static void useCase5() {
-        System.out.println("use case 5 runs");
+        System.out.println("Use case 5: Undergraduate drops out");
+
+        HashMap<Integer, Room> rooms = HashMap.newHashMap(2);
+        rooms.put(1, new Room());
+        rooms.put(2, new Room());
+
+        Professor p = new Professor();
+
+        rooms.get(1).transfer(p,rooms.get(2));
     }
 
     public static void useCase6() {
