@@ -217,4 +217,30 @@ public class Room implements Steppable {
         if (getProfessorCounter() > 0)
             dropoutUndergraduates();
     }
+
+    public void mergeWithRoom(Room other) {
+        logger.fine("Setting this room's attributes to new ones..");
+        other.destroy();
+        //labyrinth.update()
+    }
+
+    /**
+     * After the room is merge it has to disappear
+     */
+    public void destroy() {
+        logger.fine("This room got destroyed");
+    }
+
+    public Room divide() {
+        System.out.print("Does this room has less than 4 neighbouring rooms? (y/n)");
+
+        if(App.reader.nextLine().equals("y")) {
+            logger.fine("Splitting into another room..");
+            return new Room();
+            //lab.update()
+        } else {
+            logger.fine("The room cannot split, it has no space");
+            return null;
+        }
+    }
 }

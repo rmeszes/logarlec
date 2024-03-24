@@ -24,7 +24,7 @@ public class Professor extends Player {
      * @param index: identifier of item that will be used
      */
     @Override
-    protected void useItem(int index) {
+    public void useItem(int index) {
         // Nothing happens
     }
 

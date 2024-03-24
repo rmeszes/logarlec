@@ -49,15 +49,21 @@ public class Helper {
     }
 
     public static void useCase6() {
-        System.out.println("use case 6 runs");
+        System.out.println("Use case 6: Undegraduate uses an item");
+
+        new Undergraduate().useItem(0);
     }
 
     public static void useCase7() {
-        System.out.println("use case 7 runs");
+        System.out.println("Use case 7: Merging rooms");
+
+        new Room().mergeWithRoom(new Room());
     }
 
     public static void useCase8() {
-        System.out.println("use case 8 runs");
+        System.out.println("Use case 8: Room divides");
+
+        new Room().divide();
     }
 
     public static void useCase9() {
