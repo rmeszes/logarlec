@@ -217,4 +217,17 @@ public class Room implements Steppable {
         if (getProfessorCounter() > 0)
             dropoutUndergraduates();
     }
+
+    public void mergeWithRoom(Room other) {
+        logger.fine("Setting this room's attributes to new ones..");
+        other.destroy();
+        //labyrinth.update()
+    }
+
+    /**
+     * After the room is merge it has to disappear
+     */
+    public void destroy() {
+        logger.fine("This room got destroyed");
+    }
 }

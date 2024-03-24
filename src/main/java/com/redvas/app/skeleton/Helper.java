@@ -55,7 +55,9 @@ public class Helper {
     }
 
     public static void useCase7() {
-        System.out.println("use case 7 runs");
+        System.out.println("Use case 7: Merging rooms");
+
+        new Room().mergeWithRoom(new Room());
     }
 
     public static void useCase8() {
