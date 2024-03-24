@@ -169,6 +169,7 @@ public class Room implements Steppable {
         if (isAccessible(to)) {
             if (to.canOccupy(who)) {
                 removeOccupant(who);
+                who.moveTo(to);
                 return true;
             }
             else return false;
