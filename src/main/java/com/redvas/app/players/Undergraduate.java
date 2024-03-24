@@ -73,7 +73,7 @@ public class Undergraduate extends Player {
      */
     @Override
     protected void useItem(int index) {
-        logger.fine(this + " chose to use a(n) " + getItem(index));
+        logger.fine(() -> this + " chose to use a(n) " + getItem(index));
         getItem(index).use();
     }
 
@@ -86,7 +86,7 @@ public class Undergraduate extends Player {
      * ?????????
      */
     void dropOut() {
-        logger.fine(this + " dropped out");
+        logger.fine(() -> this + " dropped out");
     }
 
     @Override

@@ -13,7 +13,7 @@ public class Professor extends Player {
      */
     @Override
     public void moveTo(Room to) {
-        logger.fine(this + " notifies its origin and target rooms about his/her transfer");
+        logger.fine(() -> this + " notifies its origin and target rooms about his/her transfer");
         where().professorLeft();
         to.professorEntered();
         super.moveTo(to);
@@ -50,7 +50,7 @@ public class Professor extends Player {
      */
     @Override
     public void paralyze() {
-        logger.fine(this + " is paralyzed");
+        logger.fine(() -> this + " is paralyzed");
     }
 
     /** only undergrads can

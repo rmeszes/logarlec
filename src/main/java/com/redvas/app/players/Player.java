@@ -22,7 +22,7 @@ public abstract class Player implements Steppable {
      * @param rounds: number of rounds until they are protected
      */
     public void setProtectionFor(int rounds) {
-        logger.fine(this + " gained protection from being dropped out for " + rounds + " rounds");
+        logger.fine(() -> this + " gained protection from being dropped out for " + rounds + " rounds");
     }
 
     /**
@@ -48,14 +48,14 @@ public abstract class Player implements Steppable {
      *
      */
     public void faint() {
-        logger.fine(this + " fainted");
+        logger.fine(() -> this + " fainted");
     }
 
     /** currently moving player
      *
      */
     public void step() {
-        logger.fine(this + " is on his/her turn");
+        logger.fine(() -> this + " is on his/her turn");
     }
 
     /**
@@ -63,7 +63,7 @@ public abstract class Player implements Steppable {
      * @param item: picked item that they will dispose of
      */
     public void removeFromInventory(Item item) {
-        logger.fine(this + " was confiscated of a(n) " + item);
+        logger.fine(() -> this + " was confiscated of a(n) " + item);
     }
 
     /**
@@ -71,7 +71,7 @@ public abstract class Player implements Steppable {
      * @param item: picked item that they will pick up
      */
     public void addToInventory(Item item) {
-        logger.fine(this + " acquired a(n) " + item);
+        logger.fine(() -> this + " acquired a(n) " + item);
     }
 
     /** only profs
@@ -99,7 +99,7 @@ public abstract class Player implements Steppable {
     public Room where() {
         System.out.print(this + " asks for its position");
         String input = App.reader.nextLine();
-        logger.fine(this + " is at: " + input);
+        logger.fine(() -> this + " is at: " + input);
         return new Room();
     }
 
@@ -108,7 +108,7 @@ public abstract class Player implements Steppable {
      * @param room: chosen room where they move
      */
     public void moveTo(Room room) {
-        logger.fine(this + " commences its relocation");
+        logger.fine(() -> this + " commences its relocation");
         setWhere(room);
     }
 
@@ -116,7 +116,7 @@ public abstract class Player implements Steppable {
      *
      */
     public void useFFP2() {
-        logger.fine(this + " began using an FFP2 mask");
+        logger.fine(() -> this + " began using an FFP2 mask");
     }
 
     /**
@@ -124,7 +124,7 @@ public abstract class Player implements Steppable {
      * @param index: identifier of item they want to pick UP
      */
     protected void pickItem(int index) {
-        logger.fine(this + " chose to pick up " + where().getItem(index));
+        logger.fine(() -> this + " chose to pick up " + where().getItem(index));
         where().getItem(index).pickup(this);
     }
 
@@ -135,7 +135,7 @@ public abstract class Player implements Steppable {
      * @param index: identifier of item they want to put down
      */
     protected void disposeItem(int index) {
-        logger.fine(this + " chose to dispose of " + getItem(index));
+        logger.fine(() -> this + " chose to dispose of " + getItem(index));
         getItem(index).dispose();
     }
 

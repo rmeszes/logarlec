@@ -6,7 +6,7 @@ public class WetWipe extends Item {
      */
     @Override
     public void use() {
-        logger.fine(this + " is being used...");
+        logger.fine(() -> this + " is being used...");
         owner().where().paralyzeProfessors();
         destroy();
     }
