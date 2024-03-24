@@ -10,7 +10,8 @@ public class Helper {
 
     public static void useCase1() {
         System.out.println("Use case 1: Stepping into another Room:\n");
-
+        Room room = new Room();
+        room.transfer(new Undergraduate(), new Room());
     }
 
     public static void useCase2() {
