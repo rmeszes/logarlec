@@ -5,6 +5,7 @@ import com.redvas.app.Steppable;
 import com.redvas.app.items.Item;
 import com.redvas.app.items.RottenCamembert;
 import com.redvas.app.players.Player;
+import com.redvas.app.players.Undergraduate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,6 +92,7 @@ public class Room implements Steppable {
      */
     private void dropoutUndergraduates() {
         logger.fine("Room is causing every Undergraduate occupant to be dropped out");
+        new Undergraduate().dropout();
     }
 
     /**

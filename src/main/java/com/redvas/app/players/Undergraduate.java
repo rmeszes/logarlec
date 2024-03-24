@@ -1,6 +1,7 @@
 package com.redvas.app.players;
 
 import com.redvas.app.App;
+import com.redvas.app.Game;
 import com.redvas.app.items.Item;
 
 import java.util.Objects;
@@ -31,7 +32,9 @@ public class Undergraduate extends Player {
     }
 
     @Override
-    public void pickLogarlec() {}
+    public void pickLogarlec() {
+        Game.undergraduateVictory();
+    }
 
     protected static final Logger logger = Logger.getLogger("UnderGraduate");
 
@@ -65,8 +68,14 @@ public class Undergraduate extends Player {
     public void dropout() {
         if (getProtectedRounds() > 0)
             logger.fine("Undergraduate was protected from being dropped out");
-        else
+        else {
             logger.fine("Undergraduate is dropped out");
+            System.out.print("Are there more undergraduates left in game? (y/n)");
+
+            if(!App.reader.nextLine().equals("y")) {
+                Game.professorVictory();
+            }
+        }
     }
 
     /**
