@@ -11,20 +11,20 @@ public class Runner {
 
     static {
         useCases = HashMap.newHashMap(14);
-        useCases.put(1,"Szobába átlépés");
-        useCases.put(2,"Tárgy felvétele");
-        useCases.put(3,"Logarléc felvétele");
-        useCases.put(4,"Tárgy letétele (Dispose)");
-        useCases.put(5,"Hallgató kibukik (Drop out)");
-        useCases.put(6,"Tárgy használata");
-        useCases.put(7,"Szobák egyesülése");
-        useCases.put(8,"Szoba osztódása");
-        useCases.put(9,"Ajtók eltűnése");
-        useCases.put(10,"Ajtók megjelenése");
-        useCases.put(11,"Megbénulás (paralyze)");
-        useCases.put(12,"Eszméletvesztés (faint)");
-        useCases.put(13,"Labirintus generálása");
-        useCases.put(14,"Játék léptetése");
+        useCases.put(1,"Move rooms");
+        useCases.put(2,"Pickup item");
+        useCases.put(3,"Picku up Logarléc");
+        useCases.put(4,"Dispose item");
+        useCases.put(5,"Undegraduate dropout");
+        useCases.put(6,"Use item");
+        useCases.put(7,"Merge rooms");
+        useCases.put(8,"Rooms fall apart");
+        useCases.put(9,"Door vanishing");
+        useCases.put(10,"Door appears");
+        useCases.put(11,"Paralyze professors");
+        useCases.put(12,"Undergraduate fainting");
+        useCases.put(13,"Generate Labyrinth");
+        useCases.put(14,"Step to next round");
     }
 
     public static void main(String[] args) {
