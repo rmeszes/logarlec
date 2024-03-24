@@ -67,26 +67,38 @@ public class Helper {
     }
 
     public static void useCase9() {
-        System.out.println("use case 9 runs");
+        System.out.println("Use case 9: Door appears");
+
+        new Door().setVanished(false);
     }
 
     public static void useCase10() {
-        System.out.println("use case 10 runs");
+        System.out.println("Use case 10: Door vanishes");
+
+        new Door().setVanished(true);
     }
 
     public static void useCase11() {
-        System.out.println("use case 11 runs");
+        System.out.println("Use case 11: Paralyze professors");
+
+        new WetWipe().use();
     }
 
     public static void useCase12() {
-        System.out.println("use case 12 runs");
+        System.out.println("Use case 12: Undergraduates faint");
+
+        new Room().transfer(new Undergraduate(),new Room());
     }
 
     public static void useCase13() {
-        System.out.println("use case 13 runs");
+        System.out.println("Use case 13: Generate Labyrinth");
+
+        new Labyrinth();
     }
 
     public static void useCase14() {
-        System.out.println("use case 14 runs");
+        System.out.println("Use case 14: New round");
+
+        new Game().playRound();
     }
 }

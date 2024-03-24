@@ -50,7 +50,11 @@ public abstract class Player implements Steppable {
      *
      */
     public void faint() {
-        logger.fine(() -> this + " fainted");
+        System.out.print("Does the player have FFP2 mask on? (y/n)");
+
+        if(!App.reader.nextLine().equals("y")) {
+            logger.fine(() -> this + " fainted");
+        }
     }
 
     /** currently moving player

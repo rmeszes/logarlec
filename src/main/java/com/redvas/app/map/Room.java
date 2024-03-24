@@ -40,7 +40,11 @@ public class Room implements Steppable {
      *
      * @return bool: gas state of the room
      */
-    private boolean isGaseous() { return false; }
+    private boolean isGaseous() {
+        System.out.print("Gázos a szoba? (y/n)");
+
+        return App.reader.nextLine().equals("y");
+    }
 
     protected static final Logger logger = Logger.getLogger("Item");
 
