@@ -49,7 +49,9 @@ public class Helper {
     }
 
     public static void useCase6() {
-        System.out.println("use case 6 runs");
+        System.out.println("Use case 6: Undegraduate uses an item");
+
+        new Undergraduate().useItem(0);
     }
 
     public static void useCase7() {

@@ -127,7 +127,7 @@ public abstract class Player implements Steppable {
         where().getItem(index).pickup(this);
     }
 
-    protected abstract void useItem(int index);
+    public abstract void useItem(int index);
 
     /**
      *

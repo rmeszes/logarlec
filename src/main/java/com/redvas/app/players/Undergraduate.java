@@ -83,7 +83,7 @@ public class Undergraduate extends Player {
      * @param index: picked items index
      */
     @Override
-    protected void useItem(int index) {
+    public void useItem(int index) {
         logger.fine(() -> this + " chose to use a(n) " + getItem(index));
         getItem(index).use();
     }
