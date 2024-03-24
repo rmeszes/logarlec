@@ -18,7 +18,7 @@ public class Room implements Steppable {
      * @param item: someone picked it up
      */
     public void removeItem(Item item) {
-        logger.fine("Room item inventory was confiscated of a(n) " + item);
+        logger.fine(()->"Room item inventory was confiscated of a(n) " + item);
     }
 
     /**
@@ -74,7 +74,7 @@ public class Room implements Steppable {
      * @param player: the one that left the room
      */
     private void removeOccupant(Player player) {
-        logger.fine("Room occupant list was confiscated of a(n) " + player);
+        logger.fine(()->"Room occupant list no longer contains this " + player);
     }
 
     /**
@@ -82,7 +82,7 @@ public class Room implements Steppable {
      * @param player: the one that stepped inside
      */
     private void addOccupant(Player player) {
-        logger.fine("Room occupant list was added to a(n) " + player);
+        logger.fine(()->"Room occupant list now contains " + player);
     }
 
     /** undergrad has lost the game
