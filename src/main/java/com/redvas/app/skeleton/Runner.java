@@ -13,7 +13,7 @@ public class Runner {
         useCases = HashMap.newHashMap(14);
         useCases.put(1,"Move rooms");
         useCases.put(2,"Pickup item");
-        useCases.put(3,"Picku up Logarléc");
+        useCases.put(3,"Pick up Logarléc");
         useCases.put(4,"Dispose item");
         useCases.put(5,"Undegraduate dropout");
         useCases.put(6,"Use item");

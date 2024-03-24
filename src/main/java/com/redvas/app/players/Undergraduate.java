@@ -31,6 +31,9 @@ public class Undergraduate extends Player {
         setProtectedRounds(rounds);
     }
 
+    /** calls the win function
+     *
+     */
     @Override
     public void pickLogarlec() {
         Game.undergraduateVictory();
@@ -88,7 +91,10 @@ public class Undergraduate extends Player {
         getItem(index).use();
     }
 
-
+    /** two possible outcomes: 2 transistors merged
+     * or nothing happens because player did not have 2 transistors
+     *
+     */
     public void mergeItems() {
         System.out.print("Does player have 2 mergeable items? (y/n)");
         String answer = App.reader.nextLine();

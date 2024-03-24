@@ -69,7 +69,7 @@ public class Door {
 
     /**
      *
-     * @return bool
+     * @return bool: whether the door is vanished
      */
     public boolean isVanished(){
         System.out.print("Is this door vanished? (y/n)");

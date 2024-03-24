@@ -222,6 +222,10 @@ public class Room implements Steppable {
             dropoutUndergraduates();
     }
 
+    /**
+     *
+     * @param other: the room it will be merged with
+     */
     public void mergeWithRoom(Room other) {
         logger.fine("Setting this room's attributes to new ones..");
         other.destroy();
@@ -229,12 +233,16 @@ public class Room implements Steppable {
     }
 
     /**
-     * After the room is merge it has to disappear
+     * After the room is merged it has to disappear
      */
     public void destroy() {
         logger.fine("This room got destroyed");
     }
 
+    /**
+     *
+     * @return Room: new room if it divided
+     */
     public Room divide() {
         System.out.print("Does this room has less than 4 neighbouring rooms? (y/n)");
 
