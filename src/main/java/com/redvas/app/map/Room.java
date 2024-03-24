@@ -19,7 +19,7 @@ public class Room implements Steppable {
      * @param item: someone picked it up
      */
     public void removeItem(Item item) {
-        logger.fine(()->"Room item inventory was confiscated of a(n) " + item);
+        logger.fine(()->"Room item inventory no longer holds this " + item);
     }
 
     /**
@@ -154,7 +154,7 @@ public class Room implements Steppable {
      * @param item: that was added to the room
      */
     public void addItem(Item item) {
-        logger.fine("Room item inventory was added to a(n) " + item);
+        logger.fine(()->"Room item inventory was added to a(n) " + item);
     }
 
     /**
@@ -164,7 +164,7 @@ public class Room implements Steppable {
      * @return bool: whether they managed to move
      */
     public Boolean transfer(Player who, Room to) {
-        logger.fine("Room commences the transfer procedure of " + who);
+        logger.fine(()->"Room commences the transfer procedure of " + who);
 
         if (isAccessible(to)) {
             if (to.canOccupy(who)) {
@@ -182,7 +182,7 @@ public class Room implements Steppable {
      * @return bool: whether they can
      */
     public Boolean canOccupy(Player who) {
-        logger.fine("Room commences the verified adoption of " + who);
+        logger.fine(()->"Room commences the verified adoption of " + who);
 
         if (canAccept()) {
             addOccupant(who);

@@ -15,7 +15,9 @@ public class Helper {
     }
 
     public static void useCase2() {
-        System.out.println("use case 2 runs");
+        System.out.println("Use case 2: Picking up an item:\n");
+        Player p = new Undergraduate();
+        p.pickItem(0);
     }
 
     public static void useCase3() {
