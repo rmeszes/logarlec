@@ -41,7 +41,7 @@ public class Room implements Steppable {
      * @return bool: gas state of the room
      */
     private boolean isGaseous() {
-        System.out.print("Gázos a szoba? (y/n)");
+        System.out.print("Is this room gaseous? (y/n)");
 
         return App.reader.nextLine().equals("y");
     }
