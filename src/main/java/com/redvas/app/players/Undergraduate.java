@@ -66,7 +66,7 @@ public class Undergraduate extends Player {
         if (getProtectedRounds() > 0)
             logger.fine("Undergraduate was protected from being dropped out");
         else
-            logger.fine("Undergraduate object is dropped out");
+            logger.fine("Undergraduate is dropped out");
     }
 
     /**
@@ -89,13 +89,6 @@ public class Undergraduate extends Player {
         } else {
             logger.fine("Player cannot merge items.");
         }
-    }
-
-    /**
-     * ????????? //TODO
-     */
-    void dropOut() {
-        logger.fine(() -> this + " dropped out");
     }
 
 

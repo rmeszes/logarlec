@@ -1,5 +1,6 @@
 package com.redvas.app.map;
 
+import com.redvas.app.App;
 import com.redvas.app.Steppable;
 import com.redvas.app.items.Item;
 import com.redvas.app.items.RottenCamembert;
@@ -18,7 +19,7 @@ public class Room implements Steppable {
      * @param item: someone picked it up
      */
     public void removeItem(Item item) {
-        logger.fine(()->"Room item inventory was confiscated of a(n) " + item);
+        logger.fine(()->"Room item inventory no longer holds this " + item);
     }
 
     /**
@@ -96,14 +97,26 @@ public class Room implements Steppable {
      *
      * @return bool: is there space in the room
      */
-    private Boolean canAccept() { return true; }
+    private Boolean canAccept() {
+        System.out.print("Can this room accept more people? (y/n)");
+        String value = App.reader.nextLine();
+
+        if(value.equals("y")) {
+            logger.fine("The room has free space");
+            return true;
+        }
+        else{
+            logger.fine("The room doesn't have free space");
+            return false;
+        }
+    }
 
     /**
      *
      * @param targetRoom: where player wants to move
      * @return bool: whether it is neighboring or not
      */
-    private Boolean isAccessible(Room targetRoom) { return true; }
+    private Boolean isAccessible(Room targetRoom) { return new Door().isPassable(); }
 
     /** initialization or someone opened a Camembert
      *
@@ -141,7 +154,7 @@ public class Room implements Steppable {
      * @param item: that was added to the room
      */
     public void addItem(Item item) {
-        logger.fine("Room item inventory was added to a(n) " + item);
+        logger.fine(()->"Room item inventory was added to a(n) " + item);
     }
 
     /**
@@ -151,7 +164,7 @@ public class Room implements Steppable {
      * @return bool: whether they managed to move
      */
     public Boolean transfer(Player who, Room to) {
-        logger.fine("Room commences the transfer procedure of " + who);
+        logger.fine(()->"Room commences the transfer procedure of " + who);
 
         if (isAccessible(to)) {
             if (to.canOccupy(who)) {
@@ -169,7 +182,7 @@ public class Room implements Steppable {
      * @return bool: whether they can
      */
     public Boolean canOccupy(Player who) {
-        logger.fine("Room commences the verified adoption of " + who);
+        logger.fine(()->"Room commences the verified adoption of " + who);
 
         if (canAccept()) {
             addOccupant(who);

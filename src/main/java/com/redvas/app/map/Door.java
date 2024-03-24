@@ -34,13 +34,7 @@ public class Door {
      * @param room: neighboring room
      */
     public void setConnection(Room room){
-        System.out.print("Are these rooms connected? (y/n)");
-        String value = App.reader.nextLine();
-        if(value.equals("y"))
-            logger.fine("Connection of rooms set to true (eg. due to a door's appearance).");
-
-        else
-            logger.fine("Connection of rooms set to false (eg. due to a door's disappearance).");
+        logger.fine("This door now connects to a new Room");
     }
 
     /**
@@ -66,7 +60,11 @@ public class Door {
      * @param bool: true if door is open (?)
      */
     public void setPassable(boolean bool){
-        logger.fine("This door is set to active.");
+        if(bool /* && passable != bool */) {
+            logger.fine("This door is now passable");
+        } else {
+            logger.fine("This door is no longer passable.");
+        }
     }
 
     /**
@@ -92,6 +90,10 @@ public class Door {
      * @param bool: true if the door is vanished
      */
     public void setVanished(boolean bool){
-        logger.fine("This door is set to vanished.");
+        if(bool /* && vanished != bool */) {
+            logger.fine("This door has vanished");
+        } else {
+            logger.fine("The door has appeared");
+        }
     }
 }

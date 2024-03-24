@@ -97,7 +97,7 @@ public abstract class Player implements Steppable {
      * @return room: identifier of currently occupied room (by this player)
      */
     public Room where() {
-        System.out.print(this + " asks for its position");
+        System.out.print(this + " asks for its position: ");
         String input = App.reader.nextLine();
         logger.fine(() -> this + " is at: " + input);
         return new Room();
@@ -123,7 +123,7 @@ public abstract class Player implements Steppable {
      *
      * @param index: identifier of item they want to pick UP
      */
-    protected void pickItem(int index) {
+    public void pickItem(int index) {
         logger.fine(() -> this + " chose to pick up " + where().getItem(index));
         where().getItem(index).pickup(this);
     }
