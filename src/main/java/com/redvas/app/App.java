@@ -1,6 +1,8 @@
 package com.redvas.app;
 
 
+import com.redvas.app.skeleton.Runner;
+
 import java.util.Scanner;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
@@ -19,9 +21,6 @@ public class App
         logger.addHandler(handler);
         logger.setLevel(Level.FINEST);
         logger.log(Level.FINE, "App started");
-
-        new Game();
-
 
         logger.log(Level.FINE, "App finish");
     }
