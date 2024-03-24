@@ -61,7 +61,9 @@ public class Helper {
     }
 
     public static void useCase8() {
-        System.out.println("use case 8 runs");
+        System.out.println("Use case 8: Room divides");
+
+        new Room().divide();
     }
 
     public static void useCase9() {
