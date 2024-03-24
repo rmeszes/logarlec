@@ -30,7 +30,9 @@ public abstract class Player implements Steppable {
      * @param index: chosen item that they want to pick
      * @return: item that they picked
      */
-    protected Item getItem(int index) { return new RottenCamembert(); }
+    protected Item getItem(int index) {
+        return new RottenCamembert();
+    }
 
     /** this item behaves differently than others
      *
@@ -63,7 +65,7 @@ public abstract class Player implements Steppable {
      * @param item: picked item that they will dispose of
      */
     public void removeFromInventory(Item item) {
-        logger.fine(() -> this + " was confiscated of a(n) " + item);
+        logger.fine(() -> this + " no longer holds this " + item);
     }
 
     /**
@@ -131,7 +133,7 @@ public abstract class Player implements Steppable {
      *
      * @param index: identifier of item they want to put down
      */
-    protected void disposeItem(int index) {
+    public void disposeItem(int index) {
         logger.fine(() -> this + " chose to dispose of " + getItem(index));
         getItem(index).dispose();
     }

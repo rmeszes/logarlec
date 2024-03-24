@@ -28,11 +28,13 @@ public class Helper {
     }
 
     public static void useCase4() {
+        System.out.println("Use case 4: Player disposes of item:\n");
 
+        new Undergraduate().disposeItem(0);
     }
 
     public static void useCase5() {
-        System.out.println("Use case 5: Undergraduate drops out");
+        System.out.println("Use case 5: Undergraduate drops out:\n");
 
         HashMap<Integer, Room> rooms = HashMap.newHashMap(2);
         rooms.put(1, new Room());
