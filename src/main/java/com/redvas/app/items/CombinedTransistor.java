@@ -62,7 +62,7 @@ public class CombinedTransistor extends Item{
      * @param transistor: the one that will be put to the floor
      */
     private void setDisposedPair(Transistor transistor){
-        logger.fine("Disposed " + transistor.toString() +
+        logger.fine(() -> "Disposed " + transistor.toString() +
                          " in this room: " + transistor.where());
     }
 

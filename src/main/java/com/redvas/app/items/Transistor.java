@@ -14,7 +14,7 @@ public class Transistor extends Item {
         owner().addToInventory(tmp);
         destroy();
         item.destroy();
-        logger.fine("Merged transistor");
+        logger.fine(() -> "Merged transistor");
     }
 
 

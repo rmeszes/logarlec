@@ -6,7 +6,7 @@ public class FFP2 extends Item {
      */
     @Override
     public void use() {
-        logger.fine(this + " is being used...");
+        logger.fine(() -> this + " is being used...");
         owner().useFFP2();
         destroy();
     }

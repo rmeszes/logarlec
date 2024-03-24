@@ -22,7 +22,7 @@ public abstract class Item {
      */
     protected void destroy() {
         owner().removeFromInventory(this);
-        logger.fine(this + " was garbage collected (destroyed)");
+        logger.fine(() -> this + " was garbage collected (destroyed)");
     }
 
     /**
@@ -38,7 +38,7 @@ public abstract class Item {
      * @param player: the one that is going to own it
      */
     protected void setOwner(Player player) {
-        logger.fine(this + " was registered to " + player);
+        logger.fine(() -> this + " was registered to " + player);
     }
 
     protected static final Logger logger = Logger.getLogger("Item");
@@ -54,14 +54,14 @@ public abstract class Item {
      *
      */
     public void use() {
-        logger.fine(this + " can not be used");
+        logger.fine(() -> this + " can not be used");
     }
 
     /** item was put on the floor (removed from inventory, added to floor of room)
      *
      */
     public void dispose() {
-        logger.fine(this + " is being disposed of");
+        logger.fine(() -> this + " is being disposed of");
         owner().removeFromInventory(this);
         owner().where().addItem(this);
     }
@@ -71,7 +71,7 @@ public abstract class Item {
      * @param who: player that will pick up
      */
     public void pickup(Player who) {
-        logger.fine(this + " is being picked up by " + who);
+        logger.fine(() -> this + " is being picked up by " + who);
         setOwner(who);
         who.addToInventory(this);
         where().removeItem(this);
@@ -83,5 +83,5 @@ public abstract class Item {
      */
     @Override
     public abstract String toString();
-    public void merge(Transistor item) { logger.fine(this + " can not be merged"); }
+    public void merge(Transistor item) { logger.fine(() -> this + " can not be merged"); }
 }

@@ -1,7 +1,9 @@
 package com.redvas.app.players;
 
+import com.redvas.app.App;
 import com.redvas.app.items.Item;
 
+import java.util.Objects;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -73,22 +75,34 @@ public class Undergraduate extends Player {
      */
     @Override
     protected void useItem(int index) {
-        logger.fine(this + " chose to use a(n) " + getItem(index));
+        logger.fine(() -> this + " chose to use a(n) " + getItem(index));
         getItem(index).use();
     }
 
 
     public void mergeItems() {
-        //TODO: no idea rn
+        System.out.print("Does player have 2 mergeable items? (y/n)");
+        String answer = App.reader.nextLine();
+
+        if(answer.equals("y")) {
+            logger.fine("Two items succesfully merge");
+        } else {
+            logger.fine("Player cannot merge items.");
+        }
     }
 
     /**
-     * ?????????
+     * ????????? //TODO
      */
     void dropOut() {
-        logger.fine(this + " dropped out");
+        logger.fine(() -> this + " dropped out");
     }
 
+
+    /**
+     *
+     * @return string representation of this Player
+     */
     @Override
     public String toString() {
         return "Undergraduate";
