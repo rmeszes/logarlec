@@ -5,8 +5,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.redvas.app</groupId>
-  <artifactId>logarlec-skeleton</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <artifactId>logarlec-proto</artifactId>
+  <version>1.0</version>
 
   <name>logarlec</name>
 
@@ -53,7 +53,7 @@
           <configuration>
             <archive>
               <manifest>
-                <mainClass>com.redvas.app.skeleton.Runner</mainClass>
+                <mainClass>com.redvas.app.proto.Main</mainClass>
               </manifest>
             </archive>
           </configuration>
