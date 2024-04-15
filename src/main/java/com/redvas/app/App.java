@@ -1,6 +1,7 @@
 package com.redvas.app;
 
 
+import com.redvas.app.map.Labyrinth;
 import com.redvas.app.skeleton.Runner;
 
 import java.util.Scanner;
@@ -13,7 +14,7 @@ public class App
     private static final Logger logger = Logger.getLogger("App");
 
     public static final Scanner reader = new Scanner(System.in);
-    public static void main( String[] args )
+    public App()
     {
         ConsoleHandler handler = new ConsoleHandler();
         // PUBLISH this level
@@ -21,6 +22,8 @@ public class App
         logger.addHandler(handler);
         logger.setLevel(Level.FINEST);
         logger.log(Level.FINE, "App started");
+
+        Labyrinth labyrinth = new Labyrinth();
 
         logger.log(Level.FINE, "App finish");
     }
