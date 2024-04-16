@@ -8,12 +8,17 @@ import com.redvas.app.map.Room;
 import com.redvas.app.Steppable;
 import com.redvas.app.items.Item;
 
+import java.util.ArrayList;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 //absztrakt class, majd az implementációk lesznek tesztelve
 public abstract class Player implements Steppable {
+    private Room where;
+    private ArrayList<Item> items;
+    private int faintCountdown;
+
     private String getName() { return ""; }
     protected Game getGame() { return new Game(); }
     protected static final Logger logger = Logger.getLogger("Player");
@@ -132,8 +137,6 @@ public abstract class Player implements Steppable {
         where().getItem(index).pickup(this);
     }
 
-    public abstract void useItem(int index);
-
     /**
      *
      * @param index: identifier of item they want to put down
@@ -148,4 +151,9 @@ public abstract class Player implements Steppable {
 
     private void moveTowards (Direction direction) {}
     public void dropItems() {}
+    public void shceduleDrop() {}
+    private void consoleAct() {}
+    private void consoleMove() {}
+    private void consoleMoveTowards(Direction direction) {}
+    protected abstract boolean useItem(int index);
 }

@@ -25,8 +25,8 @@ public class Janitor extends Player{
     }
 
     @Override
-    public void useItem(int index) {
-
+    public boolean useItem(int index) {
+        return true;
     }
 
     @Override

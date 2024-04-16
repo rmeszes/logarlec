@@ -24,8 +24,9 @@ public class Professor extends Player {
      * @param index: identifier of item that will be used
      */
     @Override
-    public void useItem(int index) {
+    protected boolean useItem(int index) {
         // Nothing happens
+        return true;
     }
 
     protected static final Logger logger = Logger.getLogger("Professor");
