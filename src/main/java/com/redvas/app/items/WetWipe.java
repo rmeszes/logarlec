@@ -11,6 +11,15 @@ public class WetWipe extends Item {
         destroy();
     }
 
+    private void paralyzeProfessors() {
+
+    }
+
+    @Override
+    public void dispose() {
+
+    }
+
     /**
      * @return Az Item neve
      */

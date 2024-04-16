@@ -1,6 +1,7 @@
 package com.redvas.app;
 
 import com.redvas.app.map.Labyrinth;
+import com.redvas.app.players.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,19 +21,16 @@ public class Game {
 
     public Game() {
         logger.fine("Game init");
-        createLabyrinth();
     }
 
     private List<Steppable> getSteppables() { return new ArrayList<>(); }
+
+    public void play() {}
 
     public void playRound() {
         logger.fine("New round");
         for (Steppable s : getSteppables())
             s.step();
-    }
-
-    private void createLabyrinth() {
-        /* this.labyrinth = */new Labyrinth();
     }
 
     public static void undergraduateVictory() {
@@ -41,5 +39,9 @@ public class Game {
 
     public static void professorVictory() {
         logger.fine("Professor team won the game!");
+    }
+
+    public void eliminatePlayer(Player player) {
+
     }
 }
