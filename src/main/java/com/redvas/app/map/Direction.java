@@ -1,2 +1,5 @@
-package com.redvas.app.map;public enum Direction {
+package com.redvas.app.map;
+
+public enum Direction {
+
 }

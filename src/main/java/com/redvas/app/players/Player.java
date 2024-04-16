@@ -3,6 +3,7 @@ package com.redvas.app.players;
 import com.redvas.app.App;
 import com.redvas.app.Game;
 import com.redvas.app.items.RottenCamembert;
+import com.redvas.app.map.Direction;
 import com.redvas.app.map.Room;
 import com.redvas.app.Steppable;
 import com.redvas.app.items.Item;
@@ -144,4 +145,7 @@ public abstract class Player implements Steppable {
 
     @Override
     public abstract String toString();
+
+    private void moveTowards (Direction direction) {}
+    public void dropItems() {}
 }
