@@ -2,7 +2,6 @@ package com.redvas.app;
 
 
 import com.redvas.app.map.Labyrinth;
-import com.redvas.app.skeleton.Runner;
 
 import java.util.Scanner;
 import java.util.logging.ConsoleHandler;
