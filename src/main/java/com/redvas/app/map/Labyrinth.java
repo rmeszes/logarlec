@@ -22,7 +22,6 @@ public class Labyrinth implements Steppable {
 
     public Labyrinth() {
         logger.fine("Labyrinth created");
-        generateRooms();
     }
 
     /** calls the update on every object
@@ -33,17 +32,5 @@ public class Labyrinth implements Steppable {
     public void step() {
         logger.fine("Labyrinth step");
         update();
-    }
-
-    /** initialization
-     *
-     */
-    private void generateRooms() {
-        logger.fine("Room generation start");
-        //majd itt csinálunk szobákat, most egyet tesztnek
-        // ezt még lehet máshogy kell megoldani, mert össze is kéne őket kötni, de sztem itt még nem, az már state
-        new Room();
-
-        new Door();
     }
 }
