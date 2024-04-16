@@ -56,6 +56,11 @@ public class Undergraduate extends Player {
         logger.fine("Has fainted and dropped all items.");
     }
 
+    @Override
+    public void step() {
+
+    }
+
     /** only profs can be
      *
      */
@@ -86,9 +91,10 @@ public class Undergraduate extends Player {
      * @param index: picked items index
      */
     @Override
-    public void useItem(int index) {
+    public boolean useItem(int index) {
         logger.fine(() -> this + " chose to use a(n) " + getItem(index));
         getItem(index).use();
+        return true;
     }
 
     /** two possible outcomes: 2 transistors merged
