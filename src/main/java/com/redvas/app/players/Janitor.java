@@ -15,6 +15,11 @@ public class Janitor extends Player{
     }
 
     @Override
+    public void step() {
+        
+    }
+
+    @Override
     public void paralyze() {
 
     }

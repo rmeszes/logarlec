@@ -48,6 +48,11 @@ public class Professor extends Player implements ProximityListener {
         // Nothing happens
     }
 
+    @Override
+    public void step() {
+
+    }
+
     /** they stop moving and causing undergrads to drop out
      *
      */

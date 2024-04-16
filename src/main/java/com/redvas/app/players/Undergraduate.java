@@ -56,6 +56,11 @@ public class Undergraduate extends Player {
         logger.fine("Has fainted and dropped all items.");
     }
 
+    @Override
+    public void step() {
+
+    }
+
     /** only profs can be
      *
      */
