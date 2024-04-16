@@ -18,7 +18,7 @@ public abstract class Player implements Steppable {
     private Room where;
     private ArrayList<Item> items;
     private int faintCountdown;
-
+    protected Game game;
     private String getName() { return ""; }
     protected Game getGame() { return new Game(); }
     protected static final Logger logger = Logger.getLogger("Player");
@@ -66,9 +66,7 @@ public abstract class Player implements Steppable {
     /** currently moving player
      *
      */
-    public void step() {
-        logger.fine(() -> this + " is on his/her turn");
-    }
+    public abstract void step();// Ez absztrakt a modell szerint
 
     /**
      *
@@ -89,12 +87,12 @@ public abstract class Player implements Steppable {
     /** only profs
      *
      */
-    public abstract void paralyze();
+    public abstract void paralyze();        // Ennek dőltnek kellene lennie a modellen?
 
     /** only undergrads
      *
      */
-    public abstract void dropout();
+    public abstract void dropout();         // Ennek dőltnek kell lennie a modellen?
 
     /**
      *
@@ -102,7 +100,7 @@ public abstract class Player implements Steppable {
      */
     private void setWhere(Room location) {
         logger.fine(this + " reset its location");
-    }
+    }   // Ez hiányzik a modellből
 
     /**
      *
@@ -132,7 +130,7 @@ public abstract class Player implements Steppable {
      *
      * @param index: identifier of item they want to pick UP
      */
-    public void pickItem(int index) {
+    private void pickItem(int index) {
         logger.fine(() -> this + " chose to pick up " + where().getItem(index));
         where().getItem(index).pickup(this);
     }
@@ -141,13 +139,13 @@ public abstract class Player implements Steppable {
      *
      * @param index: identifier of item they want to put down
      */
-    public void disposeItem(int index) {
+    private void disposeItem(int index) {
         logger.fine(() -> this + " chose to dispose of " + getItem(index));
         getItem(index).dispose();
     }
 
     @Override
-    public abstract String toString();
+    public abstract String toString();      // Ez gondolom csak a skeletonhoz kellett
 
     private void moveTowards (Direction direction) {}
     public void dropItems() {}
