@@ -1,12 +1,14 @@
 package com.redvas.app.players;
 
+import com.redvas.app.items.AirFreshener;
 import com.redvas.app.map.Room;
 
+import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Professor extends Player {
+public class Professor extends Player implements ProximityListener {
     /**
      *
      * @param to: chosen room where they move
@@ -64,5 +66,35 @@ public class Professor extends Player {
     @Override
     public String toString() {
         return "Professor";
+    }
+
+    @Override
+    public void proximityChanged(Player newcomer) {
+
+    }
+
+    @Override
+    public void proximityEndOfRound(List<Player> proximity) {
+
+    }
+
+    @Override
+    public void proximityInitially(List<Player> proximity) {
+
+    }
+
+    @Override
+    public int listenerPriority() {
+        return 0;
+    }
+
+    @Override
+    public void getAffected(Janitor by) {
+
+    }
+
+    @Override
+    public void getAffected(AirFreshener by) {
+
     }
 }
