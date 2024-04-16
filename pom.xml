@@ -53,7 +53,7 @@
           <configuration>
             <archive>
               <manifest>
-                <mainClass>com.redvas.app.proto.Proto</mainClass>
+                <mainClass>com.redvas.app.App</mainClass>
               </manifest>
             </archive>
           </configuration>

@@ -12,15 +12,40 @@ import java.util.logging.Logger;
 public class Game {
     protected static final Logger logger = Logger.getLogger("Game");
 
-    static {
-        ConsoleHandler handler = new ConsoleHandler();
-        handler.setLevel(Level.FINEST);
-        logger.addHandler(handler);
-        logger.setLevel(Level.FINEST);
+    ArrayList<Steppable> SteppablesForRound = new ArrayList<>();
+
+    private Game() {
+        System.out.print("Player1 Name: ");
+        String player1Name = App.reader.nextLine();
+        System.out.printf("Player1 name set to %s (not really , todo)%n", player1Name);
+
+        System.out.print("Player2 Name: ");
+        String player2Name = App.reader.nextLine();
+        System.out.printf("Player2 name set to %s (not really yet, todo)%n", player2Name);
+
+        System.out.println("Player names set.");
+
+        //folyt köv.
     }
 
-    public Game() {
-        logger.fine("Game init");
+    private Game(String arg) {
+        System.out.printf("Loading game %s%n", arg);
+    }
+
+    private Game(int arg) {
+        System.out.printf("Loading preset: %d%n", arg);
+    }
+
+    public static Game startNewGame() {
+        return new Game();
+    }
+
+    public static Game loadGame(String arg) {
+        return new Game(arg);
+    }
+
+    public static Game loadPreset(int arg) {
+        return new Game(arg);
     }
 
     private List<Steppable> getSteppables() { return new ArrayList<>(); }

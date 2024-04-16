@@ -20,7 +20,7 @@ public abstract class Player implements Steppable {
     private int faintCountdown;
     protected Game game;
     private String getName() { return ""; }
-    protected Game getGame() { return new Game(); }
+    // protected Game getGame() { return new Game(); } TODO
     protected static final Logger logger = Logger.getLogger("Player");
 
     /**
