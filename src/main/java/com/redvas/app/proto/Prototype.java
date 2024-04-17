@@ -20,7 +20,7 @@ public class Prototype {
     }
 
     private void menu() {
-        boolean badInput = false;
+        boolean badInput;
 
         System.out.println("""
                 Type 'start' to start a new game,
