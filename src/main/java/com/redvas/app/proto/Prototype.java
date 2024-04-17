@@ -4,33 +4,20 @@ import com.redvas.app.App;
 import com.redvas.app.Game;
 
 import java.util.Scanner;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Prototype {
-    private static final Logger logger = Logger.getLogger("Prototype");
     Game game;
 
     Scanner stdin = App.reader;
 
     public Prototype() {
-        setUpLogger();
-
         System.out.println("App started successfully.");
 
         menu();
     }
 
-    private void setUpLogger() {
-        ConsoleHandler handler = new ConsoleHandler();
-        handler.setLevel(Level.FINEST);
-        logger.addHandler(handler);
-        logger.setLevel(Level.FINEST);
-    }
-
     private void menu() {
-        boolean badInput = false;
+        boolean badInput;
 
         System.out.println("""
                 Type 'start' to start a new game,

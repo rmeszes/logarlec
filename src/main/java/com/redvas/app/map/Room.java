@@ -96,7 +96,7 @@ public class Room implements Steppable {
      */
     private void dropoutUndergraduates() {
         logger.fine("Room is causing every Undergraduate occupant to be dropped out");
-        new Undergraduate().dropout();
+        new Undergraduate("skeleton").dropout();
     }
 
     /**

@@ -15,14 +15,18 @@ import java.util.logging.Logger;
 
 //absztrakt class, majd az implementációk lesznek tesztelve
 public abstract class Player implements Steppable {
+    private final String name;
     private Room where;
     private ArrayList<Item> items;
     private int faintCountdown;
     protected Game game;
-    private String getName() { return ""; }
+    public String getName() { return name; }
     // protected Game getGame() { return new Game(); } TODO
     protected static final Logger logger = Logger.getLogger("Player");
 
+    public Player(String name) {
+        this.name = name;
+    }
     /**
      *
      * @param rounds: number of rounds until they are protected

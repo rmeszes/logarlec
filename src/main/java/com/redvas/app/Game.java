@@ -2,6 +2,7 @@ package com.redvas.app;
 
 import com.redvas.app.map.Labyrinth;
 import com.redvas.app.players.Player;
+import com.redvas.app.players.Undergraduate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,12 +17,14 @@ public class Game {
 
     private Game() {
         System.out.print("Player1 Name: ");
-        String player1Name = App.reader.nextLine();
-        System.out.printf("Player1 name set to %s (not really , todo)%n", player1Name);
+        Undergraduate player1 = new Undergraduate(App.reader.nextLine());
+        SteppablesForRound.add(player1);
+        System.out.printf("Player1 name set to %s%n", player1.getName());
 
         System.out.print("Player2 Name: ");
-        String player2Name = App.reader.nextLine();
-        System.out.printf("Player2 name set to %s (not really yet, todo)%n", player2Name);
+        Undergraduate player2 = new Undergraduate(App.reader.nextLine());
+        SteppablesForRound.add(player2);
+        System.out.printf("Player2 name set to %s%n", player2.getName());
 
         System.out.println("Player names set.");
 
