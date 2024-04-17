@@ -9,24 +9,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Prototype {
-    private static final Logger logger = Logger.getLogger("Prototype");
     Game game;
 
     Scanner stdin = App.reader;
 
     public Prototype() {
-        setUpLogger();
-
         System.out.println("App started successfully.");
 
         menu();
-    }
-
-    private void setUpLogger() {
-        ConsoleHandler handler = new ConsoleHandler();
-        handler.setLevel(Level.FINEST);
-        logger.addHandler(handler);
-        logger.setLevel(Level.FINEST);
     }
 
     private void menu() {
