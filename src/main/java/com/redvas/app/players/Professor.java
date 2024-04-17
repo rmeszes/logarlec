@@ -9,6 +9,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Professor extends Player implements ProximityListener {
+    public Professor(String name) {
+        super(name);
+    }
+
     /**
      *
      * @param to: chosen room where they move

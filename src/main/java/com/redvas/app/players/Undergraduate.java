@@ -10,6 +10,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Undergraduate extends Player {
+    public Undergraduate(String name) {
+        super(name);
+    }
+
     /**
      *
      * @return int: how long are they protected from profs

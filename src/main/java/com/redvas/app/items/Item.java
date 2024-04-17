@@ -30,7 +30,7 @@ public abstract class Item {
      * @return Undergrad: who owns the item
      */
     public Player owner() {
-        return new Undergraduate();
+        return new Undergraduate("skeleton");
     }
 
     /**

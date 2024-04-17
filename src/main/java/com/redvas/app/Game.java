@@ -15,19 +15,16 @@ public class Game {
 
     ArrayList<Steppable> SteppablesForRound = new ArrayList<>();
 
-    String[] playerNames = new String[2];
-
     private Game() {
-        SteppablesForRound.add(new Undergraduate());
-        SteppablesForRound.add(new Undergraduate());
-
         System.out.print("Player1 Name: ");
-        playerNames[0] = App.reader.nextLine();
-        System.out.printf("Player1 name set to %s%n", playerNames[0]);
+        Undergraduate player1 = new Undergraduate(App.reader.nextLine());
+        SteppablesForRound.add(player1);
+        System.out.printf("Player1 name set to %s%n", player1.getName());
 
         System.out.print("Player2 Name: ");
-        playerNames[1] = App.reader.nextLine();
-        System.out.printf("Player2 name set to %s%n", playerNames[1]);
+        Undergraduate player2 = new Undergraduate(App.reader.nextLine());
+        SteppablesForRound.add(player2);
+        System.out.printf("Player2 name set to %s%n", player2.getName());
 
         System.out.println("Player names set.");
 

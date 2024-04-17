@@ -3,6 +3,10 @@ package com.redvas.app.players;
 import java.util.List;
 
 public class Janitor extends Player{
+    public Janitor(String name) {
+        super(name);
+    }
+
     private void sendEveryoneOut(List<Player> players) {
 
     }
