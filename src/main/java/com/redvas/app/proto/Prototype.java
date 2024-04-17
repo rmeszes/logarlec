@@ -4,9 +4,6 @@ import com.redvas.app.App;
 import com.redvas.app.Game;
 
 import java.util.Scanner;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Prototype {
     Game game;
