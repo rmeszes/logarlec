@@ -2,3 +2,5 @@
 /target/
 
 logarlec.iml
+/test_outputs/
+/results.txt
