@@ -13,7 +13,7 @@ public class WetWipe extends Item implements ProximityListener {
     @Override
     public void use() {
         logger.fine(() -> this + " is being used...");
-        owner().where().paralyzeProfessors();
+        owner().getWhere().paralyzeProfessors();
         destroy();
     }
 

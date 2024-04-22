@@ -1,5 +1,6 @@
 package com.redvas.app.items;
 
+import com.redvas.app.Game;
 import com.redvas.app.map.Room;
 import com.redvas.app.players.Player;
 import com.redvas.app.players.Undergraduate;
@@ -30,7 +31,7 @@ public abstract class Item {
      * @return Undergrad: who owns the item
      */
     public Player owner() {
-        return new Undergraduate("skeleton");
+        return new Undergraduate("skeleton", new Room(), new Game());
     }
 
     /**
@@ -63,7 +64,7 @@ public abstract class Item {
     public void dispose() {
         logger.fine(() -> this + " is being disposed of");
         owner().removeFromInventory(this);
-        owner().where().addItem(this);
+        owner().getWhere().addItem(this);
     }
 
     /**

@@ -13,7 +13,7 @@ public class RottenCamembert extends Item implements ProximityListener {
     @Override
     public void use() {
         logger.fine(() -> this + " is being used...");
-        owner().where().setGas();
+        owner().getWhere().setGas();
         destroy();
     }
 

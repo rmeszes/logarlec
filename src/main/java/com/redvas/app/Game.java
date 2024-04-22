@@ -1,6 +1,7 @@
 package com.redvas.app;
 
 import com.redvas.app.map.Labyrinth;
+import com.redvas.app.map.Room;
 import com.redvas.app.players.Player;
 import com.redvas.app.players.Undergraduate;
 
@@ -15,8 +16,8 @@ public class Game {
 
     ArrayList<Steppable> SteppablesForRound = new ArrayList<>();
 
-    private Game() {
-        System.out.print("Player1 Name: ");
+    public Game() {         // ez át lett írva publicra
+        /*System.out.print("Player1 Name: ");
         Undergraduate player1 = new Undergraduate(App.reader.nextLine());
         SteppablesForRound.add(player1);
         System.out.printf("Player1 name set to %s%n", player1.getName());
@@ -28,7 +29,7 @@ public class Game {
 
         System.out.println("Player names set.");
 
-        //folyt köv.
+        //folyt köv. */
     }
 
     private Game(String arg) {
