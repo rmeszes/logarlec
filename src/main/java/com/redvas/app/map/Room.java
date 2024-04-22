@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Room implements Steppable {
+    private ArrayList<Item> items;
     /**
      *
      * @param item: someone picked it up
@@ -29,6 +30,7 @@ public class Room implements Steppable {
      * @return something, it will probably be random
      */
     public Item getItem(int index) { return new RottenCamembert(); }
+    public List<Item> getItems() { return items; }
 
     /**
      *
@@ -73,7 +75,7 @@ public class Room implements Steppable {
      *
      * @return list: players inside
      */
-    private List<Player> getOccupants() { return new ArrayList<>();    }
+    public List<Player> getOccupants() { return new ArrayList<>();    }
 
     /**
      *

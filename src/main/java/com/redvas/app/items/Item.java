@@ -10,12 +10,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public abstract class Item {
+    protected Player owner;
+    protected Room whichRoom;
+    protected String name;
+    protected boolean isReal;
     /**
      *
      * @return identificator of room (later)
      */
-    protected Room where() {
-        return new Room();
+    public Room getWhichRoom() {
+        return whichRoom;
+    }       // ezt átneveztem where -> getWhichRoom
+
+    public void setWhichRoom(Room whichRoom) {
+            this.whichRoom = whichRoom;
     }
 
     /** the Item was destroyed/used up, it no longer exists
@@ -38,7 +46,7 @@ public abstract class Item {
      *
      * @param player: the one that is going to own it
      */
-    protected void setOwner(Player player) {
+    public void setOwner(Player player) {
         logger.fine(() -> this + " was registered to " + player);
     }
 
@@ -75,7 +83,7 @@ public abstract class Item {
         logger.fine(() -> this + " is being picked up by " + who);
         setOwner(who);
         who.addToInventory(this);
-        where().removeItem(this);
+        getWhichRoom().removeItem(this);
     }
 
     /**

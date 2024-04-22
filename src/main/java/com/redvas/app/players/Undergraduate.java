@@ -126,6 +126,9 @@ public class Undergraduate extends Player {
 
     // getter
     public String getName() { return name; }
+    public int getProtection() { return protection; }
+    public boolean getDropScheduled() { return dropScheduled; }
+
 
 
     /**
