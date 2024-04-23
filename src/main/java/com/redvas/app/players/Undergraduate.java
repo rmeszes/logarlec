@@ -48,7 +48,7 @@ public class Undergraduate extends Player {
      */
     @Override
     public void pickLogarlec() {
-        Game.undergraduateVictory();
+        getGame().undergraduateVictory();
     }
 
     protected static final Logger logger = Logger.getLogger("UnderGraduate");
@@ -90,11 +90,7 @@ public class Undergraduate extends Player {
             logger.fine("Undergraduate was protected from being dropped out");
         else {
             logger.fine("Undergraduate is dropped out");
-            System.out.print("Are there more undergraduates left in game? (y/n)");
-
-            if(!App.reader.nextLine().equals("y")) {
-                Game.professorVictory();
-            }
+            getGame().undergraduateDroppedout();
         }
     }
 

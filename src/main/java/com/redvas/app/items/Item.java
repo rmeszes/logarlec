@@ -14,6 +14,11 @@ public abstract class Item {
     protected Room whichRoom;
     protected String name;
     protected boolean isReal;
+
+    public Room where() {
+        if (owner != null) return owner.where();
+        else return whichRoom;
+    }
     /**
      *
      * @return identificator of room (later)
