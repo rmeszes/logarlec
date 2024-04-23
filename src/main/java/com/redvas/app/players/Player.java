@@ -1,13 +1,13 @@
 package com.redvas.app.players;
 
 import com.redvas.app.Game;
-import com.redvas.app.items.RottenCamembert;
-import com.redvas.app.map.Direction;
-import com.redvas.app.map.Room;
 import com.redvas.app.Steppable;
 import com.redvas.app.items.Item;
+import com.redvas.app.map.Direction;
+import com.redvas.app.map.Room;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,16 +16,16 @@ import java.util.logging.Logger;
 public abstract class Player implements Steppable {
     // tagváltozók
     private Room where;
-    private ArrayList<Item> items;
+    private final ArrayList<Item> items;
     private int faintCountdown;     // unsigned int?
     protected final Game game;        // akár ez is lehet final
 
     protected static final Logger logger = Logger.getLogger("Player");
 
     // konstruktor
-    public Player(Room room, Game game) {
+    protected Player(Room room, Game game) {
         this.where = room;
-        this.items = new ArrayList<Item>();
+        this.items = new ArrayList<>();
         this.faintCountdown = 0;
         this.game = game;
     }
@@ -169,7 +169,7 @@ public abstract class Player implements Steppable {
         }
 
     }
-    public void shceduleDrop() {}           // EZ A TERVBEN NINCS BENNE
+    public void scheduleDrop() {}           // EZ A TERVBEN NINCS BENNE
     private void consoleAct() {}
     private void consoleMove() {}
     private void consoleMoveTowards(Direction direction) {}
@@ -182,7 +182,7 @@ public abstract class Player implements Steppable {
      * @return room: identifier of currently occupied room (by this player)
      */
     public Room getWhere() { return new Room(); }       // ezt refaktoráltam where -> getWhere
-    public ArrayList<Item> getItems() { return items; }     // ehhez setter nem kell
+    public List<Item> getItems() { return items; }     // ehhez setter nem kell
     public int getFaintCountdown() { return faintCountdown; }
     public Game getGame() { return game; }        // ez protected volt (miert?)
 
