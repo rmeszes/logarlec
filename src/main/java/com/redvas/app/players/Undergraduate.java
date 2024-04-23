@@ -3,6 +3,7 @@ package com.redvas.app.players;
 import com.redvas.app.App;
 import com.redvas.app.Game;
 import com.redvas.app.items.Item;
+import com.redvas.app.map.Room;
 
 import java.util.Objects;
 import java.util.logging.ConsoleHandler;
@@ -10,8 +11,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Undergraduate extends Player {
-    public Undergraduate(String name) {
-        super(name);
+    // tagváltozók
+    private final String name;
+    private int protection;
+    private boolean dropScheduled;
+    public Undergraduate(String name, Room room, Game game) {
+        super(room, game);
+        this.name = name;
+        this.protection = 0;
+        this.dropScheduled = false;
     }
 
     /**
@@ -115,6 +123,12 @@ public class Undergraduate extends Player {
             logger.fine("Player cannot merge items.");
         }
     }
+
+    // getter
+    public String getName() { return name; }
+    public int getProtection() { return protection; }
+    public boolean getDropScheduled() { return dropScheduled; }
+
 
 
     /**

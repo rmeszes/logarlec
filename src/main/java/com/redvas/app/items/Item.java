@@ -1,5 +1,6 @@
 package com.redvas.app.items;
 
+import com.redvas.app.Game;
 import com.redvas.app.map.Room;
 import com.redvas.app.players.Player;
 import com.redvas.app.players.Undergraduate;
@@ -9,12 +10,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public abstract class Item {
+    protected Player owner;
+    protected Room whichRoom;
+    protected String name;
+    protected boolean isReal;
     /**
      *
      * @return identificator of room (later)
      */
-    protected Room where() {
-        return new Room();
+    public Room getWhichRoom() {
+        return whichRoom;
+    }       // ezt átneveztem where -> getWhichRoom
+
+    public void setWhichRoom(Room whichRoom) {
+            this.whichRoom = whichRoom;
     }
 
     /** the Item was destroyed/used up, it no longer exists
@@ -30,14 +39,14 @@ public abstract class Item {
      * @return Undergrad: who owns the item
      */
     public Player owner() {
-        return new Undergraduate("skeleton");
+        return new Undergraduate("skeleton", new Room(), new Game());
     }
 
     /**
      *
      * @param player: the one that is going to own it
      */
-    protected void setOwner(Player player) {
+    public void setOwner(Player player) {
         logger.fine(() -> this + " was registered to " + player);
     }
 
@@ -63,7 +72,7 @@ public abstract class Item {
     public void dispose() {
         logger.fine(() -> this + " is being disposed of");
         owner().removeFromInventory(this);
-        owner().where().addItem(this);
+        owner().getWhere().addItem(this);
     }
 
     /**
@@ -74,7 +83,7 @@ public abstract class Item {
         logger.fine(() -> this + " is being picked up by " + who);
         setOwner(who);
         who.addToInventory(this);
-        where().removeItem(this);
+        getWhichRoom().removeItem(this);
     }
 
     /**
