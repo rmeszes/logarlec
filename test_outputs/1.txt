@@ -1,0 +1,7 @@
+App started successfully.
+Type 'start' to start a new game,
+'load #' to load a preset gamestate,
+'load save' to load a saved game  or
+'quit' to exit the game
+
+Loading preset: 1

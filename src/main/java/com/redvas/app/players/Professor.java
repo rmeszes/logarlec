@@ -1,5 +1,6 @@
 package com.redvas.app.players;
 
+import com.redvas.app.Game;
 import com.redvas.app.items.AirFreshener;
 import com.redvas.app.map.Room;
 
@@ -9,8 +10,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Professor extends Player implements ProximityListener {
-    public Professor(String name) {
-        super(name);
+    private int paralyzeCountdown;
+    public Professor(Room room, Game game) {
+        super(room, game);
+        paralyzeCountdown = 0;
     }
 
     /**
@@ -20,7 +23,7 @@ public class Professor extends Player implements ProximityListener {
     @Override
     public void moveTo(Room to) {
         logger.fine(() -> this + " notifies its origin and target rooms about his/her transfer");
-        where().professorLeft();
+        getWhere().professorLeft();
         to.professorEntered();
         super.moveTo(to);
     }

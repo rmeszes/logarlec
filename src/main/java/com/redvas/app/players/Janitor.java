@@ -1,10 +1,13 @@
 package com.redvas.app.players;
 
+import com.redvas.app.Game;
+import com.redvas.app.map.Room;
+
 import java.util.List;
 
 public class Janitor extends Player{
-    public Janitor(String name) {
-        super(name);
+    public Janitor(Room room, Game game) {
+        super(room, game);
     }
 
     private void sendEveryoneOut(List<Player> players) {
