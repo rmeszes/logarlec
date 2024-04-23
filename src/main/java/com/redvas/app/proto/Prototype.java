@@ -6,9 +6,9 @@ import com.redvas.app.Game;
 import java.util.Scanner;
 
 public class Prototype {
-    Game game;
+    private Game game;
 
-    Scanner stdin = App.reader;
+    private final Scanner stdin = App.reader;
 
     public Prototype() {
         System.out.println("App started successfully.");
