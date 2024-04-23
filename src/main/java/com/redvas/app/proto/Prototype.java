@@ -4,14 +4,20 @@ import com.redvas.app.App;
 import com.redvas.app.Game;
 
 import java.util.Scanner;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Prototype {
+
+    private static final Logger logger = App.getConsoleLogger(Prototype.class.getName());
     private Game game;
 
-    private final Scanner stdin = App.reader;
+    private static final Scanner stdin = App.reader;
 
     public Prototype() {
-        System.out.println("App started successfully.");
+        logger.fine("\nApp started successfully.");
 
         menu();
     }
@@ -19,7 +25,8 @@ public class Prototype {
     private void menu() {
         boolean badInput;
 
-        System.out.println("""
+        logger.fine("""
+                
                 Type 'start' to start a new game,
                 'load #' to load a preset gamestate,
                 'load save' to load a saved game  or
@@ -37,7 +44,7 @@ public class Prototype {
                 case "quit" -> commandQuit();
                 default -> {
                     badInput = true;
-                    System.out.println("Unknown command");
+                    logger.warning("\nUnknown command");
                 }
             }
         } while(badInput);

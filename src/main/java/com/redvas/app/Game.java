@@ -4,14 +4,17 @@ import com.redvas.app.players.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Game {
-    protected static final Logger logger = Logger.getLogger("Game");
+    protected static final Logger logger = App.getConsoleLogger(Game.class.getName());
 
-    ArrayList<Steppable> SteppablesForRound = new ArrayList<>();
+    ArrayList<Steppable> steppablesForRound = new ArrayList<>();
 
-    public Game() {         // ez át lett írva publicra
+    public Game() {
         /*System.out.print("Player1 Name: ");
         Undergraduate player1 = new Undergraduate(App.reader.nextLine());
         SteppablesForRound.add(player1);
@@ -28,21 +31,30 @@ public class Game {
     }
 
     private Game(String arg) {
-        System.out.printf("Loading game %s%n", arg);
+        logger.fine(() -> String.format("Loading game %s%n", arg));
     }
 
     private Game(int arg) {
-        System.out.printf("Loading preset: %d%n", arg);
+        logger.fine(() -> String.format("Loading preset: %d%n", arg));
     }
 
+    /**
+     * method for when the game is started from scratch
+     */
     public static Game startNewGame() {
         return new Game();
     }
 
+    /**
+     * method for when the game has to load a previous save
+     */
     public static Game loadGame(String arg) {
         return new Game(arg);
     }
 
+    /**
+     * method for when the game has to load a preset
+     */
     public static Game loadPreset(int arg) {
         return new Game(arg);
     }
