@@ -5,9 +5,11 @@ import com.redvas.app.Steppable;
 import com.redvas.app.items.Item;
 import com.redvas.app.items.RottenCamembert;
 import com.redvas.app.players.Player;
+import com.redvas.app.players.ProximityListener;
 import com.redvas.app.players.Undergraduate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.ConsoleHandler;
@@ -15,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Room implements Steppable {
+    private List<ProximityListener> listeners = new ArrayList<>();
     private ArrayList<Item> items;
     /**
      *
@@ -32,22 +35,6 @@ public class Room implements Steppable {
     public Item getItem(int index) { return new RottenCamembert(); }
     public List<Item> getItems() { return items; }
 
-    /**
-     *
-     * @return int: number of profs
-     */
-    private int getProfessorCounter() { return 0; }
-
-    /** if true, everyone inside faints without a mask
-     *
-     * @return bool: gas state of the room
-     */
-    private boolean isGaseous() {
-        System.out.print("Is this room gaseous? (y/n)");
-
-        return App.reader.nextLine().equals("y");
-    }
-
     protected static final Logger logger = Logger.getLogger("Item");
 
     static {
@@ -61,27 +48,15 @@ public class Room implements Steppable {
         logger.fine("Room init");
     }
 
-    /** makes everyone faint
-     *
-     */
-    private void knockoutEveyone() {
-        logger.fine("Room causes every occupant to faint");
-
-        for (Player p : getOccupants())
-            p.faint();
-    }
-
     /**
      *
      * @return list: players inside
      */
-    public List<Player> getOccupants() { return new ArrayList<>();    }
-
     /**
      *
      * @param player: the one that left the room
      */
-    private void removeOccupant(Player player) {
+    public void removeOccupant(Player player) {
         logger.fine(()->"Room occupant list no longer contains this " + player);
     }
 
@@ -89,34 +64,18 @@ public class Room implements Steppable {
      *
      * @param player: the one that stepped inside
      */
-    private void addOccupant(Player player) {
+    public void addOccupant(Player player) {
         logger.fine(()->"Room occupant list now contains " + player);
     }
 
     /** undergrad has lost the game
      *
      */
-    private void dropoutUndergraduates() {
-        logger.fine("Room is causing every Undergraduate occupant to be dropped out");
-    }
 
     /**
      *
      * @return bool: is there space in the room
      */
-    private Boolean canAccept() {
-        System.out.print("Can this room accept more people? (y/n)");
-        String value = App.reader.nextLine();
-
-        if(value.equals("y")) {
-            logger.fine("The room has free space");
-            return true;
-        }
-        else{
-            logger.fine("The room doesn't have free space");
-            return false;
-        }
-    }
 
     /**
      *
@@ -128,33 +87,13 @@ public class Room implements Steppable {
     /** initialization or someone opened a Camembert
      *
      */
-    public void setGas() {
-        logger.fine("Room is now gaseous");
-    }
-
     /** if there are undergrads, they lose the game
      *
      */
-    public void professorEntered() {
-        dropoutUndergraduates();
-
-        logger.fine("Room professor counter increased by one");
-    }
-
-
-    public void professorLeft() {
-        logger.fine("Room professor counter decreased by one");
-    }
 
     /** only profs
      *
      */
-    public void paralyzeProfessors() {
-        logger.fine("Room is causing every Professor occupant to be paralyzed");
-
-        for (Player p : getOccupants())
-            p.paralyze();
-    }
 
     /** initialization or someone put it down
      *
@@ -164,46 +103,15 @@ public class Room implements Steppable {
         logger.fine(()->"Room item inventory was added to a(n) " + item);
     }
 
-    /**
-     *
-     * @param who: person that exits
-     * @param to: room where they move
-     * @return bool: whether they managed to move
-     */
-    public Boolean transfer(Player who, Room to) {
-        logger.fine(()->"Room commences the transfer procedure of " + who);
+    private List<Player> occupants = new ArrayList<>();
+    private HashMap<Direction, Door> doors = new HashMap<>();
+    private int capacity;
 
-        if (isAccessible(to)) {
-            if (to.canOccupy(who)) {
-                removeOccupant(who);
-                who.moveTo(to);
-                return true;
-            }
-            else return false;
-        }
-        else return false;
+    public void subscribeToProximity(ProximityListener pl) {
+
     }
-
-    /**
-     *
-     * @param who: player who wants to enter
-     * @return bool: whether they can
-     */
-    public Boolean canOccupy(Player who) {
-        logger.fine(()->"Room commences the verified adoption of " + who);
-
-        if (canAccept()) {
-            addOccupant(who);
-
-            if (getProfessorCounter() > 0)
-                who.dropout();
-
-            if (isGaseous())
-                who.faint();
-
-            return true;
-        }
-        else return false;
+    public Boolean canAccept() {
+        return occupants.size() < capacity;
     }
 
     // Ez azert van itt, hogy olyan esetekben amikor valakin maszk van, nem ajul el, hanem csak akkro amikor mar bent van es lejar majd a protekcio
@@ -216,11 +124,8 @@ public class Room implements Steppable {
     public void step() {
         logger.fine("Room is on its turn");
 
-        if (isGaseous())
-            knockoutEveyone();
-
-        if (getProfessorCounter() > 0)
-            dropoutUndergraduates();
+        for (ProximityListener pl : listeners)
+            pl.proximityEndOfRound(occupants);
     }
 
     /**
@@ -255,5 +160,15 @@ public class Room implements Steppable {
             logger.fine("The room cannot split, it has no space");
             return null;
         }
+    }
+
+    public Room isAccessible(Direction d) {
+        Door door = null;
+
+        if ((door = doors.getOrDefault(d, null)) != null)
+            if (door.isPassable() && !door.isVanished())
+                return door.connectsTo();
+
+        return null;
     }
 }

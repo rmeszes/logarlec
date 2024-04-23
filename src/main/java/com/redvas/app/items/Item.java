@@ -18,13 +18,6 @@ public abstract class Item {
      *
      * @return identificator of room (later)
      */
-    public Room getWhichRoom() {
-        return whichRoom;
-    }       // ezt átneveztem where -> getWhichRoom
-
-    public void setWhichRoom(Room whichRoom) {
-            this.whichRoom = whichRoom;
-    }
 
     /** the Item was destroyed/used up, it no longer exists
      *
@@ -39,16 +32,13 @@ public abstract class Item {
      * @return Undergrad: who owns the item
      */
     public Player owner() {
-        return new Undergraduate("skeleton", new Room(), new Game());
+        return owner;
     }
 
     /**
      *
      * @param player: the one that is going to own it
      */
-    public void setOwner(Player player) {
-        logger.fine(() -> this + " was registered to " + player);
-    }
 
     protected static final Logger logger = Logger.getLogger("Item");
 
@@ -71,8 +61,9 @@ public abstract class Item {
      */
     public void dispose() {
         logger.fine(() -> this + " is being disposed of");
+        whichRoom = owner.where();
         owner().removeFromInventory(this);
-        owner().getWhere().addItem(this);
+        owner().where().addItem(this);
     }
 
     /**
@@ -81,9 +72,10 @@ public abstract class Item {
      */
     public void pickup(Player who) {
         logger.fine(() -> this + " is being picked up by " + who);
-        setOwner(who);
+        owner = who;
         who.addToInventory(this);
-        getWhichRoom().removeItem(this);
+        whichRoom.removeItem(this);
+        whichRoom = null;
     }
 
     /**

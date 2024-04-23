@@ -6,11 +6,13 @@ import com.redvas.app.items.Item;
 import com.redvas.app.map.Direction;
 import com.redvas.app.map.Room;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 //absztrakt class, majd az implementációk lesznek tesztelve
 public abstract class Player implements Steppable {
@@ -61,7 +63,7 @@ public abstract class Player implements Steppable {
      *
      */
     public void faint() {
-        setFaintCountdown(3);
+        faintCountdown = 3;
         dropItems();
     }
 
@@ -69,18 +71,40 @@ public abstract class Player implements Steppable {
      *
      */
     public void step() {    // Ez absztrakt a modell szerint, de akkor amúgy mégsem?
-        if (faintCountdown > 0) {
-            setFaintCountdown(faintCountdown - 1);
-            return;
-        }
-
-        else if (faintCountdown == 0) {
+        if (faintCountdown > 0)
+            faintCountdown--;
+        else {
             // IDK ITT MINEK KÉNE TÖRTÉNNIE
+            HashMap<Character, Supplier<Boolean>> cmds = new HashMap<>();
+            cmds.put('m', this::consoleMove);
+            cmds.put('a', this::consoleAct);
+            HashMap<Character, String> man = new HashMap<>();
+            man.put('m', "move");
+            man.put('a', "act");
+            man.put('p', "pass");
+            Scanner scnr = new Scanner(System.in);
 
+            while (true) {
+                System.out.println("Choose command:");
+
+                for (Map.Entry<Character, String> kvp : man.entrySet())
+                    System.out.printf("Cmd: %c (%s)%n\n", kvp.getKey(), kvp.getValue());
+
+                Character cmd = scnr.nextLine().charAt(0);
+                Supplier<Boolean> selection = null;
+
+                if ((selection = cmds.getOrDefault(cmd, null)) != null)
+                    if (selection.get())
+                    {
+                        man.remove(cmd);
+                        cmds.remove(cmd);
+                    }
+                else if (cmd == 'p')
+                    return;
+                else
+                    System.out.println("Command not recognised");
+            }
         }
-
-
-
     }
 
     /**
@@ -88,7 +112,6 @@ public abstract class Player implements Steppable {
      * @param item: picked item that they will dispose of
      */
     public void removeFromInventory(Item item) {
-        item.setWhichRoom(where);
         items.remove(item);
     }
 
@@ -97,7 +120,6 @@ public abstract class Player implements Steppable {
      * @param item: picked item that they will pick up
      */
     public void addToInventory(Item item) {
-        item.setWhichRoom(null);    // az elemhez tartozó szobát null-ra állítjuk
         items.add(item);            // felvesszük a tárgyat az inventoryba
     }
 
@@ -110,17 +132,14 @@ public abstract class Player implements Steppable {
      *
      */
     public abstract void dropout();         // Ennek dőltnek kell lennie a modellen?
-
-
-
     /**
      *
      * @param room: chosen room where they move
      */
     public void moveTo(Room room) {
-        where.getOccupants().remove(this);  // a kilépendő szobából eltávolítja a játékost
-        setWhere(room);                         // a játékos átlép az új szobába
-        where.getOccupants().add(this);         // az új szobához hozzáadjuk a játékost
+        where.removeOccupant(this);
+        where = room;
+        room.addOccupant(this);
     }
 
     /** player chose to activate this protection
@@ -159,19 +178,101 @@ public abstract class Player implements Steppable {
         }
     }
 
-    private void moveTowards (Direction direction) {}
-    public void dropItems() {
-        for (Item item : items) {
-            item.setOwner(null);            // ha eldobja nem lesz senkié sem
-            items.remove(item);             // a játékostól elvesszük az elemet
-            item.setWhichRoom(where);       // az tárgyhoz beállítjuk a szobát, amelyben a játékos eldobta a tárgyat
-            where.getItems().add(item);     // a szobához hozzáadjuk a tárgyat
+    private boolean moveTowards (Direction direction) {
+        Room r;
+
+        if ((r = where.isAccessible(direction)) != null) {
+            if (r.canAccept()) {
+                moveTo(r);
+                return true;
+            }
         }
 
+        return false;
+    }
+
+    public void dropItems() {
+        for (Item item : items)
+            item.dispose();
     }
     public void scheduleDrop() {}           // EZ A TERVBEN NINCS BENNE
-    private void consoleAct() {}
-    private void consoleMove() {}
+    private boolean consoleAct() {
+        HashMap<Character, Function<Integer, Boolean>> cmds = new HashMap<>();
+        cmds.put('p', this::pickItem);
+        cmds.put('u', this::useItem);
+        cmds.put('d', this::disposeItem);
+        HashMap<Character, String> man = new HashMap<>();
+        man.put('p', "Pick item at given room item index");
+        man.put('u', "Use item at given inventory item index");
+        man.put('d', "Dispose item at given inventory item index");
+        man.put('a', "Abort");
+        Scanner scnr = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("Choose command:");
+
+            for (Map.Entry<Character, String> e : man.entrySet())
+                System.out.printf("Cmd: %c, %s\n", e. getKey(), e.getValue());
+
+            Character cmd = scnr.nextLine().charAt(0);
+
+            if (man.getOrDefault(cmd, null) == null)
+                System.out.println("Command not recognised");
+            else if (cmd == 'a')
+                return false;
+            else {
+                System.out.println("Supply parameter:");
+
+                try {
+                    int p = Integer.parseInt(scnr.nextLine());
+
+                    if (!cmds.get(cmd).apply(p))
+                        System.out.println("Act failed");
+                    else return true;
+                }
+                catch (Exception ex) {
+                    System.out.println("Parameter is invalid");
+                }
+            }
+        }
+    }
+    private boolean consoleMove() {
+        HashMap<String, Direction> dirs = new HashMap<>();
+        HashMap<String, String> man = new HashMap<>();
+
+        for (Direction d : Direction.values()) {
+            String cmd = d
+                    .name()
+                    .chars()
+                    .filter(Character::isUpperCase)
+                    .mapToObj(c -> String.valueOf((char)c))
+                    .collect(Collectors.joining())
+                    .toLowerCase();
+
+            dirs.put(cmd, d);
+            man.put(cmd, "Move " + d.name());
+        }
+
+        man.put("a", "abort");
+        Scanner scnr = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("Choose a command:");
+
+            for (Map.Entry<String, String> e : man.entrySet())
+                System.out.printf("Cmd: %s, %s\n", e.getKey(), e.getValue());
+
+            String cmd = scnr.nextLine();
+
+            if (man.getOrDefault(cmd, null) == null)
+                System.out.println("Command not recognised");
+            else if (cmd.equals("a"))
+                return false;
+            else if (!moveTowards(dirs.get(cmd)))
+                System.out.println("Could not move in direction");
+            else return true;
+        }
+    }
     private void consoleMoveTowards(Direction direction) {}
     protected abstract boolean useItem(int index);      // Ez nincs kifejtve a tervbem
 
@@ -181,21 +282,9 @@ public abstract class Player implements Steppable {
      *
      * @return room: identifier of currently occupied room (by this player)
      */
-    public Room getWhere() { return new Room(); }       // ezt refaktoráltam where -> getWhere
+    public Room where() { return new Room(); }
     public List<Item> getItems() { return items; }     // ehhez setter nem kell
-    public int getFaintCountdown() { return faintCountdown; }
     public Game getGame() { return game; }        // ez protected volt (miert?)
-
-    /**
-     *
-     * @param location: room where they are
-     */
-    public void setWhere(Room location) { where = location; }   // Ez hiányzik a modellből
-    public void setFaintCountdown(int n) { faintCountdown = n; }
-
-
-
-
 
     @Override
     public abstract String toString();      // Ez gondolom csak a skeletonhoz kellett
