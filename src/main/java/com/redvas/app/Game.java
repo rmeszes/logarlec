@@ -4,14 +4,17 @@ import com.redvas.app.players.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Game {
-    protected static final Logger logger = Logger.getLogger("Game");
+    protected static final Logger logger = App.getConsoleLogger(Game.class.getName());
 
     ArrayList<Steppable> SteppablesForRound = new ArrayList<>();
 
-    public Game() {         // ez át lett írva publicra
+    public Game() {
         /*System.out.print("Player1 Name: ");
         Undergraduate player1 = new Undergraduate(App.reader.nextLine());
         SteppablesForRound.add(player1);

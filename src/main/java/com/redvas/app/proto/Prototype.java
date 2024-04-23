@@ -10,18 +10,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Prototype {
-    private final Logger logger;
+
+    private static final Logger logger = App.getConsoleLogger(Prototype.class.getName());
     private Game game;
 
     private static final Scanner stdin = App.reader;
 
     public Prototype() {
-        logger = Logger.getLogger(getClass().getName());
-        Handler consoleHandler = new ConsoleHandler();
-        consoleHandler.setLevel(Level.FINEST);
-        logger.addHandler(consoleHandler);
-        logger.setLevel(Level.FINEST);
-
         logger.fine("\nApp started successfully.");
 
         menu();
