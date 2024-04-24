@@ -5,6 +5,14 @@ import com.redvas.app.map.Room;
 import com.redvas.app.players.Player;
 
 public class CombinedTransistor extends Item{
+
+    private CombinedTransistor pair;
+    private boolean isActive;
+
+    public void setPair(CombinedTransistor pair){
+        this.pair = pair;
+    }
+
     /** if user says yes, transistors are activated
      * player can teleport
      *

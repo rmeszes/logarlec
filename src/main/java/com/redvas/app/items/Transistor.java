@@ -9,9 +9,14 @@ public class Transistor extends Item {
      */
     @Override
     public void merge(Transistor item){
-        Item tmp = new CombinedTransistor();
-        tmp.owner = owner();
-        owner().addToInventory(tmp);
+        CombinedTransistor ct1 = new CombinedTransistor();
+        CombinedTransistor ct2 = new CombinedTransistor();
+        ct1.setPair(ct2);
+        ct2.setPair(ct1);
+        ct1.owner = owner();
+        ct2.owner = owner();
+        owner().addToInventory(ct1);
+        owner().addToInventory(ct2);
         destroy();
         item.destroy();
         logger.fine(() -> "Merged transistor");
