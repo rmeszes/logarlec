@@ -13,9 +13,11 @@ public abstract class Item {
     protected String name;
     protected boolean isReal;
 
-    public Room where() {
-        if (owner != null) return owner.where();
-        else return whichRoom;
+    public Room getRoom() {
+        if (owner != null)
+            return owner.where();
+        else
+            return whichRoom;
     }
     /**
      *
@@ -26,7 +28,7 @@ public abstract class Item {
      *
      */
     protected void destroy() {
-        owner().removeFromInventory(this);
+        getOwner().removeFromInventory(this);
         logger.fine(() -> this + " was garbage collected (destroyed)");
     }
 
@@ -34,7 +36,7 @@ public abstract class Item {
      *
      * @return Undergrad: who owns the item
      */
-    public Player owner() {
+    public Player getOwner() {
         return owner;
     }
 
@@ -65,8 +67,9 @@ public abstract class Item {
     public void dispose() {
         logger.fine(() -> this + " is being disposed of");
         whichRoom = owner.where();
-        owner().removeFromInventory(this);
-        owner().where().addItem(this);
+        getOwner().removeFromInventory(this);
+        getOwner().where().addItem(this);
+        owner = null;
     }
 
     /**

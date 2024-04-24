@@ -1,23 +1,28 @@
 package com.redvas.app.items;
 
-import com.redvas.app.App;
-import com.redvas.app.map.Room;
 import com.redvas.app.players.Player;
 
-public class CombinedTransistor extends Item{
+public class CombinedTransistor extends Item {
+
+    private CombinedTransistor pairedWith;
+    private boolean isActive = false;
+
+    public void setPair(CombinedTransistor pair){
+        pairedWith = pair;
+    }
+
     /** if user says yes, transistors are activated
      * player can teleport
      *
      */
     @Override
     public void use(){
-        System.out.print("Has the first transistor been placed?");
-        String input = App.reader.nextLine();
-        if (input.equals("y")){
-            logger.fine("Activated the transistors");
+        if (pairedWith.whichRoom != null){ // if the pair is on the ground already (in half state)
+            isActive = true;
+            logger.fine(() -> "Activated the transistors");
         }
-        else{
-            logger.fine("You must place the first transistor before activation");
+        else {
+            logger.fine(() -> "You must place the first transistor before activation");
         }
     }
 
@@ -27,7 +32,13 @@ public class CombinedTransistor extends Item{
      */
     @Override
     public void pickup(Player who) {
-        logger.fine("Combined Transistor can't be picked up");
+        if (pairedWith.whichRoom != null){ // if the pair is on the ground already (in half state)
+            super.pickup(who);
+            logger.fine(() -> "Picked up CombinedTransistor");
+        }
+        else {
+            logger.fine(() -> "You cannot pick up a CombinedTransistor right now!");
+        }
     }
 
     /** 3 possible outcomes:
@@ -38,32 +49,24 @@ public class CombinedTransistor extends Item{
      */
     @Override
     public void dispose() {
-        System.out.print("Is this the first transistor placement?");
-        String input = App.reader.nextLine();
-        if (input.equals("y")){
-            setDisposedPair(new Transistor());
-            logger.fine("Placed first part of Combined Transistor");
+        if (pairedWith.whichRoom == null) { // if pair is not on the ground (in base state)
+            super.dispose();
+            logger.fine(() -> "Placed first CombinedTransistor");
         }
-        else{
-            System.out.print("Has the second transistor been activated?");
-            input = App.reader.nextLine();
-            if (input.equals("y")){
-                owner().moveTo(new Room());
-                logger.fine("Transported player to the first transistor's room");
+        else {
+            if (isActive) { // if pair is on the ground and this is activated (in active state)
+                CombinedTransistor tmp = new CombinedTransistor();
+                tmp.owner = getOwner();
+                super.dispose();
+                tmp.owner.moveTo(pairedWith.whichRoom);
+                isActive = false;
+                pairedWith.pickup(tmp.owner);
+                logger.fine(() -> "Transported player to the first CombinedTransistor's room: " + pairedWith.whichRoom.toString());
             }
-            else{
-                logger.fine("Cannot place second half of transistor without activating it first");
+            else { // if pair is on the ground and this is not activated (in half state)
+                logger.fine(() -> "Cannot place second CombinedTransistor without activating it first");
             }
         }
-    }
-
-    /**
-     *
-     * @param transistor: the one that will be put to the floor
-     */
-    private void setDisposedPair(Transistor transistor){
-        logger.fine(() -> "Disposed " + transistor.toString() +
-                         " in this room: " + transistor.where());
     }
 
     /**
