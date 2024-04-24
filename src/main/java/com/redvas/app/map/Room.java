@@ -33,14 +33,7 @@ public class Room implements Steppable {
     public Item getItem(int index) { return new RottenCamembert(); }
     public List<Item> getItems() { return items; }
 
-    protected static final Logger logger = Logger.getLogger("Item");
-
-    static {
-        ConsoleHandler handler = new ConsoleHandler();
-        handler.setLevel(Level.FINEST);
-        logger.addHandler(handler);
-        logger.setLevel(Level.FINEST);
-    }
+    protected static final Logger logger = App.getConsoleLogger(Room.class.getName());
 
     public Room() {
         logger.fine("Room init");
@@ -168,5 +161,9 @@ public class Room implements Steppable {
                 return door.connectsTo();
 
         return null;
+    }
+
+    public List<Room> getAccessibleRooms() {
+        return new ArrayList<>();
     }
 }
