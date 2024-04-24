@@ -5,10 +5,11 @@ import com.redvas.app.items.AirFreshener;
 import java.util.List;
 
 public interface ProximityListener {
-    public void proximityChanged(Player newcomer);
-    public void proximityEndOfRound(List<Player> proximity);
-    public void proximityInitially(List<Player> proximity);
-    public int listenerPriority();
-    public void getAffected(Janitor by);
-    public void getAffected(AirFreshener by);
+    void proximityChanged(Player newcomer);
+    void proximityEndOfRound(List<Player> proximity);
+    void proximityInitially(List<Player> proximity);
+    int listenerPriority();
+    void getAffected(Janitor by);
+    void getAffected(AirFreshener by);
+    void affect(ProximityListener listener);
 }

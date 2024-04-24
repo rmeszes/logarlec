@@ -2,6 +2,8 @@ package com.redvas.app.map;
 
 import com.redvas.app.Steppable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,6 +16,20 @@ public class Labyrinth implements Steppable {
         handler.setLevel(Level.FINEST);
         logger.addHandler(handler);
         logger.setLevel(Level.FINEST);
+    }
+
+    private final List<Room> rooms = new ArrayList<>();
+
+    private void generate() {
+        
+    }
+
+    public void remember(Room r) {
+
+    }
+
+    public void forget(Room room) {
+        rooms.remove(room);
     }
 
     private void update() {
