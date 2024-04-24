@@ -49,11 +49,14 @@ public class RottenCamembert extends Item implements ProximityListener {
 
     @Override
     public void getAffected(Janitor by) {
-
+        whichRoom.unsubscribeFromProximity(this);
     }
 
     @Override
     public void getAffected(AirFreshener by) {
-
+        whichRoom.unsubscribeFromProximity(this);
     }
+
+    @Override
+    public void affect(ProximityListener listener) {}
 }

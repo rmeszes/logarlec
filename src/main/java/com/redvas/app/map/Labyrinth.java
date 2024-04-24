@@ -21,7 +21,7 @@ public class Labyrinth implements Steppable {
     private final List<Room> rooms = new ArrayList<>();
 
     private void generate() {
-        
+
     }
 
     public void remember(Room r) {

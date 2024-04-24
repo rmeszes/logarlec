@@ -19,8 +19,8 @@ public class WetWipe extends Item implements ProximityListener {
         owner = null;
     }
 
-    private void paralyzeProfessors() {
-
+    private void paralyzeProfessors(List<Player> players) {
+        players.forEach(Player::paralyze);
     }
 
     @Override
@@ -37,18 +37,14 @@ public class WetWipe extends Item implements ProximityListener {
     }
 
     @Override
-    public void proximityChanged(Player newcomer) {
-
-    }
+    public void proximityChanged(Player newcomer) {}
 
     @Override
-    public void proximityEndOfRound(List<Player> proximity) {
-
-    }
+    public void proximityEndOfRound(List<Player> proximity) {}
 
     @Override
     public void proximityInitially(List<Player> proximity) {
-
+        paralyzeProfessors(proximity);
     }
 
     @Override
@@ -57,12 +53,11 @@ public class WetWipe extends Item implements ProximityListener {
     }
 
     @Override
-    public void getAffected(Janitor by) {
-
-    }
+    public void getAffected(Janitor by) {}
 
     @Override
-    public void getAffected(AirFreshener by) {
+    public void getAffected(AirFreshener by) {}
 
-    }
+    @Override
+    public void affect(ProximityListener listener) {}
 }

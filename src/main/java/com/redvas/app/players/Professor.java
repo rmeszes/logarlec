@@ -98,4 +98,9 @@ public class Professor extends Player implements ProximityListener {
     public void getAffected(AirFreshener by) {
 
     }
+
+    @Override
+    public void affect(ProximityListener listener) {
+
+    }
 }
