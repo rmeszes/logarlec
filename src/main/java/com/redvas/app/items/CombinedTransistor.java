@@ -74,6 +74,6 @@ public class CombinedTransistor extends Item {
      */
     @Override
     public String toString() {
-        return "Combined Transistor";
+        return "Combined Transistor, owner: " + getOwner().toString() + ", room: " + getRoom().toString();
     }
 }
