@@ -16,7 +16,7 @@ public class Door {
         logger.addHandler(handler);
         logger.setLevel(Level.FINEST);
     }
-    public Door() {
+    public Door(Room connectsTo, boolean isPassable) {
         logger.fine("Door init");
     }
 

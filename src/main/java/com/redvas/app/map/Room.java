@@ -13,6 +13,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Room implements Steppable {
+    public void configureDoors(Labyrinth l) {
+        l.acceptDoors(doors);
+    }
     private final List<ProximityListener> listeners = new ArrayList<>();
     private final ArrayList<Item> items = new ArrayList<>();
     private int stickiness = 0;
