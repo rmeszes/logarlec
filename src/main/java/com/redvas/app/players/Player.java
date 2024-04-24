@@ -1,5 +1,6 @@
 package com.redvas.app.players;
 
+import com.redvas.app.App;
 import com.redvas.app.Game;
 import com.redvas.app.Steppable;
 import com.redvas.app.items.Item;
@@ -16,13 +17,16 @@ import java.util.stream.Collectors;
 
 //absztrakt class, majd az implementációk lesznek tesztelve
 public abstract class Player implements Steppable {
+    //constants
+    private final String commandNotRecognizedMsg = "Command not recognised.";
+
     // tagváltozók
     private Room where;
     private final ArrayList<Item> items;
     private int faintCountdown;     // unsigned int?
     protected final Game game;        // akár ez is lehet final
 
-    protected static final Logger logger = Logger.getLogger("Player");
+    protected static final Logger logger = App.getConsoleLogger(Player.class.getName());
 
     // konstruktor
     protected Player(Room room, Game game) {
@@ -85,10 +89,10 @@ public abstract class Player implements Steppable {
             Scanner scnr = new Scanner(System.in);
 
             while (true) {
-                System.out.println("Choose command:");
+                logger.fine("Choose command:");
 
                 for (Map.Entry<Character, String> kvp : man.entrySet())
-                    System.out.printf("Cmd: %c (%s)%n\n", kvp.getKey(), kvp.getValue());
+                    logger.fine(() -> String.format("Cmd: %c (%s)%n\n", kvp.getKey(), kvp.getValue()));
 
                 Character cmd = scnr.nextLine().charAt(0);
                 Supplier<Boolean> selection = null;
@@ -102,7 +106,7 @@ public abstract class Player implements Steppable {
                 else if (cmd == 'p')
                     return;
                 else
-                    System.out.println("Command not recognised");
+                    logger.fine(commandNotRecognizedMsg);
             }
         }
     }
@@ -209,29 +213,29 @@ public abstract class Player implements Steppable {
         Scanner scnr = new Scanner(System.in);
 
         while (true) {
-            System.out.println("Choose command:");
+            logger.fine("Choose command:");
 
             for (Map.Entry<Character, String> e : man.entrySet())
-                System.out.printf("Cmd: %c, %s\n", e. getKey(), e.getValue());
+                logger.fine(() -> String.format("Cmd: %c, %s\n", e. getKey(), e.getValue()));
 
             Character cmd = scnr.nextLine().charAt(0);
 
             if (man.getOrDefault(cmd, null) == null)
-                System.out.println("Command not recognised");
+                logger.fine(commandNotRecognizedMsg);
             else if (cmd == 'a')
                 return false;
             else {
-                System.out.println("Supply parameter:");
+                logger.fine("Supply parameter:");
 
                 try {
                     int p = Integer.parseInt(scnr.nextLine());
 
                     if (!cmds.get(cmd).apply(p))
-                        System.out.println("Act failed");
+                        logger.fine("Act failed");
                     else return true;
                 }
                 catch (Exception ex) {
-                    System.out.println("Parameter is invalid");
+                    logger.fine("Parameter is invalid");
                 }
             }
         }
@@ -257,19 +261,19 @@ public abstract class Player implements Steppable {
         Scanner scnr = new Scanner(System.in);
 
         while (true) {
-            System.out.println("Choose a command:");
+            logger.fine("Choose a command:");
 
             for (Map.Entry<String, String> e : man.entrySet())
-                System.out.printf("Cmd: %s, %s\n", e.getKey(), e.getValue());
+                logger.fine(()->String.format("Cmd: %s, %s\n", e.getKey(), e.getValue()));
 
             String cmd = scnr.nextLine();
 
             if (man.getOrDefault(cmd, null) == null)
-                System.out.println("Command not recognised");
+                logger.fine(commandNotRecognizedMsg);
             else if (cmd.equals("a"))
                 return false;
             else if (!moveTowards(dirs.get(cmd)))
-                System.out.println("Could not move in direction");
+                logger.fine("Could not move in direction");
             else return true;
         }
     }
