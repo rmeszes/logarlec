@@ -30,6 +30,6 @@ public class Transistor extends Item {
      */
     @Override
     public String toString() {
-        return "Transistor";
+        return "Transistor, owner: " + getOwner().toString() + ", room: " + getRoom().toString();
     }
 }
