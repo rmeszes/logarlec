@@ -1,12 +1,12 @@
 package com.redvas.app.map;
 
 public enum Direction {
-    Up,
-    Down,
-    Right,
-    Left,
-    TopLeft,
-    TopRight,
-    BottomLeft,
-    BottomRight
+    UP,
+    DOWN,
+    RIGHT,
+    LEFT,
+    TOP_LEFT,
+    TOP_RIGHT,
+    BOTTOM_LEFT,
+    BOTTOM_RIGHT
 }

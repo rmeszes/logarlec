@@ -1,13 +1,7 @@
 package com.redvas.app;
 
-import com.redvas.app.players.Player;
-import com.redvas.app.players.Professor;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Game {

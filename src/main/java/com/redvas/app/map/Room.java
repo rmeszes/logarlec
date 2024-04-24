@@ -6,12 +6,10 @@ import com.redvas.app.items.Item;
 import com.redvas.app.items.RottenCamembert;
 import com.redvas.app.players.Player;
 import com.redvas.app.players.ProximityListener;
-import com.redvas.app.players.Undergraduate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
