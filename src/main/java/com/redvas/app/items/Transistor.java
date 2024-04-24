@@ -13,10 +13,12 @@ public class Transistor extends Item {
         CombinedTransistor ct2 = new CombinedTransistor();
         ct1.setPair(ct2);
         ct2.setPair(ct1);
-        ct1.owner = owner();
-        ct2.owner = owner();
-        owner().addToInventory(ct1);
-        owner().addToInventory(ct2);
+        ct1.owner = getOwner();
+        ct2.owner = getOwner();
+        ct1.whichRoom = null;
+        ct2.whichRoom = null;
+        getOwner().addToInventory(ct1);
+        getOwner().addToInventory(ct2);
         destroy();
         item.destroy();
         logger.fine(() -> "Merged transistor");
