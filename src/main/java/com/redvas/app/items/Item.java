@@ -1,9 +1,7 @@
 package com.redvas.app.items;
 
-import com.redvas.app.Game;
 import com.redvas.app.map.Room;
 import com.redvas.app.players.Player;
-import com.redvas.app.players.Undergraduate;
 
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
