@@ -18,18 +18,6 @@ public class Professor extends Player implements ProximityListener {
 
     /**
      *
-     * @param to: chosen room where they move
-     */
-    @Override
-    public void moveTo(Room to) {
-        logger.fine(() -> this + " notifies its origin and target rooms about his/her transfer");
-        getWhere().professorLeft();
-        to.professorEntered();
-        super.moveTo(to);
-    }
-
-    /**
-     *
      * @param index: identifier of item that will be used
      */
     @Override

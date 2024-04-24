@@ -1,12 +1,7 @@
 package com.redvas.app;
 
-import com.redvas.app.players.Player;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Game {
@@ -61,23 +56,36 @@ public class Game {
 
     private List<Steppable> getSteppables() { return new ArrayList<>(); }
 
-    public void play() {}
+    public void play() {
+        while (!end)
+            playRound();
+    }
 
     public void playRound() {
         logger.fine("New round");
-        for (Steppable s : getSteppables())
+
+        for (Steppable s : getSteppables()) {
             s.step();
+
+            if (end) return;
+        }
     }
 
-    public static void undergraduateVictory() {
+    public void undergraduateVictory() {
         logger.fine("Undergraduate team won the game!");
+        end = true;
     }
 
-    public static void professorVictory() {
+    private void professorVictory() {
         logger.fine("Professor team won the game!");
+        end = true;
     }
 
-    public void eliminatePlayer(Player player) {
+    private int undergraduates = 0;
+    private boolean end = false;
 
+    public void undergraduateDroppedout() {
+        if (--undergraduates == 0)
+            professorVictory();
     }
 }

@@ -63,7 +63,7 @@ public class CombinedTransistor extends Item{
      */
     private void setDisposedPair(Transistor transistor){
         logger.fine(() -> "Disposed " + transistor.toString() +
-                         " in this room: " + transistor.getWhichRoom());
+                         " in this room: " + transistor.where());
     }
 
     /**
