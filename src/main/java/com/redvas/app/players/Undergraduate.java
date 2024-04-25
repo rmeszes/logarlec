@@ -18,7 +18,7 @@ public class Undergraduate extends Player {
         this.name = name;
         this.protection = 0;
         this.dropScheduled = false;
-        logger.fine(() -> this + "created");
+        logger.fine(() -> this + " created");
     }
 
     /**
