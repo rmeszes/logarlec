@@ -18,6 +18,7 @@ public class Undergraduate extends Player {
         this.name = name;
         this.protection = 0;
         this.dropScheduled = false;
+        logger.fine(() -> this + " created");
     }
 
     /**
@@ -131,6 +132,6 @@ public class Undergraduate extends Player {
      */
     @Override
     public String toString() {
-        return "Undergraduate";
+        return getClass().getName() + " Name: " + getName();
     }
 }

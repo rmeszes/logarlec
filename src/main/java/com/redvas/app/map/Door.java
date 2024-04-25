@@ -1,26 +1,17 @@
 package com.redvas.app.map;
 
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
+
+import com.redvas.app.App;
+
 import java.util.logging.Logger;
 
 public class Door {
-
     private Room connectsTo;
     private boolean passable;
     private boolean vanished;
 
-    protected static final Logger logger = Logger.getLogger("Door");
-
-    static {
-        ConsoleHandler handler = new ConsoleHandler();
-        handler.setLevel(Level.FINEST);
-        logger.addHandler(handler);
-        logger.setLevel(Level.FINEST);
-    }
+    protected static final Logger logger = App.getConsoleLogger(Door.class.getName());
     public Door(Room connectsTo, boolean isPassable) {
-        this.connectsTo = connectsTo;
-        this.passable = isPassable;
         logger.finest("Door init");
     }
 
@@ -31,6 +22,7 @@ public class Door {
     public Room connectsTo(){
         logger.finest("The door connects to this room.");
         return this.connectsTo;
+        return new Room();
     }
 
     /**
@@ -55,6 +47,8 @@ public class Door {
             logger.finest("This door is inactive.");
             return false;
         }
+        return true;
+
     }
 
     /**
@@ -67,8 +61,6 @@ public class Door {
             logger.finest("This door is now passable");
         } else {
             this.passable = false;
-            logger.finest("This door is no longer passable.");
-        }
     }
 
     /**
@@ -84,6 +76,8 @@ public class Door {
             logger.fine("This door hasn't vanished.");
             return false;
         }
+        return false;
+
     }
 
     /**
@@ -96,7 +90,6 @@ public class Door {
             logger.finest("This door has vanished");
         } else {
             this.vanished = false;
-            logger.finest("The door has appeared");
-        }
+
     }
 }
