@@ -3,16 +3,15 @@ package com.redvas.app.map;
 import com.redvas.app.App;
 import com.redvas.app.Steppable;
 import com.redvas.app.items.Item;
-import com.redvas.app.items.RottenCamembert;
 import com.redvas.app.players.Player;
 import com.redvas.app.players.ProximityListener;
 
 import java.util.*;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Room implements Steppable {
+    private static final Logger logger = App.getConsoleLogger(Room.class.getName());
+
     public void configureDoors(Labyrinth l) {
         l.acceptDoors(doors);
     }
@@ -37,16 +36,11 @@ public class Room implements Steppable {
         return items.get(index);
     }
 
-    protected static final Logger logger = App.getConsoleLogger(Room.class.getName());
+
 
     public Room() {
         logger.fine("Room init");
     }
-
-    /**
-     *
-     * @return list: players inside
-     */
     /**
      *
      * @param player: the one that left the room
@@ -62,7 +56,7 @@ public class Room implements Steppable {
      */
     public void addOccupant(Player player) {
         logger.fine(()->"Room occupant list now contains " + player);
-        listeners.forEach((listener) -> listener.proximityChanged(player));
+        listeners.forEach(listener -> listener.proximityChanged(player));
         stickiness++;
     }
 
@@ -110,14 +104,14 @@ public class Room implements Steppable {
     @Override
     public void step() {
         logger.fine("Room is on its turn");
-        listeners.forEach((listener) -> listener.proximityEndOfRound(occupants));
+        listeners.forEach(listener -> listener.proximityEndOfRound(occupants));
     }
 
     private Direction getNeighborDirection(Room r) {
         Optional<Direction> d = doors
                 .entrySet()
                 .stream()
-                .filter((entry) -> entry.getValue().connectsTo() == r)
+                .filter(entry -> entry.getValue().connectsTo() == r)
                 .map(Map.Entry::getKey)
                 .findFirst();
 
@@ -125,7 +119,7 @@ public class Room implements Steppable {
     }
 
     public void split() {
-        if (!isMerged) return;
+        //TODO if (!isMerged) return;
 
 
     }
@@ -165,7 +159,6 @@ public class Room implements Steppable {
             if ((d = room.doors.get(Direction.UP)) != null)
                 d.connectsTo().doors.get(Direction.DOWN).setConnection(this);
 
-            // doors.put(Direction.DOWN, doors.get(Direction.DOWN));
         }
         else if (dir == Direction.LEFT) {
             doors.put(Direction.TOP_LEFT, room.doors.get(Direction.UP));
@@ -188,7 +181,6 @@ public class Room implements Steppable {
             if ((d = room.doors.get(Direction.LEFT)) != null)
                 d.connectsTo().doors.get(Direction.RIGHT).setConnection(this);
 
-            // doors.put(Direction.RIGHT, doors.get(Direction.RIGHT));
 
             doors.put(Direction.UP, null);
             doors.put(Direction.DOWN, null);
@@ -212,7 +204,6 @@ public class Room implements Steppable {
             doors.put(Direction.LEFT, null);
             doors.put(Direction.RIGHT, null);
 
-            // doors.put(Direction.UP, doors.get(Direction.UP));
             doors.put(Direction.DOWN, room.doors.get(Direction.DOWN));
 
             if ((d = room.doors.get(Direction.DOWN)) != null)
@@ -233,7 +224,6 @@ public class Room implements Steppable {
             if ((d = room.doors.get(Direction.DOWN)) != null)
                 d.connectsTo().doors.get(Direction.UP).setConnection(this);
 
-            // doors.put(Direction.LEFT, doors.get(Direction.LEFT));
             doors.put(Direction.RIGHT, room.doors.get(Direction.RIGHT));
 
             if ((d = room.doors.get(Direction.RIGHT)) != null)
@@ -259,7 +249,7 @@ public class Room implements Steppable {
      * @return Room: new room if it divided
      */
     public Room divide() {
-        System.out.print("Does this room has less than 4 neighbouring rooms? (y/n)");
+        logger.fine("Does this room has less than 4 neighbouring rooms? (y/n)");
 
         if(App.reader.nextLine().equals("y")) {
             logger.fine("Splitting into another room..");
@@ -274,8 +264,7 @@ public class Room implements Steppable {
     public Room isAccessible(Direction d) {
         Door door = null;
 
-        if ((door = doors.getOrDefault(d, null)) != null)
-            if (door.isPassable() && !door.isVanished())
+        if ((door = doors.getOrDefault(d, null)) != null && (door.isPassable() && !door.isVanished()))
                 return door.connectsTo();
 
         return null;
