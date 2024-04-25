@@ -1,7 +1,10 @@
 package com.redvas.app.map;
 
 import com.redvas.app.App;
+import com.redvas.app.Game;
 import com.redvas.app.Steppable;
+import com.redvas.app.players.Player;
+import com.redvas.app.players.Undergraduate;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -9,6 +12,9 @@ import java.util.logging.Logger;
 
 
 public class Labyrinth implements Steppable {
+    private Game game;
+    private static final Random random = new Random();
+
     private static class PT {
         protected int x;
         protected int y;
@@ -18,8 +24,6 @@ public class Labyrinth implements Steppable {
             this.y = y;
         }
     }
-
-    private static final Random random = new Random();
 
     protected static final Logger logger = App.getConsoleLogger(Labyrinth.class.getName());
 
@@ -251,13 +255,14 @@ public class Labyrinth implements Steppable {
 
     private final int height;
     private final int width;
-    public Labyrinth(int width, int height) {
+    public Labyrinth(int width, int height, Game game) {
         if(height < 1) height = 1;
         if(width < 1) width = 1;
         this.height = height;
         this.width = width;
         generate();
         logger.fine("Labyrinth created");
+        this.game = game;
     }
 
     /** calls the update on every object
@@ -268,5 +273,15 @@ public class Labyrinth implements Steppable {
     public void step() {
         logger.fine("Labyrinth step");
         update();
+    }
+
+    public void emplacePlayers(String player1Name, String player2Name) {
+        logger.fine("Placing players..");
+
+        Room player1Place = rooms.get(random.nextInt(0,rooms.size()));
+        Room player2Place = rooms.get(random.nextInt(0,rooms.size()));
+
+        new Undergraduate(player1Name,player1Place, game);
+        new Undergraduate(player2Name,player2Place, game);
     }
 }
