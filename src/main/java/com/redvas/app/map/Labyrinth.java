@@ -2,25 +2,25 @@ package com.redvas.app.map;
 
 import com.redvas.app.Steppable;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.IntStream;
 
 
 
 public class Labyrinth implements Steppable {
-    class pt {
-        public int x, y;
+    private static class PT {
+        protected int x;
+        protected int y;
 
-        public pt(int x, int y) {
+        public PT(int x, int y) {
             this.x = x;
             this.y = y;
         }
     }
 
+    private static final Random random = new Random();
 
     protected static final Logger logger = Logger.getLogger("Labyrinth");
 
@@ -40,10 +40,9 @@ public class Labyrinth implements Steppable {
     }
 
     private <T, E, J> void shuffle(T[] array1, E[] array2, J[] array3) {
-        Random r = new Random();
 
         for (int i = 0; i < array1.length - 1; i++) {
-            int rid = r.nextInt(i, array1.length);
+            int rid = random.nextInt(i, array1.length);
 
             if (rid != i) {
                 swap(array1, i, rid);
@@ -111,14 +110,14 @@ public class Labyrinth implements Steppable {
 
 
     // Random Order Search
-    private void ROS(Room[][] rooms, Room[][] visits, int x, int y) {
-        List<pt> pts = new ArrayList<>();
-        pts.add(new pt(x, y));
+    private void randomOrderSearch(Room[][] rooms, Room[][] visits, int x, int y) {
+        List<PT> pts = new ArrayList<>();
+        pts.add(new PT(x, y));
         int at = 0;
         Boolean[] stat = new Boolean[4];
         Integer[] xc = new Integer[4];
         Integer[] yc = new Integer[4];
-        Random r = new Random();
+        Random r = random;
 
         while (!pts.isEmpty()) {
             int visitable = mkstat(stat, visits, pts.get(at).x, pts.get(at).y);
@@ -135,7 +134,7 @@ public class Labyrinth implements Steppable {
                 int letsVisit = r.nextInt(1, visitable + 1);
 
                 for (int i = 0, visited = 0; i < 4 && visited <= letsVisit; i++) {
-                    if (stat[i]) {
+                    if (stat[i] != null && stat[i]) {
                         visited++;
                         visits[pts.get(at).y + yc[i]][pts.get(at).x + xc[i]] = rooms[pts.get(at).y][pts.get(at).x];
                         rooms[pts.get(at).y][pts.get(at).x].configureDoors(this);
@@ -145,17 +144,17 @@ public class Labyrinth implements Steppable {
                         rooms[pts.get(at).y + yc[i]][pts.get(at).x + xc[i]].configureDoors(this);
                         selection.put(rdirections[i], new Door(rooms[pts.get(at).y][pts.get(at).x], undirected));
 
-                        pts.add(new pt(pts.get(at).x + xc[i], pts.get(at).y + yc[i]));
+                        pts.add(new PT(pts.get(at).x + xc[i], pts.get(at).y + yc[i]));
                     }
                 }
             }
 
-            at = (int)(Math.random() * pts.size());
+            at = (random.nextInt() * pts.size());
         }
     }
 
     // Random DFS
-    private void RDFS(Room[][] rooms, Room[][] visits, int x, int y) {
+    private void randomDFS(Room[][] rooms, Room[][] visits, int x, int y) {
         Boolean[] stat = new Boolean[] { false, false, false, false };
         Integer[] xc = new Integer[4];
         Integer[] yc = new Integer[4];
@@ -168,20 +167,21 @@ public class Labyrinth implements Steppable {
             shuffle(xc, yc, stat);
             shuffle(xc, yc, stat);
 
-            for (int i = 0; i < 4; i++)
-                if (stat[i]) {
+            for (int i = 0; i < 4; i++) {
+                if (stat[i] != null && stat[i]) {
                     visits[y + yc[i]][x + xc[i]] = rooms[y][x];
 
                     rooms[y][x].configureDoors(this);
 
-                    boolean undirected = new Random().nextBoolean();
+                    boolean undirected = random.nextBoolean();
                     selection.put(directions[i], new Door(rooms[y + yc[i]][x + xc[i]], true));
                     rooms[y + yc[i]][x + xc[i]].configureDoors(this);
                     selection.put(rdirections[i], new Door(rooms[y][x], undirected));
 
-                    RDFS(rooms, visits, x + xc[i], y + yc[i]);
+                    randomDFS(rooms, visits, x + xc[i], y + yc[i]);
                     break;
                 }
+            }
 
             visitable =  mkstat(stat, visits, x, y);
         }
@@ -198,12 +198,12 @@ public class Labyrinth implements Steppable {
             Direction.LEFT,
             Direction.UP
     };
-    private HashMap<Direction, Door> selection;
-    public void acceptDoors(HashMap<Direction, Door> doors) {
+    private Map<Direction, Door> selection;
+    public void acceptDoors(Map<Direction, Door> doors) {
         selection = doors;
     }
     private void cyclify(Room[][] rooms, Room[][] visits) {
-        Random r = new Random();
+        Random r = random;
         Boolean[] stat = new Boolean[4];
         Integer[] xc = new Integer[4];
         Integer[] yc = new Integer[4];
@@ -214,37 +214,37 @@ public class Labyrinth implements Steppable {
             for (int j = 0; j < rooms[0].length; j++) {
                 mkstat2(stat, rooms, visits, i, j);
 
-                for (int k = 0; k < 4; k++)
-                    if (stat[k]) {
-                        if (r.nextDouble(1, 11) > 6.5) {
+                for (int k = 0; k < 4; k++) {
+                    if (stat[k] != null && stat[k] && (r.nextDouble(1, 11) > 6.5)) {
                             boolean b1 = r.nextInt(0, 2) == 0;
                             rooms[i + yc[k]][j + xc[k]].configureDoors(this);
                             selection.put(directions[k], new Door(rooms[i][j], b1));
                             rooms[i][j].configureDoors(this);
                             selection.put(rdirections[k], new Door(rooms[i + yc[k]][j + xc[k]], !b1));
-                        }
+
                     }
+                }
             }
     }
 
     private void generate() {
-        Room[][] rooms = new Room[height][width];
+        Room[][] roomsLocal = new Room[height][width];
 
         for (int i = 0; i < height; i++)
             for (int j = 0; j < width; j++)
-                rooms[i][j] = new Room();
+                roomsLocal[i][j] = new Room();
 
         Room[][] visits = new Room[height][width];
-        Random r = new Random();
+        Random r = random;
         int ry = r.nextInt(0, height);
         int rx = r.nextInt(0, width);
-        visits[ry][rx] = rooms[ry][rx];
-        ROS(rooms, visits, rx, ry);
-        cyclify(rooms, visits);
+        visits[ry][rx] = roomsLocal[ry][rx];
+        randomOrderSearch(roomsLocal, visits, rx, ry);
+        cyclify(roomsLocal, visits);
     }
 
     public void remember(Room r) {
-
+        //TODO gondolom
     }
 
     public void forget(Room room) {
@@ -255,7 +255,8 @@ public class Labyrinth implements Steppable {
         logger.fine("Labyrinth is changing.");
     }
 
-    private int height, width;
+    private final int height;
+    private final int width;
     public Labyrinth(int width, int height) {
         this.height = height;
         this.width = width;
