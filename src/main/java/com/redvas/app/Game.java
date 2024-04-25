@@ -27,6 +27,8 @@ public class Game {
         logger.fine("Player names set.");
 
         labyrinth = new Labyrinth(random.nextInt(4,9), random.nextInt(4,9), this, player1Name, player2Name);
+
+        play();
     }
 
     private Game(String arg) {
@@ -58,7 +60,12 @@ public class Game {
         return new Game(arg);
     }
 
-    private List<Steppable> getSteppables() { return new ArrayList<>(); }
+    private List<Steppable> getSteppables() { return steppablesForRound; }
+
+    public void registerSteppable(Steppable steppable) {
+        steppablesForRound.add(steppable);
+        logger.fine(() -> String.format("Registering steppable: %s%n", steppable));
+    }
 
     public void play() {
         while (!end)

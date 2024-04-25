@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 
 public class Labyrinth implements Steppable {
-    private Game game;
+    private final Game game;
     private static final Random random = new Random();
 
     private static class PT {
@@ -290,6 +290,9 @@ public class Labyrinth implements Steppable {
         Room player2Place = rooms.get(random.nextInt(0,rooms.size()));
 
         new Undergraduate(player1Name,player1Place, game);
+
         new Undergraduate(player2Name,player2Place, game);
     }
+
+    //labirintus generálásnak lesznek még lépései (itemek, stb)
 }
