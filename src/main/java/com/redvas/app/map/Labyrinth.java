@@ -4,8 +4,6 @@ import com.redvas.app.App;
 import com.redvas.app.Steppable;
 
 import java.util.*;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
