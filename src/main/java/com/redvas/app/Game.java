@@ -14,7 +14,7 @@ public class Game {
 
     private ArrayList<Steppable> steppablesForRound = new ArrayList<>();
 
-    Labyrinth labyrinth = new Labyrinth(random.nextInt(4,9), random.nextInt(4,9));
+    Labyrinth labyrinth;
 
     public Game() {
         logger.fine("Player1 Name: ");
@@ -27,7 +27,7 @@ public class Game {
 
         logger.fine("Player names set.");
 
-        //folyt köv. 
+        labyrinth = new Labyrinth(random.nextInt(4,9), random.nextInt(4,9));
     }
 
     private Game(String arg) {
