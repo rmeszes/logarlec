@@ -1,5 +1,6 @@
 package com.redvas.app.map;
 
+import com.redvas.app.App;
 import com.redvas.app.Steppable;
 
 import java.util.*;
@@ -22,14 +23,7 @@ public class Labyrinth implements Steppable {
 
     private static final Random random = new Random();
 
-    protected static final Logger logger = Logger.getLogger("Labyrinth");
-
-    static {
-        ConsoleHandler handler = new ConsoleHandler();
-        handler.setLevel(Level.FINEST);
-        logger.addHandler(handler);
-        logger.setLevel(Level.FINEST);
-    }
+    protected static final Logger logger = App.getConsoleLogger(Labyrinth.class.getName());
 
     private final List<Room> rooms = new ArrayList<>();
 
@@ -148,8 +142,10 @@ public class Labyrinth implements Steppable {
                     }
                 }
             }
-
-            at = (random.nextInt() * pts.size());
+            at = (int)Math.abs(random.nextGaussian());
+            if(at >= pts.size() && !pts.isEmpty()) {
+                at = pts.size() - 1;
+            }
         }
     }
 
@@ -240,7 +236,7 @@ public class Labyrinth implements Steppable {
         int rx = r.nextInt(0, width);
         visits[ry][rx] = roomsLocal[ry][rx];
         randomOrderSearch(roomsLocal, visits, rx, ry);
-        cyclify(roomsLocal, visits);
+        //cyclify(roomsLocal, visits);
     }
 
     public void remember(Room r) {

@@ -1,28 +1,33 @@
 package com.redvas.app;
 
+import com.redvas.app.map.Labyrinth;
+import com.redvas.app.players.Undergraduate;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Logger;
 
 public class Game {
+    private static final Random random = new Random();
     protected static final Logger logger = App.getConsoleLogger(Game.class.getName());
 
-    ArrayList<Steppable> steppablesForRound = new ArrayList<>();
+    private ArrayList<Steppable> steppablesForRound = new ArrayList<>();
+
+    Labyrinth labyrinth = new Labyrinth(random.nextInt(4,9), random.nextInt(4,9));
 
     public Game() {
-        /*System.out.print("Player1 Name: ");
-        Undergraduate player1 = new Undergraduate(App.reader.nextLine());
-        SteppablesForRound.add(player1);
-        System.out.printf("Player1 name set to %s%n", player1.getName());
+        logger.fine("Player1 Name: ");
+        String player1Name = App.reader.nextLine();
+        logger.fine(() -> String.format("Player1 name set to %s%n", player1Name));
 
-        System.out.print("Player2 Name: ");
-        Undergraduate player2 = new Undergraduate(App.reader.nextLine());
-        SteppablesForRound.add(player2);
-        System.out.printf("Player2 name set to %s%n", player2.getName());
+        logger.fine("Player2 Name: ");
+        String player2Name = App.reader.nextLine();
+        logger.fine(() -> String.format("Player2 name set to %s%n", player2Name));
 
-        System.out.println("Player names set.");
+        logger.fine("Player names set.");
 
-        //folyt köv. */
+        //folyt köv. 
     }
 
     private Game(String arg) {
@@ -81,7 +86,7 @@ public class Game {
         end = true;
     }
 
-    private int undergraduates = 0;
+    private int undergraduates = 2;
     private boolean end = false;
 
     public void undergraduateDroppedout() {
