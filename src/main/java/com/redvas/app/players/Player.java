@@ -25,7 +25,6 @@ public abstract class Player implements Steppable {
     private Room where;
     private final ArrayList<Item> items;
     private int faintCountdown;     // unsigned int?
-    private int paralyzeCountdown;
     protected final Game game;        // akár ez is lehet final
 
     protected static final Logger logger = App.getConsoleLogger(Player.class.getName());
@@ -42,11 +41,6 @@ public abstract class Player implements Steppable {
      * @param rounds: number of rounds until they are protected
      */
     public void setProtectionFor(int rounds) {}
-
-    public void setParalyzeCountdown(int rounds) {}
-    public int getParalyzeCountdown() {
-        return paralyzeCountdown;
-    }
 
     /**
      *

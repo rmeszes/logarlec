@@ -7,6 +7,7 @@ import com.redvas.app.players.ProximityListener;
 import java.util.List;
 
 public class WetWipe extends Item implements ProximityListener {
+    private int worksFor = 5;
 
     /** gives protection from profs FOR 5 rounds
      *
@@ -20,14 +21,13 @@ public class WetWipe extends Item implements ProximityListener {
         owner = null;
     }
 
-    /** meghivasakor 5-re allitja a maradando korok szamat amig meg le van benulva a prof
+    /**
      *
      * @param players
      */
     private void paralyzeProfessors(List<Player> players) {
         for (Player p : players) {
-            p.paralyze();
-            p.setParalyzeCountdown(5);
+                p.paralyze();
         }
     }
 
@@ -57,7 +57,15 @@ public class WetWipe extends Item implements ProximityListener {
 
     @Override
     public void proximityEndOfRound(List<Player> proximity) {
-        //TODO
+        if(worksFor > 0){
+            for(Player p : proximity){
+                p.paralyze();
+                worksFor--;
+            }
+        }
+        else{
+            this.destroy();
+        }
     }
 
     @Override
