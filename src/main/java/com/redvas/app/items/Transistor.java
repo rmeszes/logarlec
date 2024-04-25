@@ -9,9 +9,16 @@ public class Transistor extends Item {
      */
     @Override
     public void merge(Transistor item){
-        Item tmp = new CombinedTransistor();
-        tmp.owner = owner();
-        owner().addToInventory(tmp);
+        CombinedTransistor ct1 = new CombinedTransistor();
+        CombinedTransistor ct2 = new CombinedTransistor();
+        ct1.setPair(ct2);
+        ct2.setPair(ct1);
+        ct1.owner = getOwner();
+        ct2.owner = getOwner();
+        ct1.whichRoom = null;
+        ct2.whichRoom = null;
+        getOwner().addToInventory(ct1);
+        getOwner().addToInventory(ct2);
         destroy();
         item.destroy();
         logger.fine(() -> "Merged transistor");
@@ -23,6 +30,6 @@ public class Transistor extends Item {
      */
     @Override
     public String toString() {
-        return "Transistor";
+        return "Transistor, owner: " + getOwner().toString() + ", room: " + getRoom().toString();
     }
 }

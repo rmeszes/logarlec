@@ -57,13 +57,6 @@ public abstract class Player implements Steppable {
      */
     public abstract void pickLogarlec();
 
-    static {
-        ConsoleHandler handler = new ConsoleHandler();
-        handler.setLevel(Level.FINEST);
-        logger.addHandler(handler);
-        logger.setLevel(Level.FINEST);
-    }
-
     /** drops the items from inventory
      *
      */
@@ -292,5 +285,5 @@ public abstract class Player implements Steppable {
     public Game getGame() { return game; }        // ez protected volt (miert?)
 
     @Override
-    public abstract String toString();      // Ez gondolom csak a skeletonhoz kellett
+    public abstract String toString();
 }
