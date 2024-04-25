@@ -58,16 +58,16 @@ public class WetWipe extends Item implements ProximityListener {
 
     @Override
     public void getAffected(Janitor by) {
-        //TODO
+        logger.finest(() -> this + " getAffected(by janitor)");
     }
 
     @Override
     public void getAffected(AirFreshener by) {
-        //TODO
+        logger.finest(() -> this + " getAffected(by airFreshener)");
     }
 
     @Override
     public void affect(ProximityListener listener) {
-        //TODO
+        logger.finest(() -> this + " affect");
     }
 }
