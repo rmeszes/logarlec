@@ -1,15 +1,22 @@
 package com.redvas.app.map;
 
+import com.redvas.app.App;
+import com.redvas.app.Game;
 import com.redvas.app.Steppable;
+import com.redvas.app.players.Undergraduate;
 
-import java.util.*;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.logging.Logger;
 
 
 
 public class Labyrinth implements Steppable {
+    private Game game;
+    private static final Random random = new Random();
+
     private static class PT {
         protected int x;
         protected int y;
@@ -20,16 +27,7 @@ public class Labyrinth implements Steppable {
         }
     }
 
-    private static final Random random = new Random();
-
-    protected static final Logger logger = Logger.getLogger("Labyrinth");
-
-    static {
-        ConsoleHandler handler = new ConsoleHandler();
-        handler.setLevel(Level.FINEST);
-        logger.addHandler(handler);
-        logger.setLevel(Level.FINEST);
-    }
+    protected static final Logger logger = App.getConsoleLogger(Labyrinth.class.getName());
 
     private final List<Room> rooms = new ArrayList<>();
 
@@ -148,8 +146,10 @@ public class Labyrinth implements Steppable {
                     }
                 }
             }
-
-            at = (random.nextInt() * pts.size());
+            at = (int)Math.abs(random.nextGaussian());
+            if(at >= pts.size() && !pts.isEmpty()) {
+                at = pts.size() - 1;
+            }
         }
     }
 
@@ -230,9 +230,13 @@ public class Labyrinth implements Steppable {
     private void generate() {
         Room[][] roomsLocal = new Room[height][width];
 
-        for (int i = 0; i < height; i++)
-            for (int j = 0; j < width; j++)
-                roomsLocal[i][j] = new Room();
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                Room room = new Room();
+                roomsLocal[i][j] = room;
+                remember(room);
+            }
+        }
 
         Room[][] visits = new Room[height][width];
         Random r = random;
@@ -240,11 +244,11 @@ public class Labyrinth implements Steppable {
         int rx = r.nextInt(0, width);
         visits[ry][rx] = roomsLocal[ry][rx];
         randomOrderSearch(roomsLocal, visits, rx, ry);
-        cyclify(roomsLocal, visits);
+        //cyclify(roomsLocal, visits);
     }
 
     public void remember(Room r) {
-        //TODO gondolom
+        rooms.add(r);
     }
 
     public void forget(Room room) {
@@ -257,13 +261,15 @@ public class Labyrinth implements Steppable {
 
     private final int height;
     private final int width;
-    public Labyrinth(int width, int height) {
+    public Labyrinth(int width, int height, Game game, String player1Name, String player2Name) {
         if(height < 1) height = 1;
         if(width < 1) width = 1;
         this.height = height;
         this.width = width;
         generate();
         logger.fine("Labyrinth created");
+        this.game = game;
+        emplacePlayers(player1Name,player2Name);
     }
 
     /** calls the update on every object
@@ -274,5 +280,15 @@ public class Labyrinth implements Steppable {
     public void step() {
         logger.fine("Labyrinth step");
         update();
+    }
+
+    public void emplacePlayers(String player1Name, String player2Name) {
+        logger.fine("Placing players..");
+
+        Room player1Place = rooms.get(random.nextInt(0,rooms.size()));
+        Room player2Place = rooms.get(random.nextInt(0,rooms.size()));
+
+        new Undergraduate(player1Name,player1Place, game);
+        new Undergraduate(player2Name,player2Place, game);
     }
 }

@@ -2,22 +2,13 @@ package com.redvas.app.map;
 
 import com.redvas.app.App;
 
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Door {
 
-    protected static final Logger logger = Logger.getLogger("Door");
-
-    static {
-        ConsoleHandler handler = new ConsoleHandler();
-        handler.setLevel(Level.FINEST);
-        logger.addHandler(handler);
-        logger.setLevel(Level.FINEST);
-    }
+    protected static final Logger logger = App.getConsoleLogger(Door.class.getName());
     public Door(Room connectsTo, boolean isPassable) {
-        logger.fine("Door init");
+        logger.finest("Door init");
     }
 
     /**
@@ -25,7 +16,7 @@ public class Door {
      * @return Room: that is accessible through this door
      */
     public Room connectsTo(){
-        logger.fine("The door connects to this room.");
+        logger.finest("The door connects to this room.");
         return new Room();
     }
 
@@ -34,7 +25,7 @@ public class Door {
      * @param room: neighboring room
      */
     public void setConnection(Room room){
-        logger.fine("This door now connects to a new Room");
+        logger.finest("This door now connects to a new Room");
     }
 
     /**
@@ -42,17 +33,7 @@ public class Door {
      * @return bool
      */
     public boolean isPassable(){
-        System.out.print("Is this door passable? (y/n)");
-        String value = App.reader.nextLine();
-
-        if(value.equals("y")) {
-            logger.fine("This door is active.");
-            return true;
-        }
-        else{
-            logger.fine("This door is inactive.");
-            return false;
-        }
+        return true;
     }
 
     /**
@@ -61,9 +42,9 @@ public class Door {
      */
     public void setPassable(boolean bool){
         if(bool /* && passable != bool */) {
-            logger.fine("This door is now passable");
+            logger.finest("This door is now passable");
         } else {
-            logger.fine("This door is no longer passable.");
+            logger.finest("This door is no longer passable.");
         }
     }
 
@@ -72,17 +53,7 @@ public class Door {
      * @return bool: whether the door is vanished
      */
     public boolean isVanished(){
-        System.out.print("Is this door vanished? (y/n)");
-        String value = App.reader.nextLine();
-
-        if(value.equals("y")) {
-            logger.fine("This door has vanished.");
-            return true;
-        }
-        else{
-            logger.fine("This door hasn't vanished.");
-            return false;
-        }
+        return false;
     }
 
     /**
@@ -91,9 +62,9 @@ public class Door {
      */
     public void setVanished(boolean bool){
         if(bool /* && vanished != bool */) {
-            logger.fine("This door has vanished");
+            logger.finest("This door has vanished");
         } else {
-            logger.fine("The door has appeared");
+            logger.finest("The door has appeared");
         }
     }
 }

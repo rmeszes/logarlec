@@ -6,8 +6,6 @@ import com.redvas.app.items.AirFreshener;
 import com.redvas.app.map.Room;
 
 import java.util.List;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Professor extends Player implements ProximityListener {

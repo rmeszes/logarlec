@@ -2,10 +2,10 @@ package com.redvas.app.players;
 
 import com.redvas.app.Game;
 import com.redvas.app.items.AirFreshener;
-import com.redvas.app.map.Direction;
 import com.redvas.app.map.Room;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Janitor extends Player implements ProximityListener {
     public Janitor(Room room, Game game) {
