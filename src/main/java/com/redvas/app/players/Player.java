@@ -14,6 +14,7 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 //absztrakt class, majd az implementációk lesznek tesztelve
 public abstract class Player implements Steppable {
@@ -238,11 +239,11 @@ public abstract class Player implements Steppable {
         HashMap<String, String> man = new HashMap<>();
 
         for (Direction d : Direction.values()) {
-            String cmd = d
-                    .name()
-                    .chars()
-                    .filter(Character::isUpperCase)
-                    .mapToObj(c -> String.valueOf((char)c))
+            String name = d.name();
+
+            String cmd = IntStream.rangeClosed(0, d.name().length() - 1)
+                    .filter(i -> i == 0 || d.name().charAt(i - 1) == '_')
+                    .mapToObj(name::charAt).map(Object::toString)
                     .collect(Collectors.joining())
                     .toLowerCase();
 

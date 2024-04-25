@@ -20,4 +20,9 @@ public class AirFreshener implements ProximityListener {
     public void getAffected(Janitor by) {}
     public void getAffected(AirFreshener by) {}
 
+    @Override
+    public void affect(ProximityListener listener) {
+        listener.getAffected(this);
+    }
+
 }

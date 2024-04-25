@@ -23,7 +23,7 @@ public class App
     public static Logger getConsoleLogger(String className) {
         Logger logger = Logger.getLogger(className);
         Handler consoleHandler = new ConsoleHandler();
-        consoleHandler.setLevel(Level.FINEST);
+        consoleHandler.setLevel(Level.FINE);
         logger.addHandler(consoleHandler);
         logger.setLevel(Level.FINEST);
         return logger;

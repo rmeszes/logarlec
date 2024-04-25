@@ -29,17 +29,17 @@ public class RottenCamembert extends Item implements ProximityListener {
 
     @Override
     public void proximityChanged(Player newcomer) {
-
+        logger.finest(() -> this + " proximity changed");
     }
 
     @Override
     public void proximityEndOfRound(List<Player> proximity) {
-
+        logger.finest(() -> this + " proximity endOfRound");
     }
 
     @Override
     public void proximityInitially(List<Player> proximity) {
-
+        logger.finest(() -> this + " proximityInitially");
     }
 
     @Override
@@ -49,11 +49,16 @@ public class RottenCamembert extends Item implements ProximityListener {
 
     @Override
     public void getAffected(Janitor by) {
-
+        whichRoom.unsubscribeFromProximity(this);
     }
 
     @Override
     public void getAffected(AirFreshener by) {
+        whichRoom.unsubscribeFromProximity(this);
+    }
 
+    @Override
+    public void affect(ProximityListener listener) {
+        logger.finest(() -> this + " affects" + listener);
     }
 }
