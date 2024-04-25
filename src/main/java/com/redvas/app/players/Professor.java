@@ -39,7 +39,7 @@ public class Professor extends Player implements ProximityListener {
 
     @Override
     public void step() {
-        //TODO
+        logger.finest(()-> this + "step");
     }
 
     /** they stop moving and causing undergrads to drop out
@@ -65,17 +65,17 @@ public class Professor extends Player implements ProximityListener {
 
     @Override
     public void proximityChanged(Player newcomer) {
-        //TODO
+        logger.finest(()-> this + " proximity changed");
     }
 
     @Override
     public void proximityEndOfRound(List<Player> proximity) {
-        //TODO
+        logger.finest(() -> this + " proximity endofround");
     }
 
     @Override
     public void proximityInitially(List<Player> proximity) {
-        //TODO
+        logger.finest(() -> this + " is proximity initially");
     }
 
     @Override
@@ -85,16 +85,16 @@ public class Professor extends Player implements ProximityListener {
 
     @Override
     public void getAffected(Janitor by) {
-        //TODO
+        logger.finest(() -> by + " getAffected(janitor)");
     }
 
     @Override
     public void getAffected(AirFreshener by) {
-        //TODO
+        logger.finest(() -> this + " getAffected(airfreshener)");
     }
 
     @Override
     public void affect(ProximityListener listener) {
-        //TODO
+        logger.finest(() -> this + " affect()");
     }
 }
