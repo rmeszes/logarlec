@@ -33,6 +33,7 @@ public abstract class Player implements Steppable {
         this.items = new ArrayList<>();
         this.faintCountdown = 0;
         this.game = game;
+        game.registerSteppable(this);
     }
     /**
      *
