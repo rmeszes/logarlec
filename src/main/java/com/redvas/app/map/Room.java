@@ -17,6 +17,7 @@ public class Room implements Steppable {
     }
     private final List<ProximityListener> listeners = new ArrayList<>();
     private final ArrayList<Item> items = new ArrayList<>();
+    private final Labyrinth labyrinth;
     private int stickiness = 0;
     private boolean isMerged = false;
     /**
@@ -36,10 +37,10 @@ public class Room implements Steppable {
         return items.get(index);
     }
 
+    private int n = 0;
 
-
-    public Room() {
-        logger.finest("Room init");
+    public Room(Labyrinth labyrinth) {
+        this.labyrinth = labyrinth;
     }
     /**
      *
@@ -120,8 +121,47 @@ public class Room implements Steppable {
 
     public void split() {
         //TODO if (!isMerged) return;
+        if (!isMerged) return;
 
+        Room r = new Room(labyrinth);
+        labyrinth.remember(r);
 
+        if (doors.getOrDefault(Direction.RIGHT, null) == null) {
+            // Vertical alignment
+            // Let's newly created room be on TOP
+            r.doors.put(Direction.LEFT, doors.get(Direction.TOP_LEFT));
+            r.doors.put(Direction.RIGHT, doors.get(Direction.TOP_LEFT));
+            r.doors.put(Direction.UP, doors.get(Direction.UP));
+            doors.remove(Direction.TOP_LEFT);
+            doors.remove(Direction.BOTTOM_RIGHT);
+
+            boolean b = new Random().nextBoolean();
+            doors.put(Direction.UP, new Door(r, b));
+            r.doors.put(Direction.DOWN, new Door(this, !b));
+
+            doors.put(Direction.LEFT, doors.get(Direction.BOTTOM_LEFT));
+            doors.put(Direction.RIGHT, doors.get(Direction.BOTTOM_RIGHT));
+            doors.remove(Direction.BOTTOM_LEFT);
+            doors.remove(Direction.BOTTOM_RIGHT);
+        }
+        else {
+            // Horizontal alignment
+            // Let's newly created room be to the LEFT
+            r.doors.put(Direction.LEFT, doors.get(Direction.LEFT));
+            r.doors.put(Direction.UP, doors.get(Direction.TOP_LEFT));
+            r.doors.put(Direction.DOWN, doors.get(Direction.BOTTOM_LEFT));
+            doors.remove(Direction.TOP_LEFT);
+            doors.remove(Direction.BOTTOM_LEFT);
+
+            doors.put(Direction.UP, doors.get(Direction.TOP_RIGHT));
+            doors.put(Direction.DOWN, doors.get(Direction.BOTTOM_RIGHT));
+            doors.remove(Direction.TOP_RIGHT);
+            doors.remove(Direction.BOTTOM_RIGHT);
+
+            boolean b = new Random().nextBoolean();
+            doors.put(Direction.LEFT, new Door(r, b));
+            r.doors.put(Direction.RIGHT, new Door(this, !b));
+        }
     }
 
     public void expandInDirection(Direction dir) {
@@ -241,25 +281,13 @@ public class Room implements Steppable {
      */
     public void destroy() {
         logger.fine("This room got destroyed");
-
+        labyrinth.forget(this);
     }
 
     /**
      *
      * @return Room: new room if it divided
      */
-    public Room divide() {
-        logger.fine("Does this room has less than 4 neighbouring rooms? (y/n)");
-
-        if(App.reader.nextLine().equals("y")) {
-            logger.fine("Splitting into another room..");
-            return new Room();
-            //lab.update()
-        } else {
-            logger.fine("The room cannot split, it has no space");
-            return null;
-        }
-    }
 
     public Room isAccessible(Direction d) {
         Door door = null;

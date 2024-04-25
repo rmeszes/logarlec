@@ -279,7 +279,7 @@ public abstract class Player implements Steppable {
      *
      * @return room: identifier of currently occupied room (by this player)
      */
-    public Room where() { return new Room(); }
+    public Room where() { return where; }
     public List<Item> getItems() { return items; }     // ehhez setter nem kell
     public Game getGame() { return game; }        // ez protected volt (miert?)
 
