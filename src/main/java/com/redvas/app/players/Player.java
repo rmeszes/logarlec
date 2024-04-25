@@ -10,8 +10,6 @@ import com.redvas.app.map.Room;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
