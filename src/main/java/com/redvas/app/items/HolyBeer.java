@@ -6,7 +6,7 @@ public class HolyBeer extends Item {
      */
     @Override
     public void use() {
-        logger.fine(() -> this + " is being used...");
+        logger.finest(() -> this + " is being used...");
         getOwner().setProtectionFor(3);
         destroy();
     }

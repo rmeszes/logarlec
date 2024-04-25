@@ -11,10 +11,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Professor extends Player implements ProximityListener {
-    private int paralyzeCountdown;
+
     public Professor(Room room, Game game) {
         super(room, game);
-        paralyzeCountdown = 0;
+        this.setParalyzeCountdown(0);
     }
 
     /**
@@ -43,11 +43,15 @@ public class Professor extends Player implements ProximityListener {
     }
 
     /** they stop moving and causing undergrads to drop out
-     *
+     * until the countdown is not 0
      */
     @Override
     public void paralyze() {
-        logger.fine(() -> this + " is paralyzed");
+        int remaining = this.getParalyzeCountdown()-1;
+        this.setParalyzeCountdown(remaining);
+        while(getParalyzeCountdown()>0)
+            this.paralyze();
+        logger.fine(() -> this + " is paralyzed for " + remaining + "rounds");
     }
 
     /** only undergrads can
