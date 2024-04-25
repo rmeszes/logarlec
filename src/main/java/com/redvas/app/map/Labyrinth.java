@@ -2,7 +2,10 @@ package com.redvas.app.map;
 
 import com.redvas.app.Steppable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
