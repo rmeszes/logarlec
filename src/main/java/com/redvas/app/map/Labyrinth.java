@@ -258,6 +258,8 @@ public class Labyrinth implements Steppable {
     private final int height;
     private final int width;
     public Labyrinth(int width, int height) {
+        if(height < 1) height = 1;
+        if(width < 1) width = 1;
         this.height = height;
         this.width = width;
         generate();

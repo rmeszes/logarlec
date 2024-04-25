@@ -25,7 +25,7 @@ public class WetWipe extends Item implements ProximityListener {
 
     @Override
     public void dispose() {
-
+        //TODO
     }
 
     /**
@@ -37,10 +37,14 @@ public class WetWipe extends Item implements ProximityListener {
     }
 
     @Override
-    public void proximityChanged(Player newcomer) {}
+    public void proximityChanged(Player newcomer) {
+        //TODO
+    }
 
     @Override
-    public void proximityEndOfRound(List<Player> proximity) {}
+    public void proximityEndOfRound(List<Player> proximity) {
+        //TODO
+    }
 
     @Override
     public void proximityInitially(List<Player> proximity) {
@@ -53,11 +57,17 @@ public class WetWipe extends Item implements ProximityListener {
     }
 
     @Override
-    public void getAffected(Janitor by) {}
+    public void getAffected(Janitor by) {
+        //TODO
+    }
 
     @Override
-    public void getAffected(AirFreshener by) {}
+    public void getAffected(AirFreshener by) {
+        //TODO
+    }
 
     @Override
-    public void affect(ProximityListener listener) {}
+    public void affect(ProximityListener listener) {
+        //TODO
+    }
 }

@@ -29,17 +29,17 @@ public class RottenCamembert extends Item implements ProximityListener {
 
     @Override
     public void proximityChanged(Player newcomer) {
-
+        //TODO
     }
 
     @Override
     public void proximityEndOfRound(List<Player> proximity) {
-
+        //TODO
     }
 
     @Override
     public void proximityInitially(List<Player> proximity) {
-
+        //TODO
     }
 
     @Override
@@ -58,5 +58,7 @@ public class RottenCamembert extends Item implements ProximityListener {
     }
 
     @Override
-    public void affect(ProximityListener listener) {}
+    public void affect(ProximityListener listener) {
+        //TODO
+    }
 }
