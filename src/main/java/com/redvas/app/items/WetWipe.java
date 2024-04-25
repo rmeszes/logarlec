@@ -55,6 +55,10 @@ public class WetWipe extends Item implements ProximityListener {
         newcomer.paralyze();
     }
 
+    /** a proximitasaban levo jatekosokra meghivja a paralyze-t
+     * es ugyanekkor elkezd szaradni a wetwipe, 5 kor mulva pedig megsemmisul
+     * @param proximity
+     */
     @Override
     public void proximityEndOfRound(List<Player> proximity) {
         if(worksFor > 0){
