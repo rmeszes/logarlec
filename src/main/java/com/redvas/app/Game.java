@@ -58,7 +58,7 @@ public class Game {
         return new Game(arg);
     }
 
-    private List<Steppable> getSteppables() { return new ArrayList<>(); }
+    private List<Steppable> getSteppables() { return steppablesForRound; }
 
     public void play() {
         while (!end)
