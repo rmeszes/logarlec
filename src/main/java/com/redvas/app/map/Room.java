@@ -11,15 +11,15 @@ import java.util.logging.Logger;
 
 public class Room implements Steppable {
     private static final Logger logger = App.getConsoleLogger(Room.class.getName());
-
-    public void configureDoors(Labyrinth l) {
-        l.acceptDoors(doors);
+    public void configureDoors() {
+        labyrinth.acceptDoors(doors);
     }
     private final List<ProximityListener> listeners = new ArrayList<>();
     private final ArrayList<Item> items = new ArrayList<>();
     private final Labyrinth labyrinth;
     private int stickiness = 0;
     private boolean isMerged = false;
+    private boolean mergeD = false;
     /**
      *
      * @param item: someone picked it up
@@ -135,9 +135,8 @@ public class Room implements Steppable {
             doors.remove(Direction.TOP_LEFT);
             doors.remove(Direction.BOTTOM_RIGHT);
 
-            boolean b = new Random().nextBoolean();
-            doors.put(Direction.UP, new Door(r, b));
-            r.doors.put(Direction.DOWN, new Door(this, !b));
+            doors.put(Direction.UP, new Door(r, mergeD));
+            r.doors.put(Direction.DOWN, new Door(this, !mergeD));
 
             doors.put(Direction.LEFT, doors.get(Direction.BOTTOM_LEFT));
             doors.put(Direction.RIGHT, doors.get(Direction.BOTTOM_RIGHT));
@@ -158,11 +157,22 @@ public class Room implements Steppable {
             doors.remove(Direction.TOP_RIGHT);
             doors.remove(Direction.BOTTOM_RIGHT);
 
-            boolean b = new Random().nextBoolean();
-            doors.put(Direction.LEFT, new Door(r, b));
-            r.doors.put(Direction.RIGHT, new Door(this, !b));
+            doors.put(Direction.LEFT, new Door(r, mergeD));
+            r.doors.put(Direction.RIGHT, new Door(this, !mergeD));
         }
+
+        mergeD = !mergeD;
     }
+    private static HashMap<Direction, Direction> reverseDirections = new HashMap<>();
+
+
+    static {
+       reverseDirections.put(Direction.UP, Direction.DOWN);
+       reverseDirections.put(Direction.DOWN, Direction.UP);
+       reverseDirections.put(Direction.LEFT, Direction.RIGHT);
+       reverseDirections.put(Direction.RIGHT, Direction.LEFT);
+    }
+
 
     public void expandInDirection(Direction dir) {
         logger.fine("Setting this room's attributes to new ones..");
@@ -170,6 +180,9 @@ public class Room implements Steppable {
         Door door = null;
 
         if ((door = doors.getOrDefault(dir, null)) == null) return;
+
+        if (!door.isPassable() && !door.connectsTo().doors.get(reverseDirections.get(dir)).isPassable())
+            return;
 
         Room room = door.connectsTo();
 

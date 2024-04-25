@@ -13,7 +13,6 @@ import java.util.Random;
 import java.util.logging.Logger;
 
 
-
 public class Labyrinth implements Steppable {
     private final Game game;
     private static final Random random = new Random();
@@ -141,10 +140,11 @@ public class Labyrinth implements Steppable {
                     if (stat[i]) {
                         visited++;
                         visits[pts.get(at).y + yc[i]][pts.get(at).x + xc[i]] = rooms[pts.get(at).y][pts.get(at).x];
-                        rooms[pts.get(at).y][pts.get(at).x].configureDoors(this);
 
+                        rooms[pts.get(at).y][pts.get(at).x].configureDoors();
                         selection.put(directions[i], new Door(rooms[pts.get(at).y + yc[i]][pts.get(at).x + xc[i]], true));
-                        rooms[pts.get(at).y + yc[i]][pts.get(at).x + xc[i]].configureDoors(this);
+
+                        rooms[pts.get(at).y + yc[i]][pts.get(at).x + xc[i]].configureDoors();
                         selection.put(rdirections[i], new Door(rooms[pts.get(at).y][pts.get(at).x], true));
 
                         pts.add(new PT(pts.get(at).x + xc[i], pts.get(at).y + yc[i]));
@@ -173,10 +173,10 @@ public class Labyrinth implements Steppable {
                 if (stat[i]) {
                     visits[y + yc[i]][x + xc[i]] = rooms[y][x];
 
-                    rooms[y][x].configureDoors(this);
+                    rooms[y][x].configureDoors();
 
                     selection.put(directions[i], new Door(rooms[y + yc[i]][x + xc[i]], true));
-                    rooms[y + yc[i]][x + xc[i]].configureDoors(this);
+                    rooms[y + yc[i]][x + xc[i]].configureDoors();
                     selection.put(rdirections[i], new Door(rooms[y][x], true));
 
                     randomDFS(rooms, visits, x + xc[i], y + yc[i]);
@@ -213,7 +213,7 @@ public class Labyrinth implements Steppable {
 
                 for (int k = 0; k < 4; k++) {
                     if (stat[k] && r.nextDouble(0, 1) > 0.88) {
-                        rooms[y][x].configureDoors(this);
+                        rooms[y][x].configureDoors();
                         selection.put(directions[k], new Door(rooms[y + yc[k]][x + xc[k]], true));
                     }
                 }
@@ -254,6 +254,8 @@ public class Labyrinth implements Steppable {
 
     private void update() {
         logger.fine("Labyrinth is changing.");
+
+
     }
 
     private final int height;
@@ -276,6 +278,10 @@ public class Labyrinth implements Steppable {
     @Override
     public void step() {
         logger.fine("Labyrinth step");
+
+        for (Room r : rooms)
+            r.step();
+
         update();
     }
 
