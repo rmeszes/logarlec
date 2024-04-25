@@ -27,7 +27,7 @@ public class Game {
 
         logger.fine("Player names set.");
 
-        labyrinth = new Labyrinth(random.nextInt(4,9), random.nextInt(4,9), this);
+        labyrinth = new Labyrinth(random.nextInt(4,9), random.nextInt(4,9), this, player1Name, player2Name);
     }
 
     private Game(String arg) {

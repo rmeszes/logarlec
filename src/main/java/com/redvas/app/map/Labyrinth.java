@@ -228,9 +228,13 @@ public class Labyrinth implements Steppable {
     private void generate() {
         Room[][] roomsLocal = new Room[height][width];
 
-        for (int i = 0; i < height; i++)
-            for (int j = 0; j < width; j++)
-                roomsLocal[i][j] = new Room();
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                Room room = new Room();
+                roomsLocal[i][j] = room;
+                remember(room);
+            }
+        }
 
         Room[][] visits = new Room[height][width];
         Random r = random;
@@ -242,7 +246,7 @@ public class Labyrinth implements Steppable {
     }
 
     public void remember(Room r) {
-        //TODO gondolom
+        rooms.add(r);
     }
 
     public void forget(Room room) {
@@ -255,7 +259,7 @@ public class Labyrinth implements Steppable {
 
     private final int height;
     private final int width;
-    public Labyrinth(int width, int height, Game game) {
+    public Labyrinth(int width, int height, Game game, String player1Name, String player2Name) {
         if(height < 1) height = 1;
         if(width < 1) width = 1;
         this.height = height;
@@ -263,6 +267,7 @@ public class Labyrinth implements Steppable {
         generate();
         logger.fine("Labyrinth created");
         this.game = game;
+        emplacePlayers(player1Name,player2Name);
     }
 
     /** calls the update on every object
