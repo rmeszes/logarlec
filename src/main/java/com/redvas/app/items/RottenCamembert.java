@@ -12,7 +12,7 @@ public class RottenCamembert extends Item implements ProximityListener {
      */
     @Override
     public void use() {
-        logger.fine(() -> this + " is being used...");
+        logger.finest(() -> this + " is being used...");
         super.use();
         owner.where().subscribeToProximity(this);
         whichRoom = owner.where();
@@ -29,16 +29,21 @@ public class RottenCamembert extends Item implements ProximityListener {
 
     @Override
     public void proximityChanged(Player newcomer) {
+        newcomer.faint();
         logger.finest(() -> this + " proximity changed");
     }
 
     @Override
     public void proximityEndOfRound(List<Player> proximity) {
+        //TODO
         logger.finest(() -> this + " proximity endOfRound");
     }
 
     @Override
     public void proximityInitially(List<Player> proximity) {
+        for(Player player: proximity){
+            player.faint();
+        }
         logger.finest(() -> this + " proximityInitially");
     }
 
@@ -59,6 +64,7 @@ public class RottenCamembert extends Item implements ProximityListener {
 
     @Override
     public void affect(ProximityListener listener) {
+        //TODO
         logger.finest(() -> this + " affects" + listener);
     }
 }
