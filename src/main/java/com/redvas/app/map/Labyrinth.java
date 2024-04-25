@@ -292,4 +292,6 @@ public class Labyrinth implements Steppable {
 
         new Undergraduate(player2Name,player2Place, game);
     }
+
+    //labirintus generálásnak lesznek még lépései (itemek, stb)
 }
