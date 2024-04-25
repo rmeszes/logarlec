@@ -13,6 +13,8 @@ public class Door {
     protected static final Logger logger = App.getConsoleLogger(Door.class.getName());
 
     public Door(Room connectsTo, boolean isPassable) {
+        this.connectsTo = connectsTo;
+        this.passable = isPassable;
         logger.finest("Door init");
     }
 
@@ -68,7 +70,6 @@ public class Door {
             logger.fine("This door hasn't vanished.");
             return false;
         }
-
     }
 
     /**
@@ -80,7 +81,6 @@ public class Door {
             logger.finest("This door has vanished");
         } else {
             this.vanished = false;
-
         }
     }
 }
