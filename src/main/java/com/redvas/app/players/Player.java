@@ -23,6 +23,7 @@ public abstract class Player implements Steppable {
     private Room where;
     private final ArrayList<Item> items;
     private int faintCountdown;     // unsigned int?
+    private int ffp2Countdown  = 0;
     protected final Game game;        // akár ez is lehet final
 
     protected static final Logger logger = App.getConsoleLogger(Player.class.getName());
@@ -60,8 +61,10 @@ public abstract class Player implements Steppable {
      *
      */
     public void faint() {
-        faintCountdown = 3;
-        dropItems();
+        if (ffp2Countdown > 0) {
+            faintCountdown = 3;
+            dropItems();
+        }
     }
 
     /** currently moving player
@@ -71,7 +74,7 @@ public abstract class Player implements Steppable {
         if (faintCountdown > 0)
             faintCountdown--;
         else {
-            // IDK ITT MINEK KÉNE TÖRTÉNNIE
+            if (ffp2Countdown > 0) ffp2Countdown--;
             HashMap<Character, Supplier<Boolean>> cmds = new HashMap<>();
             cmds.put('m', this::consoleMove);
             cmds.put('a', this::consoleAct);
@@ -143,7 +146,7 @@ public abstract class Player implements Steppable {
      *
      */
     public void useFFP2() {
-
+        ffp2Countdown = 3;
     }
 
     /**

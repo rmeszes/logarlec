@@ -11,8 +11,7 @@ public class TVSZ extends Item {
      *
      * @return int: how many is left
      */
-    private int getUses() { return 3; }
-    private void used() { }
+    private int uses = 3;
 
     /** until it can be used (3 times)
      * provides protection
@@ -21,10 +20,10 @@ public class TVSZ extends Item {
     public void use() {
         logger.fine(() -> this + " is being used...");
         getOwner().setProtectionFor(1);
-        used();
 
-        if (getUses() == 0)
+        if (uses == 0)
             destroy();
+        else uses--;
     }
 
     /**
