@@ -1,10 +1,21 @@
 package com.redvas.app.items;
 
 import com.redvas.app.map.Rooms.Room;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import javax.print.Doc;
 
 public class TVSZ extends Item {
     public TVSZ(Room whichRoom) {
         super(whichRoom);
+    }
+
+    @Override
+    public Element saveXML(Document document) {
+        Element tvsz = super.saveXML(document);
+        tvsz.setAttribute("uses", String.valueOf(uses));
+        return tvsz;
     }
 
     /**

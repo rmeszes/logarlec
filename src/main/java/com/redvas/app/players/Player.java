@@ -6,6 +6,8 @@ import com.redvas.app.Steppable;
 import com.redvas.app.items.Item;
 import com.redvas.app.map.Direction;
 import com.redvas.app.map.Rooms.Room;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import java.util.*;
 import java.util.function.Function;
@@ -16,6 +18,28 @@ import java.util.stream.IntStream;
 
 //absztrakt class, majd az implementációk lesznek tesztelve
 public abstract class Player implements Steppable {
+    private int id;
+    public int getID() {
+        return id;
+    }
+
+    public Element saveXML(Document document) {
+        Element player = document.createElement("player");
+        player.setAttribute("id", String.valueOf(getID()));
+        player.setAttribute("faint_countdown", String.valueOf(faintCountdown));
+        player.setAttribute("ffp2_countdown", String.valueOf(ffp2Countdown));
+        player.setAttribute("type", this.getClass().getName());
+        Element inventory = document.createElement("inventory");
+
+        for (Item i : items) {
+            Element item = i.saveXML(document);
+            inventory.appendChild(item);
+        }
+
+        player.appendChild(inventory);
+        return player;
+    }
+
     //constants
     private final String commandNotRecognizedMsg = "Command not recognised.";
 
@@ -29,11 +53,13 @@ public abstract class Player implements Steppable {
     protected static final Logger logger = App.getConsoleLogger(Player.class.getName());
 
     // konstruktor
-    protected Player(Room room, Game game) {
+    protected Player(int id, Room room, Game game) {
+        this.id = id;
         this.where = room;
         this.items = new ArrayList<>();
         this.faintCountdown = 0;
         this.game = game;
+        moveTo(room);
         game.registerSteppable(this);
     }
     /**
@@ -137,7 +163,9 @@ public abstract class Player implements Steppable {
      * @param room: chosen room where they move
      */
     public void moveTo(Room room) {
-        where.removeOccupant(this);
+        if (where != null)
+            where.removeOccupant(this);
+
         where = room;
         room.addOccupant(this);
     }

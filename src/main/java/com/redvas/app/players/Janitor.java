@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Janitor extends Player implements ProximityListener {
-    public Janitor(Room room, Game game) {
-        super(room, game);
+    public Janitor(int id, Room room, Game game) {
+        super(id, room, game);
     }
 
     private void sendEveryoneOut(List<Player> players) {

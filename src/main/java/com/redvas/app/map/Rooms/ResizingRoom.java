@@ -19,13 +19,14 @@ public class ResizingRoom extends Room {
         return doors.getOrDefault(Direction.BOTTOM_RIGHT, null) != null;
     }
     private boolean mergeD = false;
+    private int incorporatedId = -1;
     private Direction mergeDirection;
     @Override
     protected boolean incorporatable() { return false; }
     private static final Logger logger = App.getConsoleLogger(Room.class.getName());
 
-    public ResizingRoom(Labyrinth labyrinth, Direction mergeDirection) {
-        super(labyrinth);
+    public ResizingRoom(int id, Labyrinth labyrinth, Direction mergeDirection) {
+        super(labyrinth, id);
         this.mergeDirection = mergeDirection;
     }
 
@@ -35,7 +36,7 @@ public class ResizingRoom extends Room {
 
         if (!occupants.isEmpty()) return;
 
-        Room r = new Room(labyrinth);
+        Room r = new Room(labyrinth, incorporatedId);
         labyrinth.remember(r);
 
         if (doors.getOrDefault(Direction.RIGHT, null) == null) {

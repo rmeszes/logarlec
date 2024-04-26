@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Game>
+  <Labyrinth height="4" width="4">
+    <rooms>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="DOWN" id="0" is_passable="false" is_vanished="false" leads_to="4"/>
+          <door direction="RIGHT" id="0" is_passable="true" is_vanished="false" leads_to="1"/>
+        </doors>
+        <occupants/>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="DOWN" id="1" is_passable="false" is_vanished="false" leads_to="5"/>
+          <door direction="RIGHT" id="1" is_passable="true" is_vanished="false" leads_to="2"/>
+          <door direction="LEFT" id="1" is_passable="true" is_vanished="false" leads_to="0"/>
+        </doors>
+        <occupants>
+          <player faint_countdown="0" ffp2_countdown="0" id="3" paralyze_countdown="0" type="com.redvas.app.players.Professor">
+            <inventory/>
+          </player>
+        </occupants>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="DOWN" id="2" is_passable="false" is_vanished="false" leads_to="6"/>
+          <door direction="RIGHT" id="2" is_passable="false" is_vanished="true" leads_to="3"/>
+          <door direction="LEFT" id="2" is_passable="true" is_vanished="false" leads_to="1"/>
+        </doors>
+        <occupants/>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.EnchantedRoom">
+        <doors>
+          <door direction="DOWN" id="3" is_passable="true" is_vanished="false" leads_to="7"/>
+          <door direction="LEFT" id="3" is_passable="false" is_vanished="true" leads_to="2"/>
+        </doors>
+        <occupants>
+          <player faint_countdown="0" ffp2_countdown="0" id="1" protection="0" type="com.redvas.app.players.Undergraduate">
+            <inventory/>
+          </player>
+        </occupants>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.EnchantedRoom">
+        <doors>
+          <door direction="DOWN" id="3" is_passable="true" is_vanished="false" leads_to="7"/>
+          <door direction="LEFT" id="3" is_passable="false" is_vanished="true" leads_to="2"/>
+        </doors>
+        <occupants/>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="DOWN" id="3" is_passable="true" is_vanished="false" leads_to="7"/>
+          <door direction="LEFT" id="3" is_passable="false" is_vanished="true" leads_to="2"/>
+        </doors>
+        <occupants/>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="UP" id="4" is_passable="false" is_vanished="false" leads_to="0"/>
+          <door direction="DOWN" id="4" is_passable="false" is_vanished="false" leads_to="8"/>
+          <door direction="RIGHT" id="4" is_passable="false" is_vanished="false" leads_to="5"/>
+        </doors>
+        <occupants>
+          <player faint_countdown="0" ffp2_countdown="0" id="0" protection="0" type="com.redvas.app.players.Undergraduate">
+            <inventory/>
+          </player>
+        </occupants>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="UP" id="5" is_passable="false" is_vanished="false" leads_to="1"/>
+          <door direction="DOWN" id="5" is_passable="false" is_vanished="false" leads_to="9"/>
+          <door direction="RIGHT" id="5" is_passable="true" is_vanished="false" leads_to="6"/>
+          <door direction="LEFT" id="5" is_passable="true" is_vanished="false" leads_to="4"/>
+        </doors>
+        <occupants>
+          <player faint_countdown="0" ffp2_countdown="0" id="2" paralyze_countdown="0" type="com.redvas.app.players.Professor">
+            <inventory/>
+          </player>
+        </occupants>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="UP" id="6" is_passable="false" is_vanished="false" leads_to="2"/>
+          <door direction="DOWN" id="6" is_passable="false" is_vanished="false" leads_to="10"/>
+          <door direction="RIGHT" id="6" is_passable="true" is_vanished="false" leads_to="7"/>
+          <door direction="LEFT" id="6" is_passable="true" is_vanished="false" leads_to="5"/>
+        </doors>
+        <occupants/>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="UP" id="7" is_passable="true" is_vanished="false" leads_to="3"/>
+          <door direction="DOWN" id="7" is_passable="true" is_vanished="true" leads_to="11"/>
+          <door direction="LEFT" id="7" is_passable="true" is_vanished="false" leads_to="6"/>
+        </doors>
+        <occupants/>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="UP" id="8" is_passable="true" is_vanished="false" leads_to="4"/>
+          <door direction="DOWN" id="8" is_passable="false" is_vanished="false" leads_to="12"/>
+          <door direction="RIGHT" id="8" is_passable="true" is_vanished="false" leads_to="9"/>
+        </doors>
+        <occupants/>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="UP" id="9" is_passable="false" is_vanished="false" leads_to="5"/>
+          <door direction="DOWN" id="9" is_passable="false" is_vanished="false" leads_to="13"/>
+          <door direction="RIGHT" id="9" is_passable="true" is_vanished="false" leads_to="10"/>
+          <door direction="LEFT" id="9" is_passable="true" is_vanished="false" leads_to="8"/>
+        </doors>
+        <occupants/>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="UP" id="10" is_passable="false" is_vanished="false" leads_to="6"/>
+          <door direction="DOWN" id="10" is_passable="true" is_vanished="false" leads_to="14"/>
+          <door direction="RIGHT" id="10" is_passable="true" is_vanished="true" leads_to="11"/>
+          <door direction="LEFT" id="10" is_passable="true" is_vanished="false" leads_to="9"/>
+        </doors>
+        <occupants/>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.EnchantedRoom">
+        <doors>
+          <door direction="UP" id="11" is_passable="true" is_vanished="true" leads_to="7"/>
+          <door direction="DOWN" id="11" is_passable="false" is_vanished="false" leads_to="15"/>
+          <door direction="LEFT" id="11" is_passable="true" is_vanished="true" leads_to="10"/>
+        </doors>
+        <occupants/>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="UP" id="11" is_passable="true" is_vanished="true" leads_to="7"/>
+          <door direction="DOWN" id="11" is_passable="false" is_vanished="false" leads_to="15"/>
+          <door direction="LEFT" id="11" is_passable="true" is_vanished="true" leads_to="10"/>
+        </doors>
+        <occupants/>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.EnchantedRoom">
+        <doors>
+          <door direction="UP" id="12" is_passable="false" is_vanished="false" leads_to="8"/>
+          <door direction="RIGHT" id="12" is_passable="true" is_vanished="true" leads_to="13"/>
+        </doors>
+        <occupants/>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="UP" id="12" is_passable="false" is_vanished="false" leads_to="8"/>
+          <door direction="RIGHT" id="12" is_passable="true" is_vanished="true" leads_to="13"/>
+        </doors>
+        <occupants/>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="UP" id="13" is_passable="false" is_vanished="false" leads_to="9"/>
+          <door direction="RIGHT" id="13" is_passable="true" is_vanished="false" leads_to="14"/>
+          <door direction="LEFT" id="13" is_passable="false" is_vanished="true" leads_to="12"/>
+        </doors>
+        <occupants/>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="UP" id="14" is_passable="true" is_vanished="false" leads_to="10"/>
+          <door direction="RIGHT" id="14" is_passable="false" is_vanished="false" leads_to="15"/>
+          <door direction="LEFT" id="14" is_passable="true" is_vanished="false" leads_to="13"/>
+        </doors>
+        <occupants>
+          <player faint_countdown="0" ffp2_countdown="0" id="4" type="com.redvas.app.players.Janitor">
+            <inventory/>
+          </player>
+        </occupants>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="UP" id="15" is_passable="false" is_vanished="false" leads_to="11"/>
+          <door direction="LEFT" id="15" is_passable="false" is_vanished="false" leads_to="14"/>
+        </doors>
+        <occupants/>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="DOWN" id="0" is_passable="false" is_vanished="false" leads_to="4"/>
+          <door direction="RIGHT" id="0" is_passable="true" is_vanished="false" leads_to="1"/>
+        </doors>
+        <occupants/>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="DOWN" id="1" is_passable="false" is_vanished="false" leads_to="5"/>
+          <door direction="RIGHT" id="1" is_passable="true" is_vanished="false" leads_to="2"/>
+          <door direction="LEFT" id="1" is_passable="true" is_vanished="false" leads_to="0"/>
+        </doors>
+        <occupants>
+          <player faint_countdown="0" ffp2_countdown="0" id="3" paralyze_countdown="0" type="com.redvas.app.players.Professor">
+            <inventory/>
+          </player>
+        </occupants>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="DOWN" id="2" is_passable="false" is_vanished="false" leads_to="6"/>
+          <door direction="RIGHT" id="2" is_passable="false" is_vanished="true" leads_to="3"/>
+          <door direction="LEFT" id="2" is_passable="true" is_vanished="false" leads_to="1"/>
+        </doors>
+        <occupants/>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.ResizingRoom">
+        <doors>
+          <door direction="DOWN" id="3" is_passable="true" is_vanished="false" leads_to="7"/>
+          <door direction="LEFT" id="3" is_passable="false" is_vanished="true" leads_to="2"/>
+        </doors>
+        <occupants/>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="UP" id="4" is_passable="false" is_vanished="false" leads_to="0"/>
+          <door direction="DOWN" id="4" is_passable="false" is_vanished="false" leads_to="8"/>
+          <door direction="RIGHT" id="4" is_passable="false" is_vanished="false" leads_to="5"/>
+        </doors>
+        <occupants>
+          <player faint_countdown="0" ffp2_countdown="0" id="0" protection="0" type="com.redvas.app.players.Undergraduate">
+            <inventory/>
+          </player>
+        </occupants>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.ResizingRoom">
+        <doors>
+          <door direction="UP" id="5" is_passable="false" is_vanished="false" leads_to="1"/>
+          <door direction="DOWN" id="5" is_passable="false" is_vanished="false" leads_to="9"/>
+          <door direction="RIGHT" id="5" is_passable="true" is_vanished="false" leads_to="6"/>
+          <door direction="LEFT" id="5" is_passable="true" is_vanished="false" leads_to="4"/>
+        </doors>
+        <occupants/>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="UP" id="6" is_passable="false" is_vanished="false" leads_to="2"/>
+          <door direction="DOWN" id="6" is_passable="false" is_vanished="false" leads_to="10"/>
+          <door direction="RIGHT" id="6" is_passable="true" is_vanished="false" leads_to="7"/>
+          <door direction="LEFT" id="6" is_passable="true" is_vanished="false" leads_to="5"/>
+        </doors>
+        <occupants/>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="UP" id="7" is_passable="true" is_vanished="false" leads_to="3"/>
+          <door direction="DOWN" id="7" is_passable="true" is_vanished="true" leads_to="11"/>
+          <door direction="LEFT" id="7" is_passable="true" is_vanished="false" leads_to="6"/>
+        </doors>
+        <occupants/>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="UP" id="8" is_passable="true" is_vanished="false" leads_to="4"/>
+          <door direction="DOWN" id="8" is_passable="false" is_vanished="false" leads_to="12"/>
+          <door direction="RIGHT" id="8" is_passable="true" is_vanished="false" leads_to="9"/>
+        </doors>
+        <occupants/>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="UP" id="9" is_passable="false" is_vanished="false" leads_to="5"/>
+          <door direction="DOWN" id="9" is_passable="false" is_vanished="false" leads_to="13"/>
+          <door direction="RIGHT" id="9" is_passable="true" is_vanished="false" leads_to="10"/>
+          <door direction="LEFT" id="9" is_passable="true" is_vanished="false" leads_to="8"/>
+        </doors>
+        <occupants/>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="UP" id="10" is_passable="false" is_vanished="false" leads_to="6"/>
+          <door direction="DOWN" id="10" is_passable="true" is_vanished="false" leads_to="14"/>
+          <door direction="RIGHT" id="10" is_passable="true" is_vanished="true" leads_to="11"/>
+          <door direction="LEFT" id="10" is_passable="true" is_vanished="false" leads_to="9"/>
+        </doors>
+        <occupants/>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.ResizingRoom">
+        <doors>
+          <door direction="UP" id="11" is_passable="true" is_vanished="true" leads_to="7"/>
+          <door direction="DOWN" id="11" is_passable="false" is_vanished="false" leads_to="15"/>
+          <door direction="LEFT" id="11" is_passable="true" is_vanished="true" leads_to="10"/>
+        </doors>
+        <occupants/>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="UP" id="12" is_passable="false" is_vanished="false" leads_to="8"/>
+          <door direction="RIGHT" id="12" is_passable="true" is_vanished="true" leads_to="13"/>
+        </doors>
+        <occupants/>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.ResizingRoom">
+        <doors>
+          <door direction="UP" id="13" is_passable="false" is_vanished="false" leads_to="9"/>
+          <door direction="RIGHT" id="13" is_passable="true" is_vanished="false" leads_to="14"/>
+          <door direction="LEFT" id="13" is_passable="false" is_vanished="true" leads_to="12"/>
+        </doors>
+        <occupants/>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="UP" id="14" is_passable="true" is_vanished="false" leads_to="10"/>
+          <door direction="RIGHT" id="14" is_passable="false" is_vanished="false" leads_to="15"/>
+          <door direction="LEFT" id="14" is_passable="true" is_vanished="false" leads_to="13"/>
+        </doors>
+        <occupants>
+          <player faint_countdown="0" ffp2_countdown="0" id="4" type="com.redvas.app.players.Janitor">
+            <inventory/>
+          </player>
+        </occupants>
+      </room>
+      <room capacity="0" type="com.redvas.app.map.Rooms.Room">
+        <doors>
+          <door direction="UP" id="15" is_passable="false" is_vanished="false" leads_to="11"/>
+          <door direction="LEFT" id="15" is_passable="false" is_vanished="false" leads_to="14"/>
+        </doors>
+        <occupants/>
+      </room>
+    </rooms>
+  </Labyrinth>
+</Game>

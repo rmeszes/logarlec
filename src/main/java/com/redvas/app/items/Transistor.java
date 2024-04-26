@@ -1,6 +1,8 @@
 package com.redvas.app.items;
 
 import com.redvas.app.map.Rooms.Room;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 public class Transistor extends Item {
     public Transistor(Room whichRoom) {
@@ -13,6 +15,9 @@ public class Transistor extends Item {
      *
      * @param item: the one that will be merged
      */
+
+
+
     @Override
     public void merge(Transistor item){
         CombinedTransistor ct1 = new CombinedTransistor(whichRoom);

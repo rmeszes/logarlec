@@ -8,11 +8,42 @@ import com.redvas.app.map.Door;
 import com.redvas.app.map.Labyrinth;
 import com.redvas.app.players.Player;
 import com.redvas.app.players.ProximityListener;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import java.util.*;
 import java.util.logging.Logger;
 
 public class Room implements Steppable {
+    private int id;
+    public int getID() {
+        return id;
+    }
+    public Element saveXML(Document document) {
+        Element room = document.createElement("room");
+        room.setAttribute("capacity", String.valueOf(capacity));
+        room.setAttribute("type", this.getClass().getName());
+        Element doors = document.createElement("doors");
+        room.appendChild(doors);
+
+        for (Map.Entry<Direction, Door> e : this.doors.entrySet()) {
+            Element door = document.createElement("door");
+            door.setAttribute("direction", e.getKey().toString());
+            door.setAttribute("leads_to", String.valueOf(e.getValue().connectsTo().getID()));
+            door.setAttribute("id", String.valueOf(getID()));
+            door.setAttribute("is_passable", String.valueOf(e.getValue().isPassable()));
+            door.setAttribute("is_vanished", String.valueOf(e.getValue().isVanished()));
+            doors.appendChild(door);
+        }
+
+        Element occupants = document.createElement("occupants");
+
+        for (Player p : this.occupants)
+            occupants.appendChild(p.saveXML(document));
+
+        room.appendChild(occupants);
+        return room;
+    }
     private static final Logger logger = App.getConsoleLogger(Room.class.getName());
     public void configureDoors() {
         labyrinth.acceptDoors(doors);
@@ -44,8 +75,9 @@ public class Room implements Steppable {
 
     private int n = 0;
 
-    public Room(Labyrinth labyrinth) {
+    public Room(Labyrinth labyrinth, int id) {
         this.labyrinth = labyrinth;
+        this.id = id;
     }
     /**
      *
@@ -64,6 +96,7 @@ public class Room implements Steppable {
         logger.fine(()->"Room occupant list now contains " + player);
         listeners.forEach(listener -> listener.proximityChanged(player));
         stickiness++;
+        occupants.add(player);
     }
 
 

@@ -3,6 +3,8 @@ package com.redvas.app.players;
 import com.redvas.app.App;
 import com.redvas.app.Game;
 import com.redvas.app.map.Rooms.Room;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import java.util.logging.Logger;
 
@@ -11,12 +13,19 @@ public class Undergraduate extends Player {
     private final String name;
     private int protection;
     private boolean dropScheduled;
-    public Undergraduate(String name, Room room, Game game) {
-        super(room, game);
+    public Undergraduate(int id, String name, Room room, Game game) {
+        super(id, room, game);
         this.name = name;
         this.protection = 0;
         this.dropScheduled = false;
         logger.fine(() -> this + " created");
+    }
+
+    @Override
+    public Element saveXML(Document document) {
+        Element undergraduate = super.saveXML(document);
+        undergraduate.setAttribute("protection", String.valueOf(protection));
+        return undergraduate;
     }
 
     /**

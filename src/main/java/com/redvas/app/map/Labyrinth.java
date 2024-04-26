@@ -10,6 +10,8 @@ import com.redvas.app.map.Rooms.Room;
 import com.redvas.app.players.Janitor;
 import com.redvas.app.players.Professor;
 import com.redvas.app.players.Undergraduate;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import java.util.*;
 
@@ -17,6 +19,18 @@ import java.util.logging.Logger;
 
 
 public class Labyrinth implements Steppable {
+    public Element saveXML(Document document) {
+        Element labyrinth = document.createElement("labyrinth");
+        labyrinth.setAttribute("width", String.valueOf(width));
+        labyrinth.setAttribute("height", String.valueOf(height));
+        Element rooms = document.createElement("rooms");
+
+        for (Room r : this.rooms)
+            rooms.appendChild(r.saveXML(document));
+
+        labyrinth.appendChild(rooms);
+        return labyrinth;
+    }
     private final Game game;
     private static final Random random = new Random();
 
@@ -50,9 +64,12 @@ public class Labyrinth implements Steppable {
             index += contentStart;
 
             if (index >= contentStart && index < writingFront) {
-                T tmp = lotteryNumbers[contentStart];
-                lotteryNumbers[contentStart] = lotteryNumbers[index];
-                lotteryNumbers[index] = tmp;
+                if (index != contentStart) {
+                    T tmp = lotteryNumbers[contentStart];
+                    lotteryNumbers[contentStart] = lotteryNumbers[index];
+                    lotteryNumbers[index] = tmp;
+                }
+
                 contentStart++;
             }
         }
@@ -166,7 +183,7 @@ public class Labyrinth implements Steppable {
 
                         if (resizeablePair(resizingMap, pts.get(at).x, pts.get(at).y, pts.get(at).x + xc[i], pts.get(at).y + yc[i]))
                             if (Math.abs(random.nextGaussian()) > 0.81) {
-                                ResizingRoom er = new ResizingRoom(this, directions[i]);
+                                ResizingRoom er = new ResizingRoom(rooms[pts.get(at).y][pts.get(at).x].getID(), this, directions[i]);
                                 rooms[pts.get(at).y][pts.get(at).x].configureDoors();
                                 message = selection;
                                 er.receiveDoors();
@@ -208,7 +225,7 @@ public class Labyrinth implements Steppable {
     private void enchant() {
         for (int i = 0; i < width * height; i++)
             if (random.nextGaussian() > 0.8) {
-                EnchantedRoom er = new EnchantedRoom(this);
+                EnchantedRoom er = new EnchantedRoom(rooms.get(i).getID(), this);
                 rooms.get(i).configureDoors();
 
                 Set<Map.Entry<Direction, Door>> doors = selection.entrySet();
@@ -245,7 +262,7 @@ public class Labyrinth implements Steppable {
                             // if (selection.getOrDefault(rdirections[k], null) != null)
                             if (resizeablePair(resizingMap, x, y, x + xc[k], y + yc[k]))
                                 if (Math.abs(random.nextGaussian()) > 0.81) {
-                                    ResizingRoom er = new ResizingRoom(this, directions[k]);
+                                    ResizingRoom er = new ResizingRoom(rooms[y][x].getID(), this, directions[k]);
                                     rooms[y][x].configureDoors();
                                     message = selection;
                                     er.receiveDoors();
@@ -264,7 +281,7 @@ public class Labyrinth implements Steppable {
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                Room room = new Room(this);
+                Room room = new Room(this, i * width + j);
                 roomsLocal[i][j] = room;
                 remember(room);
             }
@@ -335,14 +352,16 @@ public class Labyrinth implements Steppable {
         Room player1Place = getRandomRoom();
         Room player2Place = getRandomRoom();
 
-        new Undergraduate(player1Name,player1Place, game);
+        Undergraduate u1 = new Undergraduate(0, player1Name,player1Place, game);
+        game.registerSteppable(u1);
 
-        new Undergraduate(player2Name,player2Place, game);
+        Undergraduate u2 = new Undergraduate(1, player2Name,player2Place, game);
+        game.registerSteppable(u2);
 
-        game.registerSteppable(new Professor(getRandomRoom(),game));
-        game.registerSteppable(new Professor(getRandomRoom(),game));
+        game.registerSteppable(new Professor(2, getRandomRoom(),game));
+        game.registerSteppable(new Professor(3, getRandomRoom(),game));
 
-        game.registerSteppable(new Janitor(getRandomRoom(),game));
+        game.registerSteppable(new Janitor(4, getRandomRoom(),game));
     }
 
     private void emplaceItems() {

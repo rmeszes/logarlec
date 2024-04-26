@@ -3,6 +3,8 @@ package com.redvas.app.proto;
 import com.redvas.app.App;
 import com.redvas.app.Game;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
@@ -13,13 +15,13 @@ public class Prototype {
 
     private static final Scanner stdin = App.reader;
 
-    public Prototype() {
+    public Prototype() throws ParserConfigurationException, TransformerException {
         logger.fine("\nApp started successfully.");
 
         menu();
     }
 
-    private void menu() {
+    private void menu() throws ParserConfigurationException, TransformerException {
         boolean badInput;
 
         logger.fine("""
@@ -47,7 +49,7 @@ public class Prototype {
         } while(badInput);
     }
 
-    private void commandStart() {
+    private void commandStart() throws ParserConfigurationException, TransformerException {
         game = Game.startNewGame();
     }
 

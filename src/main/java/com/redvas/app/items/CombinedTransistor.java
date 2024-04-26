@@ -2,6 +2,8 @@ package com.redvas.app.items;
 
 import com.redvas.app.map.Rooms.Room;
 import com.redvas.app.players.Player;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 public class CombinedTransistor extends Item {
 
@@ -30,6 +32,14 @@ public class CombinedTransistor extends Item {
         else {
             logger.fine(() -> "You must place the first transistor before activation");
         }
+    }
+
+    @Override
+    public Element saveXML(Document document) {
+        Element transistor = super.saveXML(document);
+        transistor.setAttribute("paired_with", String.valueOf(pairedWith.getID()));
+        transistor.setAttribute("is_active", String.valueOf(isActive));
+        return transistor;
     }
 
     /**

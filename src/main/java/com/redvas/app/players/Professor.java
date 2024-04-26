@@ -4,15 +4,32 @@ import com.redvas.app.App;
 import com.redvas.app.Game;
 import com.redvas.app.items.AirFreshener;
 import com.redvas.app.map.Rooms.Room;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import java.util.List;
 import java.util.logging.Logger;
 
 public class Professor extends Player implements ProximityListener {
-private int paralyzeCountdown;
-    public Professor(Room room, Game game) {
-        super(room, game);
+    private int paralyzeCountdown;
+    public Professor(int id, Room room, Game game) {
+        super(id, room, game);
         paralyzeCountdown = 0;
+    }
+
+    @Override
+    public void moveTo(Room room) {
+        if (where() != null)
+            where().unsubscribeFromProximity(this);
+        room.subscribeToProximity(this);
+        super.moveTo(room);
+    }
+
+    @Override
+    public Element saveXML(Document document) {
+        Element professor = super.saveXML(document);
+        professor.setAttribute("paralyze_countdown", String.valueOf(paralyzeCountdown));
+        return professor;
     }
 
     /**
@@ -47,6 +64,7 @@ private int paralyzeCountdown;
     public void paralyze() {
 
         logger.fine(() -> this + " is paralyzed");
+        paralyzeCountdown = 3;
     }
 
     /** only undergrads can

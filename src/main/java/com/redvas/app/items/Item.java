@@ -3,7 +3,10 @@ package com.redvas.app.items;
 import com.redvas.app.App;
 import com.redvas.app.map.Rooms.Room;
 import com.redvas.app.players.Player;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
+import javax.management.StringValueExp;
 import java.util.logging.Logger;
 
 public abstract class Item {
@@ -14,6 +17,20 @@ public abstract class Item {
 
     protected Item(Room whichRoom) {
         this.whichRoom = whichRoom;
+    }
+
+    private int id;
+    public int getID() {
+        return id;
+    }
+
+    public Element saveXML(Document document) {
+        Element item = document.createElement("item");
+        item.setAttribute("is_real", String.valueOf(isReal));
+        item.setAttribute("type", this.getClass().getName());
+        item.setAttribute("owner", owner == null ? "null" : String.valueOf(owner.getID()));
+        item.setAttribute("whichRoom", whichRoom == null ? "null" : String.valueOf(whichRoom.getID()));
+        return item;
     }
 
     public Room getRoom() {
