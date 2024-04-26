@@ -1,6 +1,12 @@
 package com.redvas.app.items;
 
+import com.redvas.app.map.Room;
+
 public class TVSZ extends Item {
+    protected TVSZ(Room whichRoom) {
+        super(whichRoom);
+    }
+
     /**
      *
      * @return int: how many is left

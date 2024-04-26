@@ -13,6 +13,10 @@ public abstract class Item {
     protected String name;
     protected boolean isReal;
 
+    protected Item(Room whichRoom) {
+        this.whichRoom = whichRoom;
+    }
+
     public Room getRoom() {
         if (owner != null)
             return owner.where();

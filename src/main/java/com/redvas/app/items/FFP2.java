@@ -1,6 +1,13 @@
 package com.redvas.app.items;
 
+import com.redvas.app.map.Room;
+
 public class FFP2 extends Item {
+
+    protected FFP2(Room whichRoom) {
+        super(whichRoom);
+    }
+
     /** protection from gas is activated for a given number of rounds
      *
      */

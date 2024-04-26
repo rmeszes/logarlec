@@ -1,11 +1,17 @@
 package com.redvas.app.items;
 
+import com.redvas.app.map.Room;
 import com.redvas.app.players.Player;
 
 public class CombinedTransistor extends Item {
 
     private CombinedTransistor pairedWith;
     private boolean isActive = false;
+
+    protected CombinedTransistor(Room whichRoom) {
+        super(whichRoom);
+    }
+
 
     public void setPair(CombinedTransistor pair){
         pairedWith = pair;
@@ -55,7 +61,7 @@ public class CombinedTransistor extends Item {
         }
         else {
             if (isActive) { // if pair is on the ground and this is activated (in active state)
-                CombinedTransistor tmp = new CombinedTransistor();
+                CombinedTransistor tmp = new CombinedTransistor(whichRoom);
                 tmp.owner = getOwner();
                 super.dispose();
                 tmp.owner.moveTo(pairedWith.whichRoom);

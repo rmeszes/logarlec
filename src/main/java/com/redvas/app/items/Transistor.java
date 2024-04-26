@@ -1,6 +1,12 @@
 package com.redvas.app.items;
 
+import com.redvas.app.map.Room;
+
 public class Transistor extends Item {
+    protected Transistor(Room whichRoom) {
+        super(whichRoom);
+    }
+
     /** in case of two unmerged transistors
      * they can be "connected" creating a CTransistor item
      * they stop existing
@@ -9,8 +15,8 @@ public class Transistor extends Item {
      */
     @Override
     public void merge(Transistor item){
-        CombinedTransistor ct1 = new CombinedTransistor();
-        CombinedTransistor ct2 = new CombinedTransistor();
+        CombinedTransistor ct1 = new CombinedTransistor(whichRoom);
+        CombinedTransistor ct2 = new CombinedTransistor(whichRoom);
         ct1.setPair(ct2);
         ct2.setPair(ct1);
         ct1.owner = getOwner();

@@ -1,6 +1,13 @@
 package com.redvas.app.items;
 
+import com.redvas.app.map.Room;
+
 public class HolyBeer extends Item {
+
+    protected HolyBeer(Room whichRoom) {
+        super(whichRoom);
+    }
+
     /** activate the item (protection from prof)
      *
      */

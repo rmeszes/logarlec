@@ -1,5 +1,6 @@
 package com.redvas.app.items;
 
+import com.redvas.app.map.Room;
 import com.redvas.app.players.Janitor;
 import com.redvas.app.players.Player;
 import com.redvas.app.players.ProximityListener;
@@ -8,6 +9,10 @@ import java.util.List;
 
 public class WetWipe extends Item implements ProximityListener {
     private int worksFor = 5;
+
+    protected WetWipe(Room whichRoom) {
+        super(whichRoom);
+    }
 
     /** gives protection from profs FOR 5 rounds
      *
