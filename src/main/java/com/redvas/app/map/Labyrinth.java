@@ -5,10 +5,7 @@ import com.redvas.app.Game;
 import com.redvas.app.Steppable;
 import com.redvas.app.players.Undergraduate;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 import java.util.logging.Logger;
 
@@ -69,7 +66,7 @@ public class Labyrinth implements Steppable {
                     y + yc[i] >= 0 && y + yc[i] < height &&
                     visits[y + yc[i]][x + xc[i]] == null;
 
-            if (stat[i]) visitable++;
+            if (Boolean.TRUE.equals(stat[i])) visitable++;
         }
 
         return visitable;
@@ -137,7 +134,7 @@ public class Labyrinth implements Steppable {
                 int letsVisit = r.nextInt(1, visitable + 1);
 
                 for (int i = 0, visited = 0; i < 4 && visited <= letsVisit; i++) {
-                    if (stat[i]) {
+                    if (Boolean.TRUE.equals(stat[i])) {
                         visited++;
                         visits[pts.get(at).y + yc[i]][pts.get(at).x + xc[i]] = rooms[pts.get(at).y][pts.get(at).x];
 
@@ -170,7 +167,7 @@ public class Labyrinth implements Steppable {
             shuffle(xc, yc, stat, directions, rdirections);
 
             for (int i = 0; i < 4; i++) {
-                if (stat[i]) {
+                if (Boolean.TRUE.equals(stat[i])) {
                     visits[y + yc[i]][x + xc[i]] = rooms[y][x];
 
                     rooms[y][x].configureDoors();
@@ -204,7 +201,6 @@ public class Labyrinth implements Steppable {
         selection = doors;
     }
     private void cyclify(Room[][] rooms, Room[][] visits) {
-        Random r = random;
         Boolean[] stat = new Boolean[4];
 
         for (int y = 0; y < height; y++)
@@ -212,7 +208,7 @@ public class Labyrinth implements Steppable {
                 mkstat2(stat, rooms, visits, x, y);
 
                 for (int k = 0; k < 4; k++) {
-                    if (stat[k] && r.nextDouble(0, 1) > 0.88) {
+                    if (Boolean.TRUE.equals(stat[k]) && random.nextDouble(0, 1) > 0.88) {
                         rooms[y][x].configureDoors();
                         selection.put(directions[k], new Door(rooms[y + yc[k]][x + xc[k]], true));
                     }
@@ -240,8 +236,7 @@ public class Labyrinth implements Steppable {
         cyclify(roomsLocal, visits);
 
         for (int y = 0; y < height; y++)
-            for (int x = 0; x < width; x++)
-                rooms.add(roomsLocal[y][x]);
+            rooms.addAll(Arrays.asList(roomsLocal[y]).subList(0, width));
     }
 
     public void remember(Room r) {
