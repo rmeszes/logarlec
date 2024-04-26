@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class Professor extends Player implements ProximityListener {
-private int paralyzeCountdown;
+    protected static final Logger logger = App.getConsoleLogger(Professor.class.getName());
+    private int paralyzeCountdown;
+
     public Professor(Room room, Game game) {
         super(room, game);
         paralyzeCountdown = 0;
@@ -22,10 +24,18 @@ private int paralyzeCountdown;
     @Override
     protected boolean useItem(int index) {
         // Nothing happens
-        return true;
+        return false;        // itt valamiért true volt
     }
 
-    protected static final Logger logger = App.getConsoleLogger(Professor.class.getName());
+
+
+    private void dropoutUndergraduates() {
+        for (Player p : super.where().getOccupants()) {
+            p.dropout();
+        }
+
+    }
+
 
     /** they can not win the game
      *
@@ -37,7 +47,12 @@ private int paralyzeCountdown;
 
     @Override
     public void step() {
-        logger.finest(()-> this + "step");
+        if(paralyzeCountdown != 0) {
+            paralyzeCountdown--;    // itt returnol
+        }
+        else {
+            super.step();
+        }
     }
 
     /** they stop moving and causing undergrads to drop out
@@ -45,8 +60,8 @@ private int paralyzeCountdown;
      */
     @Override
     public void paralyze() {
-
-        logger.fine(() -> this + " is paralyzed");
+        paralyzeCountdown = 3;
+        logger.finest(() -> this + " is paralyzed");
     }
 
     /** only undergrads can
