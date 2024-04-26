@@ -3,6 +3,7 @@ package com.redvas.app.map;
 import com.redvas.app.App;
 import com.redvas.app.Game;
 import com.redvas.app.Steppable;
+import com.redvas.app.items.*;
 import com.redvas.app.players.Janitor;
 import com.redvas.app.players.Professor;
 import com.redvas.app.players.Undergraduate;
@@ -76,43 +77,12 @@ public class Labyrinth implements Steppable {
 
 
 
-    private void rdirs(Direction[] directions) {
-        directions[0] = Direction.LEFT;
-        directions[1] = Direction.UP;
-        directions[2] = Direction.RIGHT;
-        directions[3] = Direction.DOWN;
-    }
 
-    private void rrdirs(Direction[] rdirections) {
-        directions[0] = Direction.RIGHT;
-        directions[1] = Direction.DOWN;
-        directions[2] = Direction.LEFT;
-        directions[3] = Direction.UP;
-    }
-
-    private void reset() {
-        rxc(xc);
-        ryc(yc);
-        rdirs(directions);
-        rrdirs(rdirections);
-    }
 
     Integer[] xc = new Integer[] { -1, 0, 1, 0 };
     Integer[] yc = new Integer[] { 0, -1, 0, 1 };
 
-    private void rxc(Integer[] xc) {
-        xc[0] = -1;
-        xc[1] = 0;
-        xc[2] = 1;
-        xc[3] = 0;
-    }
 
-    private void ryc(Integer[] yc) {
-        yc[0] = 0;
-        yc[1] = -1;
-        yc[2] = 0;
-        yc[3] = 1;
-    }
 
 
     // Random Order Search
@@ -121,7 +91,6 @@ public class Labyrinth implements Steppable {
         pts.add(new PT(x, y));
         int at = 0;
         Boolean[] stat = new Boolean[4];
-        Random r = random;
 
         while (!pts.isEmpty()) {
             int visitable = mkstat(stat, visits, pts.get(at).x, pts.get(at).y);
@@ -133,7 +102,7 @@ public class Labyrinth implements Steppable {
                 shuffle(xc, yc, stat, directions, rdirections);
                 shuffle(xc, yc, stat, directions, rdirections);
 
-                int letsVisit = r.nextInt(1, visitable + 1);
+                int letsVisit = random.nextInt(1, visitable + 1);
 
                 for (int i = 0, visited = 0; i < 4 && visited <= letsVisit; i++) {
                     if (Boolean.TRUE.equals(stat[i])) {
@@ -157,35 +126,7 @@ public class Labyrinth implements Steppable {
         }
     }
 
-    // Random DFS
-    private void randomDFS(Room[][] rooms, Room[][] visits, int x, int y) {
-        Boolean[] stat = new Boolean[] { false, false, false, false };
-        int visitable =  mkstat(stat, visits, x, y);
 
-        while (visitable > 0 ){
-            mkstat(stat, visits, x, y);
-            shuffle(stat, xc, yc, directions, rdirections);
-            shuffle(xc, yc, stat, directions, rdirections);
-            shuffle(xc, yc, stat, directions, rdirections);
-
-            for (int i = 0; i < 4; i++) {
-                if (Boolean.TRUE.equals(stat[i])) {
-                    visits[y + yc[i]][x + xc[i]] = rooms[y][x];
-
-                    rooms[y][x].configureDoors();
-
-                    selection.put(directions[i], new Door(rooms[y + yc[i]][x + xc[i]], true));
-                    rooms[y + yc[i]][x + xc[i]].configureDoors();
-                    selection.put(rdirections[i], new Door(rooms[y][x], true));
-
-                    randomDFS(rooms, visits, x + xc[i], y + yc[i]);
-                    break;
-                }
-            }
-
-            visitable =  mkstat(stat, visits, x, y);
-        }
-    }
     private final Direction[] directions = new Direction[] {
         Direction.LEFT,
         Direction.UP,
@@ -266,6 +207,7 @@ public class Labyrinth implements Steppable {
         logger.fine("Labyrinth created");
         this.game = game;
         emplacePlayers(player1Name,player2Name);
+        emplaceItems();
     }
 
     /** calls the update on every object
@@ -282,21 +224,58 @@ public class Labyrinth implements Steppable {
         update();
     }
 
-    public void emplacePlayers(String player1Name, String player2Name) {
+    private void emplacePlayers(String player1Name, String player2Name) {
         logger.fine("Placing players..");
 
-        Room player1Place = rooms.get(random.nextInt(0,rooms.size()));
-        Room player2Place = rooms.get(random.nextInt(0,rooms.size()));
+        Room player1Place = getRandomRoom();
+        Room player2Place = getRandomRoom();
 
         new Undergraduate(player1Name,player1Place, game);
 
         new Undergraduate(player2Name,player2Place, game);
 
-        game.registerSteppable(new Professor(rooms.get(random.nextInt(0,rooms.size())),game));
-        game.registerSteppable(new Professor(rooms.get(random.nextInt(0,rooms.size())),game));
+        game.registerSteppable(new Professor(getRandomRoom(),game));
+        game.registerSteppable(new Professor(getRandomRoom(),game));
 
-        game.registerSteppable(new Janitor(rooms.get(random.nextInt(0,rooms.size())),game));
+        game.registerSteppable(new Janitor(getRandomRoom(),game));
     }
 
-    //labirintus generálásnak lesznek még lépései (itemek, stb)
+    private void emplaceItems() {
+        logger.fine("Placing items..");
+
+        Map<String, Integer> numOfItems = howManyItems();
+
+        for(int i = 0; i < numOfItems.get("AirFreshener"); i++) new AirFreshener(getRandomRoom());
+        for(int i = 0; i < numOfItems.get("FFP2"); i++) new FFP2(getRandomRoom());
+        for(int i = 0; i < numOfItems.get("HolyBeer"); i++) new HolyBeer(getRandomRoom());
+        for(int i = 0; i < numOfItems.get("RottenCamembert"); i++) new RottenCamembert(getRandomRoom());
+        for(int i = 0; i < numOfItems.get("Transistor"); i++) new Transistor(getRandomRoom());
+        for(int i = 0; i < numOfItems.get("TVSZ"); i++) new TVSZ(getRandomRoom());
+        for(int i = 0; i < numOfItems.get("WetWipe"); i++) new WetWipe(getRandomRoom());
+    }
+
+    private Map<String,Integer> howManyItems() {
+        String transistor = "Transistor";
+
+        HashMap<String,Integer> numOfItems = HashMap.newHashMap(6);
+
+        numOfItems.put("AirFreshener", random.nextInt(0,4));
+        numOfItems.put("FFP2", random.nextInt(0,4));
+        numOfItems.put("HolyBeer", random.nextInt(0,4));
+        numOfItems.put("RottenCamembert", random.nextInt(0,4));
+        numOfItems.put(transistor, random.nextInt(0,5));
+        numOfItems.put("TVSZ", random.nextInt(0,4));
+        numOfItems.put("WetWipe", random.nextInt(0,4));
+
+        //Makes num of transistors even
+        if(numOfItems.get(transistor) % 2 != 0) {
+            numOfItems.replace(transistor, numOfItems.get(transistor) - 1);
+        }
+        return numOfItems;
+    }
+
+    private Room getRandomRoom() {
+        if(rooms.isEmpty()) throw new NoSuchElementException("Rooms not created yet!");
+        return rooms.get(random.nextInt(0,rooms.size()));
+    }
 }
