@@ -273,4 +273,5 @@ public class Room implements Steppable {
     public List<Room> getAccessibleRooms() {
         return new ArrayList<>();
     }
+    public List<Player> getOccupants() {return occupants;}
 }
