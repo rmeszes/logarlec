@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Professor extends Player implements ProximityListener {
+    protected static final Logger logger = App.getConsoleLogger(Professor.class.getName());
     private int paralyzeCountdown;
     public Professor(Room room, Game game) {
         super(room, game);
@@ -24,10 +25,18 @@ public class Professor extends Player implements ProximityListener {
     @Override
     protected boolean useItem(int index) {
         // Nothing happens
-        return true;
+        return false;        // itt valamiért true volt
     }
 
-    protected static final Logger logger = App.getConsoleLogger(Professor.class.getName());
+
+
+    private void dropoutUndergraduates() {
+        for (Player p : super.where().getOccupants()) {
+           p.dropout();
+        }
+
+    }
+
 
     /** they can not win the game
      *
@@ -39,7 +48,12 @@ public class Professor extends Player implements ProximityListener {
 
     @Override
     public void step() {
-        logger.finest(()-> this + "step");
+        if(paralyzeCountdown != 0) {
+            paralyzeCountdown--;    // itt returnol
+        }
+        else {
+            super.step();
+        }
     }
 
     /** they stop moving and causing undergrads to drop out
@@ -47,7 +61,7 @@ public class Professor extends Player implements ProximityListener {
      */
     @Override
     public void paralyze() {
-        logger.fine(() -> this + " is paralyzed");
+        paralyzeCountdown = 3;
     }
 
     /** only undergrads can

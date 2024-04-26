@@ -271,7 +271,7 @@ public abstract class Player implements Steppable {
             else return true;
         }
     }
-    private void consoleMoveTowards(Direction direction) {}
+    private void consoleMoveTowards(Direction direction) {} // Ez nincs a tervben
     protected abstract boolean useItem(int index);      // Ez nincs kifejtve a tervbem
 
 

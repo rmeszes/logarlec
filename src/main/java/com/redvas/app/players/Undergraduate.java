@@ -2,6 +2,7 @@ package com.redvas.app.players;
 
 import com.redvas.app.App;
 import com.redvas.app.Game;
+import com.redvas.app.items.Transistor;
 import com.redvas.app.map.Room;
 
 import java.util.logging.ConsoleHandler;
@@ -68,7 +69,12 @@ public class Undergraduate extends Player {
 
     @Override
     public void step() {
-
+        if (protection == 0) {
+            protection--;
+        }
+        else {
+            super.step();
+        }
     }
 
     /** only profs can be
@@ -107,16 +113,18 @@ public class Undergraduate extends Player {
      * or nothing happens because player did not have 2 transistors
      *
      */
-    public void mergeItems() {
-        System.out.print("Does player have 2 mergeable items? (y/n)");
-        String answer = App.reader.nextLine();
-
-        if(answer.equals("y")) {
-            logger.fine("Two items succesfully merge");
-        } else {
-            logger.fine("Player cannot merge items.");
+    public void mergeItems(int i1, int i2) {
+        if ((i1 >= 1 && i1 <= 5) && (i2 >= 1 && i2 <=5)) {
+            getItem(i1).merge((Transistor)getItem(i2));         // Mivan ha nem tranzisztor??
         }
+        else { return; }
     }
+
+    public void useFFP2() {
+        setProtectionFor(3);
+    }
+
+    public void scheduleDrop() { dropScheduled = true; }
 
     // getter
     public String getName() { return name; }

@@ -10,15 +10,20 @@ import java.util.*;
 import java.util.logging.Logger;
 
 public class Room implements Steppable {
+    // tagváltozók
     private static final Logger logger = App.getConsoleLogger(Room.class.getName());
+    private HashMap<Direction, Door> doors = new HashMap<>();
+    private final ArrayList<Item> items = new ArrayList<>();
+    private List<Player> occupants = new ArrayList<>();
+    private int capacity;
+    private int stickiness = 0;
+    private final List<ProximityListener> listeners = new ArrayList<>();
+    private boolean isMerged = false;
 
     public void configureDoors(Labyrinth l) {
         l.acceptDoors(doors);
     }
-    private final List<ProximityListener> listeners = new ArrayList<>();
-    private final ArrayList<Item> items = new ArrayList<>();
-    private int stickiness = 0;
-    private boolean isMerged = false;
+
     /**
      *
      * @param item: someone picked it up
@@ -70,9 +75,7 @@ public class Room implements Steppable {
         logger.fine(()->"Room item inventory was added to a(n) " + item);
     }
 
-    private List<Player> occupants = new ArrayList<>();
-    private HashMap<Direction, Door> doors = new HashMap<>();
-    private int capacity;
+
 
     // to be called before addOccupant()
     public void subscribeToProximity(ProximityListener pl) {
@@ -273,4 +276,7 @@ public class Room implements Steppable {
     public List<Room> getAccessibleRooms() {
         return new ArrayList<>();
     }
+    public List<Item> getItems() { return items; }
+    public List<Player> getOccupants() { return occupants; }
+
 }
