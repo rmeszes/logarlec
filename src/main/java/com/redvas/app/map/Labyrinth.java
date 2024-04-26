@@ -197,10 +197,10 @@ public class Labyrinth implements Steppable {
             Direction.UP
     };
     // visitor pattern
-    private HashMap<Direction, Door> selection;
-    public HashMap<Direction, Door> sendDoors() { return message;}
-    private HashMap<Direction, Door> message;
-    public void acceptDoors(HashMap<Direction, Door> doors) {
+    private Map<Direction, Door> selection;
+    public Map<Direction, Door> sendDoors() { return message;}
+    private Map<Direction, Door> message;
+    public void acceptDoors(Map<Direction, Door> doors) {
         selection = doors;
     }
 

@@ -91,7 +91,7 @@ public class Room implements Steppable {
     }
 
     protected List<Player> occupants = new ArrayList<>();
-    protected HashMap<Direction, Door> doors = new HashMap<>();
+    protected Map<Direction, Door> doors = new HashMap<>();
     private int capacity;
 
     // to be called before addOccupant()
