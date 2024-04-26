@@ -136,7 +136,7 @@ public class Labyrinth implements Steppable {
     private void randomOrderSearch(Room[][] rooms, Room[][] visits, boolean[][] resizingMap, int x, int y) {
         // List<PT> pts = new ArrayList<>();
         // PTList provides O(1) access, O(1) append, O(1) deletion
-        MaxRandomPool<PT> pts = new MaxRandomPool<PT>(width * height);
+        MaxRandomPool<PT> pts = new MaxRandomPool<>(width * height);
         pts.add(new PT(x, y));
         int at = 0;
         Boolean[] stat = new Boolean[4];
@@ -180,7 +180,7 @@ public class Labyrinth implements Steppable {
                 }
             }
 
-            at = (int)(Math.random() * pts.size());
+            if(pts.size() > 0) at = random.nextInt(0, pts.size());
         }
     }
 
@@ -205,7 +205,6 @@ public class Labyrinth implements Steppable {
     }
 
     private void cyclify(Room[][] rooms, Room[][] visits, boolean[][] resizingMap) {
-        Random r = random;
         Boolean[] stat = new Boolean[4];
 
         for (int y = 0; y < height; y++)
