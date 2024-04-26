@@ -205,7 +205,6 @@ public class Labyrinth implements Steppable {
     }
 
     private void cyclify(Room[][] rooms, Room[][] visits, boolean[][] resizingMap) {
-        Random r = random;
         Boolean[] stat = new Boolean[4];
 
         for (int y = 0; y < height; y++)
@@ -252,7 +251,7 @@ public class Labyrinth implements Steppable {
         int ry = r.nextInt(0, height);
         int rx = r.nextInt(0, width);
         visits[ry][rx] = roomsLocal[ry][rx];
-        boolean[][] map = new boolean[5][5];
+        boolean[][] map = new boolean[height][width];
         randomOrderSearch(roomsLocal, visits, map, rx, ry);
         cyclify(roomsLocal, visits, map);
 
