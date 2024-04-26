@@ -3,6 +3,8 @@ package com.redvas.app.map;
 import com.redvas.app.App;
 import com.redvas.app.Game;
 import com.redvas.app.Steppable;
+import com.redvas.app.players.Janitor;
+import com.redvas.app.players.Professor;
 import com.redvas.app.players.Undergraduate;
 
 import java.util.*;
@@ -289,6 +291,11 @@ public class Labyrinth implements Steppable {
         new Undergraduate(player1Name,player1Place, game);
 
         new Undergraduate(player2Name,player2Place, game);
+
+        game.registerSteppable(new Professor(rooms.get(random.nextInt(0,rooms.size())),game));
+        game.registerSteppable(new Professor(rooms.get(random.nextInt(0,rooms.size())),game));
+
+        game.registerSteppable(new Janitor(rooms.get(random.nextInt(0,rooms.size())),game));
     }
 
     //labirintus generálásnak lesznek még lépései (itemek, stb)
