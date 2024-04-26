@@ -2,7 +2,7 @@ package com.redvas.app.players;
 
 import com.redvas.app.Game;
 import com.redvas.app.items.AirFreshener;
-import com.redvas.app.map.Room;
+import com.redvas.app.map.Rooms.Room;
 
 import java.util.ArrayList;
 import java.util.List;

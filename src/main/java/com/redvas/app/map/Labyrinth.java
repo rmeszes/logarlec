@@ -4,6 +4,9 @@ import com.redvas.app.App;
 import com.redvas.app.Game;
 import com.redvas.app.Steppable;
 import com.redvas.app.items.*;
+import com.redvas.app.map.Rooms.EnchantedRoom;
+import com.redvas.app.map.Rooms.ResizingRoom;
+import com.redvas.app.map.Rooms.Room;
 import com.redvas.app.players.Janitor;
 import com.redvas.app.players.Professor;
 import com.redvas.app.players.Undergraduate;
@@ -27,38 +30,38 @@ public class Labyrinth implements Steppable {
         }
     }
 
-    // PTList provides O(1) indexed (random/direct) access, O(1) indexed deletion
-    private static class PTList {
-        PT[] pts;
+    // MaxRandomPool provides O(1) indexed (random/direct) access, O(1) indexed deletion, O(1) append so long as no more items are inserted than its maximum capacity
+    private static class MaxRandomPool<T> {
+        T[] lotteryNumbers;
         private int writingFront = 0;
         private int contentStart = 0;
 
         protected int size() { return writingFront - contentStart; }
 
-        protected PTList(int size) {
-            pts = new PT[size];
+        protected MaxRandomPool(int maxSize) {
+            lotteryNumbers = (T[])new Object[maxSize];
         }
 
-        protected void add(PT pt) {
-            pts[writingFront++] = pt;
+        protected void add(T pt) {
+            lotteryNumbers[writingFront++] = pt;
         }
 
         protected void remove(int index) {
             index += contentStart;
 
             if (index >= contentStart && index < writingFront) {
-                PT tmp = pts[contentStart];
-                pts[contentStart] = pts[index];
-                pts[index] = tmp;
+                T tmp = lotteryNumbers[contentStart];
+                lotteryNumbers[contentStart] = lotteryNumbers[index];
+                lotteryNumbers[index] = tmp;
                 contentStart++;
             }
         }
 
-        protected PT get(int index) {
+        protected T get(int index) {
             index += contentStart;
 
             if (index >= contentStart && index < writingFront)
-                return pts[index];
+                return lotteryNumbers[index];
             return null;
         }
 
@@ -112,25 +115,20 @@ public class Labyrinth implements Steppable {
         return visitable;
     }
 
+    // LEFT, UP, RIGHT, DOWN (x + deltax, y + deltay)
+    Integer[] xc = new Integer[] { -1, 0, 1, 0 }; // x axis delta
+    Integer[] yc = new Integer[] { 0, -1, 0, 1 }; // y axis delta
 
-
-
-
-    Integer[] xc = new Integer[] { -1, 0, 1, 0 };
-    Integer[] yc = new Integer[] { 0, -1, 0, 1 };
-
-
-
-    private boolean resizeablePair(boolean[][] enchantedMap, int x1, int y1, int x2, int y2) {
+    private boolean resizeablePair(boolean[][] resizingMap, int x1, int y1, int x2, int y2) {
        boolean neighboursOkay = true;
 
         for (int i = 0; i < 4; i++) { // Implication pattern A -> B = !A || B
-            neighboursOkay &= !(x1 + xc[i] >= 0 && x1 + xc[i] < width && y1 + yc[i] >= 0 && y1 + yc[i] < height) || (!enchantedMap[y1 + yc[i]][x1 + xc[i]]);
-            neighboursOkay &= !(x2 + xc[i] >= 0 && x2 + xc[i] < width && y2 + yc[i] >= 0 && y2 + yc[i] < height) || (!enchantedMap[y2 + yc[i]][x2 + xc[i]]);
+            neighboursOkay &= !(x1 + xc[i] >= 0 && x1 + xc[i] < width && y1 + yc[i] >= 0 && y1 + yc[i] < height) || (!resizingMap[y1 + yc[i]][x1 + xc[i]]);
+            neighboursOkay &= !(x2 + xc[i] >= 0 && x2 + xc[i] < width && y2 + yc[i] >= 0 && y2 + yc[i] < height) || (!resizingMap[y2 + yc[i]][x2 + xc[i]]);
         }
 
-        return !enchantedMap[y1][x1] &&
-                !enchantedMap[y2][x2] &&
+        return !resizingMap[y1][x1] &&
+                !resizingMap[y2][x2] &&
                 neighboursOkay;
     }
 
@@ -138,14 +136,12 @@ public class Labyrinth implements Steppable {
     private void randomOrderSearch(Room[][] rooms, Room[][] visits, boolean[][] resizingMap, int x, int y) {
         // List<PT> pts = new ArrayList<>();
         // PTList provides O(1) access, O(1) append, O(1) deletion
-        PTList pts = new PTList(width * height);
+        MaxRandomPool<PT> pts = new MaxRandomPool<PT>(width * height);
         pts.add(new PT(x, y));
         int at = 0;
         Boolean[] stat = new Boolean[4];
 
         while (pts.size() != 0) {
-            System.out.println(pts.size());
-            System.out.println(at);
             int visitable = mkstat(stat, visits, pts.get(at).x, pts.get(at).y);
 
             if (visitable == 0)
@@ -172,7 +168,8 @@ public class Labyrinth implements Steppable {
                             if (Math.abs(random.nextGaussian()) > 0.88) {
                                 ResizingRoom er = new ResizingRoom(this, directions[i]);
                                 rooms[pts.get(at).y][pts.get(at).x].configureDoors();
-                                er.doors = selection;
+                                message = selection;
+                                er.receiveDoors();
                                 rooms[pts.get(at).y + yc[i]][pts.get(at).x + xc[i]].configureDoors();
                                 selection.put(rdirections[i], new Door(er, true));
                                 rooms[pts.get(at).y][pts.get(at).x] = er;
@@ -187,9 +184,6 @@ public class Labyrinth implements Steppable {
         }
     }
 
-
-
-
     private final Direction[] directions = new Direction[] {
         Direction.LEFT,
         Direction.UP,
@@ -202,7 +196,10 @@ public class Labyrinth implements Steppable {
             Direction.LEFT,
             Direction.UP
     };
+    // visitor pattern
     private HashMap<Direction, Door> selection;
+    public HashMap<Direction, Door> sendDoors() { return message;}
+    private HashMap<Direction, Door> message;
     public void acceptDoors(HashMap<Direction, Door> doors) {
         selection = doors;
     }
@@ -227,7 +224,8 @@ public class Labyrinth implements Steppable {
                                 if (Math.abs(random.nextGaussian()) > 0.88) {
                                     ResizingRoom er = new ResizingRoom(this, directions[k]);
                                     rooms[y][x].configureDoors();
-                                    er.doors = selection;
+                                    message = selection;
+                                    er.receiveDoors();
                                     rooms[y + yc[k]][x + xc[k]].configureDoors();
                                     selection.put(rdirections[k], new Door(er, true));
                                     rooms[y][x] = er;
@@ -260,6 +258,33 @@ public class Labyrinth implements Steppable {
 
         for (int y = 0; y < height; y++)
             rooms.addAll(Arrays.asList(roomsLocal[y]).subList(0, width));
+
+        for (int i = 0; i < width * height; i++)
+            if (random.nextGaussian() > 0.88) {
+                EnchantedRoom er = new EnchantedRoom(this);
+                rooms.get(i).configureDoors();
+
+                for (Map.Entry<Direction, Door> e : selection.entrySet()) {
+                    e.getValue().setVanished(random.nextBoolean());
+                    e.getValue().connectsTo().configureDoors();
+                    selection.get(reverseDirections.get(e.getKey())).setVanished(e.getValue().isVanished());
+                    selection.get(reverseDirections.get(e.getKey())).setConnection(er);
+                    er.configureDoors();
+                    selection.put(e.getKey(), e.getValue());
+                }
+
+                rooms.add(i, er);
+            }
+    }
+
+    protected static HashMap<Direction, Direction> reverseDirections = new HashMap<>();
+
+
+    static {
+        reverseDirections.put(Direction.UP, Direction.DOWN);
+        reverseDirections.put(Direction.DOWN, Direction.UP);
+        reverseDirections.put(Direction.LEFT, Direction.RIGHT);
+        reverseDirections.put(Direction.RIGHT, Direction.LEFT);
     }
 
     public void remember(Room r) {

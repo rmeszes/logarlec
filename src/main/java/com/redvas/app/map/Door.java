@@ -2,6 +2,7 @@ package com.redvas.app.map;
 
 
 import com.redvas.app.App;
+import com.redvas.app.map.Rooms.Room;
 
 import java.util.logging.Logger;
 

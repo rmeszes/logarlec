@@ -1,8 +1,11 @@
-package com.redvas.app.map;
+package com.redvas.app.map.Rooms;
 
 import com.redvas.app.App;
 import com.redvas.app.Steppable;
 import com.redvas.app.items.Item;
+import com.redvas.app.map.Direction;
+import com.redvas.app.map.Door;
+import com.redvas.app.map.Labyrinth;
 import com.redvas.app.players.Player;
 import com.redvas.app.players.ProximityListener;
 
@@ -71,6 +74,20 @@ public class Room implements Steppable {
      */
     public void addItem(Item item) {
         logger.fine(()->"Room item inventory was added to a(n) " + item);
+    }
+
+    public void receiveDoors() {
+        doors = labyrinth.sendDoors();
+    }
+
+    protected static HashMap<Direction, Direction> reverseDirections = new HashMap<>();
+
+
+    static {
+        reverseDirections.put(Direction.UP, Direction.DOWN);
+        reverseDirections.put(Direction.DOWN, Direction.UP);
+        reverseDirections.put(Direction.LEFT, Direction.RIGHT);
+        reverseDirections.put(Direction.RIGHT, Direction.LEFT);
     }
 
     protected List<Player> occupants = new ArrayList<>();

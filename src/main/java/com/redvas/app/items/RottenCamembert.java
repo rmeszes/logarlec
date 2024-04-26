@@ -1,6 +1,6 @@
 package com.redvas.app.items;
 
-import com.redvas.app.map.Room;
+import com.redvas.app.map.Rooms.Room;
 import com.redvas.app.players.Janitor;
 import com.redvas.app.players.Player;
 import com.redvas.app.players.ProximityListener;

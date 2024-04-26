@@ -1,6 +1,6 @@
 package com.redvas.app.items;
 
-import com.redvas.app.map.Room;
+import com.redvas.app.map.Rooms.Room;
 
 public class TVSZ extends Item {
     public TVSZ(Room whichRoom) {

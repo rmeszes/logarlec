@@ -1,11 +1,9 @@
 package com.redvas.app.items;
 
 import com.redvas.app.App;
-import com.redvas.app.map.Room;
+import com.redvas.app.map.Rooms.Room;
 import com.redvas.app.players.Player;
 
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public abstract class Item {

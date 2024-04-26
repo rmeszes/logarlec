@@ -2,10 +2,8 @@ package com.redvas.app.players;
 
 import com.redvas.app.App;
 import com.redvas.app.Game;
-import com.redvas.app.map.Room;
+import com.redvas.app.map.Rooms.Room;
 
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Undergraduate extends Player {

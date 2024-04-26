@@ -5,7 +5,7 @@ import com.redvas.app.Game;
 import com.redvas.app.Steppable;
 import com.redvas.app.items.Item;
 import com.redvas.app.map.Direction;
-import com.redvas.app.map.Room;
+import com.redvas.app.map.Rooms.Room;
 
 import java.util.*;
 import java.util.function.Function;

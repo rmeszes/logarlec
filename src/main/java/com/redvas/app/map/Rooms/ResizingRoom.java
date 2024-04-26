@@ -1,8 +1,10 @@
-package com.redvas.app.map;
+package com.redvas.app.map.Rooms;
 
 import com.redvas.app.App;
+import com.redvas.app.map.Direction;
+import com.redvas.app.map.Door;
+import com.redvas.app.map.Labyrinth;
 
-import java.util.HashMap;
 import java.util.logging.Logger;
 
 public class ResizingRoom extends Room {
@@ -73,16 +75,6 @@ public class ResizingRoom extends Room {
 
         mergeD = !mergeD;
     }
-    private static HashMap<Direction, Direction> reverseDirections = new HashMap<>();
-
-
-    static {
-        reverseDirections.put(Direction.UP, Direction.DOWN);
-        reverseDirections.put(Direction.DOWN, Direction.UP);
-        reverseDirections.put(Direction.LEFT, Direction.RIGHT);
-        reverseDirections.put(Direction.RIGHT, Direction.LEFT);
-    }
-
 
     public void expand() {
         logger.fine("Setting this room's attributes to new ones..");

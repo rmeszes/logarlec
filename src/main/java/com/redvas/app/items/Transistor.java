@@ -1,6 +1,6 @@
 package com.redvas.app.items;
 
-import com.redvas.app.map.Room;
+import com.redvas.app.map.Rooms.Room;
 
 public class Transistor extends Item {
     public Transistor(Room whichRoom) {
