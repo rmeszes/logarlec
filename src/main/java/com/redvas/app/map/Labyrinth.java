@@ -136,7 +136,7 @@ public class Labyrinth implements Steppable {
     private void randomOrderSearch(Room[][] rooms, Room[][] visits, boolean[][] resizingMap, int x, int y) {
         // List<PT> pts = new ArrayList<>();
         // PTList provides O(1) access, O(1) append, O(1) deletion
-        MaxRandomPool<PT> pts = new MaxRandomPool<PT>(width * height);
+        MaxRandomPool<PT> pts = new MaxRandomPool<>(width * height);
         pts.add(new PT(x, y));
         int at = 0;
         Boolean[] stat = new Boolean[4];
@@ -181,7 +181,7 @@ public class Labyrinth implements Steppable {
                 }
             }
 
-            at = (int)(Math.random() * pts.size());
+            if(pts.size() > 0) at = random.nextInt(0, pts.size());
         }
     }
 
@@ -198,10 +198,10 @@ public class Labyrinth implements Steppable {
             Direction.UP
     };
     // visitor pattern
-    private HashMap<Direction, Door> selection;
-    public HashMap<Direction, Door> sendDoors() { return message;}
-    private HashMap<Direction, Door> message;
-    public void acceptDoors(HashMap<Direction, Door> doors) {
+    private Map<Direction, Door> selection;
+    public Map<Direction, Door> sendDoors() { return message;}
+    private Map<Direction, Door> message;
+    public void acceptDoors(Map<Direction, Door> doors) {
         selection = doors;
     }
 
