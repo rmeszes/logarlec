@@ -1,99 +1,86 @@
 package com.redvas.app.map;
 
+
 import com.redvas.app.App;
 
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Door {
+    private Room connectsTo;
+    private boolean passable;
+    private boolean vanished;
 
-    protected static final Logger logger = Logger.getLogger("Door");
+    protected static final Logger logger = App.getConsoleLogger(Door.class.getName());
 
-    static {
-        ConsoleHandler handler = new ConsoleHandler();
-        handler.setLevel(Level.FINEST);
-        logger.addHandler(handler);
-        logger.setLevel(Level.FINEST);
-    }
     public Door(Room connectsTo, boolean isPassable) {
-        logger.fine("Door init");
+        logger.finest("Door init");
     }
 
     /**
-     *
      * @return Room: that is accessible through this door
      */
-    public Room connectsTo(){
-        logger.fine("The door connects to this room.");
-        return new Room();
+    public Room connectsTo() {
+        logger.finest("The door connects to this room.");
+        return this.connectsTo;
     }
 
     /**
-     *
      * @param room: neighboring room
      */
-    public void setConnection(Room room){
-        logger.fine("This door now connects to a new Room");
+    public void setConnection(Room room) {
+        this.connectsTo = room;
+        logger.finest("This door now connects to a new Room");
     }
 
     /**
-     *
      * @return bool
      */
-    public boolean isPassable(){
-        System.out.print("Is this door passable? (y/n)");
-        String value = App.reader.nextLine();
-
-        if(value.equals("y")) {
-            logger.fine("This door is active.");
+    public boolean isPassable() {
+        if (this.passable) {
+            logger.finest("This door is active.");
             return true;
-        }
-        else{
-            logger.fine("This door is inactive.");
+        } else {
+            logger.finest("This door is inactive.");
             return false;
         }
     }
 
     /**
-     *
-     * @param bool: true if door is open (?)
+     * @param bool: true if door is open
      */
-    public void setPassable(boolean bool){
-        if(bool /* && passable != bool */) {
-            logger.fine("This door is now passable");
+    public void setPassable(boolean bool) {
+        if (bool) {
+            this.passable = true;
+            logger.finest("This door is now passable");
         } else {
-            logger.fine("This door is no longer passable.");
+            this.passable = false;
         }
     }
 
     /**
-     *
      * @return bool: whether the door is vanished
      */
-    public boolean isVanished(){
-        System.out.print("Is this door vanished? (y/n)");
-        String value = App.reader.nextLine();
-
-        if(value.equals("y")) {
-            logger.fine("This door has vanished.");
+    public boolean isVanished() {
+        if (this.vanished) {
+            logger.finest("This door has vanished.");
             return true;
-        }
-        else{
+        } else {
             logger.fine("This door hasn't vanished.");
             return false;
         }
+
     }
 
     /**
-     *
      * @param bool: true if the door is vanished
      */
-    public void setVanished(boolean bool){
-        if(bool /* && vanished != bool */) {
-            logger.fine("This door has vanished");
+    public void setVanished(boolean bool) {
+        if (bool) {
+            this.vanished = true;
+            logger.finest("This door has vanished");
         } else {
-            logger.fine("The door has appeared");
+            this.vanished = false;
+
         }
     }
 }

@@ -6,13 +6,12 @@ import com.redvas.app.items.AirFreshener;
 import com.redvas.app.map.Room;
 
 import java.util.List;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Professor extends Player implements ProximityListener {
     protected static final Logger logger = App.getConsoleLogger(Professor.class.getName());
     private int paralyzeCountdown;
+
     public Professor(Room room, Game game) {
         super(room, game);
         paralyzeCountdown = 0;
@@ -57,11 +56,12 @@ public class Professor extends Player implements ProximityListener {
     }
 
     /** they stop moving and causing undergrads to drop out
-     *
+     * until the countdown is not 0
      */
     @Override
     public void paralyze() {
         paralyzeCountdown = 3;
+        logger.finest(() -> this + " is paralyzed");
     }
 
     /** only undergrads can

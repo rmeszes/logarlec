@@ -44,7 +44,7 @@ public class Room implements Steppable {
 
 
     public Room() {
-        logger.fine("Room init");
+        logger.finest("Room init");
     }
     /**
      *

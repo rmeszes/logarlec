@@ -19,6 +19,7 @@ public class Undergraduate extends Player {
         this.name = name;
         this.protection = 0;
         this.dropScheduled = false;
+        logger.fine(() -> this + " created");
     }
 
     /**
@@ -50,14 +51,7 @@ public class Undergraduate extends Player {
         getGame().undergraduateVictory();
     }
 
-    protected static final Logger logger = Logger.getLogger("UnderGraduate");
-
-    static {
-        ConsoleHandler handler = new ConsoleHandler();
-        handler.setLevel(Level.FINEST);
-        logger.addHandler(handler);
-        logger.setLevel(Level.FINEST);
-    }
+    protected static final Logger logger = App.getConsoleLogger(Undergraduate.class.getName());
 
     /** has fainted and dropped all their items
      *
@@ -75,6 +69,9 @@ public class Undergraduate extends Player {
         else {
             super.step();
         }
+
+        logger.fine(() -> name + " move: ");
+        App.reader.nextLine();
     }
 
     /** only profs can be
@@ -139,6 +136,6 @@ public class Undergraduate extends Player {
      */
     @Override
     public String toString() {
-        return "Undergraduate";
+        return getClass().getName() + " Name: " + getName();
     }
 }
