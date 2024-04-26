@@ -8,7 +8,7 @@ public class CombinedTransistor extends Item {
     private CombinedTransistor pairedWith;
     private boolean isActive = false;
 
-    protected CombinedTransistor(Room whichRoom) {
+    public CombinedTransistor(Room whichRoom) {
         super(whichRoom);
     }
 

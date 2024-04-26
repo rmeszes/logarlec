@@ -3,7 +3,7 @@ package com.redvas.app.items;
 import com.redvas.app.map.Room;
 
 public class Transistor extends Item {
-    protected Transistor(Room whichRoom) {
+    public Transistor(Room whichRoom) {
         super(whichRoom);
     }
 

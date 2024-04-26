@@ -4,7 +4,7 @@ import com.redvas.app.map.Room;
 
 public class HolyBeer extends Item {
 
-    protected HolyBeer(Room whichRoom) {
+    public HolyBeer(Room whichRoom) {
         super(whichRoom);
     }
 

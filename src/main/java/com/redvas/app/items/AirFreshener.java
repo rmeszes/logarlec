@@ -8,8 +8,10 @@ import com.redvas.app.players.ProximityListener;
 import java.util.List;
 
 public class AirFreshener extends Item implements ProximityListener {
-    protected AirFreshener(Player owner, Room whichRoom) {
-        super(owner, whichRoom);
+
+
+    public AirFreshener(Room whichRoom) {
+        super(whichRoom);
     }
 
     public void use() {

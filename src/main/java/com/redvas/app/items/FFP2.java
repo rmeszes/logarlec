@@ -4,7 +4,7 @@ import com.redvas.app.map.Room;
 
 public class FFP2 extends Item {
 
-    protected FFP2(Room whichRoom) {
+    public FFP2(Room whichRoom) {
         super(whichRoom);
     }
 

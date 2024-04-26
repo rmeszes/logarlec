@@ -10,7 +10,7 @@ import java.util.List;
 public class WetWipe extends Item implements ProximityListener {
     private int worksFor = 5;
 
-    protected WetWipe(Room whichRoom) {
+    public WetWipe(Room whichRoom) {
         super(whichRoom);
     }
 

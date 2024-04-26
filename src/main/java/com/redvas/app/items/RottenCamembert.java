@@ -8,7 +8,7 @@ import com.redvas.app.players.ProximityListener;
 import java.util.List;
 
 public class RottenCamembert extends Item implements ProximityListener {
-    protected RottenCamembert(Room whichRoom) {
+    public RottenCamembert(Room whichRoom) {
         super(whichRoom);
     }
 

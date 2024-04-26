@@ -5,7 +5,7 @@ import com.redvas.app.players.Player;
 
 public class Logarlec extends Item {
 
-    protected Logarlec(Room whichRoom) {
+    public Logarlec(Room whichRoom) {
         super(whichRoom);
     }
 
