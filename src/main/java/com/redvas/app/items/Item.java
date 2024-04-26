@@ -1,5 +1,6 @@
 package com.redvas.app.items;
 
+import com.redvas.app.App;
 import com.redvas.app.map.Room;
 import com.redvas.app.players.Player;
 
@@ -23,10 +24,6 @@ public abstract class Item {
         else
             return whichRoom;
     }
-    /**
-     *
-     * @return identificator of room (later)
-     */
 
     /** the Item was destroyed/used up, it no longer exists
      *
@@ -44,19 +41,10 @@ public abstract class Item {
         return owner;
     }
 
-    /**
-     *
-     * @param player: the one that is going to own it
-     */
 
-    protected static final Logger logger = Logger.getLogger("Item");
+    protected static final Logger logger = App.getConsoleLogger(Item.class.getName());
 
-    static {
-        ConsoleHandler handler = new ConsoleHandler();
-        handler.setLevel(Level.FINEST);
-        logger.addHandler(handler);
-        logger.setLevel(Level.FINEST);
-    }
+
 
     /** each item implements it differently
      *
