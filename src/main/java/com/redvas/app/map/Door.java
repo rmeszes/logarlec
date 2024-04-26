@@ -15,6 +15,8 @@ public class Door {
 
     public Door(Room connectsTo, boolean isPassable) {
         logger.finest("Door init");
+        this.connectsTo = connectsTo;
+        this.passable = isPassable;
     }
 
     /**

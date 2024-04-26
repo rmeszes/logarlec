@@ -165,7 +165,7 @@ public class Labyrinth implements Steppable {
                         selection.put(rdirections[i], new Door(rooms[pts.get(at).y][pts.get(at).x], true));
 
                         if (resizeablePair(resizingMap, pts.get(at).x, pts.get(at).y, pts.get(at).x + xc[i], pts.get(at).y + yc[i]))
-                            if (Math.abs(random.nextGaussian()) > 0.88) {
+                            if (Math.abs(random.nextGaussian()) > 0.81) {
                                 ResizingRoom er = new ResizingRoom(this, directions[i]);
                                 rooms[pts.get(at).y][pts.get(at).x].configureDoors();
                                 message = selection;
@@ -173,6 +173,7 @@ public class Labyrinth implements Steppable {
                                 rooms[pts.get(at).y + yc[i]][pts.get(at).x + xc[i]].configureDoors();
                                 selection.put(rdirections[i], new Door(er, true));
                                 rooms[pts.get(at).y][pts.get(at).x] = er;
+                                resizingMap[pts.get(at).y][pts.get(at).x] = resizingMap[pts.get(at).y + yc[i]][pts.get(at).x + xc[i]] = true;
                             }
 
                         pts.add(new PT(pts.get(at).x + xc[i], pts.get(at).y + yc[i]));
@@ -204,6 +205,27 @@ public class Labyrinth implements Steppable {
         selection = doors;
     }
 
+    private void enchant() {
+        for (int i = 0; i < width * height; i++)
+            if (random.nextGaussian() > 0.8) {
+                EnchantedRoom er = new EnchantedRoom(this);
+                rooms.get(i).configureDoors();
+
+                Set<Map.Entry<Direction, Door>> doors = selection.entrySet();
+
+                for (Map.Entry<Direction, Door> e : doors) {
+                    e.getValue().setVanished(random.nextBoolean());
+                    e.getValue().connectsTo().configureDoors();
+                    selection.get(reverseDirections.get(e.getKey())).setVanished(e.getValue().isVanished());
+                    selection.get(reverseDirections.get(e.getKey())).setConnection(er);
+                    er.configureDoors();
+                    selection.put(e.getKey(), e.getValue());
+                }
+
+                rooms.add(i, er);
+            }
+    }
+
     private void cyclify(Room[][] rooms, Room[][] visits, boolean[][] resizingMap) {
         Boolean[] stat = new Boolean[4];
 
@@ -211,16 +233,18 @@ public class Labyrinth implements Steppable {
             for (int x = 0; x < width; x++) {
                 mkstat2(stat, rooms, visits, x, y);
 
-                for (int k = 0; k < 4; k++) {
-                    if (Boolean.TRUE.equals(stat[k]) && random.nextDouble(0, 1) > 0.88) {
+                for (int k = 0; k < 4; k++)
+                    if (stat[k]) {
                         rooms[y][x].configureDoors();
-                        selection.put(directions[k], new Door(rooms[y + yc[k]][x + xc[k]], true));
-                        rooms[y + yc[k]][x + xc[k]].configureDoors();
+                        boolean makeEdge= random.nextDouble(0, 1) > 0.88;
+                        selection.put(directions[k], new Door(rooms[y + yc[k]][x + xc[k]], makeEdge));
 
-                        if (selection.getOrDefault(rdirections[k], null) != null) {
-                            // this means creating this edge made a counter directional link
+                        if (makeEdge) {
+                            rooms[y + yc[k]][x + xc[k]].configureDoors();
+
+                            // if (selection.getOrDefault(rdirections[k], null) != null)
                             if (resizeablePair(resizingMap, x, y, x + xc[k], y + yc[k]))
-                                if (Math.abs(random.nextGaussian()) > 0.88) {
+                                if (Math.abs(random.nextGaussian()) > 0.81) {
                                     ResizingRoom er = new ResizingRoom(this, directions[k]);
                                     rooms[y][x].configureDoors();
                                     message = selection;
@@ -228,10 +252,10 @@ public class Labyrinth implements Steppable {
                                     rooms[y + yc[k]][x + xc[k]].configureDoors();
                                     selection.put(rdirections[k], new Door(er, true));
                                     rooms[y][x] = er;
+                                    resizingMap[y][x] = resizingMap[y + yc[k]][x + xc[k]] = true;
                                 }
                         }
                     }
-                }
             }
     }
 
@@ -258,22 +282,7 @@ public class Labyrinth implements Steppable {
         for (int y = 0; y < height; y++)
             rooms.addAll(Arrays.asList(roomsLocal[y]).subList(0, width));
 
-        for (int i = 0; i < width * height; i++)
-            if (random.nextGaussian() > 0.88) {
-                EnchantedRoom er = new EnchantedRoom(this);
-                rooms.get(i).configureDoors();
-
-                for (Map.Entry<Direction, Door> e : selection.entrySet()) {
-                    e.getValue().setVanished(random.nextBoolean());
-                    e.getValue().connectsTo().configureDoors();
-                    selection.get(reverseDirections.get(e.getKey())).setVanished(e.getValue().isVanished());
-                    selection.get(reverseDirections.get(e.getKey())).setConnection(er);
-                    er.configureDoors();
-                    selection.put(e.getKey(), e.getValue());
-                }
-
-                rooms.add(i, er);
-            }
+        enchant();
     }
 
     protected static HashMap<Direction, Direction> reverseDirections = new HashMap<>();
@@ -292,12 +301,6 @@ public class Labyrinth implements Steppable {
 
     public void forget(Room room) {
         rooms.remove(room);
-    }
-
-    private void update() {
-        logger.fine("Labyrinth is changing.");
-
-
     }
 
     private final int height;
@@ -324,8 +327,6 @@ public class Labyrinth implements Steppable {
 
         for (Room r : rooms)
             r.step();
-
-        update();
     }
 
     private void emplacePlayers(String player1Name, String player2Name) {
