@@ -6,9 +6,14 @@ import com.redvas.app.players.ProximityListener;
 
 import java.util.List;
 
-public class AirFreshener implements ProximityListener {
+public class AirFreshener extends Item implements ProximityListener {
     public void use() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "AirFreshener";
     }
 
     public void proximityChanged(Player newcomer) {}
