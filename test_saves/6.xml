@@ -4,13 +4,13 @@
         <rooms>
             <room capacity="5" id="0" type="com.redvas.app.map.rooms.Room">
                 <doors>
-                    <door connects_to="1" direction="RIGHT" id="0" is_passable="false" is_vanished="false"/>
+                    <door connects_to="1" direction="RIGHT" id="0" is_passable="true" is_vanished="false"/>
                 </doors>
                 <items>
                     <item id="4" is_real="true" owner="null" type="com.redvas.app.items.RottenCamembert" whichRoom="0"/>
                 </items>
                 <occupants>
-                    <player faint_countdown="0" ffp2_countdown="0" id="4" type="com.redvas.app.players.Undergraduate" where="0">
+                    <player faint_countdown="0" ffp2_countdown="0" id="4" protection="0" type="com.redvas.app.players.Undergraduate" where="0">
                         <items/>
                     </player>
                 </occupants>

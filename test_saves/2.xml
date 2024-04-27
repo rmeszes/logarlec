@@ -8,7 +8,7 @@
                 </doors>
                 <items/>
                 <occupants>
-                <player faint_countdown="0" ffp2_countdown="0" id="4" type="com.redvas.app.players.Undergraduate" where="0">
+                    <player faint_countdown="0" ffp2_countdown="0" id="4" protection="0" type="com.redvas.app.players.Undergraduate" where="0">
                     <items/>
                 </player>
                 </occupants>
