@@ -17,8 +17,6 @@ public class Door {
         this.connectsTo = connectsTo;
         this.passable = isPassable;
         logger.finest("Door init");
-        this.connectsTo = connectsTo;
-        this.passable = isPassable;
     }
 
 
