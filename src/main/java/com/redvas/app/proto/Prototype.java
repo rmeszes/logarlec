@@ -56,7 +56,7 @@ public class Prototype {
         game = Game.startNewGame();
     }
 
-    private void commandLoad(String arg) {
+    private void commandLoad(String arg) throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException{
         try {
             int i = Integer.parseInt(arg);
             game = Game.loadPreset(i);

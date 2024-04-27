@@ -17,9 +17,7 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class Game {
@@ -44,19 +42,19 @@ public class Game {
         transformer.setOutputProperty(OutputKeys.INDENT, "yes"); // Enable indentation
         transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
         DOMSource source = new DOMSource(document);
-        StreamResult result = new StreamResult(new File("output.xml"));
+        StreamResult result = new StreamResult(new File("last_save.xml"));
         transformer.transform(source, result);
     }
 
     private static final Random random = new Random();
     protected static final Logger logger = App.getConsoleLogger(Game.class.getName());
 
-    private ArrayList<Steppable> steppablesForRound = new ArrayList<>();
+    private final Set<Steppable> steppablesForRound = new HashSet<>();
 
     Labyrinth labyrinth;
 
-    public Game() throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        load("output.xml");
+    public Game() {
+
         logger.fine("Player1 Name: ");
         String player1Name = App.reader.nextLine();
         logger.fine(() -> String.format("Player1 name set to %s%n", player1Name));
@@ -68,44 +66,47 @@ public class Game {
         logger.fine("Player names set.");
 
         labyrinth = new Labyrinth(random.nextInt(4,9), random.nextInt(4,9), this, player1Name, player2Name);
-        save();
         play();
     }
 
-    private Game(String arg) {
-        logger.fine(() -> String.format("Loading game %s%n", arg));
+    private Game(String arg) throws ParserConfigurationException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        logger.fine(() -> String.format("Loading game.. %s%n", arg));
+        load(arg);
+        play();
     }
 
-    private Game(int arg) {
+    private Game(int arg) throws IOException, ParserConfigurationException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         logger.fine(() -> String.format("Loading preset: %d%n", arg));
+        load(arg + ".xml");
+        play();
     }
 
     /**
      * method for when the game is started from scratch
      */
-    public static Game startNewGame() throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public static Game startNewGame() {
         return new Game();
     }
 
     /**
      * method for when the game has to load a previous save
      */
-    public static Game loadGame(String arg) {
+    public static Game loadGame(String arg) throws ParserConfigurationException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         return new Game(arg);
     }
 
     /**
      * method for when the game has to load a preset
      */
-    public static Game loadPreset(int arg) {
+    public static Game loadPreset(int arg) throws IOException, ParserConfigurationException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         return new Game(arg);
     }
 
-    private List<Steppable> getSteppables() { return steppablesForRound; }
+    private Set<Steppable> getSteppables() { return steppablesForRound; }
 
     public void registerSteppable(Steppable steppable) {
         steppablesForRound.add(steppable);
-        logger.fine(() -> String.format("Registering steppable: %s%n", steppable));
+        logger.finest(() -> String.format("Registering steppable: %s%n", steppable));
     }
 
     public void play() {
