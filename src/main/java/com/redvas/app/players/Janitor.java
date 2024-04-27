@@ -2,14 +2,14 @@ package com.redvas.app.players;
 
 import com.redvas.app.Game;
 import com.redvas.app.items.AirFreshener;
-import com.redvas.app.map.Room;
+import com.redvas.app.map.rooms.Room;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Janitor extends Player implements ProximityListener {
-    public Janitor(Room room, Game game) {
-        super(room, game);
+    public Janitor(Integer id, Room room, Game game) {
+        super(id, room, game);
     }
 
     private void sendEveryoneOut(List<Player> players) {
@@ -17,7 +17,7 @@ public class Janitor extends Player implements ProximityListener {
             while(player.where() == where()) {
                 boolean moved = false;
                 for(Room room : where().getAccessibleRooms()) {
-                    if(room.canAccept()) {
+                    if(Boolean.TRUE.equals(room.canAccept())) {
                         player.moveTo(room);
                         moved = true;
                     }
@@ -40,7 +40,8 @@ public class Janitor extends Player implements ProximityListener {
     public void step() {
         List<Room> rooms = where().getAccessibleRooms();
         for(Room room : rooms) {
-            if(room.canAccept()) {
+            if(Boolean.TRUE.equals(room.canAccept())) {
+                logger.fine("Moving to: Room id: "+room.getID());
                 moveTo(room);
                 break;
             }

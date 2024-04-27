@@ -2,6 +2,7 @@ package com.redvas.app.map;
 
 
 import com.redvas.app.App;
+import com.redvas.app.map.rooms.Room;
 
 import java.util.logging.Logger;
 
@@ -16,7 +17,10 @@ public class Door {
         this.connectsTo = connectsTo;
         this.passable = isPassable;
         logger.finest("Door init");
+        this.connectsTo = connectsTo;
+        this.passable = isPassable;
     }
+
 
     /**
      * @return Room: that is accessible through this door
@@ -67,7 +71,7 @@ public class Door {
             logger.finest("This door has vanished.");
             return true;
         } else {
-            logger.fine("This door hasn't vanished.");
+            logger.finest("This door hasn't vanished.");
             return false;
         }
     }

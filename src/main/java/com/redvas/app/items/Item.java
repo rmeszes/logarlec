@@ -1,17 +1,56 @@
 package com.redvas.app.items;
 
-import com.redvas.app.map.Room;
+import com.redvas.app.App;
+import com.redvas.app.map.rooms.Room;
 import com.redvas.app.players.Player;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
+import java.util.Map;
 import java.util.logging.Logger;
 
 public abstract class Item {
     protected Player owner;
-    protected Room whichRoom;
+    protected Room whichRoom = null;
     protected String name;
     protected boolean isReal;
+
+    private final int id;
+
+    /**
+     * Loads this item
+     * @param item item to load
+     * @param id2item Needed for overrides
+     */
+    public void loadXML(Element item, Map<Integer, Item> id2item) {
+        isReal = Boolean.parseBoolean(item.getAttribute("is_real"));
+    }
+
+    protected Item(int id, Player owner) {
+        this.owner = owner;
+        this.owner.addToInventory(this);
+        this.id = id;
+    }
+
+    protected Item(Integer id, Room whichRoom) {
+        this.whichRoom = whichRoom;
+        this.whichRoom.addItem(this);
+        this.id = id;
+    }
+
+    public int getID() {
+        return id;
+    }
+
+    public Element saveXML(Document document) {
+        Element item = document.createElement("item");
+        item.setAttribute("id", String.valueOf(id));
+        item.setAttribute("is_real", String.valueOf(isReal));
+        item.setAttribute("type", this.getClass().getName());
+        item.setAttribute("owner", owner == null ? "null" : String.valueOf(owner.getID()));
+        item.setAttribute("whichRoom", whichRoom == null ? "null" : String.valueOf(whichRoom.getID()));
+        return item;
+    }
 
     public Room getRoom() {
         if (owner != null)
@@ -19,10 +58,6 @@ public abstract class Item {
         else
             return whichRoom;
     }
-    /**
-     *
-     * @return identificator of room (later)
-     */
 
     /** the Item was destroyed/used up, it no longer exists
      *
@@ -40,19 +75,10 @@ public abstract class Item {
         return owner;
     }
 
-    /**
-     *
-     * @param player: the one that is going to own it
-     */
 
-    protected static final Logger logger = Logger.getLogger("Item");
+    protected static final Logger logger = App.getConsoleLogger(Item.class.getName());
 
-    static {
-        ConsoleHandler handler = new ConsoleHandler();
-        handler.setLevel(Level.FINEST);
-        logger.addHandler(handler);
-        logger.setLevel(Level.FINEST);
-    }
+
 
     /** each item implements it differently
      *
@@ -90,5 +116,10 @@ public abstract class Item {
      */
     @Override
     public abstract String toString();
+
+    /**
+     *
+     * @param item Needed for override
+     */
     public void merge(Transistor item) { logger.fine(() -> this + " can not be merged"); }
 }

@@ -1,5 +1,6 @@
 package com.redvas.app.items;
 
+import com.redvas.app.map.rooms.Room;
 import com.redvas.app.players.Janitor;
 import com.redvas.app.players.Player;
 import com.redvas.app.players.ProximityListener;
@@ -7,9 +8,13 @@ import com.redvas.app.players.ProximityListener;
 import java.util.List;
 
 public class RottenCamembert extends Item implements ProximityListener {
-    /** sets the gas of the room to true
-     *
-     */
+    public RottenCamembert(Integer id, Room whichRoom) {
+        super(id, whichRoom);
+    }
+
+    protected RottenCamembert(Integer id, Player owner) {
+        super(id, owner);
+    }
     @Override
     public void use() {
         logger.finest(() -> this + " is being used...");
