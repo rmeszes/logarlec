@@ -77,7 +77,7 @@ public class Game {
 
     private Game(int arg) throws IOException, ParserConfigurationException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         logger.fine(() -> String.format("Loading preset: %d%n", arg));
-        load(arg + ".xml");
+        load("./test_saves/" + arg + ".xml");
         play();
     }
 
