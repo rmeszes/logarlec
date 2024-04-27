@@ -87,7 +87,6 @@ public class Labyrinth implements Steppable {
                             ctor = Class.forName(playerItem.getAttribute("type")).getDeclaredConstructor(Integer.class, Player.class);
                             ctor.setAccessible(true);
                             Item it = (Item) ctor.newInstance(playerItemID, p);
-                            p.addToInventory(it);
                             items.put(it, playerItem);
                             id2item.put(it.getID(), it);
                         }
