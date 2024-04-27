@@ -5,3 +5,5 @@ logarlec.iml
 /test_outputs/*
 /results.txt
 /logarlec-proto-1.0.jar
+
+output.xml
