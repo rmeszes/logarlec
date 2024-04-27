@@ -1,7 +1,6 @@
 package com.redvas.app;
 
 
-import com.redvas.app.map.Labyrinth;
 import com.redvas.app.proto.Prototype;
 import org.xml.sax.SAXException;
 
