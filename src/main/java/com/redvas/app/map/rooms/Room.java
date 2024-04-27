@@ -11,11 +11,14 @@ import com.redvas.app.players.ProximityListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 public class Room implements Steppable {
-    private int id;
+    private final int id;
     public int getID() {
         return id;
     }

@@ -2,6 +2,7 @@ package com.redvas.app.players;
 
 import com.redvas.app.App;
 import com.redvas.app.Game;
+import com.redvas.app.items.Transistor;
 import com.redvas.app.map.rooms.Room;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -78,6 +79,13 @@ public class Undergraduate extends Player {
 
     @Override
     public void step() {
+        if (protection == 0) {
+            protection--;
+        }
+        else {
+            super.step();
+        }
+
         logger.fine(() -> name + " move: ");
         App.reader.nextLine();
     }
@@ -87,7 +95,7 @@ public class Undergraduate extends Player {
      */
     @Override
     public void paralyze() {
-      // Nem csinal semmit
+        // Nem csinal semmit
     }
 
     /** losing the game
@@ -118,9 +126,19 @@ public class Undergraduate extends Player {
      * or nothing happens because player did not have 2 transistors
      *
      */
-    public void mergeItems() {
-        //TODO
+    public void mergeItems(int i1, int i2) {
+        if ((i1 >= 1 && i1 <= 5) && (i2 >= 1 && i2 <=5)) {
+            getItem(i1).merge((Transistor)getItem(i2));         // Mivan ha nem tranzisztor??
+        }
     }
+
+    @Override
+    public void useFFP2() {
+        setProtectionFor(3);
+    }
+
+    @Override
+    public void scheduleDrop() { dropScheduled = true; }
 
     // getter
     public String getName() { return name; }
