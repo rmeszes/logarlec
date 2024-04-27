@@ -2,9 +2,7 @@ package com.redvas.app.map;
 
 
 import com.redvas.app.App;
-import com.redvas.app.map.Rooms.Room;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import com.redvas.app.map.rooms.Room;
 
 import java.util.logging.Logger;
 

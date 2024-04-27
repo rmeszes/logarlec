@@ -1,4 +1,4 @@
-package com.redvas.app.map.Rooms;
+package com.redvas.app.map.rooms;
 
 import com.redvas.app.App;
 import com.redvas.app.Steppable;
@@ -10,10 +10,8 @@ import com.redvas.app.players.Player;
 import com.redvas.app.players.ProximityListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.logging.Logger;
 
 public class Room implements Steppable {
@@ -27,8 +25,8 @@ public class Room implements Steppable {
         room.setAttribute("capacity", String.valueOf(capacity));
         room.setAttribute("type", this.getClass().getName());
         room.setAttribute("id", String.valueOf(id));
-        Element doors = document.createElement("doors");
-        room.appendChild(doors);
+        Element doorsXML = document.createElement("doors");
+        room.appendChild(doorsXML);
 
         for (Map.Entry<Direction, Door> e : this.doors.entrySet()) {
             Element door = document.createElement("door");
@@ -37,21 +35,21 @@ public class Room implements Steppable {
             door.setAttribute("id", String.valueOf(getID()));
             door.setAttribute("is_passable", String.valueOf(e.getValue().isPassable()));
             door.setAttribute("is_vanished", String.valueOf(e.getValue().isVanished()));
-            doors.appendChild(door);
+            doorsXML.appendChild(door);
         }
 
-        Element occupants = document.createElement("occupants");
+        Element occupantsXML = document.createElement("occupants");
 
         for (Player p : this.occupants)
-            occupants.appendChild(p.saveXML(document));
+            occupantsXML.appendChild(p.saveXML(document));
 
-        Element items = document.createElement("items");
+        Element itemsXML = document.createElement("items");
 
         for (Item i : this.items)
-            items.appendChild(i.saveXML(document));
+            itemsXML.appendChild(i.saveXML(document));
 
-        room.appendChild(items);
-        room.appendChild(occupants);
+        room.appendChild(itemsXML);
+        room.appendChild(occupantsXML);
         return room;
     }
     private static final Logger logger = App.getConsoleLogger(Room.class.getName());
@@ -83,9 +81,9 @@ public class Room implements Steppable {
         return items.get(index);
     }
 
-    public void loadXML(Element room) {}
-
-    private int n = 0;
+    public void loadXML(Element room) {
+        //does nothing
+    }
 
     public Room(Labyrinth labyrinth, Integer id) {
         this.labyrinth = labyrinth;
@@ -172,18 +170,6 @@ public class Room implements Steppable {
         logger.finest("Room is on its turn");
         listeners.forEach(listener -> listener.proximityEndOfRound(occupants));
     }
-
-    private Direction getNeighborDirection(Room r) {
-        Optional<Direction> d = doors
-                .entrySet()
-                .stream()
-                .filter(entry -> entry.getValue().connectsTo() == r)
-                .map(Map.Entry::getKey)
-                .findFirst();
-
-        return d.orElse(null);
-    }
-
 
 
     /**

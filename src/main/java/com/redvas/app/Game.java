@@ -17,7 +17,9 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 import java.util.logging.Logger;
 
 public class Game {
@@ -35,8 +37,8 @@ public class Game {
         Document document = builder.newDocument();
         Element game = document.createElement("game");
         document.appendChild(game);
-        Element labyrinth = this.labyrinth.saveXML(document);
-        game.appendChild(labyrinth);
+        Element labyrinthXML = this.labyrinth.saveXML(document);
+        game.appendChild(labyrinthXML);
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT, "yes"); // Enable indentation
@@ -51,10 +53,9 @@ public class Game {
 
     private final Set<Steppable> steppablesForRound = new HashSet<>();
 
-    Labyrinth labyrinth;
+    private Labyrinth labyrinth;
 
     public Game() {
-
         logger.fine("Player1 Name: ");
         String player1Name = App.reader.nextLine();
         logger.fine(() -> String.format("Player1 name set to %s%n", player1Name));

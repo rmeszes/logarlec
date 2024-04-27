@@ -1,14 +1,11 @@
 package com.redvas.app.items;
 
 import com.redvas.app.App;
-import com.redvas.app.map.Rooms.Room;
+import com.redvas.app.map.rooms.Room;
 import com.redvas.app.players.Player;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import javax.management.StringValueExp;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -20,7 +17,12 @@ public abstract class Item {
 
     private final int id;
 
-    public void loadXML(Element item, HashMap<Integer, Item> id2item) {
+    /**
+     * Loads this item
+     * @param item item to load
+     * @param id2item Needed for overrides
+     */
+    public void loadXML(Element item, Map<Integer, Item> id2item) {
         isReal = Boolean.parseBoolean(item.getAttribute("is_real"));
     }
 
@@ -114,5 +116,10 @@ public abstract class Item {
      */
     @Override
     public abstract String toString();
+
+    /**
+     *
+     * @param item Needed for override
+     */
     public void merge(Transistor item) { logger.fine(() -> this + " can not be merged"); }
 }

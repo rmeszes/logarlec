@@ -5,7 +5,7 @@ import com.redvas.app.Game;
 import com.redvas.app.Steppable;
 import com.redvas.app.items.Item;
 import com.redvas.app.map.Direction;
-import com.redvas.app.map.Rooms.Room;
+import com.redvas.app.map.rooms.Room;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -42,7 +42,7 @@ public abstract class Player implements Steppable {
     }
 
     //constants
-    private final String commandNotRecognizedMsg = "Command not recognised.";
+    private static final String commandNotRecognizedMsg = "Command not recognised.";
 
     // tagváltozók
     private Room where;
@@ -124,14 +124,15 @@ public abstract class Player implements Steppable {
                 Character cmd = scnr.nextLine().charAt(0);
                 Supplier<Boolean> selection = null;
 
-                if ((selection = cmds.getOrDefault(cmd, null)) != null)
-                    if (selection.get())
-                    {
+                if ((selection = cmds.getOrDefault(cmd, null)) != null) {
+                    if (Boolean.TRUE.equals(selection.get())) {
                         man.remove(cmd);
                         cmds.remove(cmd);
                     }
-                else if (cmd == 'p')
+                }
+                else if (cmd == 'p') {
                     return;
+                }
                 else
                     logger.fine(commandNotRecognizedMsg);
             }
@@ -214,12 +215,11 @@ public abstract class Player implements Steppable {
     private boolean moveTowards (Direction direction) {
         Room r;
 
-        if ((r = where.isAccessible(direction)) != null) {
-            if (r.canAccept()) {
+        if ((r = where.isAccessible(direction)) != null && r.canAccept()) {
                 moveTo(r);
                 return true;
             }
-        }
+
 
         return false;
     }
@@ -245,7 +245,7 @@ public abstract class Player implements Steppable {
             logger.fine("Choose command:");
 
             for (Map.Entry<Character, String> e : man.entrySet())
-                logger.fine(() -> String.format("Cmd: %c, %s\n", e. getKey(), e.getValue()));
+                logger.fine(() -> String.format("Cmd: %c, %s%n", e. getKey(), e.getValue()));
 
             Character cmd = scnr.nextLine().charAt(0);
 
@@ -259,7 +259,7 @@ public abstract class Player implements Steppable {
                 try {
                     int p = Integer.parseInt(scnr.nextLine());
 
-                    if (!cmds.get(cmd).apply(p))
+                    if (Boolean.FALSE.equals(cmds.get(cmd).apply(p)))
                         logger.fine("Act failed");
                     else return true;
                 }
@@ -293,7 +293,7 @@ public abstract class Player implements Steppable {
             logger.fine("Choose a command:");
 
             for (Map.Entry<String, String> e : man.entrySet())
-                logger.fine(()->String.format("Cmd: %s, %s\n", e.getKey(), e.getValue()));
+                logger.fine(()->String.format("Cmd: %s, %s%n", e.getKey(), e.getValue()));
 
             String cmd = scnr.nextLine();
 

@@ -2,7 +2,7 @@ package com.redvas.app.players;
 
 import com.redvas.app.App;
 import com.redvas.app.Game;
-import com.redvas.app.map.Rooms.Room;
+import com.redvas.app.map.rooms.Room;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

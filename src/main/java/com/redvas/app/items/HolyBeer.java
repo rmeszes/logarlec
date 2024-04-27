@@ -1,6 +1,6 @@
 package com.redvas.app.items;
 
-import com.redvas.app.map.Rooms.Room;
+import com.redvas.app.map.rooms.Room;
 import com.redvas.app.players.Player;
 
 public class HolyBeer extends Item {

@@ -1,11 +1,9 @@
 package com.redvas.app.items;
 
-import com.redvas.app.map.Rooms.Room;
+import com.redvas.app.map.rooms.Room;
 import com.redvas.app.players.Player;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
-import javax.print.Doc;
 
 public class TVSZ extends Item {
     public TVSZ(Integer id, Room whichRoom) {

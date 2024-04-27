@@ -1,9 +1,8 @@
-package com.redvas.app.map.Rooms;
+package com.redvas.app.map.rooms;
 
 import com.redvas.app.map.Direction;
 import com.redvas.app.map.Door;
 import com.redvas.app.map.Labyrinth;
-import com.redvas.app.map.Rooms.Room;
 
 import java.util.Map;
 

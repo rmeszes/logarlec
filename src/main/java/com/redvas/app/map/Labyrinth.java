@@ -4,9 +4,9 @@ import com.redvas.app.App;
 import com.redvas.app.Game;
 import com.redvas.app.Steppable;
 import com.redvas.app.items.*;
-import com.redvas.app.map.Rooms.EnchantedRoom;
-import com.redvas.app.map.Rooms.ResizingRoom;
-import com.redvas.app.map.Rooms.Room;
+import com.redvas.app.map.rooms.EnchantedRoom;
+import com.redvas.app.map.rooms.ResizingRoom;
+import com.redvas.app.map.rooms.Room;
 import com.redvas.app.players.Janitor;
 import com.redvas.app.players.Player;
 import com.redvas.app.players.Professor;
@@ -19,7 +19,6 @@ import org.w3c.dom.NodeList;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
-
 import java.util.logging.Logger;
 
 
@@ -33,7 +32,6 @@ public class Labyrinth implements Steppable {
         );
 
         Constructor<?> ctor;
-        // List<Player> players = new ArrayList<>();
         HashMap<Item, Element> items = new HashMap<>();
         HashMap<Integer, Room> id2room = new HashMap<>();
         HashMap<Integer, Item> id2item = new HashMap<>();
@@ -77,7 +75,6 @@ public class Labyrinth implements Steppable {
                                 l.rooms.get(Integer.parseInt(occupant.getAttribute("where"))),
                                 g);
                         p.loadXML(occupant);
-                        // players.add(p);
 
                         NodeList playerItems = occupant.getElementsByTagName("item");
 
@@ -95,7 +92,6 @@ public class Labyrinth implements Steppable {
             }
         }
 
-        // l.rooms.sort(Comparator.comparingInt(Room::getID));
 
         for (int i = 0; i < rooms.getLength(); i++) {
             NodeList doors = ((Element) rooms.item(i)).getElementsByTagName("door");
@@ -112,9 +108,6 @@ public class Labyrinth implements Steppable {
                 d.setVanished(Boolean.parseBoolean(door.getAttribute("is_vanished")));
             }
         }
-
-        Map.Entry<Item, Element>[] entryArray = items.entrySet().toArray(new Map.Entry[0]);
-        // Arrays.sort(entryArray, Comparator.comparingInt(entry -> entry.getKey().getID()));
 
         for (Map.Entry<Item, Element> e : items.entrySet())
             e.getKey().loadXML(e.getValue(), id2item);
@@ -136,12 +129,12 @@ public class Labyrinth implements Steppable {
         Element labyrinth = document.createElement("labyrinth");
         labyrinth.setAttribute("width", String.valueOf(width));
         labyrinth.setAttribute("height", String.valueOf(height));
-        Element rooms = document.createElement("rooms");
+        Element roomsXML = document.createElement("rooms");
 
         for (Room r : this.rooms)
-            rooms.appendChild(r.saveXML(document));
+            roomsXML.appendChild(r.saveXML(document));
 
-        labyrinth.appendChild(rooms);
+        labyrinth.appendChild(roomsXML);
         return labyrinth;
     }
 
@@ -265,7 +258,6 @@ public class Labyrinth implements Steppable {
 
     // Random Order Search
     private void randomOrderSearch(Room[][] rooms, Room[][] visits, boolean[][] resizingMap, int x, int y) {
-        // List<PT> pts = new ArrayList<>();
         // PTList provides O(1) access, O(1) append, O(1) deletion
         MaxRandomPool<PT> pts = new MaxRandomPool<>(width * height);
         pts.add(new PT(x, y));
@@ -295,8 +287,7 @@ public class Labyrinth implements Steppable {
                         rooms[pts.get(at).y + yc[i]][pts.get(at).x + xc[i]].configureDoors();
                         selection.put(rdirections[i], new Door(rooms[pts.get(at).y][pts.get(at).x], true));
 
-                        if (resizeablePair(resizingMap, pts.get(at).x, pts.get(at).y, pts.get(at).x + xc[i], pts.get(at).y + yc[i]))
-                            if (Math.abs(random.nextGaussian()) > 0.81) {
+                        if (resizeablePair(resizingMap, pts.get(at).x, pts.get(at).y, pts.get(at).x + xc[i], pts.get(at).y + yc[i]) && Math.abs(random.nextGaussian()) > 0.81) {
                                 ResizingRoom er = new ResizingRoom(rooms[pts.get(at).y][pts.get(at).x].getID(), this, directions[i]);
                                 rooms[pts.get(at).y][pts.get(at).x].configureDoors();
                                 message = selection;
@@ -373,9 +364,7 @@ public class Labyrinth implements Steppable {
                         if (makeEdge) {
                             rooms[y + yc[k]][x + xc[k]].configureDoors();
 
-                            // if (selection.getOrDefault(rdirections[k], null) != null)
-                            if (resizeablePair(resizingMap, x, y, x + xc[k], y + yc[k]))
-                                if (Math.abs(random.nextGaussian()) > 0.81) {
+                            if (resizeablePair(resizingMap, x, y, x + xc[k], y + yc[k]) && Math.abs(random.nextGaussian()) > 0.81) {
                                     ResizingRoom er = new ResizingRoom(rooms[y][x].getID(), this, directions[k]);
                                     rooms[y][x].configureDoors();
                                     message = selection;

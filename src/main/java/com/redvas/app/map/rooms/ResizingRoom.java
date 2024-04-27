@@ -1,4 +1,4 @@
-package com.redvas.app.map.Rooms;
+package com.redvas.app.map.rooms;
 
 import com.redvas.app.App;
 import com.redvas.app.map.Direction;
@@ -50,12 +50,7 @@ public class ResizingRoom extends Room {
         this.mergeDirection = mergeDirection;
     }
 
-    private ResizingRoom(Labyrinth labyrinth, Integer id) {
-        super(labyrinth, id);
-    }
-
     public void split() {
-        //TODO if (!isMerged) return;
         if (!isMerged()) return;
 
         if (!occupants.isEmpty()) return;

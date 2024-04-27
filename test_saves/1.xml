@@ -2,7 +2,7 @@
 <game>
   <labyrinth height="6" width="8">
     <rooms>
-      <room capacity="0" id="0" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="0" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="8" direction="DOWN" id="0" is_passable="true" is_vanished="false"/>
           <door connects_to="1" direction="RIGHT" id="0" is_passable="false" is_vanished="false"/>
@@ -10,7 +10,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="1" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="1" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="9" direction="DOWN" id="1" is_passable="false" is_vanished="false"/>
           <door connects_to="2" direction="RIGHT" id="1" is_passable="true" is_vanished="false"/>
@@ -19,7 +19,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="2" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="2" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="10" direction="DOWN" id="2" is_passable="false" is_vanished="false"/>
           <door connects_to="3" direction="RIGHT" id="2" is_passable="true" is_vanished="false"/>
@@ -28,7 +28,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="3" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="3" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="11" direction="DOWN" id="3" is_passable="false" is_vanished="false"/>
           <door connects_to="4" direction="RIGHT" id="3" is_passable="false" is_vanished="false"/>
@@ -37,7 +37,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="4" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="4" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="12" direction="DOWN" id="4" is_passable="true" is_vanished="false"/>
           <door connects_to="5" direction="RIGHT" id="4" is_passable="false" is_vanished="false"/>
@@ -46,7 +46,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="5" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="5" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="13" direction="DOWN" id="5" is_passable="false" is_vanished="false"/>
           <door connects_to="6" direction="RIGHT" id="5" is_passable="true" is_vanished="false"/>
@@ -55,7 +55,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="6" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="6" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="14" direction="DOWN" id="6" is_passable="true" is_vanished="false"/>
           <door connects_to="7" direction="RIGHT" id="6" is_passable="true" is_vanished="false"/>
@@ -64,7 +64,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="7" type="com.redvas.app.map.Rooms.EnchantedRoom">
+      <room capacity="0" id="7" type="com.redvas.app.map.rooms.EnchantedRoom">
         <doors>
           <door connects_to="15" direction="DOWN" id="7" is_passable="false" is_vanished="true"/>
           <door connects_to="6" direction="LEFT" id="7" is_passable="true" is_vanished="false"/>
@@ -72,7 +72,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="7" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="7" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="15" direction="DOWN" id="7" is_passable="false" is_vanished="true"/>
           <door connects_to="6" direction="LEFT" id="7" is_passable="true" is_vanished="false"/>
@@ -80,7 +80,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="8" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="8" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="16" direction="DOWN" id="8" is_passable="false" is_vanished="false"/>
           <door connects_to="9" direction="RIGHT" id="8" is_passable="true" is_vanished="false"/>
@@ -89,7 +89,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="9" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="9" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="17" direction="DOWN" id="9" is_passable="true" is_vanished="false"/>
           <door connects_to="10" direction="RIGHT" id="9" is_passable="false" is_vanished="false"/>
@@ -101,7 +101,7 @@
         </items>
         <occupants/>
       </room>
-      <room capacity="0" id="10" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="10" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="18" direction="DOWN" id="10" is_passable="false" is_vanished="false"/>
           <door connects_to="11" direction="RIGHT" id="10" is_passable="true" is_vanished="false"/>
@@ -111,7 +111,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="11" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="11" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="19" direction="DOWN" id="11" is_passable="false" is_vanished="true"/>
           <door connects_to="12" direction="RIGHT" id="11" is_passable="true" is_vanished="false"/>
@@ -127,7 +127,7 @@
           </player>
         </occupants>
       </room>
-      <room capacity="0" id="12" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="12" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="20" direction="DOWN" id="12" is_passable="true" is_vanished="false"/>
           <door connects_to="13" direction="RIGHT" id="12" is_passable="true" is_vanished="false"/>
@@ -137,7 +137,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="13" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="13" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="21" direction="DOWN" id="13" is_passable="true" is_vanished="false"/>
           <door connects_to="14" direction="RIGHT" id="13" is_passable="true" is_vanished="false"/>
@@ -147,7 +147,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="14" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="14" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="22" direction="DOWN" id="14" is_passable="false" is_vanished="false"/>
           <door connects_to="15" direction="RIGHT" id="14" is_passable="false" is_vanished="false"/>
@@ -161,7 +161,7 @@
           </player>
         </occupants>
       </room>
-      <room capacity="0" id="15" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="15" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="23" direction="DOWN" id="15" is_passable="false" is_vanished="false"/>
           <door connects_to="7" direction="UP" id="15" is_passable="false" is_vanished="true"/>
@@ -170,7 +170,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="16" type="com.redvas.app.map.Rooms.EnchantedRoom">
+      <room capacity="0" id="16" type="com.redvas.app.map.rooms.EnchantedRoom">
         <doors>
           <door connects_to="24" direction="DOWN" id="16" is_passable="false" is_vanished="true"/>
           <door connects_to="17" direction="RIGHT" id="16" is_passable="true" is_vanished="true"/>
@@ -179,7 +179,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="16" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="16" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="24" direction="DOWN" id="16" is_passable="false" is_vanished="true"/>
           <door connects_to="17" direction="RIGHT" id="16" is_passable="true" is_vanished="true"/>
@@ -188,7 +188,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="17" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="17" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="25" direction="DOWN" id="17" is_passable="true" is_vanished="false"/>
           <door connects_to="18" direction="RIGHT" id="17" is_passable="false" is_vanished="false"/>
@@ -202,7 +202,7 @@
           </player>
         </occupants>
       </room>
-      <room capacity="0" id="18" type="com.redvas.app.map.Rooms.EnchantedRoom">
+      <room capacity="0" id="18" type="com.redvas.app.map.rooms.EnchantedRoom">
         <doors>
           <door connects_to="26" direction="DOWN" id="18" is_passable="false" is_vanished="true"/>
           <door connects_to="19" direction="RIGHT" id="18" is_passable="true" is_vanished="false"/>
@@ -214,7 +214,7 @@
         </items>
         <occupants/>
       </room>
-      <room capacity="0" id="18" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="18" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="26" direction="DOWN" id="18" is_passable="false" is_vanished="true"/>
           <door connects_to="19" direction="RIGHT" id="18" is_passable="true" is_vanished="false"/>
@@ -224,7 +224,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="19" type="com.redvas.app.map.Rooms.EnchantedRoom">
+      <room capacity="0" id="19" type="com.redvas.app.map.rooms.EnchantedRoom">
         <doors>
           <door connects_to="27" direction="DOWN" id="19" is_passable="true" is_vanished="true"/>
           <door connects_to="20" direction="RIGHT" id="19" is_passable="false" is_vanished="false"/>
@@ -234,7 +234,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="19" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="19" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="27" direction="DOWN" id="19" is_passable="true" is_vanished="true"/>
           <door connects_to="20" direction="RIGHT" id="19" is_passable="false" is_vanished="false"/>
@@ -244,7 +244,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="20" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="20" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="28" direction="DOWN" id="20" is_passable="false" is_vanished="false"/>
           <door connects_to="21" direction="RIGHT" id="20" is_passable="true" is_vanished="false"/>
@@ -254,7 +254,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="21" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="21" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="29" direction="DOWN" id="21" is_passable="true" is_vanished="false"/>
           <door connects_to="22" direction="RIGHT" id="21" is_passable="true" is_vanished="false"/>
@@ -264,7 +264,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="22" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="22" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="30" direction="DOWN" id="22" is_passable="false" is_vanished="false"/>
           <door connects_to="23" direction="RIGHT" id="22" is_passable="true" is_vanished="false"/>
@@ -274,7 +274,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="23" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="23" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="31" direction="DOWN" id="23" is_passable="false" is_vanished="true"/>
           <door connects_to="22" direction="LEFT" id="23" is_passable="true" is_vanished="false"/>
@@ -287,7 +287,7 @@
           </player>
         </occupants>
       </room>
-      <room capacity="0" id="24" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="24" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="32" direction="DOWN" id="24" is_passable="true" is_vanished="false"/>
           <door connects_to="25" direction="RIGHT" id="24" is_passable="true" is_vanished="false"/>
@@ -296,7 +296,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="25" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="25" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="33" direction="DOWN" id="25" is_passable="false" is_vanished="false"/>
           <door connects_to="26" direction="RIGHT" id="25" is_passable="false" is_vanished="false"/>
@@ -306,7 +306,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="26" type="com.redvas.app.map.Rooms.EnchantedRoom">
+      <room capacity="0" id="26" type="com.redvas.app.map.rooms.EnchantedRoom">
         <doors>
           <door connects_to="34" direction="DOWN" id="26" is_passable="true" is_vanished="false"/>
           <door connects_to="27" direction="RIGHT" id="26" is_passable="true" is_vanished="false"/>
@@ -316,7 +316,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="26" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="26" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="34" direction="DOWN" id="26" is_passable="true" is_vanished="false"/>
           <door connects_to="27" direction="RIGHT" id="26" is_passable="true" is_vanished="false"/>
@@ -326,7 +326,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="27" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="27" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="35" direction="DOWN" id="27" is_passable="true" is_vanished="false"/>
           <door connects_to="28" direction="RIGHT" id="27" is_passable="false" is_vanished="false"/>
@@ -336,7 +336,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="28" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="28" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="36" direction="DOWN" id="28" is_passable="true" is_vanished="false"/>
           <door connects_to="29" direction="RIGHT" id="28" is_passable="false" is_vanished="false"/>
@@ -346,7 +346,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="29" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="29" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="37" direction="DOWN" id="29" is_passable="true" is_vanished="false"/>
           <door connects_to="30" direction="RIGHT" id="29" is_passable="false" is_vanished="false"/>
@@ -358,7 +358,7 @@
         </items>
         <occupants/>
       </room>
-      <room capacity="0" id="30" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="30" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="38" direction="DOWN" id="30" is_passable="false" is_vanished="false"/>
           <door connects_to="31" direction="RIGHT" id="30" is_passable="true" is_vanished="true"/>
@@ -368,7 +368,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="31" type="com.redvas.app.map.Rooms.EnchantedRoom">
+      <room capacity="0" id="31" type="com.redvas.app.map.rooms.EnchantedRoom">
         <doors>
           <door connects_to="39" direction="DOWN" id="31" is_passable="true" is_vanished="false"/>
           <door connects_to="30" direction="LEFT" id="31" is_passable="true" is_vanished="true"/>
@@ -377,7 +377,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="31" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="31" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="39" direction="DOWN" id="31" is_passable="true" is_vanished="false"/>
           <door connects_to="30" direction="LEFT" id="31" is_passable="true" is_vanished="true"/>
@@ -388,7 +388,7 @@
         </items>
         <occupants/>
       </room>
-      <room capacity="0" id="32" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="32" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="40" direction="DOWN" id="32" is_passable="false" is_vanished="false"/>
           <door connects_to="33" direction="RIGHT" id="32" is_passable="true" is_vanished="false"/>
@@ -397,7 +397,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="33" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="33" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="41" direction="DOWN" id="33" is_passable="true" is_vanished="true"/>
           <door connects_to="34" direction="RIGHT" id="33" is_passable="true" is_vanished="false"/>
@@ -407,7 +407,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="34" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="34" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="42" direction="DOWN" id="34" is_passable="true" is_vanished="false"/>
           <door connects_to="35" direction="RIGHT" id="34" is_passable="true" is_vanished="false"/>
@@ -417,7 +417,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="35" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="35" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="43" direction="DOWN" id="35" is_passable="true" is_vanished="false"/>
           <door connects_to="36" direction="RIGHT" id="35" is_passable="false" is_vanished="false"/>
@@ -429,7 +429,7 @@
         </items>
         <occupants/>
       </room>
-      <room capacity="0" id="36" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="36" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="44" direction="DOWN" id="36" is_passable="false" is_vanished="false"/>
           <door connects_to="37" direction="RIGHT" id="36" is_passable="false" is_vanished="false"/>
@@ -441,7 +441,7 @@
         </items>
         <occupants/>
       </room>
-      <room capacity="0" id="37" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="37" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="45" direction="DOWN" id="37" is_passable="true" is_vanished="false"/>
           <door connects_to="38" direction="RIGHT" id="37" is_passable="true" is_vanished="false"/>
@@ -451,7 +451,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="38" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="38" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="46" direction="DOWN" id="38" is_passable="false" is_vanished="false"/>
           <door connects_to="39" direction="RIGHT" id="38" is_passable="false" is_vanished="false"/>
@@ -461,7 +461,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="39" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="39" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="47" direction="DOWN" id="39" is_passable="false" is_vanished="false"/>
           <door connects_to="31" direction="UP" id="39" is_passable="true" is_vanished="false"/>
@@ -470,7 +470,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="40" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="40" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="41" direction="RIGHT" id="40" is_passable="true" is_vanished="true"/>
           <door connects_to="32" direction="UP" id="40" is_passable="false" is_vanished="false"/>
@@ -478,7 +478,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="41" type="com.redvas.app.map.Rooms.EnchantedRoom">
+      <room capacity="0" id="41" type="com.redvas.app.map.rooms.EnchantedRoom">
         <doors>
           <door connects_to="42" direction="RIGHT" id="41" is_passable="true" is_vanished="true"/>
           <door connects_to="40" direction="LEFT" id="41" is_passable="false" is_vanished="true"/>
@@ -487,7 +487,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="41" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="41" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="42" direction="RIGHT" id="41" is_passable="true" is_vanished="true"/>
           <door connects_to="40" direction="LEFT" id="41" is_passable="false" is_vanished="true"/>
@@ -496,7 +496,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="42" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="42" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="43" direction="RIGHT" id="42" is_passable="true" is_vanished="false"/>
           <door connects_to="34" direction="UP" id="42" is_passable="true" is_vanished="false"/>
@@ -507,7 +507,7 @@
         </items>
         <occupants/>
       </room>
-      <room capacity="0" id="43" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="43" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="44" direction="RIGHT" id="43" is_passable="false" is_vanished="false"/>
           <door connects_to="42" direction="LEFT" id="43" is_passable="true" is_vanished="false"/>
@@ -516,7 +516,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="44" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="44" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="45" direction="RIGHT" id="44" is_passable="false" is_vanished="false"/>
           <door connects_to="43" direction="LEFT" id="44" is_passable="false" is_vanished="false"/>
@@ -525,7 +525,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="45" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="45" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="46" direction="RIGHT" id="45" is_passable="true" is_vanished="false"/>
           <door connects_to="37" direction="UP" id="45" is_passable="true" is_vanished="false"/>
@@ -534,7 +534,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="46" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="46" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="47" direction="RIGHT" id="46" is_passable="true" is_vanished="false"/>
           <door connects_to="45" direction="LEFT" id="46" is_passable="true" is_vanished="false"/>
@@ -547,7 +547,7 @@
           </player>
         </occupants>
       </room>
-      <room capacity="0" id="47" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="47" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="39" direction="UP" id="47" is_passable="false" is_vanished="false"/>
           <door connects_to="46" direction="LEFT" id="47" is_passable="false" is_vanished="false"/>
@@ -557,7 +557,7 @@
         </items>
         <occupants/>
       </room>
-      <room capacity="0" id="0" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="0" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="8" direction="DOWN" id="0" is_passable="true" is_vanished="false"/>
           <door connects_to="1" direction="RIGHT" id="0" is_passable="false" is_vanished="false"/>
@@ -565,7 +565,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="1" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="1" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="9" direction="DOWN" id="1" is_passable="false" is_vanished="false"/>
           <door connects_to="2" direction="RIGHT" id="1" is_passable="true" is_vanished="false"/>
@@ -574,7 +574,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="2" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="2" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="10" direction="DOWN" id="2" is_passable="false" is_vanished="false"/>
           <door connects_to="3" direction="RIGHT" id="2" is_passable="true" is_vanished="false"/>
@@ -583,7 +583,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="3" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="3" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="11" direction="DOWN" id="3" is_passable="false" is_vanished="false"/>
           <door connects_to="4" direction="RIGHT" id="3" is_passable="false" is_vanished="false"/>
@@ -592,7 +592,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="4" incorporated_id="-1" merge_d="false" merge_direction="LEFT" type="com.redvas.app.map.Rooms.ResizingRoom">
+      <room capacity="0" id="4" incorporated_id="-1" merge_d="false" merge_direction="LEFT" type="com.redvas.app.map.rooms.ResizingRoom">
         <doors>
           <door connects_to="12" direction="DOWN" id="4" is_passable="true" is_vanished="false"/>
           <door connects_to="5" direction="RIGHT" id="4" is_passable="false" is_vanished="false"/>
@@ -601,7 +601,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="5" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="5" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="13" direction="DOWN" id="5" is_passable="false" is_vanished="false"/>
           <door connects_to="6" direction="RIGHT" id="5" is_passable="true" is_vanished="false"/>
@@ -610,7 +610,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="6" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="6" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="14" direction="DOWN" id="6" is_passable="true" is_vanished="false"/>
           <door connects_to="7" direction="RIGHT" id="6" is_passable="true" is_vanished="false"/>
@@ -619,7 +619,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="7" incorporated_id="-1" merge_d="false" merge_direction="DOWN" type="com.redvas.app.map.Rooms.ResizingRoom">
+      <room capacity="0" id="7" incorporated_id="-1" merge_d="false" merge_direction="DOWN" type="com.redvas.app.map.rooms.ResizingRoom">
         <doors>
           <door connects_to="15" direction="DOWN" id="7" is_passable="false" is_vanished="true"/>
           <door connects_to="6" direction="LEFT" id="7" is_passable="true" is_vanished="false"/>
@@ -627,7 +627,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="8" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="8" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="16" direction="DOWN" id="8" is_passable="false" is_vanished="false"/>
           <door connects_to="9" direction="RIGHT" id="8" is_passable="true" is_vanished="false"/>
@@ -636,7 +636,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="9" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="9" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="17" direction="DOWN" id="9" is_passable="true" is_vanished="false"/>
           <door connects_to="10" direction="RIGHT" id="9" is_passable="false" is_vanished="false"/>
@@ -648,7 +648,7 @@
         </items>
         <occupants/>
       </room>
-      <room capacity="0" id="10" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="10" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="18" direction="DOWN" id="10" is_passable="false" is_vanished="false"/>
           <door connects_to="11" direction="RIGHT" id="10" is_passable="true" is_vanished="false"/>
@@ -658,7 +658,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="11" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="11" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="19" direction="DOWN" id="11" is_passable="false" is_vanished="true"/>
           <door connects_to="12" direction="RIGHT" id="11" is_passable="true" is_vanished="false"/>
@@ -674,7 +674,7 @@
           </player>
         </occupants>
       </room>
-      <room capacity="0" id="12" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="12" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="20" direction="DOWN" id="12" is_passable="true" is_vanished="false"/>
           <door connects_to="13" direction="RIGHT" id="12" is_passable="true" is_vanished="false"/>
@@ -684,7 +684,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="13" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="13" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="21" direction="DOWN" id="13" is_passable="true" is_vanished="false"/>
           <door connects_to="14" direction="RIGHT" id="13" is_passable="true" is_vanished="false"/>
@@ -694,7 +694,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="14" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="14" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="22" direction="DOWN" id="14" is_passable="false" is_vanished="false"/>
           <door connects_to="15" direction="RIGHT" id="14" is_passable="false" is_vanished="false"/>
@@ -708,7 +708,7 @@
           </player>
         </occupants>
       </room>
-      <room capacity="0" id="15" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="15" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="23" direction="DOWN" id="15" is_passable="false" is_vanished="false"/>
           <door connects_to="7" direction="UP" id="15" is_passable="false" is_vanished="true"/>
@@ -717,7 +717,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="16" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="16" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="24" direction="DOWN" id="16" is_passable="false" is_vanished="true"/>
           <door connects_to="17" direction="RIGHT" id="16" is_passable="true" is_vanished="true"/>
@@ -726,7 +726,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="17" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="17" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="25" direction="DOWN" id="17" is_passable="true" is_vanished="false"/>
           <door connects_to="18" direction="RIGHT" id="17" is_passable="false" is_vanished="false"/>
@@ -740,7 +740,7 @@
           </player>
         </occupants>
       </room>
-      <room capacity="0" id="18" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="18" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="26" direction="DOWN" id="18" is_passable="false" is_vanished="true"/>
           <door connects_to="19" direction="RIGHT" id="18" is_passable="true" is_vanished="false"/>
@@ -750,7 +750,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="19" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="19" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="27" direction="DOWN" id="19" is_passable="true" is_vanished="true"/>
           <door connects_to="20" direction="RIGHT" id="19" is_passable="false" is_vanished="false"/>
@@ -760,7 +760,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="20" incorporated_id="-1" merge_d="false" merge_direction="DOWN" type="com.redvas.app.map.Rooms.ResizingRoom">
+      <room capacity="0" id="20" incorporated_id="-1" merge_d="false" merge_direction="DOWN" type="com.redvas.app.map.rooms.ResizingRoom">
         <doors>
           <door connects_to="28" direction="DOWN" id="20" is_passable="false" is_vanished="false"/>
           <door connects_to="21" direction="RIGHT" id="20" is_passable="true" is_vanished="false"/>
@@ -770,7 +770,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="21" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="21" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="29" direction="DOWN" id="21" is_passable="true" is_vanished="false"/>
           <door connects_to="22" direction="RIGHT" id="21" is_passable="true" is_vanished="false"/>
@@ -780,7 +780,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="22" incorporated_id="-1" merge_d="false" merge_direction="DOWN" type="com.redvas.app.map.Rooms.ResizingRoom">
+      <room capacity="0" id="22" incorporated_id="-1" merge_d="false" merge_direction="DOWN" type="com.redvas.app.map.rooms.ResizingRoom">
         <doors>
           <door connects_to="30" direction="DOWN" id="22" is_passable="false" is_vanished="false"/>
           <door connects_to="23" direction="RIGHT" id="22" is_passable="true" is_vanished="false"/>
@@ -790,7 +790,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="23" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="23" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="31" direction="DOWN" id="23" is_passable="false" is_vanished="true"/>
           <door connects_to="22" direction="LEFT" id="23" is_passable="true" is_vanished="false"/>
@@ -803,7 +803,7 @@
           </player>
         </occupants>
       </room>
-      <room capacity="0" id="24" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="24" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="32" direction="DOWN" id="24" is_passable="true" is_vanished="false"/>
           <door connects_to="25" direction="RIGHT" id="24" is_passable="true" is_vanished="false"/>
@@ -812,7 +812,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="25" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="25" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="33" direction="DOWN" id="25" is_passable="false" is_vanished="false"/>
           <door connects_to="26" direction="RIGHT" id="25" is_passable="false" is_vanished="false"/>
@@ -822,7 +822,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="26" incorporated_id="-1" merge_d="false" merge_direction="LEFT" type="com.redvas.app.map.Rooms.ResizingRoom">
+      <room capacity="0" id="26" incorporated_id="-1" merge_d="false" merge_direction="LEFT" type="com.redvas.app.map.rooms.ResizingRoom">
         <doors>
           <door connects_to="34" direction="DOWN" id="26" is_passable="true" is_vanished="false"/>
           <door connects_to="27" direction="RIGHT" id="26" is_passable="true" is_vanished="false"/>
@@ -832,7 +832,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="27" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="27" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="35" direction="DOWN" id="27" is_passable="true" is_vanished="false"/>
           <door connects_to="28" direction="RIGHT" id="27" is_passable="false" is_vanished="false"/>
@@ -842,7 +842,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="28" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="28" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="36" direction="DOWN" id="28" is_passable="true" is_vanished="false"/>
           <door connects_to="29" direction="RIGHT" id="28" is_passable="false" is_vanished="false"/>
@@ -852,7 +852,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="29" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="29" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="37" direction="DOWN" id="29" is_passable="true" is_vanished="false"/>
           <door connects_to="30" direction="RIGHT" id="29" is_passable="false" is_vanished="false"/>
@@ -864,7 +864,7 @@
         </items>
         <occupants/>
       </room>
-      <room capacity="0" id="30" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="30" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="38" direction="DOWN" id="30" is_passable="false" is_vanished="false"/>
           <door connects_to="31" direction="RIGHT" id="30" is_passable="true" is_vanished="true"/>
@@ -874,7 +874,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="31" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="31" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="39" direction="DOWN" id="31" is_passable="true" is_vanished="false"/>
           <door connects_to="30" direction="LEFT" id="31" is_passable="true" is_vanished="true"/>
@@ -885,7 +885,7 @@
         </items>
         <occupants/>
       </room>
-      <room capacity="0" id="32" incorporated_id="-1" merge_d="false" merge_direction="DOWN" type="com.redvas.app.map.Rooms.ResizingRoom">
+      <room capacity="0" id="32" incorporated_id="-1" merge_d="false" merge_direction="DOWN" type="com.redvas.app.map.rooms.ResizingRoom">
         <doors>
           <door connects_to="40" direction="DOWN" id="32" is_passable="false" is_vanished="false"/>
           <door connects_to="33" direction="RIGHT" id="32" is_passable="true" is_vanished="false"/>
@@ -894,7 +894,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="33" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="33" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="41" direction="DOWN" id="33" is_passable="true" is_vanished="true"/>
           <door connects_to="34" direction="RIGHT" id="33" is_passable="true" is_vanished="false"/>
@@ -904,7 +904,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="34" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="34" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="42" direction="DOWN" id="34" is_passable="true" is_vanished="false"/>
           <door connects_to="35" direction="RIGHT" id="34" is_passable="true" is_vanished="false"/>
@@ -914,7 +914,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="35" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="35" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="43" direction="DOWN" id="35" is_passable="true" is_vanished="false"/>
           <door connects_to="36" direction="RIGHT" id="35" is_passable="false" is_vanished="false"/>
@@ -926,7 +926,7 @@
         </items>
         <occupants/>
       </room>
-      <room capacity="0" id="36" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="36" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="44" direction="DOWN" id="36" is_passable="false" is_vanished="false"/>
           <door connects_to="37" direction="RIGHT" id="36" is_passable="false" is_vanished="false"/>
@@ -938,7 +938,7 @@
         </items>
         <occupants/>
       </room>
-      <room capacity="0" id="37" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="37" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="45" direction="DOWN" id="37" is_passable="true" is_vanished="false"/>
           <door connects_to="38" direction="RIGHT" id="37" is_passable="true" is_vanished="false"/>
@@ -948,7 +948,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="38" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="38" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="46" direction="DOWN" id="38" is_passable="false" is_vanished="false"/>
           <door connects_to="39" direction="RIGHT" id="38" is_passable="false" is_vanished="false"/>
@@ -958,7 +958,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="39" incorporated_id="-1" merge_d="false" merge_direction="DOWN" type="com.redvas.app.map.Rooms.ResizingRoom">
+      <room capacity="0" id="39" incorporated_id="-1" merge_d="false" merge_direction="DOWN" type="com.redvas.app.map.rooms.ResizingRoom">
         <doors>
           <door connects_to="47" direction="DOWN" id="39" is_passable="false" is_vanished="false"/>
           <door connects_to="31" direction="UP" id="39" is_passable="true" is_vanished="false"/>
@@ -967,7 +967,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="40" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="40" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="41" direction="RIGHT" id="40" is_passable="true" is_vanished="true"/>
           <door connects_to="32" direction="UP" id="40" is_passable="false" is_vanished="false"/>
@@ -975,7 +975,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="41" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="41" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="42" direction="RIGHT" id="41" is_passable="true" is_vanished="true"/>
           <door connects_to="40" direction="LEFT" id="41" is_passable="false" is_vanished="true"/>
@@ -984,7 +984,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="42" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="42" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="43" direction="RIGHT" id="42" is_passable="true" is_vanished="false"/>
           <door connects_to="34" direction="UP" id="42" is_passable="true" is_vanished="false"/>
@@ -995,7 +995,7 @@
         </items>
         <occupants/>
       </room>
-      <room capacity="0" id="43" incorporated_id="-1" merge_d="false" merge_direction="RIGHT" type="com.redvas.app.map.Rooms.ResizingRoom">
+      <room capacity="0" id="43" incorporated_id="-1" merge_d="false" merge_direction="RIGHT" type="com.redvas.app.map.rooms.ResizingRoom">
         <doors>
           <door connects_to="44" direction="RIGHT" id="43" is_passable="false" is_vanished="false"/>
           <door connects_to="42" direction="LEFT" id="43" is_passable="true" is_vanished="false"/>
@@ -1004,7 +1004,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="44" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="44" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="45" direction="RIGHT" id="44" is_passable="false" is_vanished="false"/>
           <door connects_to="43" direction="LEFT" id="44" is_passable="false" is_vanished="false"/>
@@ -1013,7 +1013,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="45" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="45" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="46" direction="RIGHT" id="45" is_passable="true" is_vanished="false"/>
           <door connects_to="37" direction="UP" id="45" is_passable="true" is_vanished="false"/>
@@ -1022,7 +1022,7 @@
         <items/>
         <occupants/>
       </room>
-      <room capacity="0" id="46" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="46" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="47" direction="RIGHT" id="46" is_passable="true" is_vanished="false"/>
           <door connects_to="45" direction="LEFT" id="46" is_passable="true" is_vanished="false"/>
@@ -1035,7 +1035,7 @@
           </player>
         </occupants>
       </room>
-      <room capacity="0" id="47" type="com.redvas.app.map.Rooms.Room">
+      <room capacity="0" id="47" type="com.redvas.app.map.rooms.Room">
         <doors>
           <door connects_to="39" direction="UP" id="47" is_passable="false" is_vanished="false"/>
           <door connects_to="46" direction="LEFT" id="47" is_passable="false" is_vanished="false"/>
