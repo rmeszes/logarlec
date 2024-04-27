@@ -33,8 +33,10 @@ public class Labyrinth implements Steppable {
         );
 
         Constructor<?> ctor;
-        List<Player> players = new ArrayList<>();
+        // List<Player> players = new ArrayList<>();
         HashMap<Item, Element> items = new HashMap<>();
+        HashMap<Integer, Room> id2room = new HashMap<>();
+        HashMap<Integer, Item> id2item = new HashMap<>();
 
         for (int i = 0; i < rooms.getLength(); i++) {
             Element room = (Element) rooms.item(i);
@@ -43,6 +45,7 @@ public class Labyrinth implements Steppable {
             Room r = (Room)ctor.newInstance(l, Integer.parseInt(room.getAttribute("id")));
             r.loadXML(room);
             l.rooms.add(r);
+            id2room.put(r.getID(), r);
 
             NodeList subs = rooms.item(i).getChildNodes();
 
@@ -60,6 +63,7 @@ public class Labyrinth implements Steppable {
                         ctor.setAccessible(true);
                         Item it = (Item) ctor.newInstance(roomItemID, r);
                         items.put(it, roomItem);
+                        id2item.put(it.getID(), it);
                     }
                 }
                 else if (sub.getTagName().equals("occupants")) {
@@ -73,7 +77,7 @@ public class Labyrinth implements Steppable {
                                 l.rooms.get(Integer.parseInt(occupant.getAttribute("where"))),
                                 g);
                         p.loadXML(occupant);
-                        players.add(p);
+                        // players.add(p);
 
                         NodeList playerItems = occupant.getElementsByTagName("item");
 
@@ -85,13 +89,14 @@ public class Labyrinth implements Steppable {
                             Item it = (Item) ctor.newInstance(playerItemID, p);
                             p.addToInventory(it);
                             items.put(it, playerItem);
+                            id2item.put(it.getID(), it);
                         }
                     }
                 }
             }
         }
 
-        l.rooms.sort(Comparator.comparingInt(Room::getID));
+        // l.rooms.sort(Comparator.comparingInt(Room::getID));
 
         for (int i = 0; i < rooms.getLength(); i++) {
             NodeList doors = ((Element) rooms.item(i)).getElementsByTagName("door");
@@ -101,7 +106,7 @@ public class Labyrinth implements Steppable {
                 l.rooms.get(i).configureDoors();
                 Door d;
                 l.selection.put(Direction.valueOf(door.getAttribute("direction")),
-                        d = new Door(l.rooms.get(
+                        d = new Door(id2room.get(
                                 Integer.parseInt(door.getAttribute("connects_to"))),
                                 Boolean.parseBoolean(door.getAttribute("is_passable")))
                 );
@@ -110,11 +115,10 @@ public class Labyrinth implements Steppable {
         }
 
         Map.Entry<Item, Element>[] entryArray = items.entrySet().toArray(new Map.Entry[0]);
-        Arrays.sort(entryArray, Comparator.comparingInt(entry -> entry.getKey().getID()));
+        // Arrays.sort(entryArray, Comparator.comparingInt(entry -> entry.getKey().getID()));
 
-
-        for (Map.Entry<Item, Element> itemElementEntry : entryArray)
-            itemElementEntry.getKey().loadXML(itemElementEntry.getValue(), entryArray);
+        for (Map.Entry<Item, Element> e : items.entrySet())
+            e.getKey().loadXML(e.getValue(), id2item);
 
         return l;
     }

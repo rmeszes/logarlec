@@ -5,6 +5,7 @@ import com.redvas.app.players.Player;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,9 +41,9 @@ public class CombinedTransistor extends Item {
         super(id, owner);
     }
     @Override
-    public void loadXML(Element ct, Map.Entry<Item, Element>[] entries) {
-        super.loadXML(ct, entries);
-        pairedWith = (CombinedTransistor) entries[Integer.parseInt(ct.getAttribute("paired_with"))];
+    public void loadXML(Element ct, HashMap<Integer, Item> id2item) {
+        super.loadXML(ct, id2item);
+        pairedWith = (CombinedTransistor) id2item.get(Integer.parseInt(ct.getAttribute("paired_with")));
         isActive = Boolean.parseBoolean(ct.getAttribute("is_active"));
     }
 

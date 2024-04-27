@@ -7,6 +7,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import javax.management.StringValueExp;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -19,7 +20,7 @@ public abstract class Item {
 
     private final int id;
 
-    public void loadXML(Element item, Map.Entry<Item, Element>[] entries) {
+    public void loadXML(Element item, HashMap<Integer, Item> id2item) {
         isReal = Boolean.parseBoolean(item.getAttribute("is_real"));
     }
 
