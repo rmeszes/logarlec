@@ -12,11 +12,11 @@
                 <occupants>
                     <player faint_countdown="0" ffp2_countdown="0" id="4" type="com.redvas.app.players.Undergraduate" where="0">
                         <items>
+                            <item id="1" is_real="true" owner="4" type="com.redvas.app.items.RottenCamembert" whichRoom="null"/>
+                            <item id="2" is_real="true" owner="4" type="com.redvas.app.items.RottenCamembert" whichRoom="null"/>
+                            <item id="3" is_real="true" owner="4" type="com.redvas.app.items.RottenCamembert" whichRoom="null"/>
                             <item id="4" is_real="true" owner="4" type="com.redvas.app.items.RottenCamembert" whichRoom="null"/>
-                            <item id="4" is_real="true" owner="4" type="com.redvas.app.items.RottenCamembert" whichRoom="null"/>
-                            <item id="4" is_real="true" owner="4" type="com.redvas.app.items.RottenCamembert" whichRoom="null"/>
-                            <item id="4" is_real="true" owner="4" type="com.redvas.app.items.RottenCamembert" whichRoom="null"/>
-                            <item id="4" is_real="true" owner="4" type="com.redvas.app.items.RottenCamembert" whichRoom="null"/>
+                            <item id="5" is_real="true" owner="4" type="com.redvas.app.items.RottenCamembert" whichRoom="null"/>
                         </items>
                     </player>
                 </occupants>
