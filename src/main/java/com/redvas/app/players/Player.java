@@ -18,7 +18,7 @@ import java.util.stream.IntStream;
 
 //absztrakt class, majd az implementációk lesznek tesztelve
 public abstract class Player implements Steppable {
-    private int id;
+    private final int id;
     public int getID() {
         return id;
     }
@@ -42,13 +42,13 @@ public abstract class Player implements Steppable {
     }
 
     //constants
-    private static final String commandNotRecognizedMsg = "Command not recognised.";
+    private static final String COMMAND_NOT_RECOGNIZED_MSG = "Command not recognised.";
 
     // tagváltozók
-    private Room where;
-    private final ArrayList<Item> items;
-    private int faintCountdown;     // unsigned int?
-    private int ffp2Countdown  = 0;
+    protected Room where;
+    protected final List<Item> items;
+    protected int faintCountdown;     // unsigned int?
+    protected int ffp2Countdown  = 0;
     protected final Game game;        // akár ez is lehet final
 
     protected static final Logger logger = App.getConsoleLogger(Player.class.getName());
@@ -98,46 +98,7 @@ public abstract class Player implements Steppable {
         }
     }
 
-    /** currently moving player
-     *
-     */
-    public void step() {    // Ez absztrakt a modell szerint, de akkor amúgy mégsem?
-        if (faintCountdown > 0)
-            faintCountdown--;
-        else {
-            if (ffp2Countdown > 0) ffp2Countdown--;
-            HashMap<Character, Supplier<Boolean>> cmds = new HashMap<>();
-            cmds.put('m', this::consoleMove);
-            cmds.put('a', this::consoleAct);
-            HashMap<Character, String> man = new HashMap<>();
-            man.put('m', "move");
-            man.put('a', "act");
-            man.put('p', "pass");
-            Scanner scnr = new Scanner(System.in);
 
-            while (true) {
-                logger.fine("Choose command:");
-
-                for (Map.Entry<Character, String> kvp : man.entrySet())
-                    logger.fine(() -> String.format("Cmd: %c (%s)%n\n", kvp.getKey(), kvp.getValue()));
-
-                Character cmd = scnr.nextLine().charAt(0);
-                Supplier<Boolean> selection = null;
-
-                if ((selection = cmds.getOrDefault(cmd, null)) != null) {
-                    if (Boolean.TRUE.equals(selection.get())) {
-                        man.remove(cmd);
-                        cmds.remove(cmd);
-                    }
-                }
-                else if (cmd == 'p') {
-                    return;
-                }
-                else
-                    logger.fine(commandNotRecognizedMsg);
-            }
-        }
-    }
 
     /**
      *
@@ -229,7 +190,23 @@ public abstract class Player implements Steppable {
             item.dispose();
     }
     public void scheduleDrop() {}           // EZ A TERVBEN NINCS BENNE
-    private boolean consoleAct() {
+
+    protected abstract boolean useItem(int index);      // Ez nincs kifejtve a tervbem
+
+
+    // getters and setters
+    /**
+     *
+     * @return room: identifier of currently occupied room (by this player)
+     */
+    public Room where() { return where; }
+    public List<Item> getItems() { return items; }     // ehhez setter nem kell
+    public Game getGame() { return game; }        // ez protected volt (miert?)
+
+    @Override
+    public abstract String toString();
+
+    protected boolean consoleAct() {
         HashMap<Character, Function<Integer, Boolean>> cmds = new HashMap<>();
         cmds.put('p', this::pickItem);
         cmds.put('u', this::useItem);
@@ -239,25 +216,25 @@ public abstract class Player implements Steppable {
         man.put('u', "Use item at given inventory item index");
         man.put('d', "Dispose item at given inventory item index");
         man.put('a', "Abort");
-        Scanner scnr = new Scanner(System.in);
+        Scanner scanner = App.reader;
 
         while (true) {
             logger.fine("Choose command:");
 
             for (Map.Entry<Character, String> e : man.entrySet())
-                logger.fine(() -> String.format("Cmd: %c, %s%n", e. getKey(), e.getValue()));
+                logger.fine(() -> String.format("Cmd: %c, %s", e. getKey(), e.getValue()));
 
-            Character cmd = scnr.nextLine().charAt(0);
+            Character cmd = scanner.nextLine().charAt(0);
 
             if (man.getOrDefault(cmd, null) == null)
-                logger.fine(commandNotRecognizedMsg);
+                logger.fine(COMMAND_NOT_RECOGNIZED_MSG);
             else if (cmd == 'a')
                 return false;
             else {
                 logger.fine("Supply parameter:");
 
                 try {
-                    int p = Integer.parseInt(scnr.nextLine());
+                    int p = Integer.parseInt(scanner.nextLine());
 
                     if (Boolean.FALSE.equals(cmds.get(cmd).apply(p)))
                         logger.fine("Act failed");
@@ -269,7 +246,7 @@ public abstract class Player implements Steppable {
             }
         }
     }
-    private boolean consoleMove() {
+    protected boolean consoleMove() {
         HashMap<String, Direction> dirs = new HashMap<>();
         HashMap<String, String> man = new HashMap<>();
 
@@ -293,12 +270,12 @@ public abstract class Player implements Steppable {
             logger.fine("Choose a command:");
 
             for (Map.Entry<String, String> e : man.entrySet())
-                logger.fine(()->String.format("Cmd: %s, %s%n", e.getKey(), e.getValue()));
+                logger.fine(()->String.format("Cmd: %s, %s", e.getKey(), e.getValue()));
 
             String cmd = scnr.nextLine();
 
             if (man.getOrDefault(cmd, null) == null)
-                logger.fine(commandNotRecognizedMsg);
+                logger.fine(COMMAND_NOT_RECOGNIZED_MSG);
             else if (cmd.equals("a"))
                 return false;
             else if (!moveTowards(dirs.get(cmd)))
@@ -306,21 +283,5 @@ public abstract class Player implements Steppable {
             else return true;
         }
     }
-    private void consoleMoveTowards(Direction direction) {}
-    protected abstract boolean useItem(int index);      // Ez nincs kifejtve a tervbem
-
-
-    // getters and setters
-    /**
-     *
-     * @return room: identifier of currently occupied room (by this player)
-     */
-    public Room where() { return where; }
-    public List<Item> getItems() { return items; }     // ehhez setter nem kell
-    public Game getGame() { return game; }        // ez protected volt (miert?)
-
-    @Override
-    public abstract String toString();
-
-
+    protected void consoleMoveTowards(Direction direction) {}
 }

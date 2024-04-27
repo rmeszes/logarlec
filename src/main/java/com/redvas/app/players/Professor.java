@@ -7,6 +7,7 @@ import com.redvas.app.map.rooms.Room;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -51,12 +52,6 @@ public class Professor extends Player implements ProximityListener {
     }
 
 
-
-    private void dropoutUndergraduates() {
-        //ez asszem nem kell
-    }
-
-
     /** they can not win the game
      *
      */
@@ -71,7 +66,18 @@ public class Professor extends Player implements ProximityListener {
             paralyzeCountdown--;    // itt returnol
         }
         else {
-            super.step();
+            randomMove();
+        }
+    }
+
+    private void randomMove() {
+        List<Room> rooms = where().getAccessibleRooms();
+        for(Room room : rooms) {
+            if(Boolean.TRUE.equals(room.canAccept())) {
+                logger.fine("Moving to: Room id: "+room.getID());
+                moveTo(room);
+                break;
+            }
         }
     }
 
@@ -99,17 +105,19 @@ public class Professor extends Player implements ProximityListener {
 
     @Override
     public void proximityChanged(Player newcomer) {
-        logger.finest(()-> this + " proximity changed");
+        List<Player> players = new ArrayList<>();
+        players.add(newcomer);
+        dropoutUndergraduates(players);
     }
 
     @Override
     public void proximityEndOfRound(List<Player> proximity) {
-        logger.finest(() -> this + " proximity endofround");
+        dropoutUndergraduates(proximity);
     }
 
     @Override
     public void proximityInitially(List<Player> proximity) {
-        logger.finest(() -> this + " is proximity initially");
+        dropoutUndergraduates(proximity);
     }
 
     @Override
@@ -119,16 +127,22 @@ public class Professor extends Player implements ProximityListener {
 
     @Override
     public void getAffected(Janitor by) {
-        logger.finest(() -> by + " getAffected(janitor)");
+        //don't think its needed (unless more complicated solution for janitor)
     }
 
     @Override
     public void getAffected(AirFreshener by) {
-        logger.finest(() -> this + " getAffected(airfreshener)");
+        ////don't think its needed
     }
 
     @Override
     public void affect(ProximityListener listener) {
-        logger.finest(() -> this + " affect()");
+        //does nothing
+    }
+
+    private void dropoutUndergraduates(List<Player> proximity) {
+        for(Player player : proximity) {
+            player.dropout();
+        }
     }
 }
