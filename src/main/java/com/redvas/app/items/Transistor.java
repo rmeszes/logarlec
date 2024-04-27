@@ -1,12 +1,17 @@
 package com.redvas.app.items;
 
 import com.redvas.app.map.Rooms.Room;
+import com.redvas.app.players.Player;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class Transistor extends Item {
-    public Transistor(Room whichRoom) {
-        super(whichRoom);
+    public Transistor(Integer id, Room whichRoom) {
+        super(id, whichRoom);
+    }
+
+    protected Transistor(Integer id, Player owner) {
+        super(id, owner);
     }
 
     /** in case of two unmerged transistors
@@ -20,8 +25,8 @@ public class Transistor extends Item {
 
     @Override
     public void merge(Transistor item){
-        CombinedTransistor ct1 = new CombinedTransistor(whichRoom);
-        CombinedTransistor ct2 = new CombinedTransistor(whichRoom);
+        CombinedTransistor ct1 = new CombinedTransistor(-1, whichRoom);
+        CombinedTransistor ct2 = new CombinedTransistor(-2, whichRoom);
         ct1.setPair(ct2);
         ct2.setPair(ct1);
         ct1.owner = getOwner();
@@ -41,6 +46,6 @@ public class Transistor extends Item {
      */
     @Override
     public String toString() {
-        return "Transistor, owner: " + getOwner().toString() + ", room: " + getRoom().toString();
+        return "Transistor";
     }
 }

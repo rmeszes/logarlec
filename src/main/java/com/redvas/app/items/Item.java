@@ -7,25 +7,41 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import javax.management.StringValueExp;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 public abstract class Item {
     protected Player owner;
-    protected Room whichRoom;
+    protected Room whichRoom = null;
     protected String name;
     protected boolean isReal;
 
-    protected Item(Room whichRoom) {
-        this.whichRoom = whichRoom;
+    private final int id;
+
+    public void loadXML(Element item, Map.Entry<Item, Element>[] entries) {
+        isReal = Boolean.parseBoolean(item.getAttribute("is_real"));
     }
 
-    private int id;
+    protected Item(int id, Player owner) {
+        this.owner = owner;
+        this.owner.addToInventory(this);
+        this.id = id;
+    }
+
+    protected Item(Integer id, Room whichRoom) {
+        this.whichRoom = whichRoom;
+        this.whichRoom.addItem(this);
+        this.id = id;
+    }
+
     public int getID() {
         return id;
     }
 
     public Element saveXML(Document document) {
         Element item = document.createElement("item");
+        item.setAttribute("id", String.valueOf(id));
         item.setAttribute("is_real", String.valueOf(isReal));
         item.setAttribute("type", this.getClass().getName());
         item.setAttribute("owner", owner == null ? "null" : String.valueOf(owner.getID()));

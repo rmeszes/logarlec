@@ -17,7 +17,8 @@ public class EnchantedRoom extends Room {
             e.getValue().connectsTo().doors.get(reverseDirections.get(e.getKey())).setVanished(e.getValue().isVanished());
         }
     }
-    public EnchantedRoom(int id, Labyrinth labyrinth) {
+
+    public EnchantedRoom(Labyrinth labyrinth, Integer id) {
         super(labyrinth, id);
     }
 }

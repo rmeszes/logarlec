@@ -12,9 +12,15 @@ import java.util.logging.Logger;
 
 public class Professor extends Player implements ProximityListener {
     private int paralyzeCountdown;
-    public Professor(int id, Room room, Game game) {
+    public Professor(Integer id, Room room, Game game) {
         super(id, room, game);
         paralyzeCountdown = 0;
+    }
+
+    @Override
+    public void loadXML(Element professor) {
+        super.loadXML(professor);
+        paralyzeCountdown = Integer.parseInt(professor.getAttribute("paralyze_countdown"));
     }
 
     @Override

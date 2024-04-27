@@ -5,8 +5,11 @@ import com.redvas.app.players.Player;
 
 public class Logarlec extends Item {
 
-    public Logarlec(Room whichRoom) {
-        super(whichRoom);
+    protected Logarlec(Integer id, Player owner) {
+        super(id, owner);
+    }
+    public Logarlec(Integer id, Room whichRoom) {
+        super(id, whichRoom);
     }
 
     /** it means winning the game

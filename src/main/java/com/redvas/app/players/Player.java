@@ -28,8 +28,9 @@ public abstract class Player implements Steppable {
         player.setAttribute("id", String.valueOf(getID()));
         player.setAttribute("faint_countdown", String.valueOf(faintCountdown));
         player.setAttribute("ffp2_countdown", String.valueOf(ffp2Countdown));
+        player.setAttribute("where", String.valueOf(where.getID()));
         player.setAttribute("type", this.getClass().getName());
-        Element inventory = document.createElement("inventory");
+        Element inventory = document.createElement("items");
 
         for (Item i : items) {
             Element item = i.saveXML(document);
@@ -53,7 +54,7 @@ public abstract class Player implements Steppable {
     protected static final Logger logger = App.getConsoleLogger(Player.class.getName());
 
     // konstruktor
-    protected Player(int id, Room room, Game game) {
+    protected Player(Integer id, Room room, Game game) {
         this.id = id;
         this.where = room;
         this.items = new ArrayList<>();
@@ -61,6 +62,10 @@ public abstract class Player implements Steppable {
         this.game = game;
         moveTo(room);
         game.registerSteppable(this);
+    }
+    public void loadXML(Element player) {
+        faintCountdown = Integer.parseInt(player.getAttribute("faint_countdown"));
+        ffp2Countdown = Integer.parseInt(player.getAttribute("ffp2_countdown"));
     }
     /**
      *

@@ -10,12 +10,19 @@ import java.util.logging.Logger;
 
 public class Undergraduate extends Player {
     // tagváltozók
-    private final String name;
+    private String name;
     private int protection;
     private boolean dropScheduled;
-    public Undergraduate(int id, String name, Room room, Game game) {
+    public Undergraduate(Integer id, String name, Room room, Game game) {
         super(id, room, game);
         this.name = name;
+        this.protection = 0;
+        this.dropScheduled = false;
+        logger.fine(() -> this + " created");
+    }
+
+    public Undergraduate(Integer id, Room room, Game game) {
+        super(id, room, game);
         this.protection = 0;
         this.dropScheduled = false;
         logger.fine(() -> this + " created");

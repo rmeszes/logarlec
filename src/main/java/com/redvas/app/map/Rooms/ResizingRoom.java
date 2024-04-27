@@ -4,6 +4,8 @@ import com.redvas.app.App;
 import com.redvas.app.map.Direction;
 import com.redvas.app.map.Door;
 import com.redvas.app.map.Labyrinth;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import java.util.logging.Logger;
 
@@ -15,6 +17,16 @@ public class ResizingRoom extends Room {
         if (isMerged()) split();
         else expand();
     }
+
+    @Override
+    public Element saveXML(Document document) {
+        Element resizingRoom = super.saveXML(document);
+        resizingRoom.setAttribute("merge_d", String.valueOf(mergeD));
+        resizingRoom.setAttribute("merge_direction", mergeDirection.name());
+        resizingRoom.setAttribute("incorporated_id", String.valueOf(incorporatedId));
+        return resizingRoom;
+    }
+
     private boolean isMerged() {
         return doors.getOrDefault(Direction.BOTTOM_RIGHT, null) != null;
     }
@@ -25,9 +37,21 @@ public class ResizingRoom extends Room {
     protected boolean incorporatable() { return false; }
     private static final Logger logger = App.getConsoleLogger(Room.class.getName());
 
+    @Override
+    public void loadXML(Element room) {
+        super.loadXML(room);
+        mergeD = Boolean.parseBoolean(room.getAttribute("merge_d"));
+        incorporatedId = Integer.parseInt(room.getAttribute("incorporated_id"));
+        mergeDirection = Direction.valueOf(room.getAttribute("merge_direction"));
+    }
+
     public ResizingRoom(int id, Labyrinth labyrinth, Direction mergeDirection) {
         super(labyrinth, id);
         this.mergeDirection = mergeDirection;
+    }
+
+    private ResizingRoom(Labyrinth labyrinth, Integer id) {
+        super(labyrinth, id);
     }
 
     public void split() {

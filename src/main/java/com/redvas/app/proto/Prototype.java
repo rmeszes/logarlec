@@ -2,9 +2,12 @@ package com.redvas.app.proto;
 
 import com.redvas.app.App;
 import com.redvas.app.Game;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
@@ -15,13 +18,13 @@ public class Prototype {
 
     private static final Scanner stdin = App.reader;
 
-    public Prototype() throws ParserConfigurationException, TransformerException {
+    public Prototype() throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         logger.fine("\nApp started successfully.");
 
         menu();
     }
 
-    private void menu() throws ParserConfigurationException, TransformerException {
+    private void menu() throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         boolean badInput;
 
         logger.fine("""
@@ -49,7 +52,7 @@ public class Prototype {
         } while(badInput);
     }
 
-    private void commandStart() throws ParserConfigurationException, TransformerException {
+    private void commandStart() throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         game = Game.startNewGame();
     }
 

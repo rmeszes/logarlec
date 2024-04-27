@@ -3,6 +3,7 @@ package com.redvas.app;
 import com.redvas.app.map.Labyrinth;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -14,23 +15,30 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
 
 public class Game {
+    public void load(String path) throws IOException, SAXException, ParserConfigurationException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse(new File(path));
+        Element game = document.getDocumentElement();
+        labyrinth = Labyrinth.loadXML((Element) game.getElementsByTagName("labyrinth").item(0), this);
+    }
+
     public void save() throws ParserConfigurationException, TransformerException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
-
-        // Create a new Document
         Document document = builder.newDocument();
         Element game = document.createElement("game");
         document.appendChild(game);
         Element labyrinth = this.labyrinth.saveXML(document);
         game.appendChild(labyrinth);
-
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT, "yes"); // Enable indentation
@@ -47,7 +55,8 @@ public class Game {
 
     Labyrinth labyrinth;
 
-    public Game() throws ParserConfigurationException, TransformerException {
+    public Game() throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        load("output.xml");
         logger.fine("Player1 Name: ");
         String player1Name = App.reader.nextLine();
         logger.fine(() -> String.format("Player1 name set to %s%n", player1Name));
@@ -74,7 +83,7 @@ public class Game {
     /**
      * method for when the game is started from scratch
      */
-    public static Game startNewGame() throws ParserConfigurationException, TransformerException {
+    public static Game startNewGame() throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         return new Game();
     }
 

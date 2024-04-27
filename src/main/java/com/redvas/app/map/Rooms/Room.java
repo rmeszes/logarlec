@@ -10,8 +10,10 @@ import com.redvas.app.players.Player;
 import com.redvas.app.players.ProximityListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.logging.Logger;
 
 public class Room implements Steppable {
@@ -19,17 +21,19 @@ public class Room implements Steppable {
     public int getID() {
         return id;
     }
+
     public Element saveXML(Document document) {
         Element room = document.createElement("room");
         room.setAttribute("capacity", String.valueOf(capacity));
         room.setAttribute("type", this.getClass().getName());
+        room.setAttribute("id", String.valueOf(id));
         Element doors = document.createElement("doors");
         room.appendChild(doors);
 
         for (Map.Entry<Direction, Door> e : this.doors.entrySet()) {
             Element door = document.createElement("door");
             door.setAttribute("direction", e.getKey().toString());
-            door.setAttribute("leads_to", String.valueOf(e.getValue().connectsTo().getID()));
+            door.setAttribute("connects_to", String.valueOf(e.getValue().connectsTo().getID()));
             door.setAttribute("id", String.valueOf(getID()));
             door.setAttribute("is_passable", String.valueOf(e.getValue().isPassable()));
             door.setAttribute("is_vanished", String.valueOf(e.getValue().isVanished()));
@@ -41,6 +45,12 @@ public class Room implements Steppable {
         for (Player p : this.occupants)
             occupants.appendChild(p.saveXML(document));
 
+        Element items = document.createElement("items");
+
+        for (Item i : this.items)
+            items.appendChild(i.saveXML(document));
+
+        room.appendChild(items);
         room.appendChild(occupants);
         return room;
     }
@@ -73,9 +83,11 @@ public class Room implements Steppable {
         return items.get(index);
     }
 
+    public void loadXML(Element room) {}
+
     private int n = 0;
 
-    public Room(Labyrinth labyrinth, int id) {
+    public Room(Labyrinth labyrinth, Integer id) {
         this.labyrinth = labyrinth;
         this.id = id;
     }
@@ -107,6 +119,7 @@ public class Room implements Steppable {
      */
     public void addItem(Item item) {
         logger.fine(()->"Room item inventory was added to a(n) " + item);
+        items.add(item);
     }
 
     public void receiveDoors() {

@@ -9,9 +9,11 @@ import java.util.List;
 
 public class AirFreshener extends Item implements ProximityListener {
 
-
-    public AirFreshener(Room whichRoom) {
-        super(whichRoom);
+    protected AirFreshener(Integer id, Player owner) {
+        super(id, owner);
+    }
+    public AirFreshener(Integer id, Room whichRoom) {
+        super(id, whichRoom);
     }
 
     public void use() {

@@ -8,17 +8,127 @@ import com.redvas.app.map.Rooms.EnchantedRoom;
 import com.redvas.app.map.Rooms.ResizingRoom;
 import com.redvas.app.map.Rooms.Room;
 import com.redvas.app.players.Janitor;
+import com.redvas.app.players.Player;
 import com.redvas.app.players.Professor;
 import com.redvas.app.players.Undergraduate;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import java.util.logging.Logger;
 
 
 public class Labyrinth implements Steppable {
+    public static Labyrinth loadXML(Element labyrinth, Game g) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        NodeList rooms = labyrinth.getElementsByTagName("room");
+        Labyrinth l = new Labyrinth(
+                Integer.parseInt(labyrinth.getAttribute("width")),
+                Integer.parseInt(labyrinth.getAttribute("height")),
+                g
+        );
+
+        Constructor<?> ctor;
+        List<Player> players = new ArrayList<>();
+        HashMap<Item, Element> items = new HashMap<>();
+
+        for (int i = 0; i < rooms.getLength(); i++) {
+            Element room = (Element) rooms.item(i);
+            ctor = Class.forName(room.getAttribute("type")).getDeclaredConstructor(Labyrinth.class, Integer.class);
+            ctor.setAccessible(true);
+            Room r = (Room)ctor.newInstance(l, Integer.parseInt(room.getAttribute("id")));
+            r.loadXML(room);
+            l.rooms.add(r);
+
+            NodeList subs = rooms.item(i).getChildNodes();
+
+            for (int m = 0; m < subs.getLength(); m++) {
+                if (subs.item(m).getNodeType() != Node.ELEMENT_NODE) continue;
+                Element sub = (Element) subs.item(m);
+
+                if (sub.getTagName().equals("items")) {
+                    NodeList roomItems = sub.getElementsByTagName("item");
+
+                    for (int k = 0; k < roomItems.getLength(); k++) {
+                        Element roomItem = (Element)roomItems.item(k);
+                        int roomItemID = Integer.parseInt(roomItem.getAttribute("id"));
+                        ctor = Class.forName(roomItem.getAttribute("type")).getDeclaredConstructor(Integer.class, Room.class);
+                        ctor.setAccessible(true);
+                        Item it = (Item) ctor.newInstance(roomItemID, r);
+                        items.put(it, roomItem);
+                    }
+                }
+                else if (sub.getTagName().equals("occupants")) {
+                    NodeList occupants = ((Element)rooms.item(i)).getElementsByTagName("player");
+
+                    for (int j = 0; j < occupants.getLength(); j++) {
+                        Element occupant = (Element)occupants.item(j);
+
+                        ctor = Class.forName(occupant.getAttribute("type")).getDeclaredConstructor(Integer.class, Room.class, Game.class);
+                        Player p = (Player)ctor.newInstance(Integer.parseInt(occupant.getAttribute("id")),
+                                l.rooms.get(Integer.parseInt(occupant.getAttribute("where"))),
+                                g);
+                        p.loadXML(occupant);
+                        players.add(p);
+
+                        NodeList playerItems = occupant.getElementsByTagName("item");
+
+                        for (int k = 0; k < playerItems.getLength(); k++) {
+                            Element playerItem = (Element)playerItems.item(k);
+                            int playerItemID = Integer.parseInt(playerItem.getAttribute("id"));
+                            ctor = Class.forName(playerItem.getAttribute("type")).getDeclaredConstructor(Integer.class, Player.class);
+                            ctor.setAccessible(true);
+                            Item it = (Item) ctor.newInstance(playerItemID, p);
+                            p.addToInventory(it);
+                            items.put(it, playerItem);
+                        }
+                    }
+                }
+            }
+        }
+
+        l.rooms.sort(Comparator.comparingInt(Room::getID));
+
+        for (int i = 0; i < rooms.getLength(); i++) {
+            NodeList doors = ((Element) rooms.item(i)).getElementsByTagName("door");
+
+            for (int j = 0; j < doors.getLength(); j++) {
+                Element door = ((Element) doors.item(j));
+                l.rooms.get(i).configureDoors();
+                Door d;
+                l.selection.put(Direction.valueOf(door.getAttribute("direction")),
+                        d = new Door(l.rooms.get(
+                                Integer.parseInt(door.getAttribute("connects_to"))),
+                                Boolean.parseBoolean(door.getAttribute("is_passable")))
+                );
+                d.setVanished(Boolean.parseBoolean(door.getAttribute("is_vanished")));
+            }
+        }
+
+        Map.Entry<Item, Element>[] entryArray = items.entrySet().toArray(new Map.Entry[0]);
+        Arrays.sort(entryArray, Comparator.comparingInt(entry -> entry.getKey().getID()));
+
+
+        for (Map.Entry<Item, Element> itemElementEntry : entryArray)
+            itemElementEntry.getKey().loadXML(itemElementEntry.getValue(), entryArray);
+
+        return l;
+    }
+
+    public Labyrinth(int width, int height, Game game) {
+        if(height < 1) height = 1;
+        if(width < 1) width = 1;
+        this.height = height;
+        this.width = width;
+        generate();
+        logger.fine("Labyrinth created");
+        this.game = game;
+    }
+
     public Element saveXML(Document document) {
         Element labyrinth = document.createElement("labyrinth");
         labyrinth.setAttribute("width", String.valueOf(width));
@@ -31,6 +141,7 @@ public class Labyrinth implements Steppable {
         labyrinth.appendChild(rooms);
         return labyrinth;
     }
+
     private final Game game;
     private static final Random random = new Random();
 
@@ -225,7 +336,7 @@ public class Labyrinth implements Steppable {
     private void enchant() {
         for (int i = 0; i < width * height; i++)
             if (random.nextGaussian() > 0.8) {
-                EnchantedRoom er = new EnchantedRoom(rooms.get(i).getID(), this);
+                EnchantedRoom er = new EnchantedRoom(this, rooms.get(i).getID());
                 rooms.get(i).configureDoors();
 
                 Set<Map.Entry<Direction, Door>> doors = selection.entrySet();
@@ -323,13 +434,7 @@ public class Labyrinth implements Steppable {
     private final int height;
     private final int width;
     public Labyrinth(int width, int height, Game game, String player1Name, String player2Name) {
-        if(height < 1) height = 1;
-        if(width < 1) width = 1;
-        this.height = height;
-        this.width = width;
-        generate();
-        logger.fine("Labyrinth created");
-        this.game = game;
+        this(width, height, game);
         emplacePlayers(player1Name,player2Name);
         emplaceItems();
     }
@@ -369,13 +474,13 @@ public class Labyrinth implements Steppable {
 
         Map<String, Integer> numOfItems = howManyItems();
 
-        for(int i = 0; i < numOfItems.get("AirFreshener"); i++) new AirFreshener(getRandomRoom());
-        for(int i = 0; i < numOfItems.get("FFP2"); i++) new FFP2(getRandomRoom());
-        for(int i = 0; i < numOfItems.get("HolyBeer"); i++) new HolyBeer(getRandomRoom());
-        for(int i = 0; i < numOfItems.get("RottenCamembert"); i++) new RottenCamembert(getRandomRoom());
-        for(int i = 0; i < numOfItems.get("Transistor"); i++) new Transistor(getRandomRoom());
-        for(int i = 0; i < numOfItems.get("TVSZ"); i++) new TVSZ(getRandomRoom());
-        for(int i = 0; i < numOfItems.get("WetWipe"); i++) new WetWipe(getRandomRoom());
+        for(int i = 0; i < numOfItems.get("AirFreshener"); i++) new AirFreshener(1, getRandomRoom());
+        for(int i = 0; i < numOfItems.get("FFP2"); i++) new FFP2(2, getRandomRoom());
+        for(int i = 0; i < numOfItems.get("HolyBeer"); i++) new HolyBeer(3, getRandomRoom());
+        for(int i = 0; i < numOfItems.get("RottenCamembert"); i++) new RottenCamembert(4, getRandomRoom());
+        for(int i = 0; i < numOfItems.get("Transistor"); i++) new Transistor(5, getRandomRoom());
+        for(int i = 0; i < numOfItems.get("TVSZ"); i++) new TVSZ(6, getRandomRoom());
+        for(int i = 0; i < numOfItems.get("WetWipe"); i++) new WetWipe(7, getRandomRoom());
     }
 
     private Map<String,Integer> howManyItems() {

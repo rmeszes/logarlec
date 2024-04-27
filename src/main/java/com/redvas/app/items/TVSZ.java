@@ -1,14 +1,15 @@
 package com.redvas.app.items;
 
 import com.redvas.app.map.Rooms.Room;
+import com.redvas.app.players.Player;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import javax.print.Doc;
 
 public class TVSZ extends Item {
-    public TVSZ(Room whichRoom) {
-        super(whichRoom);
+    public TVSZ(Integer id, Room whichRoom) {
+        super(id, whichRoom);
     }
 
     @Override
@@ -16,6 +17,9 @@ public class TVSZ extends Item {
         Element tvsz = super.saveXML(document);
         tvsz.setAttribute("uses", String.valueOf(uses));
         return tvsz;
+    }
+    protected TVSZ(Integer id, Player owner) {
+        super(id, owner);
     }
 
     /**

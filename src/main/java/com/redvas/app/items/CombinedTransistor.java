@@ -5,13 +5,16 @@ import com.redvas.app.players.Player;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import java.util.List;
+import java.util.Map;
+
 public class CombinedTransistor extends Item {
 
     private CombinedTransistor pairedWith;
     private boolean isActive = false;
 
-    public CombinedTransistor(Room whichRoom) {
-        super(whichRoom);
+    public CombinedTransistor(Integer id, Room whichRoom) {
+        super(id, whichRoom);
     }
 
 
@@ -32,6 +35,15 @@ public class CombinedTransistor extends Item {
         else {
             logger.fine(() -> "You must place the first transistor before activation");
         }
+    }
+    protected CombinedTransistor(Integer id, Player owner) {
+        super(id, owner);
+    }
+    @Override
+    public void loadXML(Element ct, Map.Entry<Item, Element>[] entries) {
+        super.loadXML(ct, entries);
+        pairedWith = (CombinedTransistor) entries[Integer.parseInt(ct.getAttribute("paired_with"))];
+        isActive = Boolean.parseBoolean(ct.getAttribute("is_active"));
     }
 
     @Override
@@ -71,7 +83,7 @@ public class CombinedTransistor extends Item {
         }
         else {
             if (isActive) { // if pair is on the ground and this is activated (in active state)
-                CombinedTransistor tmp = new CombinedTransistor(whichRoom);
+                CombinedTransistor tmp = new CombinedTransistor(-1, whichRoom);
                 tmp.owner = getOwner();
                 super.dispose();
                 tmp.owner.moveTo(pairedWith.whichRoom);
