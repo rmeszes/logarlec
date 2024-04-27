@@ -7,6 +7,10 @@ import com.redvas.app.map.rooms.Room;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.function.Supplier;
 import java.util.logging.Logger;
 
 public class Undergraduate extends Player {
@@ -79,16 +83,48 @@ public class Undergraduate extends Player {
 
     @Override
     public void step() {
-        if (protection == 0) {
-            protection--;
-        }
+        if (faintCountdown > 0)
+            faintCountdown--;
         else {
-            super.step();
+            getCommand();
         }
-
-        logger.fine(() -> name + " move: ");
-        App.reader.nextLine();
     }
+
+    private void getCommand() {
+        if (ffp2Countdown > 0) ffp2Countdown--;
+        HashMap<Character, Supplier<Boolean>> cmds = new HashMap<>();
+        cmds.put('m', this::consoleMove);
+        cmds.put('a', this::consoleAct);
+        HashMap<Character, String> man = new HashMap<>();
+        man.put('m', "move");
+        man.put('a', "act");
+        man.put('p', "pass");
+        Scanner scanner = App.reader;
+
+        while (true) {
+            logger.fine("Choose command:");
+
+            for (Map.Entry<Character, String> kvp : man.entrySet())
+                logger.fine(() -> String.format("Cmd: %c (%s)", kvp.getKey(), kvp.getValue()));
+
+            Character cmd = scanner.nextLine().charAt(0);
+            Supplier<Boolean> selection = null;
+
+            if ((selection = cmds.getOrDefault(cmd, null)) != null) {
+                if (Boolean.TRUE.equals(selection.get())) {
+                    man.remove(cmd);
+                    cmds.remove(cmd);
+                }
+            }
+            else if (cmd == 'p') {
+                return;
+            }
+            else
+                logger.fine("Command not recognized");
+        }
+    }
+
+
 
     /** only profs can be
      *
