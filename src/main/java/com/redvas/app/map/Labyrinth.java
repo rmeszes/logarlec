@@ -365,7 +365,7 @@ public class Labyrinth implements Steppable {
                 mkstat2(stat, rooms, visits, x, y);
 
                 for (int k = 0; k < 4; k++)
-                    if (stat[k]) {
+                    if (Boolean.TRUE.equals(stat[k])) {
                         rooms[y][x].configureDoors();
                         boolean makeEdge= random.nextDouble(0, 1) > 0.88;
                         selection.put(directions[k], new Door(rooms[y + yc[k]][x + xc[k]], makeEdge));

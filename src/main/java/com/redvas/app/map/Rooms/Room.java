@@ -71,7 +71,7 @@ public class Room implements Steppable {
      * @param item: someone picked it up
      */
     public void removeItem(Item item) {
-        logger.fine(()->"Room item inventory no longer holds this " + item);
+        logger.finest(()->"Room item inventory no longer holds this " + item);
     }
 
     /**
@@ -96,7 +96,7 @@ public class Room implements Steppable {
      * @param player: the one that left the room
      */
     public void removeOccupant(Player player) {
-        logger.fine(()->"Room occupant list no longer contains this " + player);
+        logger.finest(()->"Room occupant list no longer contains this " + player);
     }
 
     // to be called after subscribeToProximity()
@@ -105,7 +105,7 @@ public class Room implements Steppable {
      * @param player: the one that stepped inside
      */
     public void addOccupant(Player player) {
-        logger.fine(()->"Room occupant list now contains " + player);
+        logger.finest(()->"Room occupant list now contains " + player);
         listeners.forEach(listener -> listener.proximityChanged(player));
         stickiness++;
         occupants.add(player);
@@ -118,7 +118,7 @@ public class Room implements Steppable {
      * @param item: that was added to the room
      */
     public void addItem(Item item) {
-        logger.fine(()->"Room item inventory was added to a(n) " + item);
+        logger.finest(()->"Room item inventory was added to a(n) " + item);
         items.add(item);
     }
 
@@ -169,7 +169,7 @@ public class Room implements Steppable {
      */
     @Override
     public void step() {
-        logger.fine("Room is on its turn");
+        logger.finest("Room is on its turn");
         listeners.forEach(listener -> listener.proximityEndOfRound(occupants));
     }
 

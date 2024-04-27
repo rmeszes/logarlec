@@ -71,7 +71,7 @@ public class Door {
             logger.finest("This door has vanished.");
             return true;
         } else {
-            logger.fine("This door hasn't vanished.");
+            logger.finest("This door hasn't vanished.");
             return false;
         }
 

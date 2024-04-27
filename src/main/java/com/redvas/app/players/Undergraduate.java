@@ -39,13 +39,15 @@ public class Undergraduate extends Player {
      *
      * @return int: how long are they protected from profs
      */
-    private int getProtectedRounds() { return 0; }
+    private int getProtectedRounds() { return protection; }
 
     /**
      *
      * @param rounds: how long are they protected from profs
      */
-    private void setProtectedRounds(int rounds) {}
+    private void setProtectedRounds(int rounds) {
+        if(rounds > protection) protection = rounds;
+    }
 
     /**
      *
@@ -96,7 +98,7 @@ public class Undergraduate extends Player {
         if (getProtectedRounds() > 0)
             logger.fine("Undergraduate was protected from being dropped out");
         else {
-            logger.fine("Undergraduate is dropped out");
+            logger.fine(()->name + " has dropped out");
             getGame().undergraduateDroppedout();
         }
     }
@@ -117,14 +119,7 @@ public class Undergraduate extends Player {
      *
      */
     public void mergeItems() {
-        System.out.print("Does player have 2 mergeable items? (y/n)");
-        String answer = App.reader.nextLine();
-
-        if(answer.equals("y")) {
-            logger.fine("Two items succesfully merge");
-        } else {
-            logger.fine("Player cannot merge items.");
-        }
+        //TODO
     }
 
     // getter
