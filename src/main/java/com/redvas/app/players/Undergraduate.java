@@ -3,36 +3,52 @@ package com.redvas.app.players;
 import com.redvas.app.App;
 import com.redvas.app.Game;
 import com.redvas.app.items.Transistor;
-import com.redvas.app.map.Room;
+import com.redvas.app.map.rooms.Room;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Undergraduate extends Player {
     // tagváltozók
-    private final String name;
+    private String name;
     private int protection;
     private boolean dropScheduled;
-    public Undergraduate(String name, Room room, Game game) {
-        super(room, game);
+    public Undergraduate(Integer id, String name, Room room, Game game) {
+        super(id, room, game);
         this.name = name;
         this.protection = 0;
         this.dropScheduled = false;
         logger.fine(() -> this + " created");
     }
 
+    public Undergraduate(Integer id, Room room, Game game) {
+        super(id, room, game);
+        this.protection = 0;
+        this.dropScheduled = false;
+        logger.fine(() -> this + " created");
+    }
+
+    @Override
+    public Element saveXML(Document document) {
+        Element undergraduate = super.saveXML(document);
+        undergraduate.setAttribute("protection", String.valueOf(protection));
+        return undergraduate;
+    }
+
     /**
      *
      * @return int: how long are they protected from profs
      */
-    private int getProtectedRounds() { return 0; }
+    private int getProtectedRounds() { return protection; }
 
     /**
      *
      * @param rounds: how long are they protected from profs
      */
-    private void setProtectedRounds(int rounds) {}
+    private void setProtectedRounds(int rounds) {
+        if(rounds > protection) protection = rounds;
+    }
 
     /**
      *
@@ -90,7 +106,7 @@ public class Undergraduate extends Player {
         if (getProtectedRounds() > 0)
             logger.fine("Undergraduate was protected from being dropped out");
         else {
-            logger.fine("Undergraduate is dropped out");
+            logger.fine(()->name + " has dropped out");
             getGame().undergraduateDroppedout();
         }
     }

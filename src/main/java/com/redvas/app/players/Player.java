@@ -5,7 +5,9 @@ import com.redvas.app.Game;
 import com.redvas.app.Steppable;
 import com.redvas.app.items.Item;
 import com.redvas.app.map.Direction;
-import com.redvas.app.map.Room;
+import com.redvas.app.map.rooms.Room;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import java.util.*;
 import java.util.function.Function;
@@ -16,24 +18,54 @@ import java.util.stream.IntStream;
 
 //absztrakt class, majd az implementációk lesznek tesztelve
 public abstract class Player implements Steppable {
+    private int id;
+    public int getID() {
+        return id;
+    }
+
+    public Element saveXML(Document document) {
+        Element player = document.createElement("player");
+        player.setAttribute("id", String.valueOf(getID()));
+        player.setAttribute("faint_countdown", String.valueOf(faintCountdown));
+        player.setAttribute("ffp2_countdown", String.valueOf(ffp2Countdown));
+        player.setAttribute("where", String.valueOf(where.getID()));
+        player.setAttribute("type", this.getClass().getName());
+        Element inventory = document.createElement("items");
+
+        for (Item i : items) {
+            Element item = i.saveXML(document);
+            inventory.appendChild(item);
+        }
+
+        player.appendChild(inventory);
+        return player;
+    }
+
     //constants
-    private final String commandNotRecognizedMsg = "Command not recognised.";
+    private static final String commandNotRecognizedMsg = "Command not recognised.";
 
     // tagváltozók
     private Room where;
     private final ArrayList<Item> items;
     private int faintCountdown;     // unsigned int?
+    private int ffp2Countdown  = 0;
     protected final Game game;        // akár ez is lehet final
 
     protected static final Logger logger = App.getConsoleLogger(Player.class.getName());
 
     // konstruktor
-    protected Player(Room room, Game game) {
+    protected Player(Integer id, Room room, Game game) {
+        this.id = id;
         this.where = room;
         this.items = new ArrayList<>();
         this.faintCountdown = 0;
         this.game = game;
+        moveTo(room);
         game.registerSteppable(this);
+    }
+    public void loadXML(Element player) {
+        faintCountdown = Integer.parseInt(player.getAttribute("faint_countdown"));
+        ffp2Countdown = Integer.parseInt(player.getAttribute("ffp2_countdown"));
     }
     /**
      *
@@ -60,8 +92,10 @@ public abstract class Player implements Steppable {
      *
      */
     public void faint() {
-        faintCountdown = 3;
-        dropItems();
+        if (ffp2Countdown > 0) {
+            faintCountdown = 3;
+            dropItems();
+        }
     }
 
     /** currently moving player
@@ -71,7 +105,7 @@ public abstract class Player implements Steppable {
         if (faintCountdown > 0)
             faintCountdown--;
         else {
-            // IDK ITT MINEK KÉNE TÖRTÉNNIE
+            if (ffp2Countdown > 0) ffp2Countdown--;
             HashMap<Character, Supplier<Boolean>> cmds = new HashMap<>();
             cmds.put('m', this::consoleMove);
             cmds.put('a', this::consoleAct);
@@ -90,14 +124,15 @@ public abstract class Player implements Steppable {
                 Character cmd = scnr.nextLine().charAt(0);
                 Supplier<Boolean> selection = null;
 
-                if ((selection = cmds.getOrDefault(cmd, null)) != null)
-                    if (selection.get())
-                    {
+                if ((selection = cmds.getOrDefault(cmd, null)) != null) {
+                    if (Boolean.TRUE.equals(selection.get())) {
                         man.remove(cmd);
                         cmds.remove(cmd);
                     }
-                else if (cmd == 'p')
+                }
+                else if (cmd == 'p') {
                     return;
+                }
                 else
                     logger.fine(commandNotRecognizedMsg);
             }
@@ -134,7 +169,9 @@ public abstract class Player implements Steppable {
      * @param room: chosen room where they move
      */
     public void moveTo(Room room) {
-        where.removeOccupant(this);
+        if (where != null)
+            where.removeOccupant(this);
+
         where = room;
         room.addOccupant(this);
     }
@@ -143,7 +180,7 @@ public abstract class Player implements Steppable {
      *
      */
     public void useFFP2() {
-
+        ffp2Countdown = 3;
     }
 
     /**
@@ -178,12 +215,11 @@ public abstract class Player implements Steppable {
     private boolean moveTowards (Direction direction) {
         Room r;
 
-        if ((r = where.isAccessible(direction)) != null) {
-            if (r.canAccept()) {
+        if ((r = where.isAccessible(direction)) != null && r.canAccept()) {
                 moveTo(r);
                 return true;
             }
-        }
+
 
         return false;
     }
@@ -209,7 +245,7 @@ public abstract class Player implements Steppable {
             logger.fine("Choose command:");
 
             for (Map.Entry<Character, String> e : man.entrySet())
-                logger.fine(() -> String.format("Cmd: %c, %s\n", e. getKey(), e.getValue()));
+                logger.fine(() -> String.format("Cmd: %c, %s%n", e. getKey(), e.getValue()));
 
             Character cmd = scnr.nextLine().charAt(0);
 
@@ -223,7 +259,7 @@ public abstract class Player implements Steppable {
                 try {
                     int p = Integer.parseInt(scnr.nextLine());
 
-                    if (!cmds.get(cmd).apply(p))
+                    if (Boolean.FALSE.equals(cmds.get(cmd).apply(p)))
                         logger.fine("Act failed");
                     else return true;
                 }
@@ -257,7 +293,7 @@ public abstract class Player implements Steppable {
             logger.fine("Choose a command:");
 
             for (Map.Entry<String, String> e : man.entrySet())
-                logger.fine(()->String.format("Cmd: %s, %s\n", e.getKey(), e.getValue()));
+                logger.fine(()->String.format("Cmd: %s, %s%n", e.getKey(), e.getValue()));
 
             String cmd = scnr.nextLine();
 
@@ -279,7 +315,7 @@ public abstract class Player implements Steppable {
      *
      * @return room: identifier of currently occupied room (by this player)
      */
-    public Room where() { return new Room(); }
+    public Room where() { return where; }
     public List<Item> getItems() { return items; }     // ehhez setter nem kell
     public Game getGame() { return game; }        // ez protected volt (miert?)
 

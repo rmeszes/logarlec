@@ -3,7 +3,9 @@ package com.redvas.app.players;
 import com.redvas.app.App;
 import com.redvas.app.Game;
 import com.redvas.app.items.AirFreshener;
-import com.redvas.app.map.Room;
+import com.redvas.app.map.rooms.Room;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -12,9 +14,30 @@ public class Professor extends Player implements ProximityListener {
     protected static final Logger logger = App.getConsoleLogger(Professor.class.getName());
     private int paralyzeCountdown;
 
-    public Professor(Room room, Game game) {
-        super(room, game);
+    public Professor(Integer id, Room room, Game game) {
+        super(id, room, game);
         paralyzeCountdown = 0;
+    }
+
+    @Override
+    public void loadXML(Element professor) {
+        super.loadXML(professor);
+        paralyzeCountdown = Integer.parseInt(professor.getAttribute("paralyze_countdown"));
+    }
+
+    @Override
+    public void moveTo(Room room) {
+        if (where() != null)
+            where().unsubscribeFromProximity(this);
+        room.subscribeToProximity(this);
+        super.moveTo(room);
+    }
+
+    @Override
+    public Element saveXML(Document document) {
+        Element professor = super.saveXML(document);
+        professor.setAttribute("paralyze_countdown", String.valueOf(paralyzeCountdown));
+        return professor;
     }
 
     /**
@@ -30,10 +53,7 @@ public class Professor extends Player implements ProximityListener {
 
 
     private void dropoutUndergraduates() {
-        for (Player p : super.where().getOccupants()) {
-            p.dropout();
-        }
-
+        //ez asszem nem kell
     }
 
 
