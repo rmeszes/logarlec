@@ -8,7 +8,11 @@ public class FFP2 extends Item {
         super(id, owner);
     }
     public FFP2(Integer id, Room whichRoom) {
-        super(id, whichRoom);
+        super(id, whichRoom, false);
+    }
+
+    private FFP2(Integer id, Room whichRoom, Boolean isListener) {
+        super(id, whichRoom, false);
     }
 
     /** protection from gas is activated for a given number of rounds

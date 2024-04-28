@@ -10,10 +10,8 @@ import com.redvas.app.players.Player;
 import com.redvas.app.players.ProximityListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.logging.Logger;
 
 public class Room implements Steppable {
@@ -44,6 +42,15 @@ public class Room implements Steppable {
 
         for (Player p : this.occupants)
             occupants.appendChild(p.saveXML(document));
+
+        Element listeners = document.createElement("phantom_listeners");
+
+        for (ProximityListener pl : this.listeners) {
+            Element e;
+
+            if ((e = pl.savePhantomListenerXML(document)) != null)
+                listeners.appendChild(e);
+        }
 
         Element items = document.createElement("items");
 

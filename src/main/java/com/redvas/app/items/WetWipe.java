@@ -4,14 +4,18 @@ import com.redvas.app.map.Rooms.Room;
 import com.redvas.app.players.Janitor;
 import com.redvas.app.players.Player;
 import com.redvas.app.players.ProximityListener;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import java.util.List;
 
 public class WetWipe extends Item implements ProximityListener {
     private int worksFor = 5;
-
+    public WetWipe(Integer id, Room whichRoom, Boolean isListener) {
+        super(id, whichRoom, isListener);
+    }
     public WetWipe(Integer id, Room whichRoom) {
-        super(id, whichRoom);
+        super(id, whichRoom, false);
     }
 
     /** gives protection from profs FOR 5 rounds
@@ -106,5 +110,12 @@ public class WetWipe extends Item implements ProximityListener {
     public void affect(ProximityListener listener) {
         //TODO
         logger.finest(() -> this + " affect");
+    }
+
+    @Override
+    public Element savePhantomListenerXML(Document document) {
+        Element listener = document.createElement("phantom_listener");
+        listener.setAttribute("type", getClass().getName());
+        return listener;
     }
 }

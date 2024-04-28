@@ -120,4 +120,9 @@ public class Professor extends Player implements ProximityListener {
     public void affect(ProximityListener listener) {
         logger.finest(() -> this + " affect()");
     }
+
+    @Override
+    public Element savePhantomListenerXML(Document document) {
+        return null;
+    }
 }

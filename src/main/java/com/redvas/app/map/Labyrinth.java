@@ -77,7 +77,6 @@ public class Labyrinth implements Steppable {
                                 l.rooms.get(Integer.parseInt(occupant.getAttribute("where"))),
                                 g);
                         p.loadXML(occupant);
-                        // players.add(p);
 
                         NodeList playerItems = occupant.getElementsByTagName("item");
 
@@ -92,6 +91,15 @@ public class Labyrinth implements Steppable {
                         }
                     }
                 }
+            }
+
+            NodeList phantomListeners = room.getElementsByTagName("phantom_listener");
+
+            for (int m= 0; m < phantomListeners.getLength(); m++) {
+                Element phantomListener = (Element) phantomListeners.item(m);
+                ctor = Class.forName(phantomListener.getAttribute("type")).getDeclaredConstructor(Integer.class, Room.class, Boolean.class);
+                ctor.setAccessible(true);
+                ctor.newInstance(Integer.parseInt(phantomListener.getAttribute("id")), r, true);
             }
         }
 
