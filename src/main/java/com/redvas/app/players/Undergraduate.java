@@ -69,10 +69,6 @@ public class Undergraduate extends Player {
     /** has fainted and dropped all their items
      *
      */
-    @Override
-    public void faint() {
-        logger.fine("Has fainted and dropped all items.");
-    }
 
     @Override
     public void step() {
