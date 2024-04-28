@@ -26,6 +26,8 @@ public class Room implements Steppable {
 
     public int getCapacity() { return capacity; }
 
+    public List<Item> getItems() { return items; }
+
     public Element saveXML(Document document) {
         Element room = document.createElement("room");
         room.setAttribute("capacity", String.valueOf(capacity));
@@ -227,5 +229,13 @@ public class Room implements Steppable {
 
     public List<Room> getAccessibleRooms() {
         return new ArrayList<>();
+    }
+
+    public Set<Direction> getAccessibleDirections() {
+        HashSet<Direction> directions = new HashSet<>();
+        for(Map.Entry<Direction,Door> entry : doors.entrySet()) {
+            if(entry.getValue().isPassable() && !entry.getValue().isVanished()) directions.add(entry.getKey());
+        }
+        return directions;
     }
 }

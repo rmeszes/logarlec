@@ -75,7 +75,7 @@ public abstract class Player implements Steppable {
     /**
      *
      * @param index: chosen item that they want to pick
-     * @return: item that they picked
+     * @return item that they picked
      */
     protected Item getItem(int index) {     // inventory 1-5ig
         if (index < 1 || index > 5) { throw new IllegalArgumentException();}
@@ -259,27 +259,33 @@ public abstract class Player implements Steppable {
                     .toLowerCase();
 
             dirs.put(cmd, d);
-            man.put(cmd, "Move " + d.name());
+            man.put(cmd, "Move " + d.name().toLowerCase());
         }
 
-        man.put("a", "abort");
-        Scanner scnr = new Scanner(System.in);
+        man.put("abort", "abort");
+        Scanner scanner = App.reader;
 
+        StringBuilder builder = new StringBuilder();
         while (true) {
-            logger.fine("Choose a command:");
+            builder.append("Available directions:\n");
 
             for (Map.Entry<String, String> e : man.entrySet())
-                logger.fine(()->String.format("Cmd: %s, %s", e.getKey(), e.getValue()));
+                builder.append(String.format("%s: %s%n", e.getKey(), e.getValue()));
 
-            String cmd = scnr.nextLine();
+            logger.fine(builder::toString);
+
+            String cmd = scanner.nextLine();
 
             if (man.getOrDefault(cmd, null) == null)
                 logger.fine(COMMAND_NOT_RECOGNIZED_MSG);
-            else if (cmd.equals("a"))
+            else if (cmd.equals("abort"))
                 return false;
             else if (!moveTowards(dirs.get(cmd)))
                 logger.fine("Could not move in direction");
-            else return true;
+            else {
+                logger.fine("Player has moved to another room.");
+                return true;
+            }
         }
     }
     protected void consoleMoveTowards(Direction direction) {}
@@ -305,4 +311,35 @@ public abstract class Player implements Steppable {
      *
      */
     public void mergeItems(int i1, int i2) {} //ez ide kell, mert a transistor Player-t kap
+
+    protected Boolean consoleList() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Items in inventory:\n");
+        if(getItems().isEmpty())
+            builder.append("None.\n");
+        else
+            for(Item item : items)
+                builder.append(item.toString()).append('\n');
+
+
+
+        builder.append("Items in room:\n");
+        if(where().getItems().isEmpty())
+            builder.append("Room has no items\n");
+        else
+            for(Item item : where.getItems())
+                builder.append(item.toString()).append('\n');
+
+        builder.append("Accessible rooms: (directions)\n");
+
+        if(where().getAccessibleDirections().isEmpty())
+            builder.append("No accessible rooms\n");
+        else {
+            for(Direction direction : where.getAccessibleDirections()) {
+                builder.append(direction.toString()).append('\n');
+            }
+        }
+        logger.fine(builder::toString);
+        return false;
+    }
 }

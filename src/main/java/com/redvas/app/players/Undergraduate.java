@@ -9,6 +9,7 @@ import org.w3c.dom.Element;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.function.Supplier;
 import java.util.logging.Logger;
@@ -92,22 +93,26 @@ public class Undergraduate extends Player {
 
     private void getCommand() {
         if (ffp2Countdown > 0) ffp2Countdown--;
-        HashMap<Character, Supplier<Boolean>> cmds = new HashMap<>();
-        cmds.put('m', this::consoleMove);
-        cmds.put('a', this::consoleAct);
-        HashMap<Character, String> man = new HashMap<>();
-        man.put('m', "move");
-        man.put('a', "act");
-        man.put('p', "pass");
+        HashMap<String, Supplier<Boolean>> cmds = new HashMap<>();
+        cmds.put("move", this::consoleMove);
+        cmds.put("abort", this::consoleAct);
+        cmds.put("list", this::consoleList);
+        HashMap<String, String> man = new HashMap<>();
+        man.put("list", "list");
+        man.put("move", "move");
+        man.put("act", "act");
+        man.put("pass", "pass");
         Scanner scanner = App.reader;
 
         while (true) {
-            logger.fine("Choose command:");
+            StringBuilder builder = new StringBuilder();
+            builder.append("Choose command:\n");
 
-            for (Map.Entry<Character, String> kvp : man.entrySet())
-                logger.fine(() -> String.format("Cmd: %c (%s)", kvp.getKey(), kvp.getValue()));
+            for (Map.Entry<String, String> kvp : man.entrySet())
+                builder.append(String.format("%s%n", kvp.getKey()));
 
-            Character cmd = scanner.nextLine().charAt(0);
+            logger.fine(builder::toString);
+            String cmd = scanner.nextLine();
             Supplier<Boolean> selection = null;
 
             if ((selection = cmds.getOrDefault(cmd, null)) != null) {
@@ -116,13 +121,14 @@ public class Undergraduate extends Player {
                     cmds.remove(cmd);
                 }
             }
-            else if (cmd == 'p') {
+            else if (Objects.equals(cmd, "pass")) {
                 return;
             }
             else
                 logger.fine("Command not recognized");
         }
     }
+
 
 
 
