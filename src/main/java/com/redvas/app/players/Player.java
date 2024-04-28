@@ -193,8 +193,8 @@ public abstract class Player implements Steppable {
     }
 
     public void dropItems() {
-        for (Item item : items)
-            item.dispose();
+        while (!items.isEmpty())
+            items.get(items.size() - 1).dispose();
     }
     public void scheduleDrop() {}           // EZ A TERVBEN NINCS BENNE
 
