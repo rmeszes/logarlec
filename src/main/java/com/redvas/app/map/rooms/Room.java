@@ -75,7 +75,7 @@ public class Room implements Steppable {
         labyrinth.acceptDoors(doors);
     }
     private final List<ProximityListener> listeners = new ArrayList<>();
-    private final ArrayList<Item> items = new ArrayList<>();
+    private final List<Item> items = new ArrayList<>();
     protected final Labyrinth labyrinth;
     private int stickiness = 0;
     protected boolean incorporatable() {
@@ -157,7 +157,7 @@ public class Room implements Steppable {
 
     protected List<Player> occupants = new ArrayList<>();
     protected Map<Direction, Door> doors = new HashMap<>();
-    private int capacity;
+    private final int capacity;
 
     // to be called before addOccupant()
     public void subscribeToProximity(ProximityListener pl) {

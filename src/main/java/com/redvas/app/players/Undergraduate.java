@@ -95,7 +95,7 @@ public class Undergraduate extends Player {
         if (ffp2Countdown > 0) ffp2Countdown--;
         HashMap<String, Supplier<Boolean>> cmds = new HashMap<>();
         cmds.put("move", this::consoleMove);
-        cmds.put("abort", this::consoleAct);
+        cmds.put("act", this::consoleAct);
         cmds.put("list", this::consoleList);
         HashMap<String, String> man = new HashMap<>();
         man.put("list", "list");

@@ -129,8 +129,6 @@ public class Labyrinth implements Steppable {
         if(width < 1) width = 1;
         this.height = height;
         this.width = width;
-        generate();
-        logger.fine("Labyrinth created");
         this.game = game;
     }
 
@@ -355,6 +353,7 @@ public class Labyrinth implements Steppable {
 
                 rooms.add(i, er);
             }
+        logger.fine("Labyrinth created");
     }
 
     private void cyclify(Room[][] rooms, Room[][] visits, boolean[][] resizingMap) {
@@ -436,6 +435,7 @@ public class Labyrinth implements Steppable {
     private final int width;
     public Labyrinth(int width, int height, Game game, String player1Name, String player2Name) {
         this(width, height, game);
+        generate();
         emplacePlayers(player1Name,player2Name);
         emplaceItems();
     }

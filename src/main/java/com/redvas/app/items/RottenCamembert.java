@@ -72,8 +72,7 @@ public class RottenCamembert extends Item implements ProximityListener {
 
     @Override
     public void affect(ProximityListener listener) {
-        //TODO
-        logger.finest(() -> this + " affects" + listener);
+        //does nothing
     }
 
     @Override
