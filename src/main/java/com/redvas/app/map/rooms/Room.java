@@ -163,6 +163,8 @@ public class Room implements Steppable {
     public void subscribeToProximity(ProximityListener pl) {
         listeners.forEach(pl::affect);
 
+        if(listeners.isEmpty()) listeners.add(pl);
+
         for (int i = 0; i < listeners.size(); i++)
             if (pl.listenerPriority() > listeners.get(i).listenerPriority()){
                 listeners.add(i, pl);

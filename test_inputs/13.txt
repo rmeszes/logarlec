@@ -1,0 +1,4 @@
+load 18
+move
+l
+list

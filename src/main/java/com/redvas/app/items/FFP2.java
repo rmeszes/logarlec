@@ -21,7 +21,8 @@ public class FFP2 extends Item {
     @Override
     public void use() {
         logger.fine(() -> this + " is being used...");
-        getOwner().useFFP2();
+        if(isReal)
+            getOwner().useFFP2();
         destroy();
     }
 

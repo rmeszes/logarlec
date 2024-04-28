@@ -13,6 +13,9 @@ import java.util.logging.Logger;
 public class ResizingRoom extends Room {
     private static final Random random = new Random();
 
+    private ResizingRoom(Labyrinth labyrinth, Integer id, Integer capacity) {
+        super(labyrinth, id,capacity);
+    }
     @Override
     public void step() {
         super.step();

@@ -91,7 +91,8 @@ public abstract class Player implements Steppable {
      *
      */
     public void faint() {
-        if (ffp2Countdown > 0) {
+        if (ffp2Countdown == 0) {
+            logger.fine("Undergraduate has fainted and dropped items");
             faintCountdown = 3;
             dropItems();
         }
@@ -112,7 +113,13 @@ public abstract class Player implements Steppable {
      * @param item: picked item that they will pick up
      */
     public void addToInventory(Item item) {
-        items.add(item);            // felvesszük a tárgyat az inventoryba
+
+        if(items.size() < 5) { //ha van hely az inventoryban
+            items.add(item);            // felvesszük a tárgyat az inventoryba
+        }
+        else{
+            logger.fine("Inventory full");
+        }
     }
 
     /** only profs
@@ -168,6 +175,8 @@ public abstract class Player implements Steppable {
         }
         else {
             where.addItem(item);
+            items.remove(item);
+            logger.fine("Player has disposed of an item.");
             return true;
         }
     }
@@ -185,8 +194,8 @@ public abstract class Player implements Steppable {
     }
 
     public void dropItems() {
-        for (Item item : items)
-            item.dispose();
+        while (!items.isEmpty())
+            items.get(items.size() - 1).dispose();
     }
     public void scheduleDrop() {}           // EZ A TERVBEN NINCS BENNE
 

@@ -1,0 +1,29 @@
+<game>
+    <labyrinth height="1" width="2">
+        <rooms>
+            <room capacity="4" id="0" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <doors>
+                    <door connects_to="1" direction="RIGHT" id="0" is_passable="true" is_vanished="false"/>
+                </doors>
+                <items/>
+                <occupants/>
+                <phantom_listeners>
+                    <phantom_listener id="999" type="com.redvas.app.items.RottenCamembert"/>
+                </phantom_listeners>
+            </room>
+            <room capacity="4" id="1" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <doors>
+                    <door connects_to="0" direction="LEFT" id="1" is_passable="true" is_vanished="false"/>
+                </doors>
+                <items/>
+                <occupants>
+                    <player faint_countdown="0" ffp2_countdown="0" id="4" protection="0" type="com.redvas.app.players.Undergraduate" where="1">
+                        <items>
+                            <item id="1" is_real="true" owner="4" type="com.redvas.app.items.FFP2" whichRoom="null"/>
+                        </items>
+                    </player>
+                </occupants>
+            </room>
+        </rooms>
+    </labyrinth>
+</game>

@@ -42,7 +42,7 @@ public class Game {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT, "yes"); // Enable indentation
-        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+        transformer.setOutputProperty("{https://xml.apache.org/xslt}indent-amount", "2");
         DOMSource source = new DOMSource(document);
         StreamResult result = new StreamResult(new File("last_save.xml"));
         transformer.transform(source, result);
@@ -56,17 +56,15 @@ public class Game {
     private Labyrinth labyrinth;
 
     public Game() {
-        logger.fine("Player1 Name: ");
-        String player1Name = App.reader.nextLine();
-        logger.fine(() -> String.format("Player1 name set to %s%n", player1Name));
+        logger.fine("How many players?");
+        int playerCount = App.reader.nextInt();
+        if(App.reader.hasNextLine()) App.reader.nextLine();
 
-        logger.fine("Player2 Name: ");
-        String player2Name = App.reader.nextLine();
-        logger.fine(() -> String.format("Player2 name set to %s%n", player2Name));
+        if(playerCount > 6) playerCount = 6;
 
-        logger.fine("Player names set.");
+        logger.fine("Starting new game..");
 
-        labyrinth = new Labyrinth(random.nextInt(4,9), random.nextInt(4,9), this, player1Name, player2Name);
+        labyrinth = new Labyrinth(random.nextInt(4,9), random.nextInt(4,9), this,playerCount);
         play();
     }
 
@@ -135,11 +133,19 @@ public class Game {
         end = true;
     }
 
-    private int undergraduates = 2;
+    private int undergraduates = 0;
     private boolean end = false;
+
+    public void addUndergraduate() {
+        undergraduates++;
+    }
 
     public void undergraduateDroppedout() {
         if (--undergraduates == 0)
             professorVictory();
+    }
+
+    public void unRegisterSteppable(Steppable s) {
+        steppablesForRound.remove(s);
     }
 }

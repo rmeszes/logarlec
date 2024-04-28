@@ -425,6 +425,7 @@ public class Labyrinth implements Steppable {
 
     public void remember(Room r) {
         rooms.add(r);
+        game.registerSteppable(r);
     }
 
     public void forget(Room room) {
@@ -433,10 +434,10 @@ public class Labyrinth implements Steppable {
 
     private final int height;
     private final int width;
-    public Labyrinth(int width, int height, Game game, String player1Name, String player2Name) {
+    public Labyrinth(int width, int height, Game game, int playerCount) {
         this(width, height, game);
         generate();
-        emplacePlayers(player1Name,player2Name);
+        emplacePlayers(playerCount);
         emplaceItems();
     }
 
@@ -452,22 +453,24 @@ public class Labyrinth implements Steppable {
             r.step();
     }
 
-    private void emplacePlayers(String player1Name, String player2Name) {
+    private void emplacePlayers(int playerCount) {
+        int nextId = 1;
         logger.fine("Placing players..");
 
-        Room player1Place = getRandomRoom();
-        Room player2Place = getRandomRoom();
+        for(int i = 1; i <= playerCount; i++) {
+            game.registerSteppable(new Undergraduate(nextId++,getRandomRoom(),game));
+        }
 
-        Undergraduate u1 = new Undergraduate(0, player1Name,player1Place, game);
-        game.registerSteppable(u1);
+        int professorCount = random.nextInt(1, playerCount);
+        for(int i = 1; i <= professorCount; i++) {
+            game.registerSteppable(new Professor(nextId, getRandomRoom(),game));
+        }
 
-        Undergraduate u2 = new Undergraduate(1, player2Name,player2Place, game);
-        game.registerSteppable(u2);
+        int janitorCount = random.nextInt(1, playerCount);
 
-        game.registerSteppable(new Professor(2, getRandomRoom(),game));
-        game.registerSteppable(new Professor(3, getRandomRoom(),game));
-
-        game.registerSteppable(new Janitor(4, getRandomRoom(),game));
+        for(int i = 1; i <= janitorCount; i++) {
+            game.registerSteppable(new Janitor(nextId, getRandomRoom(),game));
+        }
     }
 
     private void emplaceItems() {

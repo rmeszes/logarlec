@@ -1,0 +1,9 @@
+load 21
+move
+l
+act
+use
+1
+abort
+pass
+pass

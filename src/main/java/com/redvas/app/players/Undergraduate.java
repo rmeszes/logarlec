@@ -15,23 +15,15 @@ import java.util.function.Supplier;
 import java.util.logging.Logger;
 
 public class Undergraduate extends Player {
-    // tagváltozók
-    private String name;
     private int protection;
     private boolean dropScheduled;
-    public Undergraduate(Integer id, String name, Room room, Game game) {
-        super(id, room, game);
-        this.name = name;
-        this.protection = 0;
-        this.dropScheduled = false;
-        logger.fine(() -> this + " created");
-    }
 
     public Undergraduate(Integer id, Room room, Game game) {
         super(id, room, game);
         this.protection = 0;
         this.dropScheduled = false;
         logger.fine(() -> this + " created");
+        game.addUndergraduate();
     }
 
     @Override
@@ -77,16 +69,15 @@ public class Undergraduate extends Player {
     /** has fainted and dropped all their items
      *
      */
-    @Override
-    public void faint() {
-        logger.fine("Has fainted and dropped all items.");
-    }
 
     @Override
     public void step() {
-        if (faintCountdown > 0)
+        if (faintCountdown > 0) {
+            logger.fine(() -> this + " is fainted for " + faintCountdown + " rounds");
             faintCountdown--;
+        }
         else {
+            logger.fine(() -> this.toString() + ':');
             getCommand();
         }
     }
@@ -148,7 +139,8 @@ public class Undergraduate extends Player {
         if (getProtectedRounds() > 0)
             logger.fine("Undergraduate was protected from being dropped out");
         else {
-            logger.fine(()->name + " has dropped out");
+            logger.fine(()->"Player " + getID() + " has dropped out");
+            game.unRegisterSteppable(this);
             getGame().undergraduateDroppedout();
         }
     }
@@ -177,14 +169,14 @@ public class Undergraduate extends Player {
 
     @Override
     public void useFFP2() {
-        setProtectionFor(3);
+        ffp2Countdown = 3;
     }
 
     @Override
     public void scheduleDrop() { dropScheduled = true; }
 
     // getter
-    public String getName() { return name; }
+    public String getName() { return "Player " + getID(); }
     public int getProtection() { return protection; }
     public boolean getDropScheduled() { return dropScheduled; }
 
@@ -196,6 +188,6 @@ public class Undergraduate extends Player {
      */
     @Override
     public String toString() {
-        return getClass().getName() + " Name: " + getName();
+        return getName();
     }
 }

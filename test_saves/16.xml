@@ -6,13 +6,11 @@
                 <doors>
                     <door connects_to="1" direction="RIGHT" id="0" is_passable="true" is_vanished="false"/>
                 </doors>
-                <items>
-                    <item id="4" is_real="true" owner="null" type="com.redvas.app.items.RottenCamembert" whichRoom="0"/>
-                </items>
+                <items/>
                 <occupants>
                     <player faint_countdown="0" ffp2_countdown="0" id="4" protection="0" type="com.redvas.app.players.Undergraduate" where="0">
                         <items>
-                            <item id="4" is_real="true" owner="4" type="com.redvas.app.items.RottenCamembert" whichRoom="null"/>
+                            <item id="8" is_real="true" owner="4" type="com.redvas.app.items.TVSZ" whichRoom="null"/>
                         </items>
                     </player>
                 </occupants>
@@ -22,6 +20,11 @@
                     <door connects_to="3" direction="DOWN" id="1" is_passable="true" is_vanished="false"/>
                 </doors>
                 <items/>
+                <occupants>
+                    <player faint_countdown="0" ffp2_countdown="0" id="3" paralyze_countdown="0" type="com.redvas.app.players.Professor" where="1">
+                        <items/>
+                    </player>
+                </occupants>
             </room>
             <room capacity="0" id="2" type="com.redvas.app.map.rooms.Room" stickiness="0">
                 <doors>

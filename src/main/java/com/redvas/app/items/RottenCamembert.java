@@ -16,6 +16,7 @@ public class RottenCamembert extends Item implements ProximityListener {
 
     public RottenCamembert(Integer id, Room whichRoom, Boolean isListener) {
         super(id, whichRoom, isListener);
+        whichRoom.subscribeToProximity(this);
     }
 
     protected RottenCamembert(Integer id, Player owner) {

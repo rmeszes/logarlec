@@ -1,0 +1,6 @@
+load 20
+act
+use
+1
+move
+l
