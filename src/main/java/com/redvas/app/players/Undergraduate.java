@@ -3,36 +3,56 @@ package com.redvas.app.players;
 import com.redvas.app.App;
 import com.redvas.app.Game;
 import com.redvas.app.items.Transistor;
-import com.redvas.app.map.Room;
+import com.redvas.app.map.rooms.Room;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.function.Supplier;
 import java.util.logging.Logger;
 
 public class Undergraduate extends Player {
     // tagváltozók
-    private final String name;
+    private String name;
     private int protection;
     private boolean dropScheduled;
-    public Undergraduate(String name, Room room, Game game) {
-        super(room, game);
+    public Undergraduate(Integer id, String name, Room room, Game game) {
+        super(id, room, game);
         this.name = name;
         this.protection = 0;
         this.dropScheduled = false;
         logger.fine(() -> this + " created");
     }
 
+    public Undergraduate(Integer id, Room room, Game game) {
+        super(id, room, game);
+        this.protection = 0;
+        this.dropScheduled = false;
+        logger.fine(() -> this + " created");
+    }
+
+    @Override
+    public Element saveXML(Document document) {
+        Element undergraduate = super.saveXML(document);
+        undergraduate.setAttribute("protection", String.valueOf(protection));
+        return undergraduate;
+    }
+
     /**
      *
      * @return int: how long are they protected from profs
      */
-    private int getProtectedRounds() { return 0; }
+    private int getProtectedRounds() { return protection; }
 
     /**
      *
      * @param rounds: how long are they protected from profs
      */
-    private void setProtectedRounds(int rounds) {}
+    private void setProtectedRounds(int rounds) {
+        if(rounds > protection) protection = rounds;
+    }
 
     /**
      *
@@ -63,23 +83,55 @@ public class Undergraduate extends Player {
 
     @Override
     public void step() {
-        if (protection == 0) {
-            protection--;
-        }
+        if (faintCountdown > 0)
+            faintCountdown--;
         else {
-            super.step();
+            getCommand();
         }
-
-        logger.fine(() -> name + " move: ");
-        App.reader.nextLine();
     }
+
+    private void getCommand() {
+        if (ffp2Countdown > 0) ffp2Countdown--;
+        HashMap<Character, Supplier<Boolean>> cmds = new HashMap<>();
+        cmds.put('m', this::consoleMove);
+        cmds.put('a', this::consoleAct);
+        HashMap<Character, String> man = new HashMap<>();
+        man.put('m', "move");
+        man.put('a', "act");
+        man.put('p', "pass");
+        Scanner scanner = App.reader;
+
+        while (true) {
+            logger.fine("Choose command:");
+
+            for (Map.Entry<Character, String> kvp : man.entrySet())
+                logger.fine(() -> String.format("Cmd: %c (%s)", kvp.getKey(), kvp.getValue()));
+
+            Character cmd = scanner.nextLine().charAt(0);
+            Supplier<Boolean> selection = null;
+
+            if ((selection = cmds.getOrDefault(cmd, null)) != null) {
+                if (Boolean.TRUE.equals(selection.get())) {
+                    man.remove(cmd);
+                    cmds.remove(cmd);
+                }
+            }
+            else if (cmd == 'p') {
+                return;
+            }
+            else
+                logger.fine("Command not recognized");
+        }
+    }
+
+
 
     /** only profs can be
      *
      */
     @Override
     public void paralyze() {
-      // Nem csinal semmit
+        // Nem csinal semmit
     }
 
     /** losing the game
@@ -90,7 +142,7 @@ public class Undergraduate extends Player {
         if (getProtectedRounds() > 0)
             logger.fine("Undergraduate was protected from being dropped out");
         else {
-            logger.fine("Undergraduate is dropped out");
+            logger.fine(()->name + " has dropped out");
             getGame().undergraduateDroppedout();
         }
     }
@@ -114,13 +166,14 @@ public class Undergraduate extends Player {
         if ((i1 >= 1 && i1 <= 5) && (i2 >= 1 && i2 <=5)) {
             getItem(i1).merge((Transistor)getItem(i2));         // Mivan ha nem tranzisztor??
         }
-        else { return; }
     }
 
+    @Override
     public void useFFP2() {
         setProtectionFor(3);
     }
 
+    @Override
     public void scheduleDrop() { dropScheduled = true; }
 
     // getter
