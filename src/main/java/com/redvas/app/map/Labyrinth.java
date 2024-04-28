@@ -40,9 +40,9 @@ public class Labyrinth implements Steppable {
 
         for (int i = 0; i < rooms.getLength(); i++) {
             Element room = (Element) rooms.item(i);
-            ctor = Class.forName(room.getAttribute("type")).getDeclaredConstructor(Labyrinth.class, Integer.class);
+            ctor = Class.forName(room.getAttribute("type")).getDeclaredConstructor(Labyrinth.class, Integer.class, Integer.class);
             ctor.setAccessible(true);
-            Room r = (Room)ctor.newInstance(l, Integer.parseInt(room.getAttribute("id")));
+            Room r = (Room)ctor.newInstance(l, Integer.parseInt(room.getAttribute("id")), Integer.parseInt(room.getAttribute("capacity")));
             r.loadXML(room);
             l.rooms.add(r);
             id2room.put(r.getID(), r);
@@ -403,7 +403,7 @@ public class Labyrinth implements Steppable {
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                Room room = new Room(this, i * width + j);
+                Room room = new Room(this, i * width + j, random.nextInt(2, 6));
                 roomsLocal[i][j] = room;
                 remember(room);
             }

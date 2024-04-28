@@ -54,7 +54,6 @@ public class Game {
     Labyrinth labyrinth;
 
     public Game() {
-
         logger.fine("Player1 Name: ");
         String player1Name = App.reader.nextLine();
         logger.fine(() -> String.format("Player1 name set to %s%n", player1Name));

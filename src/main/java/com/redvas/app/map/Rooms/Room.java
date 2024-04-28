@@ -25,6 +25,7 @@ public class Room implements Steppable {
         room.setAttribute("capacity", String.valueOf(capacity));
         room.setAttribute("type", this.getClass().getName());
         room.setAttribute("id", String.valueOf(id));
+        room.setAttribute("stickiness", String.valueOf(stickiness));
         Element doors = document.createElement("doors");
         room.appendChild(doors);
 
@@ -90,13 +91,16 @@ public class Room implements Steppable {
         return items.get(index);
     }
 
-    public void loadXML(Element room) {}
+    public void loadXML(Element room) {
+        stickiness = Integer.parseInt(room.getAttribute("stickiness"));
+    }
 
     private int n = 0;
 
-    public Room(Labyrinth labyrinth, Integer id) {
+    public Room(Labyrinth labyrinth, Integer id, Integer capacity) {
         this.labyrinth = labyrinth;
         this.id = id;
+        this.capacity = capacity;
     }
     /**
      *
