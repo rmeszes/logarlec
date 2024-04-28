@@ -19,6 +19,9 @@ public class AirFreshener extends Item implements ProximityListener {
     @Override
     public void use() {
         logger.finest("use");
+        super.use();
+        owner.where().subscribeToProximity(this);
+        owner.where().unsubscribeFromProximity(this);
     }
 
     @Override
@@ -36,7 +39,7 @@ public class AirFreshener extends Item implements ProximityListener {
         logger.finest("proximityInitially");
     }
     public int listenerPriority() {
-        return 1;
+        return 4;
     }
     public void getAffected(Janitor by) {
         logger.finest("getAffected");
