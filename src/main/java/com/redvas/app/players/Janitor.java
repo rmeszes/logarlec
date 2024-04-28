@@ -19,7 +19,7 @@ public class Janitor extends Player implements ProximityListener {
             while(player.where() == where()) {
                 boolean moved = false;
                 for(Room room : where().getAccessibleRooms()) {
-                    if(room.canAccept()) {
+                    if(Boolean.TRUE.equals(room.canAccept())) {
                         player.moveTo(room);
                         moved = true;
                     }
@@ -45,12 +45,9 @@ public class Janitor extends Player implements ProximityListener {
 
     @Override
     public void step() {
-        List<Room> rooms = where().getAccessibleRooms();
-        for(Room room : rooms) {
-            if(room.canAccept()) {
-                moveTo(room);
-                break;
-            }
+        Room room = randomMove();
+        if(room != null) {
+            room.subscribeToProximity(this);
         }
     }
 

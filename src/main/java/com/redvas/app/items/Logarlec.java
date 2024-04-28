@@ -26,6 +26,11 @@ public class Logarlec extends Item {
         who.pickLogarlec();
     }
 
+    @Override
+    public void use() {
+        //won't be
+    }
+
     /**
      * @return Az Item neve
      */
