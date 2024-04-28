@@ -15,17 +15,8 @@ import java.util.function.Supplier;
 import java.util.logging.Logger;
 
 public class Undergraduate extends Player {
-    // tagváltozók
-    private String name;
     private int protection;
     private boolean dropScheduled;
-    public Undergraduate(Integer id, String name, Room room, Game game) {
-        super(id, room, game);
-        this.name = name;
-        this.protection = 0;
-        this.dropScheduled = false;
-        logger.fine(() -> this + " created");
-    }
 
     public Undergraduate(Integer id, Room room, Game game) {
         super(id, room, game);
@@ -149,7 +140,7 @@ public class Undergraduate extends Player {
         if (getProtectedRounds() > 0)
             logger.fine("Undergraduate was protected from being dropped out");
         else {
-            logger.fine(()->name + " has dropped out");
+            logger.fine(()->"Player " + getID() + " has dropped out");
             game.unRegisterSteppable(this);
             getGame().undergraduateDroppedout();
         }
@@ -186,7 +177,7 @@ public class Undergraduate extends Player {
     public void scheduleDrop() { dropScheduled = true; }
 
     // getter
-    public String getName() { return name; }
+    public String getName() { return "Player " + getID(); }
     public int getProtection() { return protection; }
     public boolean getDropScheduled() { return dropScheduled; }
 
@@ -198,6 +189,6 @@ public class Undergraduate extends Player {
      */
     @Override
     public String toString() {
-        return getClass().getName() + " Name: " + getName();
+        return getName();
     }
 }
