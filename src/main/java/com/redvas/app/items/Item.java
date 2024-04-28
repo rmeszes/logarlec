@@ -84,7 +84,8 @@ public abstract class Item {
      *
      */
     public void use() {
-        logger.fine(() -> this + " can not be used");
+        this.destroy();
+        logger.fine(() -> this + " can not be used");   // ?
     }
 
     /** item was put on the floor (removed from inventory, added to floor of room)
