@@ -32,6 +32,7 @@ public class Undergraduate extends Player {
         this.protection = 0;
         this.dropScheduled = false;
         logger.fine(() -> this + " created");
+        game.addUndergraduate();
     }
 
     @Override

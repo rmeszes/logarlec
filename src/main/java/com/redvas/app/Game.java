@@ -135,8 +135,12 @@ public class Game {
         end = true;
     }
 
-    private int undergraduates = 2;
+    private int undergraduates = 0;
     private boolean end = false;
+
+    public void addUndergraduate() {
+        undergraduates++;
+    }
 
     public void undergraduateDroppedout() {
         if (--undergraduates == 0)
