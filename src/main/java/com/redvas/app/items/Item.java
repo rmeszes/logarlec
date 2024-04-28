@@ -64,7 +64,8 @@ public abstract class Item {
      */
     protected void destroy() {
         getOwner().removeFromInventory(this);
-        logger.fine(() -> this + " was garbage collected (destroyed)");
+        logger.fine(() -> this + " was taken from inventory");
+        owner = null;
     }
 
     /**
@@ -83,10 +84,8 @@ public abstract class Item {
     /** each item implements it differently
      *
      */
-    public void use() {
-        this.destroy();
-        logger.fine(() -> this + " can not be used");   // ?
-    }
+    public abstract void use();
+
 
     /** item was put on the floor (removed from inventory, added to floor of room)
      *

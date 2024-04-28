@@ -8,6 +8,11 @@ public class Transistor extends Item {
         super(id, whichRoom);
     }
 
+    @Override
+    public void use() {
+        logger.fine("This item can't be used"); //TODO check
+    }
+
     protected Transistor(Integer id, Player owner) {
         super(id, owner);
     }

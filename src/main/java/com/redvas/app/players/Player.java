@@ -283,4 +283,20 @@ public abstract class Player implements Steppable {
         }
     }
     protected void consoleMoveTowards(Direction direction) {}
+
+    /**
+     * Moves to a random neighbouring room that has space or does nothing
+     * @return Returns the room they moved to or null.
+     */
+    protected Room randomMove() {
+        List<Room> rooms = where().getAccessibleRooms();
+        for(Room room : rooms) {
+            if(Boolean.TRUE.equals(room.canAccept())) {
+                logger.fine("Moving to: Room id: "+room.getID());
+                moveTo(room);
+                return room;
+            }
+        }
+        return null;
+    }
 }
