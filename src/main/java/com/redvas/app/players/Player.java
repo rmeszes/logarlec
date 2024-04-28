@@ -263,7 +263,7 @@ public abstract class Player implements Steppable {
         }
 
         man.put("a", "abort");
-        Scanner scnr = new Scanner(System.in);
+        Scanner scanner = App.reader;
 
         while (true) {
             logger.fine("Choose a command:");
@@ -271,7 +271,7 @@ public abstract class Player implements Steppable {
             for (Map.Entry<String, String> e : man.entrySet())
                 logger.fine(()->String.format("Cmd: %s, %s", e.getKey(), e.getValue()));
 
-            String cmd = scnr.nextLine();
+            String cmd = scanner.nextLine();
 
             if (man.getOrDefault(cmd, null) == null)
                 logger.fine(COMMAND_NOT_RECOGNIZED_MSG);
@@ -305,4 +305,35 @@ public abstract class Player implements Steppable {
      *
      */
     public void mergeItems(int i1, int i2) {} //ez ide kell, mert a transistor Player-t kap
+
+    protected Boolean consoleList() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Items in inventory:\n");
+        if(getItems().isEmpty())
+            builder.append("None.\n");
+        else
+            for(Item item : items)
+                builder.append(item.toString()).append('\n');
+
+
+
+        builder.append("Items in room:\n");
+        if(where().getItems().isEmpty())
+            builder.append("Room has no items\n");
+        else
+            for(Item item : where.getItems())
+                builder.append(item.toString()).append('\n');
+
+        builder.append("Accessible rooms: (directions)\n");
+
+        if(where().getAccessibleDirections().isEmpty())
+            builder.append("No accessible rooms\n");
+        else {
+            for(Direction direction : where.getAccessibleDirections()) {
+                builder.append(direction.toString()).append('\n');
+            }
+        }
+        logger.fine(builder::toString);
+        return false;
+    }
 }
