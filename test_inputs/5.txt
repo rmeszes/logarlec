@@ -1,0 +1,4 @@
+load 6
+act
+pickup
+0
