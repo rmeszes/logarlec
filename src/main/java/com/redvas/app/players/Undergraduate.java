@@ -76,9 +76,12 @@ public class Undergraduate extends Player {
 
     @Override
     public void step() {
-        if (faintCountdown > 0)
+        if (faintCountdown > 0) {
+            logger.fine(() -> this + " is fainted for " + faintCountdown + " rounds");
             faintCountdown--;
+        }
         else {
+            logger.fine(() -> this.toString() + ':');
             getCommand();
         }
     }
