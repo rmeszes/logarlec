@@ -91,10 +91,8 @@ public abstract class Player implements Steppable {
      *
      */
     public void faint() {
-        if (ffp2Countdown > 0) {
-            faintCountdown = ffp2Countdown;
-        }
-        else {
+        if (ffp2Countdown == 0) {
+            faintCountdown = 3;
             dropItems();
         }
     }
