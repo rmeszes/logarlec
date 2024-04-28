@@ -1,4 +1,4 @@
-load 7
+load 8
 act
 pickup
 0

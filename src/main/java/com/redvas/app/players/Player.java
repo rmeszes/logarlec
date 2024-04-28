@@ -112,7 +112,13 @@ public abstract class Player implements Steppable {
      * @param item: picked item that they will pick up
      */
     public void addToInventory(Item item) {
-        items.add(item);            // felvesszük a tárgyat az inventoryba
+
+        if(items.size() < 5) { //ha van hely az inventoryban
+            items.add(item);            // felvesszük a tárgyat az inventoryba
+        }
+        else{
+            logger.fine("Inventory full");
+        }
     }
 
     /** only profs
