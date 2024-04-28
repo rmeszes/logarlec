@@ -174,6 +174,8 @@ public abstract class Player implements Steppable {
         }
         else {
             where.addItem(item);
+            items.remove(item);
+            logger.fine("Player has disposed of an item.");
             return true;
         }
     }
