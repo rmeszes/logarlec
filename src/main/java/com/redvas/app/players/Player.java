@@ -259,27 +259,33 @@ public abstract class Player implements Steppable {
                     .toLowerCase();
 
             dirs.put(cmd, d);
-            man.put(cmd, "Move " + d.name());
+            man.put(cmd, "Move " + d.name().toLowerCase());
         }
 
-        man.put("a", "abort");
+        man.put("abort", "abort");
         Scanner scanner = App.reader;
 
+        StringBuilder builder = new StringBuilder();
         while (true) {
-            logger.fine("Choose a command:");
+            builder.append("Available directions:\n");
 
             for (Map.Entry<String, String> e : man.entrySet())
-                logger.fine(()->String.format("Cmd: %s, %s", e.getKey(), e.getValue()));
+                builder.append(String.format("%s: %s%n", e.getKey(), e.getValue()));
+
+            logger.fine(builder::toString);
 
             String cmd = scanner.nextLine();
 
             if (man.getOrDefault(cmd, null) == null)
                 logger.fine(COMMAND_NOT_RECOGNIZED_MSG);
-            else if (cmd.equals("a"))
+            else if (cmd.equals("abort"))
                 return false;
             else if (!moveTowards(dirs.get(cmd)))
                 logger.fine("Could not move in direction");
-            else return true;
+            else {
+                logger.fine("Player has moved to another room.");
+                return true;
+            }
         }
     }
     protected void consoleMoveTowards(Direction direction) {}
