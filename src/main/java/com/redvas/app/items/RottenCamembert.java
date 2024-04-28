@@ -24,10 +24,9 @@ public class RottenCamembert extends Item implements ProximityListener {
     @Override
     public void use() {
         logger.finest(() -> this + " is being used...");
-        super.use();
         owner.where().subscribeToProximity(this);
         whichRoom = owner.where();
-        owner = null;
+        destroy();
     }
 
     /**
