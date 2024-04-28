@@ -206,28 +206,30 @@ public abstract class Player implements Steppable {
     public abstract String toString();
 
     protected boolean consoleAct() {
-        HashMap<Character, Function<Integer, Boolean>> cmds = new HashMap<>();
-        cmds.put('p', this::pickItem);
-        cmds.put('u', this::useItem);
-        cmds.put('d', this::disposeItem);
-        HashMap<Character, String> man = new HashMap<>();
-        man.put('p', "Pick item at given room item index");
-        man.put('u', "Use item at given inventory item index");
-        man.put('d', "Dispose item at given inventory item index");
-        man.put('a', "Abort");
+        HashMap<String, Function<Integer, Boolean>> cmds = new HashMap<>();
+        cmds.put("pickup", this::pickItem);
+        cmds.put("use", this::useItem);
+        cmds.put("dispose", this::disposeItem);
+        HashMap<String, String> man = new HashMap<>();
+        man.put("pickup", "Pick item at given room item index");
+        man.put("use", "Use item at given inventory item index");
+        man.put("dispose", "Dispose item at given inventory item index");
+        man.put("abort", "Abort");
         Scanner scanner = App.reader;
 
         while (true) {
-            logger.fine("Choose command:");
+            StringBuilder builder = new StringBuilder();
+            builder.append("Choose command:\n");
 
-            for (Map.Entry<Character, String> e : man.entrySet())
-                logger.fine(() -> String.format("Cmd: %c, %s", e. getKey(), e.getValue()));
+            for (Map.Entry<String, String> e : man.entrySet())
+                builder.append(String.format("%s, %s%n", e. getKey(), e.getValue()));
 
-            Character cmd = scanner.nextLine().charAt(0);
+            logger.info(builder::toString);
+            String cmd = scanner.nextLine();
 
             if (man.getOrDefault(cmd, null) == null)
                 logger.fine(COMMAND_NOT_RECOGNIZED_MSG);
-            else if (cmd == 'a')
+            else if (Objects.equals(cmd, "abort"))
                 return false;
             else {
                 logger.fine("Supply parameter:");
@@ -265,8 +267,8 @@ public abstract class Player implements Steppable {
         man.put("abort", "abort");
         Scanner scanner = App.reader;
 
-        StringBuilder builder = new StringBuilder();
         while (true) {
+            StringBuilder builder = new StringBuilder();
             builder.append("Available directions:\n");
 
             for (Map.Entry<String, String> e : man.entrySet())
@@ -317,18 +319,21 @@ public abstract class Player implements Steppable {
         builder.append("Items in inventory:\n");
         if(getItems().isEmpty())
             builder.append("None.\n");
-        else
-            for(Item item : items)
-                builder.append(item.toString()).append('\n');
-
+        else{
+            int i = 0;
+            for (Item item : items)
+                builder.append(i++).append(". ").append(item.toString()).append('\n');
+        }
 
 
         builder.append("Items in room:\n");
         if(where().getItems().isEmpty())
             builder.append("Room has no items\n");
-        else
-            for(Item item : where.getItems())
-                builder.append(item.toString()).append('\n');
+        else {
+            int i = 0;
+            for (Item item : where.getItems())
+                builder.append(i++).append(". ").append(item.toString()).append('\n');
+        }
 
         builder.append("Accessible rooms: (directions)\n");
 
