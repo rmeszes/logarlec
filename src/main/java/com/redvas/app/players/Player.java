@@ -92,6 +92,7 @@ public abstract class Player implements Steppable {
      */
     public void faint() {
         if (ffp2Countdown == 0) {
+            logger.fine("Undergraduate has fainted and dropped items");
             faintCountdown = 3;
             dropItems();
         }
