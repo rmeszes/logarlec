@@ -9,7 +9,11 @@ public class HolyBeer extends Item {
     }
 
     public HolyBeer(Integer id, Room whichRoom) {
-        super(id, whichRoom);
+        super(id, whichRoom, false);
+    }
+
+    private HolyBeer(Integer id, Room whichRoom, Boolean isListener) {
+        super(id, whichRoom, false);
     }
 
     /** activate the item (protection from prof)

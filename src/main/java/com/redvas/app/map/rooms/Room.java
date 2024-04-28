@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class Room implements Steppable {
@@ -28,6 +29,7 @@ public class Room implements Steppable {
         room.setAttribute("capacity", String.valueOf(capacity));
         room.setAttribute("type", this.getClass().getName());
         room.setAttribute("id", String.valueOf(id));
+        room.setAttribute("stickiness", String.valueOf(stickiness));
         Element doorsXML = document.createElement("doors");
         room.appendChild(doorsXML);
 
@@ -45,6 +47,15 @@ public class Room implements Steppable {
 
         for (Player p : this.occupants)
             occupantsXML.appendChild(p.saveXML(document));
+
+        Element listeners = document.createElement("phantom_listeners");
+
+        for (ProximityListener pl : this.listeners) {
+            Element e;
+
+            if ((e = pl.savePhantomListenerXML(document)) != null)
+                listeners.appendChild(e);
+        }
 
         Element itemsXML = document.createElement("items");
 
@@ -85,12 +96,15 @@ public class Room implements Steppable {
     }
 
     public void loadXML(Element room) {
-        //does nothing
+        stickiness = Integer.parseInt(room.getAttribute("stickiness"));
     }
 
-    public Room(Labyrinth labyrinth, Integer id) {
+    private int n = 0;
+
+    public Room(Labyrinth labyrinth, Integer id, Integer capacity) {
         this.labyrinth = labyrinth;
         this.id = id;
+        this.capacity = capacity;
     }
     /**
      *
@@ -173,6 +187,18 @@ public class Room implements Steppable {
         logger.finest("Room is on its turn");
         listeners.forEach(listener -> listener.proximityEndOfRound(occupants));
     }
+
+    private Direction getNeighborDirection(Room r) {
+        Optional<Direction> d = doors
+                .entrySet()
+                .stream()
+                .filter(entry -> entry.getValue().connectsTo() == r)
+                .map(Map.Entry::getKey)
+                .findFirst();
+
+        return d.orElse(null);
+    }
+
 
 
     /**

@@ -5,7 +5,11 @@ import com.redvas.app.players.Player;
 
 public class Transistor extends Item {
     public Transistor(Integer id, Room whichRoom) {
-        super(id, whichRoom);
+        super(id, whichRoom, false);
+    }
+
+    private Transistor(Integer id, Room whichRoom, Boolean isListener) {
+        super(id, whichRoom, false);
     }
 
     protected Transistor(Integer id, Player owner) {
