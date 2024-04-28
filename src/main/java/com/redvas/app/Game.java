@@ -142,4 +142,8 @@ public class Game {
         if (--undergraduates == 0)
             professorVictory();
     }
+
+    public void unRegisterSteppable(Steppable s) {
+        steppablesForRound.remove(s);
+    }
 }

@@ -425,6 +425,7 @@ public class Labyrinth implements Steppable {
 
     public void remember(Room r) {
         rooms.add(r);
+        game.registerSteppable(r);
     }
 
     public void forget(Room room) {

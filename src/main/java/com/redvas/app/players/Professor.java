@@ -18,12 +18,14 @@ public class Professor extends Player implements ProximityListener {
     public Professor(Integer id, Room room, Game game) {
         super(id, room, game);
         paralyzeCountdown = 0;
+        where.subscribeToProximity(this);
     }
 
     @Override
     public void loadXML(Element professor) {
         super.loadXML(professor);
         paralyzeCountdown = Integer.parseInt(professor.getAttribute("paralyze_countdown"));
+        where.subscribeToProximity(this);
     }
 
     @Override
