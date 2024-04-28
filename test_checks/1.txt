@@ -1,1 +1,1 @@
-Player moved to another room.
+Player has moved to another room.
