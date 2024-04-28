@@ -3,6 +3,8 @@ package com.redvas.app.players;
 import com.redvas.app.Game;
 import com.redvas.app.items.AirFreshener;
 import com.redvas.app.map.rooms.Room;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +31,11 @@ public class Janitor extends Player implements ProximityListener {
 
     public void affect(ProximityListener listener) {
         getAffected(this);
+    }
+
+    @Override
+    public Element savePhantomListenerXML(Document document) {
+        return null;
     }
 
     @Override

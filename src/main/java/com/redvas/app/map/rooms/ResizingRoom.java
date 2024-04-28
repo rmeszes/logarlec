@@ -7,9 +7,12 @@ import com.redvas.app.map.Labyrinth;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import java.util.Random;
 import java.util.logging.Logger;
 
 public class ResizingRoom extends Room {
+    private static final Random random = new Random();
+
     @Override
     public void step() {
         super.step();
@@ -45,8 +48,8 @@ public class ResizingRoom extends Room {
         mergeDirection = Direction.valueOf(room.getAttribute("merge_direction"));
     }
 
-    public ResizingRoom(int id, Labyrinth labyrinth, Direction mergeDirection) {
-        super(labyrinth, id);
+    public ResizingRoom(Integer id, Labyrinth labyrinth, Integer capacity, Direction mergeDirection) {
+        super(labyrinth, id,capacity);
         this.mergeDirection = mergeDirection;
     }
 
@@ -55,7 +58,7 @@ public class ResizingRoom extends Room {
 
         if (!occupants.isEmpty()) return;
 
-        Room r = new Room(labyrinth, incorporatedId);
+        Room r = new Room(labyrinth, incorporatedId, random.nextInt(2, 6));
         labyrinth.remember(r);
 
         if (doors.getOrDefault(Direction.RIGHT, null) == null) {

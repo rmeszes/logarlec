@@ -32,9 +32,12 @@ public abstract class Item {
         this.id = id;
     }
 
-    protected Item(Integer id, Room whichRoom) {
+    protected Item(Integer id, Room whichRoom, Boolean isListener) {
         this.whichRoom = whichRoom;
-        this.whichRoom.addItem(this);
+
+        if (Boolean.FALSE.equals(isListener))
+            this.whichRoom.addItem(this);
+
         this.id = id;
     }
 

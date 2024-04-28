@@ -137,4 +137,9 @@ public class Professor extends Player implements ProximityListener {
             player.dropout();
         }
     }
+
+    @Override
+    public Element savePhantomListenerXML(Document document) {
+        return null;
+    }
 }

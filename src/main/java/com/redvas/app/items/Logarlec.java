@@ -9,7 +9,11 @@ public class Logarlec extends Item {
         super(id, owner);
     }
     public Logarlec(Integer id, Room whichRoom) {
-        super(id, whichRoom);
+        super(id, whichRoom, false);
+    }
+
+    private Logarlec(Integer id, Room whichRoom, Boolean isListener) {
+        super(id, whichRoom, false);
     }
 
     /** it means winning the game
