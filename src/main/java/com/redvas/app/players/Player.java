@@ -4,6 +4,7 @@ import com.redvas.app.App;
 import com.redvas.app.Game;
 import com.redvas.app.Steppable;
 import com.redvas.app.items.Item;
+import com.redvas.app.items.Transistor;
 import com.redvas.app.map.Direction;
 import com.redvas.app.map.rooms.Room;
 import org.w3c.dom.Document;
@@ -299,4 +300,10 @@ public abstract class Player implements Steppable {
         }
         return null;
     }
+
+    /** two possible outcomes: 2 transistors merged
+     * or nothing happens because player did not have 2 transistors
+     *
+     */
+    public void mergeItems(int i1, int i2) {} //ez ide kell, mert a transistor Player-t kap
 }

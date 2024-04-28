@@ -10,7 +10,7 @@ public class Transistor extends Item {
 
     @Override
     public void use() {
-        logger.fine("This item can't be used"); //TODO check
+
     }
 
     protected Transistor(Integer id, Player owner) {
