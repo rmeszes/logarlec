@@ -169,7 +169,7 @@ public class Undergraduate extends Player {
 
     @Override
     public void useFFP2() {
-        setProtectionFor(3);
+        ffp2Countdown = 3;
     }
 
     @Override
