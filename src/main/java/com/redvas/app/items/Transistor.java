@@ -5,7 +5,16 @@ import com.redvas.app.players.Player;
 
 public class Transistor extends Item {
     public Transistor(Integer id, Room whichRoom) {
-        super(id, whichRoom);
+        super(id, whichRoom, false);
+    }
+
+    private Transistor(Integer id, Room whichRoom, Boolean isListener) {
+        super(id, whichRoom, false);
+    }
+
+    @Override
+    public void use() {
+        //TODO kitalálni az egészet, honnan tudjuk van-e másik transistor?
     }
 
     protected Transistor(Integer id, Player owner) {

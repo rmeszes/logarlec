@@ -4,12 +4,18 @@ import com.redvas.app.map.rooms.Room;
 import com.redvas.app.players.Janitor;
 import com.redvas.app.players.Player;
 import com.redvas.app.players.ProximityListener;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import java.util.List;
 
 public class RottenCamembert extends Item implements ProximityListener {
     public RottenCamembert(Integer id, Room whichRoom) {
-        super(id, whichRoom);
+        super(id, whichRoom, false);
+    }
+
+    public RottenCamembert(Integer id, Room whichRoom, Boolean isListener) {
+        super(id, whichRoom, isListener);
     }
 
     protected RottenCamembert(Integer id, Player owner) {
@@ -18,10 +24,9 @@ public class RottenCamembert extends Item implements ProximityListener {
     @Override
     public void use() {
         logger.finest(() -> this + " is being used...");
-        super.use();
         owner.where().subscribeToProximity(this);
         whichRoom = owner.where();
-        owner = null;
+        destroy();
     }
 
     /**
@@ -69,6 +74,13 @@ public class RottenCamembert extends Item implements ProximityListener {
     public void affect(ProximityListener listener) {
         //TODO
         logger.finest(() -> this + " affects" + listener);
+    }
+
+    @Override
+    public Element savePhantomListenerXML(Document document) {
+        Element listener = document.createElement("phantom_listener");
+        listener.setAttribute("type", getClass().getName());
+        return listener;
     }
 
     private void knockoutEveryone(List<Player> proximity) {
