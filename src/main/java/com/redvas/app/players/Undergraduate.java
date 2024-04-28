@@ -105,11 +105,13 @@ public class Undergraduate extends Player {
         Scanner scanner = App.reader;
 
         while (true) {
-            logger.fine("Choose command:");
+            StringBuilder builder = new StringBuilder();
+            builder.append("Choose command:\n");
 
             for (Map.Entry<String, String> kvp : man.entrySet())
-                logger.fine(() -> String.format("Cmd: %s (%s)", kvp.getKey(), kvp.getValue()));
+                builder.append(String.format("%s%n", kvp.getKey()));
 
+            logger.fine(builder::toString);
             String cmd = scanner.nextLine();
             Supplier<Boolean> selection = null;
 
