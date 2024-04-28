@@ -8,6 +8,11 @@ public class Transistor extends Item {
         super(id, whichRoom);
     }
 
+    @Override
+    public void use() {
+        //TODO kitalálni az egészet, honnan tudjuk van-e másik transistor?
+    }
+
     protected Transistor(Integer id, Player owner) {
         super(id, owner);
     }

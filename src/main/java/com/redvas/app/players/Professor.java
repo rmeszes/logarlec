@@ -66,17 +66,9 @@ public class Professor extends Player implements ProximityListener {
             paralyzeCountdown--;    // itt returnol
         }
         else {
-            randomMove();
-        }
-    }
-
-    private void randomMove() {
-        List<Room> rooms = where().getAccessibleRooms();
-        for(Room room : rooms) {
-            if(Boolean.TRUE.equals(room.canAccept())) {
-                logger.fine("Moving to: Room id: "+room.getID());
-                moveTo(room);
-                break;
+            Room room = randomMove();
+            if(room != null) {
+                room.subscribeToProximity(this);
             }
         }
     }
