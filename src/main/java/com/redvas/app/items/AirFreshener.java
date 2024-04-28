@@ -17,7 +17,7 @@ public class AirFreshener extends Item implements ProximityListener {
     public AirFreshener(Integer id, Room whichRoom, Boolean isListener) {
         super(id, whichRoom, isListener);
 
-        if (isListener)
+        if (Boolean.TRUE.equals(isListener))
             whichRoom.subscribeToProximity(this);
     }
     public AirFreshener(Integer id, Room whichRoom) {

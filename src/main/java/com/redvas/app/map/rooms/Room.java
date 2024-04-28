@@ -48,13 +48,13 @@ public class Room implements Steppable {
         for (Player p : this.occupants)
             occupantsXML.appendChild(p.saveXML(document));
 
-        Element listeners = document.createElement("phantom_listeners");
+        Element listenersXML = document.createElement("phantom_listeners");
 
         for (ProximityListener pl : this.listeners) {
             Element e;
 
             if ((e = pl.savePhantomListenerXML(document)) != null)
-                listeners.appendChild(e);
+                listenersXML.appendChild(e);
         }
 
         Element itemsXML = document.createElement("items");
