@@ -24,6 +24,8 @@ public class Room implements Steppable {
         return id;
     }
 
+    public int getCapacity() { return capacity; }
+
     public Element saveXML(Document document) {
         Element room = document.createElement("room");
         room.setAttribute("capacity", String.valueOf(capacity));
