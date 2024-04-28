@@ -6,11 +6,13 @@
                 <doors>
                     <door connects_to="1" direction="RIGHT" id="0" is_passable="true" is_vanished="false"/>
                 </doors>
-                <items/>
+                <items>
+                    <item id="8" is_real="true" owner="null" type="com.redvas.app.items.Logarlec" whichRoom="0"/>
+                </items>
                 <occupants>
                     <player faint_countdown="0" ffp2_countdown="0" id="4" protection="0" type="com.redvas.app.players.Undergraduate" where="0">
-                    <items/>
-                </player>
+                        <items/>
+                    </player>
                 </occupants>
             </room>
             <room capacity="5" id="1" type="com.redvas.app.map.rooms.Room">
@@ -18,16 +20,15 @@
                     <door connects_to="3" direction="DOWN" id="1" is_passable="true" is_vanished="false"/>
                 </doors>
                 <items/>
-                <occupants/>
             </room>
-            <room capacity="5" id="2" type="com.redvas.app.map.rooms.Room">
+            <room capacity="0" id="2" type="com.redvas.app.map.rooms.Room">
                 <doors>
                     <door connects_to="0" direction="UP" id="2" is_passable="true" is_vanished="false"/>
                 </doors>
                 <items/>
                 <occupants/>
             </room>
-            <room capacity="5" id="3" type="com.redvas.app.map.rooms.Room">
+            <room capacity="0" id="3" type="com.redvas.app.map.rooms.Room">
                 <doors>
                     <door connects_to="2" direction="LEFT" id="3" is_passable="true" is_vanished="false"/>
                 </doors>
