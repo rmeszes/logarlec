@@ -3,6 +3,8 @@ package com.redvas.app.players;
 import com.redvas.app.Game;
 import com.redvas.app.items.AirFreshener;
 import com.redvas.app.map.rooms.Room;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,19 +34,20 @@ public class Janitor extends Player implements ProximityListener {
     }
 
     @Override
+    public Element savePhantomListenerXML(Document document) {
+        return null;
+    }
+
+    @Override
     public void pickLogarlec() {
         //can't
     }
 
     @Override
     public void step() {
-        List<Room> rooms = where().getAccessibleRooms();
-        for(Room room : rooms) {
-            if(Boolean.TRUE.equals(room.canAccept())) {
-                logger.fine("Moving to: Room id: "+room.getID());
-                moveTo(room);
-                break;
-            }
+        Room room = randomMove();
+        if(room != null) {
+            room.subscribeToProximity(this);
         }
     }
 

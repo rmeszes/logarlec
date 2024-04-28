@@ -162,9 +162,10 @@ public class Undergraduate extends Player {
      * or nothing happens because player did not have 2 transistors
      *
      */
+    @Override
     public void mergeItems(int i1, int i2) {
         if ((i1 >= 1 && i1 <= 5) && (i2 >= 1 && i2 <=5)) {
-            getItem(i1).merge((Transistor)getItem(i2));         // Mivan ha nem tranzisztor??
+            getItem(i1).merge((Transistor)getItem(i2));
         }
     }
 

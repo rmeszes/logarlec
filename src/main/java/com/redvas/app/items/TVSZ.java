@@ -7,7 +7,11 @@ import org.w3c.dom.Element;
 
 public class TVSZ extends Item {
     public TVSZ(Integer id, Room whichRoom) {
-        super(id, whichRoom);
+        super(id, whichRoom, false);
+    }
+
+    private TVSZ(Integer id, Room whichRoom, Boolean isListener) {
+        super(id, whichRoom, false);
     }
 
     @Override

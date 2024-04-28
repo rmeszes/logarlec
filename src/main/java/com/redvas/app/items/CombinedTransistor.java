@@ -13,7 +13,11 @@ public class CombinedTransistor extends Item {
     private boolean isActive = false;
 
     public CombinedTransistor(Integer id, Room whichRoom) {
-        super(id, whichRoom);
+        super(id, whichRoom, false);
+    }
+
+    private CombinedTransistor(Integer id, Room whichRoom, Boolean isListener) {
+        super(id, whichRoom, false);
     }
 
 
@@ -38,6 +42,8 @@ public class CombinedTransistor extends Item {
     protected CombinedTransistor(Integer id, Player owner) {
         super(id, owner);
     }
+
+
     @Override
     public void loadXML(Element ct, Map<Integer, Item> id2item) {
         super.loadXML(ct, id2item);

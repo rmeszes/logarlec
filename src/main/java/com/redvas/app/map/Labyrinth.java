@@ -38,9 +38,9 @@ public class Labyrinth implements Steppable {
 
         for (int i = 0; i < rooms.getLength(); i++) {
             Element room = (Element) rooms.item(i);
-            ctor = Class.forName(room.getAttribute("type")).getDeclaredConstructor(Labyrinth.class, Integer.class);
+            ctor = Class.forName(room.getAttribute("type")).getDeclaredConstructor(Labyrinth.class, Integer.class, Integer.class);
             ctor.setAccessible(true);
-            Room r = (Room)ctor.newInstance(l, Integer.parseInt(room.getAttribute("id")));
+            Room r = (Room)ctor.newInstance(l, Integer.parseInt(room.getAttribute("id")), Integer.parseInt(room.getAttribute("capacity")));
             r.loadXML(room);
             l.rooms.add(r);
             id2room.put(r.getID(), r);
@@ -89,6 +89,15 @@ public class Labyrinth implements Steppable {
                         }
                     }
                 }
+            }
+
+            NodeList phantomListeners = room.getElementsByTagName("phantom_listener");
+
+            for (int m= 0; m < phantomListeners.getLength(); m++) {
+                Element phantomListener = (Element) phantomListeners.item(m);
+                ctor = Class.forName(phantomListener.getAttribute("type")).getDeclaredConstructor(Integer.class, Room.class, Boolean.class);
+                ctor.setAccessible(true);
+                ctor.newInstance(Integer.parseInt(phantomListener.getAttribute("id")), r, true);
             }
         }
 
@@ -288,7 +297,7 @@ public class Labyrinth implements Steppable {
                         selection.put(rdirections[i], new Door(rooms[pts.get(at).y][pts.get(at).x], true));
 
                         if (resizeablePair(resizingMap, pts.get(at).x, pts.get(at).y, pts.get(at).x + xc[i], pts.get(at).y + yc[i]) && Math.abs(random.nextGaussian()) > 0.81) {
-                                ResizingRoom er = new ResizingRoom(rooms[pts.get(at).y][pts.get(at).x].getID(), this, directions[i]);
+                                ResizingRoom er = new ResizingRoom(rooms[pts.get(at).y][pts.get(at).x].getID(), this, random.nextInt(2, 6), directions[i]);
                                 rooms[pts.get(at).y][pts.get(at).x].configureDoors();
                                 message = selection;
                                 er.receiveDoors();
@@ -330,7 +339,7 @@ public class Labyrinth implements Steppable {
     private void enchant() {
         for (int i = 0; i < width * height; i++)
             if (random.nextGaussian() > 0.8) {
-                EnchantedRoom er = new EnchantedRoom(this, rooms.get(i).getID());
+                EnchantedRoom er = new EnchantedRoom(this, rooms.get(i).getID(), random.nextInt(2, 6));
                 rooms.get(i).configureDoors();
 
                 Set<Map.Entry<Direction, Door>> doors = selection.entrySet();
@@ -365,7 +374,7 @@ public class Labyrinth implements Steppable {
                             rooms[y + yc[k]][x + xc[k]].configureDoors();
 
                             if (resizeablePair(resizingMap, x, y, x + xc[k], y + yc[k]) && Math.abs(random.nextGaussian()) > 0.81) {
-                                    ResizingRoom er = new ResizingRoom(rooms[y][x].getID(), this, directions[k]);
+                                    ResizingRoom er = new ResizingRoom(rooms[y][x].getID(), this, random.nextInt(2, 6), directions[k]);
                                     rooms[y][x].configureDoors();
                                     message = selection;
                                     er.receiveDoors();
@@ -384,7 +393,7 @@ public class Labyrinth implements Steppable {
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                Room room = new Room(this, i * width + j);
+                Room room = new Room(this, i * width + j, random.nextInt(2, 6));
                 roomsLocal[i][j] = room;
                 remember(room);
             }
