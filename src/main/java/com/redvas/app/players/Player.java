@@ -4,7 +4,6 @@ import com.redvas.app.App;
 import com.redvas.app.Game;
 import com.redvas.app.Steppable;
 import com.redvas.app.items.Item;
-import com.redvas.app.items.Transistor;
 import com.redvas.app.map.Direction;
 import com.redvas.app.map.rooms.Room;
 import org.w3c.dom.Document;
