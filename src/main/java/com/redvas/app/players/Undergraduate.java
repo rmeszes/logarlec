@@ -149,6 +149,7 @@ public class Undergraduate extends Player {
             logger.fine("Undergraduate was protected from being dropped out");
         else {
             logger.fine(()->name + " has dropped out");
+            game.unRegisterSteppable(this);
             getGame().undergraduateDroppedout();
         }
     }
