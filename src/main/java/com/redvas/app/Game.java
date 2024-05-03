@@ -75,6 +75,7 @@ public class Game extends JPanel{
         window.add(gamePanel);
         window.setSize(600,800);
         window.setVisible(true);
+        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         play();
     }
