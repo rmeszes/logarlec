@@ -5,6 +5,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
+import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -14,6 +15,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -21,8 +23,10 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 import java.util.logging.Logger;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+public class Game extends JPanel{
 
-public class Game {
     public void load(String path) throws IOException, SAXException, ParserConfigurationException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -53,7 +57,8 @@ public class Game {
 
     private final Set<Steppable> steppablesForRound = new HashSet<>();
 
-    private Labyrinth labyrinth;
+    public Labyrinth labyrinth;
+    public GamePanel gamePanel;
 
     public Game() {
         logger.fine("How many players?");
@@ -65,6 +70,12 @@ public class Game {
         logger.fine("Starting new game..");
 
         labyrinth = new Labyrinth(random.nextInt(4,9), random.nextInt(4,9), this,playerCount);
+        gamePanel = new GamePanel(labyrinth);
+        JFrame window = new JFrame();
+        window.add(gamePanel);
+        window.setSize(600,800);
+        window.setVisible(true);
+
         play();
     }
 
@@ -101,7 +112,7 @@ public class Game {
         return new Game(arg);
     }
 
-    private Set<Steppable> getSteppables() { return steppablesForRound; }
+    public Set<Steppable> getSteppables() { return steppablesForRound; }
 
     public void registerSteppable(Steppable steppable) {
         steppablesForRound.add(steppable);
@@ -121,6 +132,7 @@ public class Game {
 
             if (end) return;
         }
+        gamePanel.repaint();
     }
 
     public void undergraduateVictory() {

@@ -141,6 +141,7 @@ public abstract class Player implements Steppable {
 
         where = room;
         room.addOccupant(this);
+
     }
 
     /** player chose to activate this protection
@@ -189,7 +190,7 @@ public abstract class Player implements Steppable {
                 return true;
             }
 
-
+        game.gamePanel.repaint();
         return false;
     }
 
