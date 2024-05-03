@@ -1,6 +1,7 @@
 package com.redvas.app;
 
 import com.redvas.app.map.Labyrinth;
+import com.redvas.app.ui.GamePanel;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -15,7 +16,6 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -23,8 +23,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 import java.util.logging.Logger;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+
 public class Game extends JPanel{
 
     public void load(String path) throws IOException, SAXException, ParserConfigurationException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {

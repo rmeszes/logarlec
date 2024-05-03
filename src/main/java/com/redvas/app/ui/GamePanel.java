@@ -1,4 +1,4 @@
-package com.redvas.app;
+package com.redvas.app.ui;
 
 import com.redvas.app.map.Labyrinth;
 import javax.swing.JPanel;
