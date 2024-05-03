@@ -8,6 +8,7 @@ import com.redvas.app.map.rooms.Room;
 import com.redvas.app.players.Janitor;
 import com.redvas.app.players.Professor;
 import com.redvas.app.players.Undergraduate;
+import com.redvas.app.ui.rooms.ResizingRoomView;
 import com.redvas.app.ui.rooms.*;
 import com.redvas.app.ui.players.*;
 import com.redvas.app.ui.items.*;
