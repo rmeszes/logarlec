@@ -6,4 +6,14 @@ public class ResizingRoomView implements RoomChangeListener {
     public ResizingRoomView(ResizingRoom er) {
 
     }
+
+    @Override
+    public void roomStickinessChange(boolean isSticky) {
+
+    }
+
+    @Override
+    public void roomGaseousnessChange(boolean isGaseous) {
+
+    }
 }

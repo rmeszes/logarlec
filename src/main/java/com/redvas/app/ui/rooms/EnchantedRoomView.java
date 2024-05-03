@@ -6,4 +6,14 @@ public class EnchantedRoomView implements RoomChangeListener {
     public EnchantedRoomView(EnchantedRoom er) {
 
     }
+
+    @Override
+    public void roomStickinessChange(boolean isSticky) {
+
+    }
+
+    @Override
+    public void roomGaseousnessChange(boolean isGaseous) {
+
+    }
 }
