@@ -49,6 +49,7 @@ public class Janitor extends Player implements ProximityListener {
         if(room != null) {
             room.subscribeToProximity(this);
         }
+
     }
 
     @Override
