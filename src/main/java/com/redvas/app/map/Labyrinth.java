@@ -494,8 +494,10 @@ public class Labyrinth implements Steppable {
             r.step();
     }
 
+    private int nextId = 1;
+
     private void emplacePlayers(int playerCount) {
-        int nextId = 1;
+
         logger.fine("Placing players..");
 
         for (int i = 1; i <= playerCount; i++) {
@@ -504,13 +506,13 @@ public class Labyrinth implements Steppable {
 
         int professorCount = random.nextInt(1, playerCount);
         for (int i = 1; i <= professorCount; i++) {
-            game.registerSteppable(new Professor(nextId, getRandomRoom(), game));
+            game.registerSteppable(new Professor(nextId++, getRandomRoom(), game));
         }
 
         int janitorCount = random.nextInt(1, playerCount);
 
         for (int i = 1; i <= janitorCount; i++) {
-            game.registerSteppable(new Janitor(nextId, getRandomRoom(), game));
+            game.registerSteppable(new Janitor(nextId++, getRandomRoom(), game));
         }
     }
 
@@ -519,13 +521,13 @@ public class Labyrinth implements Steppable {
 
         Map<String, Integer> numOfItems = howManyItems();
 
-        for (int i = 0; i < numOfItems.get("AirFreshener"); i++) new AirFreshener(1, getRandomRoom());
-        for (int i = 0; i < numOfItems.get("FFP2"); i++) new FFP2(2, getRandomRoom());
-        for (int i = 0; i < numOfItems.get("HolyBeer"); i++) new HolyBeer(3, getRandomRoom());
-        for (int i = 0; i < numOfItems.get("RottenCamembert"); i++) new RottenCamembert(4, getRandomRoom());
-        for (int i = 0; i < numOfItems.get("Transistor"); i++) new Transistor(5, getRandomRoom());
-        for (int i = 0; i < numOfItems.get("TVSZ"); i++) new TVSZ(6, getRandomRoom());
-        for (int i = 0; i < numOfItems.get("WetWipe"); i++) new WetWipe(7, getRandomRoom());
+        for (int i = 0; i < numOfItems.get("AirFreshener"); i++) new AirFreshener(nextId++, getRandomRoom());
+        for (int i = 0; i < numOfItems.get("FFP2"); i++) new FFP2(nextId++, getRandomRoom());
+        for (int i = 0; i < numOfItems.get("HolyBeer"); i++) new HolyBeer(nextId++, getRandomRoom());
+        for (int i = 0; i < numOfItems.get("RottenCamembert"); i++) new RottenCamembert(nextId++, getRandomRoom());
+        for (int i = 0; i < numOfItems.get("Transistor"); i++) new Transistor(nextId++, getRandomRoom());
+        for (int i = 0; i < numOfItems.get("TVSZ"); i++) new TVSZ(nextId++, getRandomRoom());
+        for (int i = 0; i < numOfItems.get("WetWipe"); i++) new WetWipe(nextId++, getRandomRoom());
     }
 
     private Map<String, Integer> howManyItems() {
