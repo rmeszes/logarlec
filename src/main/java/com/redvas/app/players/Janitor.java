@@ -43,13 +43,15 @@ public class Janitor extends Player implements ProximityListener {
         //can't
     }
 
+    /**
+     * Janitors move randomly
+     */
     @Override
     public void step() {
         Room room = randomMove();
         if(room != null) {
             room.subscribeToProximity(this);
         }
-
     }
 
     @Override
@@ -73,6 +75,10 @@ public class Janitor extends Player implements ProximityListener {
         return String.format("Janitor room: %s", where().toString());
     }
 
+    /**
+     *
+     * @param newcomer: player that just entered, needs to be sent out
+     */
     @Override
     public void proximityChanged(Player newcomer) {
         List<Player> players = new ArrayList<>();
@@ -80,11 +86,21 @@ public class Janitor extends Player implements ProximityListener {
         sendEveryoneOut(players);
     }
 
+    /**
+     *
+     * @param proximity: list of players who are still in the room by the end of round
+     *                 need to be sent out
+     */
     @Override
     public void proximityEndOfRound(List<Player> proximity) {
         sendEveryoneOut(proximity);
     }
 
+    /**
+     *
+     * @param proximity: list of players who are still in the room by the beginning of round
+     *                 need to be sent out
+     */
     @Override
     public void proximityInitially(List<Player> proximity) {
         sendEveryoneOut(proximity);
@@ -105,6 +121,10 @@ public class Janitor extends Player implements ProximityListener {
         //nothing
     }
 
+    /**
+     *
+     * @param room: chosen room where they move (randomly chosen in another function)
+     */
     @Override
     public void moveTo(Room room) {
         super.moveTo(room);

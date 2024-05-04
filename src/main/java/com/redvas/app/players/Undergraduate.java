@@ -66,10 +66,10 @@ public class Undergraduate extends Player {
 
     protected static final Logger logger = App.getConsoleLogger(Undergraduate.class.getName());
 
-    /** has fainted and dropped all their items
+    /** prints how long the player is still fainted if they are
+     * otherwise they can make a step in the game
      *
      */
-
     @Override
     public void step() {
         if (faintCountdown > 0) {
@@ -82,6 +82,10 @@ public class Undergraduate extends Player {
         }
     }
 
+    /**
+     * this is the implementation of the steps only the undergraduates can make
+     * like move, act, list
+     */
     private void getCommand() {
         if (ffp2Countdown > 0) ffp2Countdown--;
         HashMap<String, Supplier<Boolean>> cmds = new HashMap<>();
@@ -119,9 +123,6 @@ public class Undergraduate extends Player {
                 logger.fine("Command not recognized");
         }
     }
-
-
-
 
     /** only profs can be
      *
@@ -167,11 +168,18 @@ public class Undergraduate extends Player {
         }
     }
 
+    /**
+     * ffp2 grants protection from gas 3 times
+     */
     @Override
     public void useFFP2() {
         ffp2Countdown = 3;
     }
 
+    /**
+     * if they can not protect themselves somehow
+     * they will drop out by the end of the round
+     */
     @Override
     public void scheduleDrop() { dropScheduled = true; }
 
@@ -179,8 +187,6 @@ public class Undergraduate extends Player {
     public String getName() { return "Player " + getID(); }
     public int getProtection() { return protection; }
     public boolean getDropScheduled() { return dropScheduled; }
-
-
 
     /**
      *

@@ -12,6 +12,11 @@ public class Transistor extends Item {
         super(id, whichRoom, false);
     }
 
+    /** using the transistor means trying to merge it
+     *  we iterate through the inventory, if we find another Transistor item we merge
+     *  else we don't
+     *  to avoid type-checks, we just put it in a try catch block
+     */
     @Override
     public void use() {
         assert owner.getItems() != null : "use() called with no owner";
@@ -37,8 +42,6 @@ public class Transistor extends Item {
      *
      * @param item: the one that will be merged
      */
-
-
 
     @Override
     public void merge(Transistor item){

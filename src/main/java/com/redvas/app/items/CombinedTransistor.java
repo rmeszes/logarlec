@@ -20,7 +20,10 @@ public class CombinedTransistor extends Item {
         super(id, whichRoom, false);
     }
 
-
+    /**
+     *
+     * @param pair: we need to have two CTransistors, one to put down and one to use to teleport
+     */
     public void setPair(CombinedTransistor pair){
         pairedWith = pair;
     }
@@ -43,7 +46,11 @@ public class CombinedTransistor extends Item {
         super(id, owner);
     }
 
-
+    /**
+     *
+     * @param ct item to load
+     * @param id2item Needed for overrides
+     */
     @Override
     public void loadXML(Element ct, Map<Integer, Item> id2item) {
         super.loadXML(ct, id2item);
@@ -51,6 +58,11 @@ public class CombinedTransistor extends Item {
         isActive = Boolean.parseBoolean(ct.getAttribute("is_active"));
     }
 
+    /**
+     *
+     * @param document: xml file where we save
+     * @return transistor that is being saved
+     */
     @Override
     public Element saveXML(Document document) {
         Element transistor = super.saveXML(document);
