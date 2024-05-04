@@ -12,8 +12,6 @@ import org.w3c.dom.Element;
 import java.util.*;
 import java.util.function.Function;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 //absztrakt class, majd az implementációk lesznek tesztelve
 public abstract class Player implements Steppable {
