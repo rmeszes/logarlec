@@ -24,9 +24,11 @@ public class Transistor extends Item {
             if(item != this) {
                 try {
                     item.merge((Transistor) item);
+                    logger.fine("Merged"); //THIS SHOULD BE CALLED BUT IS NOT
+                    //TODO fix
                     break;
                 } catch (ClassCastException e) {
-                    logger.fine("tried merging to another non-transistor");
+                    logger.fine("tried merging to another non-transistor"); //THIS SHOULD BE CALLED BUT IS NOT
                 }
             }
         }

@@ -336,7 +336,7 @@ public abstract class Player implements Steppable {
         Set<Room> rooms = where().getAccessibleRooms();
         for(Room room : rooms) {
             if(Boolean.TRUE.equals(room.canAccept())) {
-                logger.fine("Moving to: Room id: "+room.getID());
+                logger.fine("Moving to: Room id: " + room.getID());
                 moveTo(room);
                 return room;
             }

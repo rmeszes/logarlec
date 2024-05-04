@@ -24,8 +24,10 @@ public class Janitor extends Player implements ProximityListener{
                 for(Room room : where().getAccessibleRooms()) {
                     if(Boolean.TRUE.equals(room.canAccept())) {
                         player.moveTo(room);
-                        logger.fine("A player was sent outside");
+                        logger.fine("A player was sent outside");  //THIS SHOULD BE CALLED BUT IS NOT
+                        //TODO fix
                         moved = true;
+                        break;
                     }
                 }
                 if(!moved) return; //If all rooms are full, the rest stays
@@ -54,7 +56,6 @@ public class Janitor extends Player implements ProximityListener{
     public void step() {
         Room room = randomMove();
         if(room != null) {
-            logger.fine("Janitor has moved");
             room.subscribeToProximity(this);
         }
     }
@@ -89,6 +90,7 @@ public class Janitor extends Player implements ProximityListener{
         List<Player> players = new ArrayList<>();
         players.add(newcomer);
         sendEveryoneOut(players);
+        logger.fine("Janitor has sent you out"); //THIS SHOULD BE CALLED BUT IS NOT
     }
 
     /**
@@ -99,6 +101,7 @@ public class Janitor extends Player implements ProximityListener{
     @Override
     public void proximityEndOfRound(List<Player> proximity) {
         sendEveryoneOut(proximity);
+        logger.fine("Janitor has sent you out"); //THIS SHOULD BE CALLED BUT IS NOT
     }
 
     /**
@@ -109,6 +112,7 @@ public class Janitor extends Player implements ProximityListener{
     @Override
     public void proximityInitially(List<Player> proximity) {
         sendEveryoneOut(proximity);
+        logger.fine("Janitor has sent you out"); //THIS SHOULD BE CALLED BUT IS NOT
     }
 
     @Override
@@ -134,6 +138,7 @@ public class Janitor extends Player implements ProximityListener{
     public void moveTo(Room room) {
         super.moveTo(room);
         room.subscribeToProximity(this);
-        logger.fine("Janitor has moved");
+        logger.fine("Janitor has moved"); //THIS SHOULD BE CALLED BUT IS NOT
+        //TODO fix
     }
 }
