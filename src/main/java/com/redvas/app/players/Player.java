@@ -235,7 +235,7 @@ public abstract class Player implements Steppable {
                 builder.append(String.format("%s, %s%n", e. getKey(), e.getValue()));
 
             logger.info(builder::toString);
-            String cmd = scanner.nextLine();
+            String cmd = scanner.nextLine().trim();
 
             if (man.getOrDefault(cmd, null) == null)
                 logger.fine(COMMAND_NOT_RECOGNIZED_MSG);
@@ -259,36 +259,37 @@ public abstract class Player implements Steppable {
     }
     protected boolean consoleMove() {
         HashMap<String, Direction> dirs = new HashMap<>();
-        HashMap<String, String> man = new HashMap<>();
+        Set<String> man = new HashSet<>();
 
-        for (Direction d : where().getAccessibleDirections()) {
-            String name = d.name();
-
-            String cmd = IntStream.rangeClosed(0, d.name().length() - 1)
-                    .filter(i -> i == 0 || d.name().charAt(i - 1) == '_')
-                    .mapToObj(name::charAt).map(Object::toString)
-                    .collect(Collectors.joining())
-                    .toLowerCase();
+        for (Direction d : Direction.values()) {
+            String cmd = d.name().toLowerCase();
 
             dirs.put(cmd, d);
-            man.put(cmd, "Move " + d.name().toLowerCase());
+            man.add(cmd);
         }
 
-        man.put("abort", "abort");
+        man.add("abort");
         Scanner scanner = App.reader;
 
         while (true) {
             StringBuilder builder = new StringBuilder();
-            builder.append("Available directions:\n");
+            builder.append("Enter a direction or write abort:\n");
 
-            for (Map.Entry<String, String> e : man.entrySet())
-                builder.append(String.format("%s: %s%n", e.getKey(), e.getValue()));
+            Set<String> availableDirections = new HashSet<>();
+
+            for(Direction d : where.getAccessibleDirections()) {
+                availableDirections.add(d.name().toLowerCase());
+            }
+
+            for (String s : man)
+                if(availableDirections.contains(s))
+                    builder.append(String.format("%s%n", s));
 
             logger.fine(builder::toString);
 
-            String cmd = scanner.nextLine();
+            String cmd = scanner.nextLine().trim();
 
-            if (man.getOrDefault(cmd, null) == null)
+            if (Boolean.FALSE.equals(man.contains(cmd)))
                 logger.fine(COMMAND_NOT_RECOGNIZED_MSG);
             else if (cmd.equals("abort"))
                 return false;
