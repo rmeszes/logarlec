@@ -19,7 +19,7 @@ public class Janitor extends Player implements ProximityListener{
 
     private void sendEveryoneOut(List<Player> players) {
         for(Player player : players) {
-            while(player.where() == where()) {
+            while(player.where() == where() && player != this) {
                 boolean moved = false;
                 for(Room room : where().getAccessibleRooms()) {
                     if(Boolean.TRUE.equals(room.canAccept())) {
@@ -77,7 +77,7 @@ public class Janitor extends Player implements ProximityListener{
 
     @Override
     public String toString() {
-        return String.format("Janitor room: %s", where().toString());
+        return "Janitor";
     }
 
     /**

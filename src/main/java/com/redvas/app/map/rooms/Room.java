@@ -231,8 +231,12 @@ public class Room implements Steppable {
         return null;
     }
 
-    public List<Room> getAccessibleRooms() {
-        return new ArrayList<>();
+    public Set<Room> getAccessibleRooms() {
+        Set<Room> rooms = HashSet.newHashSet(4);
+        for(Door door : doors.values()) {
+            if(door.isPassable()) rooms.add(door.connectsTo());
+        }
+        return rooms;
     }
 
     public Set<Direction> getAccessibleDirections() {

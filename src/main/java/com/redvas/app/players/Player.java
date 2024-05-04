@@ -51,7 +51,7 @@ public abstract class Player implements Steppable {
     protected final List<Item> items;
     protected int faintCountdown;
     protected int ffp2Countdown  = 0;
-    protected final Game game;        // akár ez is lehet final
+    protected final Game game;
 
     protected static final Logger logger = App.getConsoleLogger(Player.class.getName());
 
@@ -333,7 +333,7 @@ public abstract class Player implements Steppable {
      * @return Returns the room they moved to or null.
      */
     protected Room randomMove() {
-        List<Room> rooms = where().getAccessibleRooms();
+        Set<Room> rooms = where().getAccessibleRooms();
         for(Room room : rooms) {
             if(Boolean.TRUE.equals(room.canAccept())) {
                 logger.fine("Moving to: Room id: "+room.getID());
