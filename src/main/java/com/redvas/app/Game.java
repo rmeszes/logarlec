@@ -69,12 +69,7 @@ public class Game extends JPanel{
         logger.fine("Starting new game..");
 
         labyrinth = new Labyrinth(random.nextInt(4,9), random.nextInt(4,9), this,playerCount);
-        gamePanel = new GamePanel(labyrinth);
-        JFrame window = new JFrame();
-        window.add(gamePanel);
-        window.setSize(600,800);
-        window.setVisible(true);
-        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        createWindow();
 
         play();
     }
@@ -82,13 +77,28 @@ public class Game extends JPanel{
     private Game(String arg) throws ParserConfigurationException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         logger.fine(() -> String.format("Loading game.. %s%n", arg));
         load(arg);
+
+        createWindow();
+
         play();
     }
 
     private Game(int arg) throws IOException, ParserConfigurationException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         logger.fine(() -> String.format("Loading preset: %d%n", arg));
         load("./test_saves/" + arg + ".xml");
+
+        createWindow();
+
         play();
+    }
+
+    private void createWindow() {
+        gamePanel = new GamePanel(labyrinth);
+        JFrame window = new JFrame();
+        window.add(gamePanel);
+        window.setSize(600,800);
+        if(Boolean.FALSE.equals(App.isTest())) window.setVisible(true); //Don't show window for tests
+        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     /**

@@ -147,6 +147,18 @@ public class Labyrinth implements Steppable {
             janitorImage = ImageIO.read(new File("src/main/resources/janitor.png"));
             profImage = ImageIO.read(new File("src/main/resources/prof.png"));
         } catch (IOException e) {
+            readImagesInJar();
+        }
+    }
+
+    private void readImagesInJar() {
+        try {
+            doorImage = ImageIO.read(new File("door.png"));
+            floorImage = ImageIO.read(new File("floor.png"));
+            playerImage = ImageIO.read(new File("player.png"));
+            janitorImage = ImageIO.read(new File("janitor.png"));
+            profImage = ImageIO.read(new File("prof.png"));
+        } catch (IOException e) {
             logger.severe(e.getMessage());
         }
     }
