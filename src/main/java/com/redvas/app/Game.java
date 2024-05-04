@@ -16,6 +16,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -72,7 +73,7 @@ public class Game extends JPanel{
         }
 
         else {
-            Integer[] playerOptions = {1, 2, 3, 4, 5, 6};
+            Integer[] playerOptions = {1, 2, 3, 4, 5, 6};           // ITT mik lehetnek? pl a 3-ra exception-t dob, de command line-ból is a protonal !!
             JComboBox<Integer> playerCountComboBox = new JComboBox<>(playerOptions);
 
             JPanel panel = new JPanel();
@@ -86,6 +87,7 @@ public class Game extends JPanel{
                 playerCount = (int) playerCountComboBox.getSelectedItem(); // Get the selected item from the combo box
             } else {
                 // User canceled, handle it as needed
+                return;
             }
         }
 

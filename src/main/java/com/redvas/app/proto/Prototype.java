@@ -62,7 +62,7 @@ public class Prototype {
         } while(badInput);
     }
 
-    private void commandStart() throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public void commandStart() throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         game = Game.startNewGame(false);
     }
 

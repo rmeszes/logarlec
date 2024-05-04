@@ -47,7 +47,7 @@ public class GameMenu extends JFrame {
         loadPresetGamestateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //addPlayers();
+
             }
         });
 
@@ -62,7 +62,7 @@ public class GameMenu extends JFrame {
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //savePlayers();
+
                 System.exit(0);
             }
         });
@@ -72,7 +72,7 @@ public class GameMenu extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                //savePlayers();
+
                 System.exit(0);
             }
         });
@@ -91,5 +91,6 @@ public class GameMenu extends JFrame {
 
     public void startNewGame() throws ParserConfigurationException, IOException, ClassNotFoundException, TransformerException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         prototype.menuStart();
+        //  prototype.commandStart();  // igy sem rajzolja ki a labirintust, NEM ERTEM MIERT, pedig ezt hivja a commandline-bol is a proto
     }
 }
