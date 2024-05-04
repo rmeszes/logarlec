@@ -2,6 +2,7 @@ package com.redvas.app.players;
 
 import com.redvas.app.App;
 import com.redvas.app.Game;
+import com.redvas.app.Steppable;
 import com.redvas.app.items.AirFreshener;
 import com.redvas.app.map.rooms.Room;
 import org.w3c.dom.Document;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class Professor extends Player implements ProximityListener {
+public class Professor extends Player implements ProximityListener{
     protected static final Logger logger = App.getConsoleLogger(Professor.class.getName());
     private int paralyzeCountdown;
 

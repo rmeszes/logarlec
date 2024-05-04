@@ -1,6 +1,7 @@
 package com.redvas.app.players;
 
 import com.redvas.app.Game;
+import com.redvas.app.Steppable;
 import com.redvas.app.items.AirFreshener;
 import com.redvas.app.map.rooms.Room;
 import org.w3c.dom.Document;
@@ -9,7 +10,7 @@ import org.w3c.dom.Element;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Janitor extends Player implements ProximityListener {
+public class Janitor extends Player implements ProximityListener{
     public Janitor(Integer id, Room room, Game game) {
         super(id, room, game);
         where.subscribeToProximity(this);
@@ -23,10 +24,11 @@ public class Janitor extends Player implements ProximityListener {
                 for(Room room : where().getAccessibleRooms()) {
                     if(Boolean.TRUE.equals(room.canAccept())) {
                         player.moveTo(room);
+                        logger.fine("A player was sent outside");
                         moved = true;
                     }
                 }
-                if(!moved) return;//If all rooms are full, the rest stays
+                if(!moved) return; //If all rooms are full, the rest stays
             }
         }
     }
@@ -52,6 +54,7 @@ public class Janitor extends Player implements ProximityListener {
     public void step() {
         Room room = randomMove();
         if(room != null) {
+            logger.fine("Janitor has moved");
             room.subscribeToProximity(this);
         }
     }
@@ -131,6 +134,6 @@ public class Janitor extends Player implements ProximityListener {
     public void moveTo(Room room) {
         super.moveTo(room);
         room.subscribeToProximity(this);
-
+        logger.fine("Janitor has moved");
     }
 }

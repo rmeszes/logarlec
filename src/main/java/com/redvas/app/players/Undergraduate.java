@@ -2,6 +2,7 @@ package com.redvas.app.players;
 
 import com.redvas.app.App;
 import com.redvas.app.Game;
+import com.redvas.app.Steppable;
 import com.redvas.app.items.Transistor;
 import com.redvas.app.map.rooms.Room;
 import org.w3c.dom.Document;
@@ -14,7 +15,7 @@ import java.util.Scanner;
 import java.util.function.Supplier;
 import java.util.logging.Logger;
 
-public class Undergraduate extends Player {
+public class Undergraduate extends Player implements Steppable {
     private int protection;
     private boolean dropScheduled;
 
