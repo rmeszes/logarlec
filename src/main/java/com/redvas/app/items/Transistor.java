@@ -14,7 +14,17 @@ public class Transistor extends Item {
 
     @Override
     public void use() {
-        //TODO kitalálni az egészet, honnan tudjuk van-e másik transistor?
+        assert owner.getItems() != null : "use() called with no owner";
+        for (Item item : owner.getItems()) {
+            if(item != this) {
+                try {
+                    item.merge((Transistor) item);
+                    break;
+                } catch (ClassCastException e) {
+                    logger.finest("tried merging to another non-transistor");
+                }
+            }
+        }
     }
 
     protected Transistor(Integer id, Player owner) {
