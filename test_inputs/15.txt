@@ -3,4 +3,4 @@ act
 use
 1
 move
-l
+left

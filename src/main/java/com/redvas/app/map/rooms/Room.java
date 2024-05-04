@@ -159,6 +159,8 @@ public class Room implements Steppable {
     protected Map<Direction, Door> doors = new HashMap<>();
     private final int capacity;
 
+    public int getListenerCount() {  return listeners.size(); }
+
     // to be called before addOccupant()
     public void subscribeToProximity(ProximityListener pl) {
         listeners.forEach(pl::affect);

@@ -47,7 +47,7 @@ public class Game extends JPanel{
         transformer.setOutputProperty(OutputKeys.INDENT, "yes"); // Enable indentation
         transformer.setOutputProperty("{https://xml.apache.org/xslt}indent-amount", "2");
         DOMSource source = new DOMSource(document);
-        StreamResult result = new StreamResult(new File("last_save.xml"));
+        StreamResult result = new StreamResult(new File("autosave.xml"));
         transformer.transform(source, result);
     }
 
@@ -59,7 +59,7 @@ public class Game extends JPanel{
     private transient Labyrinth labyrinth;
     private GamePanel gamePanel;
 
-    public Game() {
+    public Game() throws ParserConfigurationException, TransformerException {
         logger.fine("How many players?");
         int playerCount = App.reader.nextInt();
         if(App.reader.hasNextLine()) App.reader.nextLine();
@@ -68,13 +68,13 @@ public class Game extends JPanel{
 
         logger.fine("Starting new game..");
 
-        labyrinth = new Labyrinth(random.nextInt(4,9), random.nextInt(4,9), this,playerCount);
+        labyrinth = new Labyrinth(random.nextInt(4,12), random.nextInt(4,5), this,playerCount);
         createWindow();
 
         play();
     }
 
-    private Game(String arg) throws ParserConfigurationException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    private Game(String arg) throws ParserConfigurationException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException, TransformerException {
         logger.fine(() -> String.format("Loading game.. %s%n", arg));
         load(arg);
 
@@ -83,7 +83,7 @@ public class Game extends JPanel{
         play();
     }
 
-    private Game(int arg) throws IOException, ParserConfigurationException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    private Game(int arg) throws IOException, ParserConfigurationException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException, TransformerException {
         logger.fine(() -> String.format("Loading preset: %d%n", arg));
         load("./test_saves/" + arg + ".xml");
 
@@ -104,21 +104,21 @@ public class Game extends JPanel{
     /**
      * method for when the game is started from scratch
      */
-    public static Game startNewGame() {
+    public static Game startNewGame() throws ParserConfigurationException, TransformerException {
         return new Game();
     }
 
     /**
      * method for when the game has to load a previous save
      */
-    public static Game loadGame(String arg) throws ParserConfigurationException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public static Game loadGame(String arg) throws ParserConfigurationException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException, TransformerException {
         return new Game(arg);
     }
 
     /**
      * method for when the game has to load a preset
      */
-    public static Game loadPreset(int arg) throws IOException, ParserConfigurationException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public static Game loadPreset(int arg) throws IOException, ParserConfigurationException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException, TransformerException {
         return new Game(arg);
     }
 
@@ -129,9 +129,11 @@ public class Game extends JPanel{
         logger.finest(() -> String.format("Registering steppable: %s%n", steppable));
     }
 
-    public void play() {
-        while (!end)
+    public void play() throws ParserConfigurationException, TransformerException {
+        while (!end) {
             playRound();
+            save();
+        }
     }
 
     public void playRound() {

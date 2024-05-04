@@ -12,6 +12,8 @@ import java.util.List;
 public class Janitor extends Player implements ProximityListener {
     public Janitor(Integer id, Room room, Game game) {
         super(id, room, game);
+        where.subscribeToProximity(this);
+        where.addOccupant(this);
     }
 
     private void sendEveryoneOut(List<Player> players) {
