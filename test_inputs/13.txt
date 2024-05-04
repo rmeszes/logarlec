@@ -1,4 +1,4 @@
 load 18
 move
-l
+left
 list
