@@ -26,7 +26,7 @@ public class Transistor extends Item {
                     item.merge((Transistor) item);
                     break;
                 } catch (ClassCastException e) {
-                    logger.finest("tried merging to another non-transistor");
+                    logger.fine("tried merging to another non-transistor");
                 }
             }
         }
