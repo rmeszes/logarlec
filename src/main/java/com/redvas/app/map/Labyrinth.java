@@ -500,10 +500,6 @@ public class Labyrinth implements Steppable {
 
         logger.fine("Placing players..");
 
-        for (int i = 1; i <= playerCount; i++) {
-            game.registerSteppable(new Undergraduate(nextId++, getRandomRoom(), game));
-        }
-
         int professorCount = random.nextInt(1, playerCount);
         for (int i = 1; i <= professorCount; i++) {
             game.registerSteppable(new Professor(nextId++, getRandomRoom(), game));
@@ -513,6 +509,12 @@ public class Labyrinth implements Steppable {
 
         for (int i = 1; i <= janitorCount; i++) {
             game.registerSteppable(new Janitor(nextId++, getRandomRoom(), game));
+        }
+
+        for (int i = 1; i <= playerCount; i++) {
+            Room room = getRandomRoom();
+            while(room.getListenerCount() != 0) room = getRandomRoom(); //makes sure undegrad doesn't get immediately affected by something
+            game.registerSteppable(new Undergraduate(nextId++, getRandomRoom(), game));
         }
     }
 
