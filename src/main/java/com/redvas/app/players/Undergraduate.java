@@ -177,7 +177,7 @@ public class Undergraduate extends Player {
     public void scheduleDrop() { dropScheduled = true; }
 
     // getter
-    public String getName() { return "Player " + getID(); }
+    public String getName() { return "Player " + (getID()+1); }
     public int getProtection() { return protection; }
     public boolean getDropScheduled() { return dropScheduled; }
 

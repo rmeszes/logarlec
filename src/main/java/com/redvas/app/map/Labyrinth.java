@@ -36,6 +36,8 @@ public class Labyrinth implements Steppable {
     BufferedImage profImage;
     BufferedImage janitorImage;
 
+    private int nextId;
+
     public static Labyrinth loadXML(Element labyrinth, Game g) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         NodeList rooms = labyrinth.getElementsByTagName("room");
         Labyrinth l = new Labyrinth(
@@ -432,7 +434,7 @@ public class Labyrinth implements Steppable {
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                Room room = new Room(this, i * width + j, random.nextInt(2, 6));
+                Room room = new Room(this, nextId++, random.nextInt(2, 6));
                 roomsLocal[i][j] = room;
                 remember(room);
             }
@@ -480,6 +482,7 @@ public class Labyrinth implements Steppable {
         generate();
         emplacePlayers(playerCount);
         emplaceItems();
+        nextId = playerCount; //Players get the first x ID-s, cuz it's how their name is printed.
     }
 
     /**
@@ -494,7 +497,7 @@ public class Labyrinth implements Steppable {
             r.step();
     }
 
-    private int nextId = 1;
+
 
     private void emplacePlayers(int playerCount) {
 
@@ -520,10 +523,11 @@ public class Labyrinth implements Steppable {
             game.registerSteppable(new Janitor(nextId++, getRandomRoom(), game));
         }
 
-        for (int i = 1; i <= playerCount; i++) {
+        for (int i = 0; i < playerCount; i++) {
             Room room = getRandomRoom();
             while(room.getListenerCount() != 0) room = getRandomRoom(); //makes sure undegrad doesn't get immediately affected by something
-            game.registerSteppable(new Undergraduate(nextId++, getRandomRoom(), game));
+            game.registerSteppable(new Undergraduate(i, getRandomRoom(), game));
+            //Players get the first x ID-s, cuz it's how their name is printed.
         }
     }
 
