@@ -1,10 +1,12 @@
 package com.redvas.app;
 
 import com.redvas.app.map.Labyrinth;
+import com.redvas.app.ui.GamePanel;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
+import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -22,7 +24,8 @@ import java.util.Random;
 import java.util.Set;
 import java.util.logging.Logger;
 
-public class Game {
+public class Game extends JPanel{
+
     public void load(String path) throws IOException, SAXException, ParserConfigurationException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -53,7 +56,8 @@ public class Game {
 
     private final Set<Steppable> steppablesForRound = new HashSet<>();
 
-    private Labyrinth labyrinth;
+    private transient Labyrinth labyrinth;
+    private GamePanel gamePanel;
 
     public Game() {
         logger.fine("How many players?");
@@ -65,19 +69,36 @@ public class Game {
         logger.fine("Starting new game..");
 
         labyrinth = new Labyrinth(random.nextInt(4,9), random.nextInt(4,9), this,playerCount);
+        createWindow();
+
         play();
     }
 
     private Game(String arg) throws ParserConfigurationException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         logger.fine(() -> String.format("Loading game.. %s%n", arg));
         load(arg);
+
+        createWindow();
+
         play();
     }
 
     private Game(int arg) throws IOException, ParserConfigurationException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         logger.fine(() -> String.format("Loading preset: %d%n", arg));
         load("./test_saves/" + arg + ".xml");
+
+        createWindow();
+
         play();
+    }
+
+    private void createWindow() {
+        gamePanel = new GamePanel(labyrinth);
+        JFrame window = new JFrame();
+        window.add(gamePanel);
+        window.setSize(600,800);
+        if(Boolean.FALSE.equals(App.isTest())) window.setVisible(true); //Don't show window for tests
+        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     /**
@@ -101,7 +122,7 @@ public class Game {
         return new Game(arg);
     }
 
-    private Set<Steppable> getSteppables() { return steppablesForRound; }
+    public Set<Steppable> getSteppablesForRound() { return steppablesForRound; }
 
     public void registerSteppable(Steppable steppable) {
         steppablesForRound.add(steppable);
@@ -116,11 +137,12 @@ public class Game {
     public void playRound() {
         logger.fine("New round");
 
-        for (Steppable s : getSteppables()) {
+        for (Steppable s : getSteppablesForRound()) {
             s.step();
 
             if (end) return;
         }
+        gamePanel.repaint();
     }
 
     public void undergraduateVictory() {
@@ -147,5 +169,17 @@ public class Game {
 
     public void unRegisterSteppable(Steppable s) {
         steppablesForRound.remove(s);
+    }
+
+    public Labyrinth getLabyrinth() {
+        return labyrinth;
+    }
+
+    public void setLabyrinth(Labyrinth labyrinth) {
+        this.labyrinth = labyrinth;
+    }
+
+    public GamePanel getGamePanel() {
+        return gamePanel;
     }
 }

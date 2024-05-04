@@ -34,6 +34,7 @@ public class Professor extends Player implements ProximityListener {
             where().unsubscribeFromProximity(this);
         room.subscribeToProximity(this);
         super.moveTo(room);
+
     }
 
     @Override
@@ -73,6 +74,7 @@ public class Professor extends Player implements ProximityListener {
                 room.subscribeToProximity(this);
             }
         }
+
     }
 
     /** they stop moving and causing undergrads to drop out

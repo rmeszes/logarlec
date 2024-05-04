@@ -16,12 +16,21 @@ import java.util.logging.Logger;
 
 public class App
 {
+    private static boolean test;
+
     public static final Scanner reader = new Scanner(System.in);
 
     public static void main(String[] args) throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        if(args.length > 0 && args[0].equals("test")) {
+            test = true;
+        }
         new Prototype();
 
         //probably graphic will be here
+    }
+
+    public static boolean isTest() {
+        return test;
     }
 
     public static Logger getConsoleLogger(String className) {
