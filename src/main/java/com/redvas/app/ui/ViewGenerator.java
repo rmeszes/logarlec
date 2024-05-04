@@ -27,7 +27,7 @@ public class ViewGenerator implements GeneratorListener {
     }
     @Override
     public void roomCreated(Room room, int x, int y) {
-        new RoomView(room);
+        new RoomView(room, x, y);
     }
 
     @Override
