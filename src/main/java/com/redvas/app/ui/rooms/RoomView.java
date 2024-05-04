@@ -1,5 +1,6 @@
 package com.redvas.app.ui.rooms;
 
+import com.redvas.app.App;
 import com.redvas.app.map.rooms.EnchantedRoom;
 import com.redvas.app.map.rooms.Room;
 
@@ -8,8 +9,11 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class RoomView implements RoomChangeListener {
+    private static final Logger logger = App.getConsoleLogger(RoomView.class.getName());
+
     private final Room room;
     private final int x, y;
     private boolean isSticky = false;       // alapból legyen hamis, de am ez nem int a modellben??
@@ -29,9 +33,8 @@ public class RoomView implements RoomChangeListener {
             floorImageWhenGaseous = ImageIO.read(new File("src/main/resources/floor.png"));
             floorImageWhenSticky = ImageIO.read(new File("src/main/resources/floor.png"));
             floorImageWhenGaseousAndSticky = ImageIO.read(new File("src/main/resources/floor.png"));
-        } catch (
-                IOException e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            logger.severe(e.getMessage());
         }
     }
 

@@ -147,7 +147,7 @@ public class Labyrinth implements Steppable {
             janitorImage = ImageIO.read(new File("src/main/resources/janitor.png"));
             profImage = ImageIO.read(new File("src/main/resources/prof.png"));
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.severe(e.getMessage());
         }
     }
 
