@@ -59,14 +59,36 @@ public class Game extends JPanel{
     private transient Labyrinth labyrinth;
     private GamePanel gamePanel;
 
-    public Game() throws ParserConfigurationException, TransformerException {
-        logger.fine("How many players?");
-        int playerCount = App.reader.nextInt();
-        if(App.reader.hasNextLine()) App.reader.nextLine();
+    public Game(boolean isGraphicsMenu) throws ParserConfigurationException, TransformerException {
+        int playerCount = 2; // legyen alapból 2
+        if (!isGraphicsMenu) {
+            logger.fine("How many players?");
+            playerCount = App.reader.nextInt();
+            if(App.reader.hasNextLine()) App.reader.nextLine();
 
-        if(playerCount > 6) playerCount = 6;
+            if(playerCount > 6) playerCount = 6;
 
-        logger.fine("Starting new game..");
+            logger.fine("Starting new game..");
+        }
+
+        else {
+            Integer[] playerOptions = {1, 2, 3, 4, 5, 6};
+            JComboBox<Integer> playerCountComboBox = new JComboBox<>(playerOptions);
+
+            JPanel panel = new JPanel();
+            panel.add(new JLabel("Number of players:"));
+            panel.add(playerCountComboBox);
+
+            int result = JOptionPane.showConfirmDialog(null, panel, "Set Game Parameters",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+            if (result == JOptionPane.OK_OPTION) {
+                playerCount = (int) playerCountComboBox.getSelectedItem(); // Get the selected item from the combo box
+            } else {
+                // User canceled, handle it as needed
+            }
+        }
+
 
         labyrinth = new Labyrinth(random.nextInt(4,12), random.nextInt(4,5), this,playerCount);
         createWindow();
@@ -104,8 +126,8 @@ public class Game extends JPanel{
     /**
      * method for when the game is started from scratch
      */
-    public static Game startNewGame() throws ParserConfigurationException, TransformerException {
-        return new Game();
+    public static Game startNewGame(boolean withGraphicsMenu) throws ParserConfigurationException, TransformerException {
+        return new Game(withGraphicsMenu);
     }
 
     /**

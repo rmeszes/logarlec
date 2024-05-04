@@ -2,8 +2,10 @@ package com.redvas.app.proto;
 
 import com.redvas.app.App;
 import com.redvas.app.Game;
+import com.redvas.app.ui.GameMenu;
 import org.xml.sax.SAXException;
 
+import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.IOException;
@@ -18,10 +20,18 @@ public class Prototype {
 
     private static final Scanner stdin = App.reader;
 
-    public Prototype() throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public Prototype(boolean _isGraphicsMenu) throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         logger.fine("\nApp started successfully.");
 
-        menu();
+        if(_isGraphicsMenu) {       // Ha grafikus menüvel indítjuk
+            SwingUtilities.invokeLater(() -> {
+                GameMenu gameMenu = new GameMenu(this);
+            });
+        }
+        else {      // Ha a commandLine-ból szeretnénk vezérelni
+            menu();
+        }
+
     }
 
     private void menu() throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
@@ -41,7 +51,7 @@ public class Prototype {
 
             badInput = false;
             switch(inputSplit[0]) {
-                case "start" -> commandStart();
+                case "start" -> commandStart();     // meghívja a game ctor-ját menü nélkül
                 case "load" -> commandLoad(inputSplit[1]);
                 case "quit" -> commandQuit();
                 default -> {
@@ -53,7 +63,11 @@ public class Prototype {
     }
 
     private void commandStart() throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        game = Game.startNewGame();
+        game = Game.startNewGame(false);
+    }
+
+    public void menuStart() throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        game =  Game.startNewGame(true);
     }
 
     private void commandLoad(String arg) throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException{

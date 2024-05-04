@@ -17,14 +17,23 @@ import java.util.logging.Logger;
 public class App
 {
     private static boolean test;
+    private static boolean isGraphicsMenu;
 
     public static final Scanner reader = new Scanner(System.in);
 
     public static void main(String[] args) throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        if(args.length > 0 && args[0].equals("test")) {
+        if(args.length > 0 && args[0].equals("test")) {     // nem grafikus, tesztelésre
             test = true;
         }
-        new Prototype();
+
+        if(args.length > 0 && args[0].equals("graphics")) {     // grafikus, NEM tesztelésre
+            isGraphicsMenu = true;
+        }
+        else {      // Ha nem grafikus menü
+            isGraphicsMenu = false;
+        }
+
+        new Prototype(isGraphicsMenu);
 
         //probably graphic will be here
     }
