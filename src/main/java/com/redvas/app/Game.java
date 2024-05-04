@@ -68,7 +68,7 @@ public class Game extends JPanel{
 
         logger.fine("Starting new game..");
 
-        labyrinth = new Labyrinth(random.nextInt(4,9), random.nextInt(4,9), this,playerCount);
+        labyrinth = new Labyrinth(random.nextInt(4,12), random.nextInt(4,5), this,playerCount);
         createWindow();
 
         play();

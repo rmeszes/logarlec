@@ -24,6 +24,7 @@ public class Undergraduate extends Player {
         this.dropScheduled = false;
         logger.fine(() -> this + " created");
         game.addUndergraduate();
+        where.addOccupant(this);
     }
 
     @Override

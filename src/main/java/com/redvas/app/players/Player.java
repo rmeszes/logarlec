@@ -261,7 +261,7 @@ public abstract class Player implements Steppable {
         HashMap<String, Direction> dirs = new HashMap<>();
         HashMap<String, String> man = new HashMap<>();
 
-        for (Direction d : Direction.values()) {
+        for (Direction d : where().getAccessibleDirections()) {
             String name = d.name();
 
             String cmd = IntStream.rangeClosed(0, d.name().length() - 1)

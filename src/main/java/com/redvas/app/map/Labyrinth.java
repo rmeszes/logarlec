@@ -500,12 +500,21 @@ public class Labyrinth implements Steppable {
 
         logger.fine("Placing players..");
 
-        int professorCount = random.nextInt(1, playerCount);
+        int professorCount;
+        int janitorCount;
+        if(playerCount == 1 || playerCount == 2) {
+            professorCount = 1;
+            janitorCount = 1;
+        }
+        else {
+            professorCount = random.nextInt(1, playerCount/2);
+            janitorCount = random.nextInt(1, playerCount/2);
+        }
+
         for (int i = 1; i <= professorCount; i++) {
             game.registerSteppable(new Professor(nextId++, getRandomRoom(), game));
         }
 
-        int janitorCount = random.nextInt(1, playerCount);
 
         for (int i = 1; i <= janitorCount; i++) {
             game.registerSteppable(new Janitor(nextId++, getRandomRoom(), game));
