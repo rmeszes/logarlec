@@ -1,7 +1,6 @@
 package com.redvas.app.ui.rooms;
 
 import com.redvas.app.App;
-import com.redvas.app.map.rooms.EnchantedRoom;
 import com.redvas.app.map.rooms.Room;
 
 import javax.imageio.ImageIO;
@@ -15,7 +14,8 @@ public class RoomView implements RoomChangeListener {
     private static final Logger logger = App.getConsoleLogger(RoomView.class.getName());
 
     private final Room room;
-    private final int x, y;
+    private final int x;
+    private final int y;
     private boolean isSticky = false;       // alapból legyen hamis, de am ez nem int a modellben??
     private boolean isGaseous = false;
 
@@ -39,15 +39,15 @@ public class RoomView implements RoomChangeListener {
     }
 
     @Override
-    public void roomStickinessChange(boolean _isSticky) {    // Amikor a modellben változik, akkor ezt kell hívni és ez updateli a view-t
-        isSticky = _isSticky;
+    public void roomStickinessChange(boolean isSticky) {    // Amikor a modellben változik, akkor ezt kell hívni és ez updateli a view-t
+        this.isSticky = isSticky;
 
         // redraw majd itt ?    De ugye nem komponens, a tartalmazó cucc repaintj-je??
     }
 
     @Override
-    public void roomGaseousnessChange(boolean _isGaseous) {
-        isGaseous = _isGaseous;
+    public void roomGaseousnessChange(boolean isGaseous) {
+        this.isGaseous = isGaseous;
 
     }
 

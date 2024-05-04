@@ -11,12 +11,14 @@ import com.redvas.app.players.Janitor;
 import com.redvas.app.players.Player;
 import com.redvas.app.players.Professor;
 import com.redvas.app.players.Undergraduate;
+import jdk.jshell.spi.ExecutionControl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import javax.imageio.ImageIO;
+import javax.naming.OperationNotSupportedException;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -551,6 +553,7 @@ public class Labyrinth implements Steppable {
         return rooms.get(random.nextInt(0, rooms.size()));
     }
 
+    //TODO igen ezt az egészet át kell írni, senki ne kezdje el újrahasználni
     public void draw(Graphics2D g) {
         g.setColor(Color.BLACK);
         int roomWidth = 100;
@@ -598,12 +601,13 @@ public class Labyrinth implements Steppable {
                     case RIGHT:
                         g.drawLine(x + roomWidth, y + roomHeight / 2, x + roomWidth / 2, y + roomHeight / 2);
                         break;
+                    default:
+                        logger.severe("operation not yet implemented");
                 }
             }
             // Draw each player
-            for (Steppable steppable : game.getSteppables()) {
-                if (steppable instanceof Player) {
-                    Player player = (Player) steppable;
+            for (Steppable steppable : game.getSteppablesForRound()) {
+                if (steppable instanceof Player player) {
                     Room room2 = player.where();
                     int index = rooms.indexOf(room2);
 

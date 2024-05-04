@@ -56,8 +56,8 @@ public class Game extends JPanel{
 
     private final Set<Steppable> steppablesForRound = new HashSet<>();
 
-    public Labyrinth labyrinth;
-    public GamePanel gamePanel;
+    private transient Labyrinth labyrinth;
+    private GamePanel gamePanel;
 
     public Game() {
         logger.fine("How many players?");
@@ -122,7 +122,7 @@ public class Game extends JPanel{
         return new Game(arg);
     }
 
-    public Set<Steppable> getSteppables() { return steppablesForRound; }
+    public Set<Steppable> getSteppablesForRound() { return steppablesForRound; }
 
     public void registerSteppable(Steppable steppable) {
         steppablesForRound.add(steppable);
@@ -137,7 +137,7 @@ public class Game extends JPanel{
     public void playRound() {
         logger.fine("New round");
 
-        for (Steppable s : getSteppables()) {
+        for (Steppable s : getSteppablesForRound()) {
             s.step();
 
             if (end) return;
@@ -169,5 +169,17 @@ public class Game extends JPanel{
 
     public void unRegisterSteppable(Steppable s) {
         steppablesForRound.remove(s);
+    }
+
+    public Labyrinth getLabyrinth() {
+        return labyrinth;
+    }
+
+    public void setLabyrinth(Labyrinth labyrinth) {
+        this.labyrinth = labyrinth;
+    }
+
+    public GamePanel getGamePanel() {
+        return gamePanel;
     }
 }

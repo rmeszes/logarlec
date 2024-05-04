@@ -190,7 +190,7 @@ public abstract class Player implements Steppable {
                 return true;
             }
 
-        game.gamePanel.repaint();
+        game.getGamePanel().repaint();
         return false;
     }
 
@@ -296,7 +296,7 @@ public abstract class Player implements Steppable {
                 logger.fine("Could not move in direction");
             else {
                 logger.fine("Player has moved to another room.");
-                game.gamePanel.repaint();
+                game.getGamePanel().repaint();
                 return true;
             }
         }
@@ -316,7 +316,7 @@ public abstract class Player implements Steppable {
                 return room;
             }
         }
-        game.gamePanel.repaint();
+        game.getGamePanel().repaint();
         return null;
     }
 
