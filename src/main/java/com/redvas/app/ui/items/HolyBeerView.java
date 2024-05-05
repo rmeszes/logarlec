@@ -27,4 +27,14 @@ public class HolyBeerView implements ItemChangeListener{
             logger.severe(e.getMessage());
         }
     }
+
+    public void draw(Graphics2D g) {
+
+    }
+
+
+    @Override
+    public void positionChanged(int newX, int newY) {
+
+    }
 }

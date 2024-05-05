@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 public class EnchantedRoomView implements RoomChangeListener {
     private static final Logger logger = App.getConsoleLogger(EnchantedRoomView.class.getName());
 
-    private final EnchantedRoom enchantedRoom;
+    private final EnchantedRoom eRoom;
     private final int x;
     private final int y;
     private boolean isSticky = false;
@@ -26,7 +26,7 @@ public class EnchantedRoomView implements RoomChangeListener {
     BufferedImage eFloorImageWhenGaseousAndSticky;
 
     public EnchantedRoomView(EnchantedRoom er, int x, int y) {
-        this.enchantedRoom = er;
+        this.eRoom = er;
         this.x = x;
         this.y = y;
         try {
@@ -69,8 +69,5 @@ public class EnchantedRoomView implements RoomChangeListener {
         else  {  // gázos és ragad
             g.drawImage(eFloorImageWhenGaseousAndSticky, x, y, roomWidth, roomHeight, null);
         }
-
-
     }
-
 }
