@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 public class GamePanel extends JPanel {
-    private transient Labyrinth labyrinth;
+    /*private transient Labyrinth labyrinth;
 
     public GamePanel(Labyrinth labyrinth) {
         this.labyrinth = labyrinth;
@@ -20,5 +20,7 @@ public class GamePanel extends JPanel {
 
         // Call the draw method of the labyrinth
         labyrinth.draw(g2d);
-    }
+    } */
+
+
 }

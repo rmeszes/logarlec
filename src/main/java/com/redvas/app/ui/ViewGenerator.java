@@ -57,7 +57,7 @@ public class ViewGenerator implements GeneratorListener {
 
     @Override
     public void airFreshenerCreated(AirFreshener a, int x, int y) {
-        new AirFreshenerView(a);
+        new AirFreshenerView(a, x, y);
     }
 
     @Override
