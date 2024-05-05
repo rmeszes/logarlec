@@ -3,6 +3,7 @@ package com.redvas.app.items;
 import com.redvas.app.App;
 import com.redvas.app.map.rooms.Room;
 import com.redvas.app.players.Player;
+import com.redvas.app.ui.items.listeners.ItemChangeListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -16,6 +17,11 @@ public abstract class Item {
     protected boolean isReal;
 
     private final int id;
+    private ItemChangeListener icl;
+
+    public void subscribe(ItemChangeListener icl) {
+        this.icl = icl;
+    }
 
     /**
      * Loads this item
@@ -69,6 +75,7 @@ public abstract class Item {
         getOwner().removeFromInventory(this);
         logger.fine(() -> this + " was taken from inventory");
         owner = null;
+        icl.destroyed();
     }
 
     /**
@@ -87,7 +94,9 @@ public abstract class Item {
     /** each item implements it differently
      *
      */
-    public abstract void use();
+    public void use() {
+        icl.used();
+    }
 
 
     /** item was put on the floor (removed from inventory, added to floor of room)

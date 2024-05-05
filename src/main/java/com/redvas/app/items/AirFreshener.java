@@ -28,6 +28,7 @@ public class AirFreshener extends Item implements ProximityListener {
     public void use() {
         logger.finest("Airfreshener used");
         owner.where().subscribeToProximity(this);
+        super.use();
         destroy();
     }
 
