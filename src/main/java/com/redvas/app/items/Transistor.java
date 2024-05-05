@@ -25,7 +25,6 @@ public class Transistor extends Item {
                 try {
                     item.merge((Transistor) item);
                     logger.fine("Merged"); //THIS SHOULD BE CALLED BUT IS NOT
-                    //TODO fix
                     break;
                 } catch (ClassCastException e) {
                     logger.fine("tried merging to another non-transistor"); //THIS SHOULD BE CALLED BUT IS NOT
@@ -33,7 +32,6 @@ public class Transistor extends Item {
             }
         }
     }
-
     protected Transistor(Integer id, Player owner) {
         super(id, owner);
     }
@@ -47,6 +45,11 @@ public class Transistor extends Item {
 
     @Override
     public void merge(Transistor item){
+        logger.fine("Merge function from transistor called");
+        if (item.getClass() != Transistor.class) {
+            logger.fine("tried merging to another non-transistor");
+            return;
+        }
         item.destroy();
         destroy();
         CombinedTransistor ct1 = new CombinedTransistor(-1, this.owner);

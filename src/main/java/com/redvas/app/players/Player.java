@@ -81,7 +81,7 @@ public abstract class Player implements Steppable {
      * @return item that they picked
      */
     protected Item getItem(int index) {     // inventory 0-4ig
-        if (index < 1 || index > 5) { throw new IllegalArgumentException();}
+        if (index < 0 || index > 5) { throw new IllegalArgumentException();}
         return items.get(index - 1);
     }
 
@@ -215,7 +215,7 @@ public abstract class Player implements Steppable {
     }
     public void scheduleDrop() {}           // EZ A TERVBEN NINCS BENNE
 
-    protected abstract boolean useItem(int index);      // Ez nincs kifejtve a tervbem
+    protected abstract boolean useItem(int index);
 
 
     // getters and setters
