@@ -24,6 +24,11 @@ public class WetWipe extends Item implements ProximityListener {
     protected WetWipe(Integer id, Player owner) {
         super(id, owner);
     }
+
+    /**
+     * using it means the item subscribes to the proximity of the room
+     * this proximity will make the professors paralyzed
+     */
     @Override
     public void use() {
         logger.fine(() -> this + " is being used...");
@@ -34,7 +39,7 @@ public class WetWipe extends Item implements ProximityListener {
 
     /**
      *
-     * @param players
+     * @param players: list of players in the room, only professors implement the paralyze function
      */
     private void paralyzeProfessors(List<Player> players) {
         for (Player p : players) {
@@ -61,6 +66,11 @@ public class WetWipe extends Item implements ProximityListener {
         return "Wet Wipe";
     }
 
+    /**
+     *
+     * @param newcomer: the player that just entered the room
+     *                if it is a professor, he gets paralyzed immediately
+     */
     @Override
     public void proximityChanged(Player newcomer) {
         newcomer.paralyze();
@@ -82,7 +92,10 @@ public class WetWipe extends Item implements ProximityListener {
             this.destroy();
         }
     }
-
+    /**
+     *
+     * @param proximity: list of players who are in the room by the beginning of the round
+     */
     @Override
     public void proximityInitially(List<Player> proximity) {
         paralyzeProfessors(proximity);
@@ -93,21 +106,27 @@ public class WetWipe extends Item implements ProximityListener {
         return 0;
     }
 
+    /** It does nothing, Janitor DOES NOT affect the wetwipe
+     *
+     * @param by
+     */
     @Override
-    public void getAffected(Janitor by) {
-        //It does nothing, Janitor DOES NOT affect the wetwipe
+    public void getAffected(Janitor by){
         logger.finest(() -> this + " getAffected(by janitor)");
     }
 
+    /**
+     * It does nothing, AirFreshener DOES NOT affect the wetwipe
+     * @param by
+     */
     @Override
     public void getAffected(AirFreshener by) {
-        //It does nothing, AirFreshener DOES NOT affect the wetwipe
+
         logger.finest(() -> this + " getAffected(by airFreshener)");
     }
 
     @Override
     public void affect(ProximityListener listener) {
-        //TODO
         logger.finest(() -> this + " affect");
     }
 

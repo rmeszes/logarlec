@@ -1,0 +1,5 @@
+load 22
+move
+right
+pass
+pass
