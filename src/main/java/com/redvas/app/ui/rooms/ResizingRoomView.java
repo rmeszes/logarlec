@@ -42,17 +42,19 @@ public class ResizingRoomView implements RoomChangeListener {
     @Override
     public void roomStickinessChange(boolean isSticky) {
         this.isSticky = isSticky;
+        return;
     }
 
     @Override
     public void roomGaseousnessChange(boolean isGaseous) {
         this.isGaseous = isGaseous;
+        return;
     }
 
     public void draw(Graphics2D g) {
-        g.setColor(Color.BLACK);
         int roomWidth = 200;
         int roomHeight = 200;
+        g.setColor(Color.BLACK);
 
         if (!isGaseous && !isSticky) {      // alap
             g.drawImage(rFloorImage, x, y, roomWidth, roomHeight, null);
