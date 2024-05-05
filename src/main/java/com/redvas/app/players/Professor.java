@@ -2,7 +2,6 @@ package com.redvas.app.players;
 
 import com.redvas.app.App;
 import com.redvas.app.Game;
-import com.redvas.app.Steppable;
 import com.redvas.app.items.AirFreshener;
 import com.redvas.app.map.rooms.Room;
 import org.w3c.dom.Document;

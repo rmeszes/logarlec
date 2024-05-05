@@ -1,7 +1,6 @@
 package com.redvas.app.players;
 
 import com.redvas.app.Game;
-import com.redvas.app.Steppable;
 import com.redvas.app.items.AirFreshener;
 import com.redvas.app.map.rooms.Room;
 import org.w3c.dom.Document;
@@ -24,8 +23,7 @@ public class Janitor extends Player implements ProximityListener{
                 for(Room room : where().getAccessibleRooms()) {
                     if(Boolean.TRUE.equals(room.canAccept())) {
                         player.moveTo(room);
-                        logger.fine("A player was sent outside");  //THIS SHOULD BE CALLED BUT IS NOT
-                        //TODO fix
+                        logger.fine("A player was sent outside");
                         moved = true;
                         break;
                     }
@@ -90,7 +88,6 @@ public class Janitor extends Player implements ProximityListener{
         List<Player> players = new ArrayList<>();
         players.add(newcomer);
         sendEveryoneOut(players);
-        logger.fine("Janitor has sent you out"); //THIS SHOULD BE CALLED BUT IS NOT
     }
 
     /**
@@ -101,7 +98,7 @@ public class Janitor extends Player implements ProximityListener{
     @Override
     public void proximityEndOfRound(List<Player> proximity) {
         sendEveryoneOut(proximity);
-        logger.fine("Janitor has sent you out"); //THIS SHOULD BE CALLED BUT IS NOT
+        logger.fine("Janitor has sent you out");
     }
 
     /**
@@ -112,7 +109,7 @@ public class Janitor extends Player implements ProximityListener{
     @Override
     public void proximityInitially(List<Player> proximity) {
         sendEveryoneOut(proximity);
-        logger.fine("Janitor has sent you out"); //THIS SHOULD BE CALLED BUT IS NOT
+        logger.fine("Janitor has sent you out");
     }
 
     @Override
@@ -138,7 +135,6 @@ public class Janitor extends Player implements ProximityListener{
     public void moveTo(Room room) {
         super.moveTo(room);
         room.subscribeToProximity(this);
-        logger.fine("Janitor has moved"); //THIS SHOULD BE CALLED BUT IS NOT
-        //TODO fix
+        logger.fine("Janitor has moved");
     }
 }
