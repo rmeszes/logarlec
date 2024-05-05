@@ -16,6 +16,13 @@ public class Janitor extends Player implements ProximityListener{
         where.addOccupant(this);
     }
 
+    /**
+     *
+     * @param players: these are the ones that need to be sent out
+     *               we try to send them to random directions
+     *               if it is impossible because all rooms are full or there is no way out
+     *               they must stay
+     */
     private void sendEveryoneOut(List<Player> players) {
         for(Player player : players) {
             while(player.where() == where() && player != this) {
@@ -33,6 +40,12 @@ public class Janitor extends Player implements ProximityListener{
         }
     }
 
+    /** he affects the room, it means he sends everyone out and
+     * removes the gas
+     * makes it sticky after
+     *
+     * @param listener: where he needs to clean
+     */
     public void affect(ProximityListener listener) {
         getAffected(this);
     }
@@ -68,6 +81,11 @@ public class Janitor extends Player implements ProximityListener{
         //can't
     }
 
+    /**
+     * janitor can not use items
+     * @param index
+     * @return
+     */
     @Override
     public boolean useItem(int index) {
         //can't
@@ -103,7 +121,7 @@ public class Janitor extends Player implements ProximityListener{
 
     /**
      *
-     * @param proximity: list of players who are still in the room by the beginning of round
+     * @param proximity: list of players who are in the room by the beginning of round
      *                 need to be sent out
      */
     @Override
@@ -112,6 +130,10 @@ public class Janitor extends Player implements ProximityListener{
         logger.fine("Janitor has sent you out");
     }
 
+    /**
+     * to avoid unexpected behaviour
+     * @return
+     */
     @Override
     public int listenerPriority() {
         return 3;

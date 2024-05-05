@@ -15,6 +15,12 @@ public class Professor extends Player implements ProximityListener{
     protected static final Logger logger = App.getConsoleLogger(Professor.class.getName());
     private int paralyzeCountdown;
 
+    /**
+     *
+     * @param id: identificator of this sepcific prof
+     * @param room: where they are
+     * @param game: which game they are in
+     */
     public Professor(Integer id, Room room, Game game) {
         super(id, room, game);
         paralyzeCountdown = 0;
@@ -22,6 +28,10 @@ public class Professor extends Player implements ProximityListener{
         where.addOccupant(this);
     }
 
+    /**
+     *
+     * @param professor: the instance of a professor that we are loading
+     */
     @Override
     public void loadXML(Element professor) {
         super.loadXML(professor);
@@ -44,6 +54,11 @@ public class Professor extends Player implements ProximityListener{
 
     }
 
+    /**
+     *
+     * @param document: xml file where we save the current state of the game
+     * @return
+     */
     @Override
     public Element saveXML(Document document) {
         Element professor = super.saveXML(document);
@@ -151,7 +166,7 @@ public class Professor extends Player implements ProximityListener{
      */
     @Override
     public void getAffected(Janitor by) {
-        //don't think its needed (unless more complicated solution for janitor)
+        return;
     }
     /**
      * not affected by airfresheners
@@ -159,12 +174,16 @@ public class Professor extends Player implements ProximityListener{
      */
     @Override
     public void getAffected(AirFreshener by) {
-        ////don't think its needed
+        return;
     }
 
+    /**
+     * must implement the interface's functions
+     * @param listener
+     */
     @Override
     public void affect(ProximityListener listener) {
-        //does nothing
+        return;
     }
 
     /**
