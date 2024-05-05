@@ -92,8 +92,8 @@ public class Janitor extends Player implements ProximityListener{
 
     /**
      *
-     * @param proximity: list of players who are still in the room by the end of round
-     *                 need to be sent out
+     * @param proximity: still in the room by the end of round
+     *
      */
     @Override
     public void proximityEndOfRound(List<Player> proximity) {
@@ -129,7 +129,7 @@ public class Janitor extends Player implements ProximityListener{
 
     /**
      *
-     * @param room: chosen room where they move (randomly chosen in another function)
+     * @param room: randomly chosen room where they move
      */
     @Override
     public void moveTo(Room room) {

@@ -111,7 +111,7 @@ public class Professor extends Player implements ProximityListener{
 
     /**
      * if they are unprotected, they drop out
-     * @param newcomer: the player that just entered
+     *
      */
     @Override
     public void proximityChanged(Player newcomer) {
@@ -133,8 +133,7 @@ public class Professor extends Player implements ProximityListener{
     /**
      *
      * @param proximity: list of players that are in the room by the beginning of the round
-     *                 if they are unprotected, need to be dropped out
-     *                 the undergrad.dropout() function checks whether they are protected or not
+     *
      */
     @Override
     public void proximityInitially(List<Player> proximity) {
@@ -155,7 +154,7 @@ public class Professor extends Player implements ProximityListener{
         //don't think its needed (unless more complicated solution for janitor)
     }
     /**
-     * Professors are not affected by airfresheners
+     * not affected by airfresheners
      *
      */
     @Override
@@ -170,7 +169,7 @@ public class Professor extends Player implements ProximityListener{
 
     /**
      *
-     * @param proximity: list of players in the room
+     * @param proximity: players in this room
      *                 the dropout() function checks whether they are protected or not
      */
     private void dropoutUndergraduates(List<Player> proximity) {
