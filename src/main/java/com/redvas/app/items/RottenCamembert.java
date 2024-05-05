@@ -22,6 +22,12 @@ public class RottenCamembert extends Item implements ProximityListener {
     protected RottenCamembert(Integer id, Player owner) {
         super(id, owner);
     }
+
+    /**
+     * using it means the item subscribes to the proximity of the room
+     * this proximity will change the gaseous state, it will become gaseous
+     * and starts making the unprotected players faint
+     */
     @Override
     public void use() {
         logger.finest(() -> this + " is being used...");
@@ -38,34 +44,61 @@ public class RottenCamembert extends Item implements ProximityListener {
         return "Cabbage Camembert";
     }
 
+    /**
+     *
+     * @param newcomer: the one who just entered the room in this round
+     */
     @Override
     public void proximityChanged(Player newcomer) {
         newcomer.faint();
         logger.finest(() -> this + " proximity changed");
     }
-
+    /**
+     *
+     * @param proximity: list of players who are still in the room by the end of the round
+     *                 because they had a chance to leave, or put on a mask
+     */
     @Override
     public void proximityEndOfRound(List<Player> proximity) {
         knockoutEveryone(proximity);
         logger.finest(() -> this + " proximity endOfRound");
     }
-
+    /**
+     *
+     * @param proximity: list of players who are in the room by the beginning of the round
+     */
     @Override
     public void proximityInitially(List<Player> proximity) {
         knockoutEveryone(proximity);
         logger.finest(() -> this + " proximityInitially");
     }
-
+    /**
+     *
+     * @return 0: we make sure that if two objects are being used at the same time
+     * eg: someone opens a RottenCamembert but someone also used an AirFreshener
+     * then there is a rule (priority rule) which allows us to decide what will affect the room
+     */
     @Override
     public int listenerPriority() {
         return 0;
     }
 
+    /**
+     *
+     * @param by: the janitor who just cleaned the room
+     *         they can change the gaseous state of the room
+     *          it means unsubscribing from the proximity of the room
+     */
     @Override
     public void getAffected(Janitor by) {
         whichRoom.unsubscribeFromProximity(this);
     }
-
+    /**
+     *
+     * @param by: the airfreshener item that was just used
+     *         they can change the gaseous state of the room
+     *          it means unsubscribing from the proximity of the room
+     */
     @Override
     public void getAffected(AirFreshener by) {
         whichRoom.unsubscribeFromProximity(this);
@@ -83,6 +116,10 @@ public class RottenCamembert extends Item implements ProximityListener {
         return listener;
     }
 
+    /** makes the players in the proximity faint
+     *
+     * @param proximity: list of players that have to be affected by the gas
+     */
     private void knockoutEveryone(List<Player> proximity) {
         for(Player player: proximity){
             player.faint();

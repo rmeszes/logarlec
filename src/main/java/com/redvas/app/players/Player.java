@@ -20,6 +20,11 @@ public abstract class Player implements Steppable {
         return id;
     }
 
+    /**
+     *
+     * @param document: xml file where we save the current state of the game
+     * @return player
+     */
     public Element saveXML(Document document) {
         Element player = document.createElement("player");
         player.setAttribute("id", String.valueOf(getID()));
@@ -76,7 +81,7 @@ public abstract class Player implements Steppable {
      * @return item that they picked
      */
     protected Item getItem(int index) {     // inventory 0-4ig
-        if (index < 1 || index > 5) { throw new IllegalArgumentException();}
+        if (index < 0 || index > 5) { throw new IllegalArgumentException();}
         return items.get(index - 1);
     }
 
@@ -95,8 +100,6 @@ public abstract class Player implements Steppable {
             dropItems();
         }
     }
-
-
 
     /**
      *
@@ -186,6 +189,11 @@ public abstract class Player implements Steppable {
         }
     }
 
+    /**
+     * the function that begins moving the player to a different room
+     * @param direction: where they move
+     * @return
+     */
     private boolean moveTowards (Direction direction) {
         Room r;
 
@@ -198,13 +206,16 @@ public abstract class Player implements Steppable {
         return false;
     }
 
+    /**
+     * the player that faints, drops their items
+     */
     public void dropItems() {
         while (!items.isEmpty())
             items.get(items.size() - 1).dispose();
     }
     public void scheduleDrop() {}           // EZ A TERVBEN NINCS BENNE
 
-    protected abstract boolean useItem(int index);      // Ez nincs kifejtve a tervbem
+    protected abstract boolean useItem(int index);
 
 
     // getters and setters
@@ -219,6 +230,14 @@ public abstract class Player implements Steppable {
     @Override
     public abstract String toString();
 
+    /**
+     * if the user chose the act command they have 4 options:
+     * pick up an item
+     * use an item
+     * dispose of an item
+     * abort the act
+     *
+     */
     protected boolean consoleAct() {
         HashMap<String, Function<Integer, Boolean>> cmds = new HashMap<>();
         cmds.put("pickup", this::pickItem);
@@ -261,6 +280,13 @@ public abstract class Player implements Steppable {
             }
         }
     }
+
+    /**
+     * asks the user to make a step in the game
+     * it can be moving to another room
+     * acting: using an item, dropping an item, or nothing (pass)
+     *
+     */
     protected boolean consoleMove() {
         HashMap<String, Direction> dirs = new HashMap<>();
         Set<String> man = new HashSet<>();
@@ -316,7 +342,7 @@ public abstract class Player implements Steppable {
         Set<Room> rooms = where().getAccessibleRooms();
         for(Room room : rooms) {
             if(Boolean.TRUE.equals(room.canAccept())) {
-                logger.fine("Moving to: Room id: "+room.getID());
+                logger.fine("Moving to: Room id: " + room.getID());
                 moveTo(room);
                 return room;
             }
@@ -331,6 +357,11 @@ public abstract class Player implements Steppable {
      */
     public void mergeItems(int i1, int i2) {} //ez ide kell, mert a transistor Player-t kap
 
+    /**
+     * this function lists the items in the inventory of the player, the room they are currently in
+     * and the available directions to move towards
+     *
+     */
     protected Boolean consoleList() {
         StringBuilder builder = new StringBuilder();
         builder.append("Items in inventory:\n");
