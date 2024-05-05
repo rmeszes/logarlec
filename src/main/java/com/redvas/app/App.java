@@ -1,6 +1,7 @@
 package com.redvas.app;
 
 
+import com.redvas.app.map.Labyrinth;
 import com.redvas.app.proto.Prototype;
 import org.xml.sax.SAXException;
 
@@ -20,7 +21,6 @@ public class App
 
     public static void main(String[] args) throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         new Prototype();
-
         //probably graphic will be here
     }
 

@@ -26,6 +26,28 @@ public class Room implements Steppable {
 
     public int getCapacity() { return capacity; }
 
+    public EnchantedRoom convertToEnchanted(int capacity) {
+        EnchantedRoom er = new EnchantedRoom(labyrinth, id, capacity);
+
+        for (Map.Entry<Direction, Door> e : doors.entrySet()) {
+            e.getValue().setConnection(e.getKey().getReverse(), er);
+            e.getValue().setVanished(Math.random() > 0.5);
+        }
+
+        er.doors = doors;
+        return er;
+    }
+
+    public ResizingRoom convertToResizing(Direction expandDirection, int capacity) {
+        ResizingRoom rr = new ResizingRoom(id, labyrinth, capacity, expandDirection);
+
+        for (Map.Entry<Direction, Door> e : doors.entrySet())
+            e.getValue().setConnection(e.getKey().getReverse(), rr);
+
+        rr.doors = doors;
+        return rr;
+    }
+
     public List<Item> getItems() { return items; }
 
     public Element saveXML(Document document) {
@@ -34,19 +56,6 @@ public class Room implements Steppable {
         room.setAttribute("type", this.getClass().getName());
         room.setAttribute("id", String.valueOf(id));
         room.setAttribute("stickiness", String.valueOf(stickiness));
-        Element doorsXML = document.createElement("doors");
-        room.appendChild(doorsXML);
-
-        for (Map.Entry<Direction, Door> e : this.doors.entrySet()) {
-            Element door = document.createElement("door");
-            door.setAttribute("direction", e.getKey().toString());
-            door.setAttribute("connects_to", String.valueOf(e.getValue().connectsTo().getID()));
-            door.setAttribute("id", String.valueOf(getID()));
-            door.setAttribute("is_passable", String.valueOf(e.getValue().isPassable()));
-            door.setAttribute("is_vanished", String.valueOf(e.getValue().isVanished()));
-            doorsXML.appendChild(door);
-        }
-
         Element occupantsXML = document.createElement("occupants");
 
         for (Player p : this.occupants)
@@ -71,12 +80,15 @@ public class Room implements Steppable {
         return room;
     }
     private static final Logger logger = App.getConsoleLogger(Room.class.getName());
-    public void configureDoors() {
-        labyrinth.acceptDoors(doors);
+    protected final Labyrinth labyrinth;
+    public void configureDoors(Door d) {
+        sendDoors(d);
+    }
+    public void sendDoors(Door d) {
+        d.acceptDoors(doors);
     }
     private final List<ProximityListener> listeners = new ArrayList<>();
     private final List<Item> items = new ArrayList<>();
-    protected final Labyrinth labyrinth;
     private int stickiness = 0;
     protected boolean incorporatable() {
         return true;
@@ -102,8 +114,6 @@ public class Room implements Steppable {
     public void loadXML(Element room) {
         stickiness = Integer.parseInt(room.getAttribute("stickiness"));
     }
-
-    private int n = 0;
 
     public Room(Labyrinth labyrinth, Integer id, Integer capacity) {
         this.labyrinth = labyrinth;
@@ -141,12 +151,7 @@ public class Room implements Steppable {
         items.add(item);
     }
 
-    public void receiveDoors() {
-        doors = labyrinth.sendDoors();
-    }
-
     protected static HashMap<Direction, Direction> reverseDirections = new HashMap<>();
-
 
     static {
         reverseDirections.put(Direction.UP, Direction.DOWN);
@@ -156,7 +161,8 @@ public class Room implements Steppable {
     }
 
     protected List<Player> occupants = new ArrayList<>();
-    protected Map<Direction, Door> doors = new HashMap<>();
+    protected HashMap<Direction, Door> doors = new HashMap<>(8);
+
     private final int capacity;
 
     // to be called before addOccupant()
@@ -194,18 +200,6 @@ public class Room implements Steppable {
         listeners.forEach(listener -> listener.proximityEndOfRound(occupants));
     }
 
-    private Direction getNeighborDirection(Room r) {
-        Optional<Direction> d = doors
-                .entrySet()
-                .stream()
-                .filter(entry -> entry.getValue().connectsTo() == r)
-                .map(Map.Entry::getKey)
-                .findFirst();
-
-        return d.orElse(null);
-    }
-
-
 
     /**
      * After the room is merged it has to disappear
@@ -223,8 +217,8 @@ public class Room implements Steppable {
     public Room isAccessible(Direction d) {
         Door door = null;
 
-        if ((door = doors.getOrDefault(d, null)) != null && (door.isPassable() && !door.isVanished()))
-                return door.connectsTo();
+        if ((door = doors.getOrDefault(d, null)) != null && (door.isPassable(d) && !door.isVanished()))
+                return door.connectsTo(d);
 
         return null;
     }
@@ -236,7 +230,7 @@ public class Room implements Steppable {
     public Set<Direction> getAccessibleDirections() {
         HashSet<Direction> directions = new HashSet<>();
         for(Map.Entry<Direction,Door> entry : doors.entrySet()) {
-            if(entry.getValue().isPassable() && !entry.getValue().isVanished()) directions.add(entry.getKey());
+            if(entry.getValue().isPassable(entry.getKey()) && !entry.getValue().isVanished()) directions.add(entry.getKey());
         }
         return directions;
     }

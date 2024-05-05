@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<game>
+    <labyrinth height="6" width="5">
+        <rooms>
+            <room capacity="3" id="0" stickiness="0" type="com.redvas.app.map.rooms.EnchantedRoom">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="5" id="1" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="2" id="2" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="4" id="3" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="3" id="4" stickiness="0" type="com.redvas.app.map.rooms.EnchantedRoom">
+                <items>
+                    <item id="5" is_real="false" owner="null" type="com.redvas.app.items.Transistor" whichRoom="4"/>
+                </items>
+                <occupants/>
+            </room>
+            <room capacity="3" id="5" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="5" id="6" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items>
+                    <item id="7" is_real="false" owner="null" type="com.redvas.app.items.WetWipe" whichRoom="6"/>
+                </items>
+                <occupants/>
+            </room>
+            <room capacity="4" id="7" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items>
+                    <item id="3" is_real="false" owner="null" type="com.redvas.app.items.HolyBeer" whichRoom="7"/>
+                </items>
+                <occupants/>
+            </room>
+            <room capacity="3" id="8" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="5" id="9" stickiness="0" type="com.redvas.app.map.rooms.EnchantedRoom">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="4" id="10" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items>
+                    <item id="4" is_real="false" owner="null" type="com.redvas.app.items.RottenCamembert" whichRoom="10"/>
+                </items>
+                <occupants/>
+            </room>
+            <room capacity="4" id="11" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items>
+                    <item id="4" is_real="false" owner="null" type="com.redvas.app.items.RottenCamembert" whichRoom="11"/>
+                </items>
+                <occupants/>
+            </room>
+            <room capacity="5" id="12" stickiness="1" type="com.redvas.app.map.rooms.Room">
+                <items>
+                    <item id="1" is_real="false" owner="null" type="com.redvas.app.items.AirFreshener" whichRoom="12"/>
+                </items>
+                <occupants>
+                    <player faint_countdown="0" ffp2_countdown="0" id="3" paralyze_countdown="0" type="com.redvas.app.players.Professor" where="12">
+                        <items/>
+                    </player>
+                </occupants>
+            </room>
+            <room capacity="3" id="13" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="3" id="14" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="5" id="15" stickiness="0" type="com.redvas.app.map.rooms.EnchantedRoom">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="3" id="16" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="3" id="17" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="5" id="18" stickiness="1" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants>
+                    <player faint_countdown="0" ffp2_countdown="0" id="2" protection="0" type="com.redvas.app.players.Undergraduate" where="18">
+                        <items/>
+                    </player>
+                </occupants>
+            </room>
+            <room capacity="5" id="19" stickiness="1" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants>
+                    <player faint_countdown="0" ffp2_countdown="0" id="3" type="com.redvas.app.players.Janitor" where="19">
+                        <items/>
+                    </player>
+                </occupants>
+            </room>
+            <room capacity="5" id="20" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="2" id="21" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="3" id="22" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items>
+                    <item id="2" is_real="false" owner="null" type="com.redvas.app.items.FFP2" whichRoom="22"/>
+                </items>
+                <occupants/>
+            </room>
+            <room capacity="4" id="23" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="2" id="24" stickiness="1" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants>
+                    <player faint_countdown="0" ffp2_countdown="0" id="1" protection="0" type="com.redvas.app.players.Undergraduate" where="24">
+                        <items/>
+                    </player>
+                </occupants>
+            </room>
+            <room capacity="4" id="25" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="3" id="26" stickiness="0" type="com.redvas.app.map.rooms.EnchantedRoom">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="2" id="27" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="5" id="28" stickiness="0" type="com.redvas.app.map.rooms.EnchantedRoom">
+                <items>
+                    <item id="7" is_real="false" owner="null" type="com.redvas.app.items.WetWipe" whichRoom="28"/>
+                </items>
+                <occupants/>
+            </room>
+            <room capacity="4" id="29" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="3" id="0" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="5" id="1" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="2" id="2" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="4" id="3" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="5" id="4" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="3" id="5" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="5" id="6" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items>
+                    <item id="7" is_real="false" owner="null" type="com.redvas.app.items.WetWipe" whichRoom="6"/>
+                </items>
+                <occupants/>
+            </room>
+            <room capacity="4" id="7" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items>
+                    <item id="3" is_real="false" owner="null" type="com.redvas.app.items.HolyBeer" whichRoom="7"/>
+                </items>
+                <occupants/>
+            </room>
+            <room capacity="3" id="8" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="3" id="9" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="4" id="10" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items>
+                    <item id="4" is_real="false" owner="null" type="com.redvas.app.items.RottenCamembert" whichRoom="10"/>
+                </items>
+                <occupants/>
+            </room>
+            <room capacity="4" id="11" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items>
+                    <item id="4" is_real="false" owner="null" type="com.redvas.app.items.RottenCamembert" whichRoom="11"/>
+                </items>
+                <occupants/>
+            </room>
+            <room capacity="5" id="12" stickiness="1" type="com.redvas.app.map.rooms.Room">
+                <items>
+                    <item id="1" is_real="false" owner="null" type="com.redvas.app.items.AirFreshener" whichRoom="12"/>
+                </items>
+                <occupants>
+                    <player faint_countdown="0" ffp2_countdown="0" id="3" paralyze_countdown="0" type="com.redvas.app.players.Professor" where="12">
+                        <items/>
+                    </player>
+                </occupants>
+            </room>
+            <room capacity="5" id="13" incorporated_id="-1" merge_d="false" merge_direction="UP" stickiness="0" type="com.redvas.app.map.rooms.ResizingRoom">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="3" id="14" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="2" id="15" incorporated_id="-1" merge_d="false" merge_direction="UP" stickiness="0" type="com.redvas.app.map.rooms.ResizingRoom">
+                <items>
+                    <item id="5" is_real="false" owner="null" type="com.redvas.app.items.Transistor" whichRoom="15"/>
+                </items>
+                <occupants/>
+            </room>
+            <room capacity="3" id="16" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="3" id="17" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="5" id="18" stickiness="1" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants>
+                    <player faint_countdown="0" ffp2_countdown="0" id="2" protection="0" type="com.redvas.app.players.Undergraduate" where="18">
+                        <items/>
+                    </player>
+                </occupants>
+            </room>
+            <room capacity="5" id="19" stickiness="1" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants>
+                    <player faint_countdown="0" ffp2_countdown="0" id="3" type="com.redvas.app.players.Janitor" where="19">
+                        <items/>
+                    </player>
+                </occupants>
+            </room>
+            <room capacity="5" id="20" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="2" id="21" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="3" id="22" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items>
+                    <item id="2" is_real="false" owner="null" type="com.redvas.app.items.FFP2" whichRoom="22"/>
+                </items>
+                <occupants/>
+            </room>
+            <room capacity="4" id="23" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="2" id="24" stickiness="1" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants>
+                    <player faint_countdown="0" ffp2_countdown="0" id="1" protection="0" type="com.redvas.app.players.Undergraduate" where="24">
+                        <items/>
+                    </player>
+                </occupants>
+            </room>
+            <room capacity="4" id="25" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="3" id="26" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="2" id="27" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="5" id="28" incorporated_id="-1" merge_d="false" merge_direction="LEFT" stickiness="0" type="com.redvas.app.map.rooms.ResizingRoom">
+                <items/>
+                <occupants/>
+            </room>
+            <room capacity="4" id="29" stickiness="0" type="com.redvas.app.map.rooms.Room">
+                <items/>
+                <occupants/>
+            </room>
+        </rooms>
+        <doors>
+            <door even_direction="UP" even_passable="true" even_room="23" is_vanished="false" odd_passable="false" odd_room="28"/>
+            <door even_direction="RIGHT" even_passable="false" even_room="29" is_vanished="false" odd_passable="false" odd_room="28"/>
+            <door even_direction="RIGHT" even_passable="false" even_room="28" is_vanished="false" odd_passable="false" odd_room="27"/>
+            <door even_direction="UP" even_passable="true" even_room="22" is_vanished="false" odd_passable="false" odd_room="27"/>
+            <door even_direction="RIGHT" even_passable="false" even_room="27" is_vanished="false" odd_passable="false" odd_room="26"/>
+            <door even_direction="RIGHT" even_passable="false" even_room="24" is_vanished="false" odd_passable="false" odd_room="23"/>
+            <door even_direction="UP" even_passable="true" even_room="18" is_vanished="false" odd_passable="false" odd_room="23"/>
+            <door even_direction="RIGHT" even_passable="false" even_room="22" is_vanished="false" odd_passable="false" odd_room="21"/>
+            <door even_direction="UP" even_passable="true" even_room="17" is_vanished="false" odd_passable="false" odd_room="22"/>
+            <door even_direction="UP" even_passable="true" even_room="19" is_vanished="false" odd_passable="false" odd_room="24"/>
+            <door even_direction="UP" even_passable="true" even_room="12" is_vanished="false" odd_passable="false" odd_room="17"/>
+            <door even_direction="RIGHT" even_passable="false" even_room="17" is_vanished="false" odd_passable="false" odd_room="16"/>
+            <door even_direction="UP" even_passable="true" even_room="11" is_vanished="false" odd_passable="false" odd_room="16"/>
+            <door even_direction="RIGHT" even_passable="false" even_room="16" is_vanished="true" odd_passable="false" odd_room="15"/>
+            <door even_direction="RIGHT" even_passable="false" even_room="13" is_vanished="false" odd_passable="false" odd_room="12"/>
+            <door even_direction="UP" even_passable="true" even_room="7" is_vanished="false" odd_passable="false" odd_room="12"/>
+            <door even_direction="RIGHT" even_passable="false" even_room="14" is_vanished="false" odd_passable="false" odd_room="13"/>
+            <door even_direction="UP" even_passable="true" even_room="8" is_vanished="false" odd_passable="false" odd_room="13"/>
+            <door even_direction="UP" even_passable="true" even_room="2" is_vanished="false" odd_passable="false" odd_room="7"/>
+            <door even_direction="RIGHT" even_passable="false" even_room="7" is_vanished="false" odd_passable="false" odd_room="6"/>
+            <door even_direction="UP" even_passable="true" even_room="9" is_vanished="true" odd_passable="false" odd_room="14"/>
+            <door even_direction="UP" even_passable="true" even_room="4" is_vanished="true" odd_passable="false" odd_room="9"/>
+            <door even_direction="UP" even_passable="true" even_room="3" is_vanished="false" odd_passable="false" odd_room="8"/>
+            <door even_direction="UP" even_passable="true" even_room="15" is_vanished="false" odd_passable="false" odd_room="20"/>
+            <door even_direction="UP" even_passable="true" even_room="10" is_vanished="false" odd_passable="false" odd_room="15"/>
+            <door even_direction="RIGHT" even_passable="false" even_room="2" is_vanished="false" odd_passable="false" odd_room="1"/>
+            <door even_direction="UP" even_passable="true" even_room="5" is_vanished="false" odd_passable="false" odd_room="10"/>
+            <door even_direction="RIGHT" even_passable="false" even_room="1" is_vanished="true" odd_passable="false" odd_room="0"/>
+            <door even_direction="RIGHT" even_passable="false" even_room="26" is_vanished="true" odd_passable="false" odd_room="25"/>
+            <door even_direction="RIGHT" even_passable="false" even_room="3" is_vanished="false" odd_passable="false" odd_room="2"/>
+            <door even_direction="RIGHT" even_passable="false" even_room="4" is_vanished="false" odd_passable="false" odd_room="3"/>
+            <door even_direction="UP" even_passable="true" even_room="0" is_vanished="false" odd_passable="false" odd_room="5"/>
+            <door even_direction="RIGHT" even_passable="false" even_room="6" is_vanished="false" odd_passable="false" odd_room="5"/>
+            <door even_direction="UP" even_passable="false" even_room="1" is_vanished="false" odd_passable="false" odd_room="6"/>
+            <door even_direction="RIGHT" even_passable="false" even_room="8" is_vanished="false" odd_passable="false" odd_room="7"/>
+            <door even_direction="RIGHT" even_passable="false" even_room="9" is_vanished="true" odd_passable="false" odd_room="8"/>
+            <door even_direction="RIGHT" even_passable="false" even_room="11" is_vanished="false" odd_passable="false" odd_room="10"/>
+            <door even_direction="UP" even_passable="false" even_room="6" is_vanished="false" odd_passable="false" odd_room="11"/>
+            <door even_direction="RIGHT" even_passable="false" even_room="12" is_vanished="false" odd_passable="false" odd_room="11"/>
+            <door even_direction="UP" even_passable="false" even_room="8" is_vanished="false" odd_passable="false" odd_room="13"/>
+            <door even_direction="RIGHT" even_passable="false" even_room="14" is_vanished="false" odd_passable="false" odd_room="13"/>
+            <door even_direction="UP" even_passable="false" even_room="10" is_vanished="true" odd_passable="false" odd_room="15"/>
+            <door even_direction="RIGHT" even_passable="false" even_room="18" is_vanished="false" odd_passable="false" odd_room="17"/>
+            <door even_direction="UP" even_passable="false" even_room="13" is_vanished="false" odd_passable="false" odd_room="18"/>
+            <door even_direction="RIGHT" even_passable="false" even_room="19" is_vanished="false" odd_passable="false" odd_room="18"/>
+            <door even_direction="UP" even_passable="true" even_room="14" is_vanished="false" odd_passable="false" odd_room="19"/>
+            <door even_direction="UP" even_passable="false" even_room="15" is_vanished="false" odd_passable="false" odd_room="20"/>
+            <door even_direction="RIGHT" even_passable="false" even_room="21" is_vanished="false" odd_passable="false" odd_room="20"/>
+            <door even_direction="UP" even_passable="true" even_room="16" is_vanished="false" odd_passable="false" odd_room="21"/>
+            <door even_direction="RIGHT" even_passable="false" even_room="23" is_vanished="false" odd_passable="false" odd_room="22"/>
+            <door even_direction="UP" even_passable="false" even_room="20" is_vanished="false" odd_passable="false" odd_room="25"/>
+            <door even_direction="UP" even_passable="true" even_room="21" is_vanished="true" odd_passable="false" odd_room="26"/>
+            <door even_direction="RIGHT" even_passable="false" even_room="28" is_vanished="false" odd_passable="false" odd_room="27"/>
+            <door even_direction="UP" even_passable="false" even_room="23" is_vanished="true" odd_passable="false" odd_room="28"/>
+            <door even_direction="RIGHT" even_passable="false" even_room="29" is_vanished="false" odd_passable="false" odd_room="28"/>
+            <door even_direction="UP" even_passable="false" even_room="24" is_vanished="false" odd_passable="false" odd_room="29"/>
+        </doors>
+    </labyrinth>
+</game>

@@ -34,6 +34,8 @@ public class Labyrinth implements Steppable {
     BufferedImage profImage;
     BufferedImage janitorImage;
 
+    private List<Door> everyDoor = new ArrayList<>();
+
     public static Labyrinth loadXML(Element labyrinth, Game g) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         NodeList rooms = labyrinth.getElementsByTagName("room");
         Labyrinth l = new Labyrinth(
@@ -111,21 +113,17 @@ public class Labyrinth implements Steppable {
             }
         }
 
+        NodeList doors = labyrinth.getElementsByTagName("door");
 
-        for (int i = 0; i < rooms.getLength(); i++) {
-            NodeList doors = ((Element) rooms.item(i)).getElementsByTagName("door");
+        for (int i = 0; i < doors.getLength(); i++) {
+            Element door = (Element)doors.item(i);
 
-            for (int j = 0; j < doors.getLength(); j++) {
-                Element door = ((Element) doors.item(j));
-                l.rooms.get(i).configureDoors();
-                Door d;
-                l.selection.put(Direction.valueOf(door.getAttribute("direction")),
-                        d = new Door(id2room.get(
-                                Integer.parseInt(door.getAttribute("connects_to"))),
-                                Boolean.parseBoolean(door.getAttribute("is_passable")))
-                );
-                d.setVanished(Boolean.parseBoolean(door.getAttribute("is_vanished")));
-            }
+            l.everyDoor.add(new Door(id2room.get(
+                            Integer.parseInt(door.getAttribute("odd_room"))),
+                            id2room.get(Integer.parseInt(door.getAttribute("even_room"))),
+                            Direction.valueOf(door.getAttribute("even_direction")),
+                            Boolean.parseBoolean(door.getAttribute("even_passable")),
+                            Boolean.parseBoolean(door.getAttribute("odd_passable"))));
         }
 
         for (Map.Entry<Item, Element> e : items.entrySet())
@@ -140,7 +138,7 @@ public class Labyrinth implements Steppable {
         this.height = height;
         this.width = width;
         this.game = game;
-        try {
+        /*try {
             doorImage = ImageIO.read(new File("src/main/resources/door.png"));
             floorImage = ImageIO.read(new File("src/main/resources/floor.png"));
             playerImage = ImageIO.read(new File("src/main/resources/player.png"));
@@ -148,7 +146,7 @@ public class Labyrinth implements Steppable {
             profImage = ImageIO.read(new File("src/main/resources/prof.png"));
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     public Element saveXML(Document document) {
@@ -161,6 +159,14 @@ public class Labyrinth implements Steppable {
             roomsXML.appendChild(r.saveXML(document));
 
         labyrinth.appendChild(roomsXML);
+
+        Element doorsXML = document.createElement("doors");
+
+        for (Door d : everyDoor)
+            doorsXML.appendChild(d.saveXML(document));
+
+        labyrinth.appendChild(doorsXML);
+
         return labyrinth;
     }
 
@@ -229,7 +235,7 @@ public class Labyrinth implements Steppable {
         array[j] = tmp;
     }
 
-    private <T, E, J, K, L> void shuffle(T[] array1, E[] array2, J[] array3, K[] array4, L[] array5) {
+    private <T, E, J, K, L> void shuffle(T[] array1, E[] array2, J[] array3, K[] array4) {
 
         for (int i = 0; i < array1.length - 1; i++) {
             int rid = random.nextInt(i, array1.length);
@@ -239,14 +245,18 @@ public class Labyrinth implements Steppable {
                 swap(array2, i, rid);
                 swap(array3, i, rid);
                 swap(array4, i, rid);
-                swap(array5, i, rid);
             }
         }
     }
 
-    private void mkstat2(Boolean[] stat, Room[][] rooms, Room[][] visits, int x, int y) {
+    private void mkstat3(Boolean[] stat, int limCheck, int x, int y) {
+        for (int i = 0; i < limCheck; i++)
+            stat[i] = x + xc[i] >= 0 && x + xc[i] < width &&
+                    y + yc[i] >= 0 && y + yc[i] < height;
+    }
 
-        for (int i = 0; i < 4; i++)
+    private void mkstat2(Boolean[] stat, int limCheck, Room[][] rooms, Room[][] visits, int x, int y) {
+        for (int i = 0; i < limCheck; i++)
             stat[i] = x + xc[i] >= 0 && x + xc[i] < width &&
                     y + yc[i] >= 0 && y + yc[i] < height &&
                     visits[y][x] != rooms[y + yc[i]][x + xc[i]] &&
@@ -270,6 +280,17 @@ public class Labyrinth implements Steppable {
     // LEFT, UP, RIGHT, DOWN (x + deltax, y + deltay)
     Integer[] xc = new Integer[]{-1, 0, 1, 0}; // x axis delta
     Integer[] yc = new Integer[]{0, -1, 0, 1}; // y axis delta
+
+    private void reset() {
+        directions = new Direction[] {
+                Direction.LEFT,
+                Direction.UP,
+                Direction.RIGHT,
+                Direction.DOWN
+        };
+        xc = new Integer[]{-1, 0, 1, 0};
+        yc = new Integer[]{0, -1, 0, 1};
+    }
 
     private boolean resizeablePair(boolean[][] resizingMap, int x1, int y1, int x2, int y2) {
         boolean neighboursOkay = true;
@@ -298,9 +319,9 @@ public class Labyrinth implements Steppable {
             if (visitable == 0)
                 pts.remove(at);
             else {
-                shuffle(xc, yc, stat, directions, rdirections);
-                shuffle(xc, yc, stat, directions, rdirections);
-                shuffle(xc, yc, stat, directions, rdirections);
+                shuffle(xc, yc, stat, directions);
+                shuffle(xc, yc, stat, directions);
+                shuffle(xc, yc, stat, directions);
 
                 int letsVisit = random.nextInt(1, visitable + 1);
 
@@ -309,22 +330,12 @@ public class Labyrinth implements Steppable {
                         visited++;
                         visits[pts.get(at).y + yc[i]][pts.get(at).x + xc[i]] = rooms[pts.get(at).y][pts.get(at).x];
 
-                        rooms[pts.get(at).y][pts.get(at).x].configureDoors();
-                        selection.put(directions[i], new Door(rooms[pts.get(at).y + yc[i]][pts.get(at).x + xc[i]], true));
-
-                        rooms[pts.get(at).y + yc[i]][pts.get(at).x + xc[i]].configureDoors();
-                        selection.put(rdirections[i], new Door(rooms[pts.get(at).y][pts.get(at).x], true));
-
-                        if (resizeablePair(resizingMap, pts.get(at).x, pts.get(at).y, pts.get(at).x + xc[i], pts.get(at).y + yc[i]) && Math.abs(random.nextGaussian()) > 0.81) {
-                            ResizingRoom er = new ResizingRoom(rooms[pts.get(at).y][pts.get(at).x].getID(), this, random.nextInt(2, 6), directions[i]);
-                            rooms[pts.get(at).y][pts.get(at).x].configureDoors();
-                            message = selection;
-                            er.receiveDoors();
-                            rooms[pts.get(at).y + yc[i]][pts.get(at).x + xc[i]].configureDoors();
-                            selection.put(rdirections[i], new Door(er, true));
-                            rooms[pts.get(at).y][pts.get(at).x] = er;
-                            resizingMap[pts.get(at).y][pts.get(at).x] = resizingMap[pts.get(at).y + yc[i]][pts.get(at).x + xc[i]] = true;
-                        }
+                        everyDoor.add(new Door(
+                                rooms[pts.get(at).y][pts.get(at).x], //from
+                                rooms[pts.get(at).y + yc[i]][pts.get(at).x + xc[i]], // to
+                                directions[i], // in direction
+                                true
+                        ));
 
                         pts.add(new PT(pts.get(at).x + xc[i], pts.get(at).y + yc[i]));
                     }
@@ -335,80 +346,63 @@ public class Labyrinth implements Steppable {
         }
     }
 
-    private final Direction[] directions = new Direction[]{
+    private Direction[] directions = new Direction[]{
             Direction.LEFT,
             Direction.UP,
             Direction.RIGHT,
             Direction.DOWN
     };
-    private final Direction[] rdirections = new Direction[]{
-            Direction.RIGHT,
-            Direction.DOWN,
-            Direction.LEFT,
-            Direction.UP
-    };
     // visitor pattern
     private Map<Direction, Door> selection;
 
-    public Map<Direction, Door> sendDoors() {
-        return message;
-    }
+    private void resizify(Room[][] rooms) {
+        boolean[][] resizingMap = new boolean[height][width];
+        Boolean[] stat = new Boolean[2];
+        reset();
 
-    private Map<Direction, Door> message;
+        for (int y = 0; y < height; y++)
+            for (int x = 0; x < width; x++) {
+                mkstat3(stat, 2, x, y);
 
-    public void acceptDoors(Map<Direction, Door> doors) {
-        selection = doors;
+                for (int i = 0; i < 2; i++)
+                    if (stat[i])
+                        if (Math.random() > 0.85)
+                            if (resizeablePair(resizingMap, x, y, x + xc[i], y + yc[i])) {
+                                rooms[y][x] = rooms[y][x].convertToResizing(directions[i], random.nextInt(2, 6));
+                                resizingMap[y][x] = resizingMap[y + yc[i]][x + xc[i]] = true;
+                            }
+            }
     }
 
     private void enchant() {
         for (int i = 0; i < width * height; i++)
             if (random.nextGaussian() > 0.8) {
-                EnchantedRoom er = new EnchantedRoom(this, rooms.get(i).getID(), random.nextInt(2, 6));
-                rooms.get(i).configureDoors();
-
-                Set<Map.Entry<Direction, Door>> doors = selection.entrySet();
-
-                for (Map.Entry<Direction, Door> e : doors) {
-                    e.getValue().setVanished(random.nextBoolean());
-                    e.getValue().connectsTo().configureDoors();
-                    selection.get(reverseDirections.get(e.getKey())).setVanished(e.getValue().isVanished());
-                    selection.get(reverseDirections.get(e.getKey())).setConnection(er);
-                    er.configureDoors();
-                    selection.put(e.getKey(), e.getValue());
-                }
-
-                rooms.add(i, er);
+                Room r = rooms.get(i).convertToEnchanted(random.nextInt(2, 6));
+                rooms.set(i, r);
             }
-        logger.fine("Labyrinth created");
     }
 
-    private void cyclify(Room[][] rooms, Room[][] visits, boolean[][] resizingMap) {
+
+    private void cyclicize(Room[][] rooms, Room[][] visits, boolean[][] resizingMap) {
         Boolean[] stat = new Boolean[4];
+        reset();
+        // after resetting, the first 2 directions are UP and LEFT
 
         for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++) {
-                mkstat2(stat, rooms, visits, x, y);
+                mkstat2(stat, 2, rooms, visits, x, y);
 
-                for (int k = 0; k < 4; k++)
+                for (int k = 0; k < 2; k++)
                     if (Boolean.TRUE.equals(stat[k])) {
-                        rooms[y][x].configureDoors();
                         boolean makeEdge = random.nextDouble(0, 1) > 0.88;
-                        selection.put(directions[k], new Door(rooms[y + yc[k]][x + xc[k]], makeEdge));
 
-                        if (makeEdge) {
-                            rooms[y + yc[k]][x + xc[k]].configureDoors();
-
-                            if (resizeablePair(resizingMap, x, y, x + xc[k], y + yc[k]) && Math.abs(random.nextGaussian()) > 0.81) {
-                                ResizingRoom er = new ResizingRoom(rooms[y][x].getID(), this, random.nextInt(2, 6), directions[k]);
-                                rooms[y][x].configureDoors();
-                                message = selection;
-                                er.receiveDoors();
-                                rooms[y + yc[k]][x + xc[k]].configureDoors();
-                                selection.put(rdirections[k], new Door(er, true));
-                                rooms[y][x] = er;
-                                resizingMap[y][x] = resizingMap[y + yc[k]][x + xc[k]] = true;
-                            }
-                        }
+                        everyDoor.add(new Door(
+                                rooms[y][x],
+                                rooms[y + yc[k]][x + xc[k]],
+                                directions[k],
+                                makeEdge,
+                                random.nextDouble(0, 1) > 0.88
+                        ));
                     }
             }
     }
@@ -420,7 +414,6 @@ public class Labyrinth implements Steppable {
             for (int j = 0; j < width; j++) {
                 Room room = new Room(this, i * width + j, random.nextInt(2, 6));
                 roomsLocal[i][j] = room;
-                remember(room);
             }
         }
 
@@ -431,7 +424,9 @@ public class Labyrinth implements Steppable {
         visits[ry][rx] = roomsLocal[ry][rx];
         boolean[][] map = new boolean[height][width];
         randomOrderSearch(roomsLocal, visits, map, rx, ry);
-        cyclify(roomsLocal, visits, map);
+        cyclicize(roomsLocal, visits, map);
+
+        resizify(roomsLocal);
 
         for (int y = 0; y < height; y++)
             rooms.addAll(Arrays.asList(roomsLocal[y]).subList(0, width));
