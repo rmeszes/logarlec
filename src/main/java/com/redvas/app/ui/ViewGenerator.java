@@ -32,7 +32,7 @@ public class ViewGenerator implements GeneratorListener {
 
     @Override
     public void doorCreated(Door door, int x, int y) {
-        new DoorView(door);
+        new DoorView(door, x, y);
     }
 
     @Override
