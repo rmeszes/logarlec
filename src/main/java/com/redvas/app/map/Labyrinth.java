@@ -34,9 +34,155 @@ public class Labyrinth implements Steppable {
     BufferedImage profImage;
     BufferedImage janitorImage;
 
-    private List<Door> everyDoor = new ArrayList<>();
+    private final List<Door> everyDoor = new ArrayList<>();
+
+    private static class data {
+        public boolean passable;
+        public boolean vanished;
+        public Direction direction;
+    }
 
     public static Labyrinth loadXML(Element labyrinth, Game g) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        NodeList rooms = labyrinth.getElementsByTagName("room");
+        Labyrinth l = new Labyrinth(
+                Integer.parseInt(labyrinth.getAttribute("width")),
+                Integer.parseInt(labyrinth.getAttribute("height")),
+                g
+        );
+
+        Constructor<?> ctor;
+        HashMap<Item, Element> items = new HashMap<>();
+        HashMap<Integer, Room> id2room = new HashMap<>();
+        HashMap<Integer, Item> id2item = new HashMap<>();
+
+        for (int i = 0; i < rooms.getLength(); i++) {
+            Element room = (Element) rooms.item(i);
+            ctor = Class.forName(room.getAttribute("type")).getDeclaredConstructor(Labyrinth.class, Integer.class, Integer.class);
+            ctor.setAccessible(true);
+            Room r = (Room) ctor.newInstance(l, Integer.parseInt(room.getAttribute("id")), Integer.parseInt(room.getAttribute("capacity")));
+            r.loadXML(room);
+            l.rooms.add(r);
+            id2room.put(r.getID(), r);
+
+            NodeList subs = rooms.item(i).getChildNodes();
+
+            for (int m = 0; m < subs.getLength(); m++) {
+                if (subs.item(m).getNodeType() != Node.ELEMENT_NODE) continue;
+                Element sub = (Element) subs.item(m);
+
+                if (sub.getTagName().equals("items")) {
+                    NodeList roomItems = sub.getElementsByTagName("item");
+
+                    for (int k = 0; k < roomItems.getLength(); k++) {
+                        Element roomItem = (Element) roomItems.item(k);
+                        int roomItemID = Integer.parseInt(roomItem.getAttribute("id"));
+                        ctor = Class.forName(roomItem.getAttribute("type")).getDeclaredConstructor(Integer.class, Room.class);
+                        ctor.setAccessible(true);
+                        Item it = (Item) ctor.newInstance(roomItemID, r);
+                        items.put(it, roomItem);
+                        id2item.put(it.getID(), it);
+                    }
+                } else if (sub.getTagName().equals("occupants")) {
+                    NodeList occupants = ((Element) rooms.item(i)).getElementsByTagName("player");
+
+                    for (int j = 0; j < occupants.getLength(); j++) {
+                        Element occupant = (Element) occupants.item(j);
+
+                        ctor = Class.forName(occupant.getAttribute("type")).getDeclaredConstructor(Integer.class, Room.class, Game.class);
+                        Player p = (Player) ctor.newInstance(Integer.parseInt(occupant.getAttribute("id")),
+                                l.rooms.get(Integer.parseInt(occupant.getAttribute("where"))),
+                                g);
+                        p.loadXML(occupant);
+
+                        NodeList playerItems = occupant.getElementsByTagName("item");
+
+                        for (int k = 0; k < playerItems.getLength(); k++) {
+                            Element playerItem = (Element) playerItems.item(k);
+                            int playerItemID = Integer.parseInt(playerItem.getAttribute("id"));
+                            ctor = Class.forName(playerItem.getAttribute("type")).getDeclaredConstructor(Integer.class, Player.class);
+                            ctor.setAccessible(true);
+                            Item it = (Item) ctor.newInstance(playerItemID, p);
+                            items.put(it, playerItem);
+                            id2item.put(it.getID(), it);
+                        }
+                    }
+                }
+            }
+
+            NodeList phantomListeners = room.getElementsByTagName("phantom_listener");
+
+            for (int m = 0; m < phantomListeners.getLength(); m++) {
+                Element phantomListener = (Element) phantomListeners.item(m);
+                ctor = Class.forName(phantomListener.getAttribute("type")).getDeclaredConstructor(Integer.class, Room.class, Boolean.class);
+                ctor.setAccessible(true);
+                ctor.newInstance(Integer.parseInt(phantomListener.getAttribute("id")), r, true);
+            }
+        }
+
+        HashMap<Room, HashMap<Room, data>> origins = new HashMap<>();
+        rooms = labyrinth.getElementsByTagName("room");
+
+        for (int i = 0; i < rooms.getLength(); i++) {
+            Element room = (Element) rooms.item(i);
+
+            NodeList doors = room.getElementsByTagName("door");
+
+
+            for (int j = 0; j < doors.getLength(); j++) {
+                Element door = (Element) doors.item(j);
+                data d = new data();
+                Room from = id2room.get(Integer.parseInt(room.getAttribute("id")));
+                if (from.getID() == 2)
+                    System.out.println();
+                Room to = id2room.get(Integer.parseInt(door.getAttribute("connects_to")));
+                d.passable = Boolean.parseBoolean(door.getAttribute("is_passable"));
+                d.vanished = Boolean.parseBoolean(door.getAttribute("is_vanished"));
+                d.direction = Direction.valueOf(door.getAttribute("direction"));
+                HashMap<Room, data> sub;
+
+                boolean makeEdge = false;
+
+                if ((sub = origins.getOrDefault(to, null)) != null) {
+                    data other;
+
+                    if (from.getID() == 2)
+                        System.out.println();
+
+                    if ((other = sub.getOrDefault(from, null)) != null) {
+                        l.everyDoor.add(new Door(from, to, d.direction, d.passable, other.passable));
+                        l.everyDoor.get(l.everyDoor.size() - 1).setVanished(other.vanished);
+                        sub.remove(from);
+                    }
+                    else makeEdge = true;
+                } else makeEdge = true;
+                if (makeEdge) {
+                    if (from.getID() == 2)
+                        System.out.println();
+
+                    if ((sub = origins.getOrDefault(from, null)) == null)
+                        origins.put(from, sub = new HashMap<>());
+
+                    sub.put(to, d);
+                }
+            }
+        }
+
+        for (Map.Entry<Room, HashMap<Room, data>> e : origins.entrySet())
+            for (Map.Entry<Room, data> e2 : e.getValue().entrySet()) {
+                Door d = new Door(e.getKey(), e2.getKey(), e2.getValue().direction, e2.getValue().passable, false);
+                d.setVanished(e2.getValue().vanished);
+                l.everyDoor.add(d);
+            }
+
+
+        for (Map.Entry<Item, Element> e : items.entrySet())
+            e.getKey().loadXML(e.getValue(), id2item);
+
+        return l;
+    }
+
+
+    /*public static Labyrinth loadXML2(Element labyrinth, Game g) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         NodeList rooms = labyrinth.getElementsByTagName("room");
         Labyrinth l = new Labyrinth(
                 Integer.parseInt(labyrinth.getAttribute("width")),
@@ -119,18 +265,18 @@ public class Labyrinth implements Steppable {
             Element door = (Element)doors.item(i);
 
             l.everyDoor.add(new Door(id2room.get(
-                            Integer.parseInt(door.getAttribute("odd_room"))),
-                            id2room.get(Integer.parseInt(door.getAttribute("even_room"))),
-                            Direction.valueOf(door.getAttribute("even_direction")),
-                            Boolean.parseBoolean(door.getAttribute("even_passable")),
-                            Boolean.parseBoolean(door.getAttribute("odd_passable"))));
+                            Integer.parseInt(door.getAttribute("origin_room"))),
+                            id2room.get(Integer.parseInt(door.getAttribute("target_room"))),
+                            Direction.valueOf(door.getAttribute("target_direction")),
+                            Boolean.parseBoolean(door.getAttribute("target_passable")),
+                            Boolean.parseBoolean(door.getAttribute("origin_passable"))));
         }
 
         for (Map.Entry<Item, Element> e : items.entrySet())
             e.getKey().loadXML(e.getValue(), id2item);
 
         return l;
-    }
+    }*/
 
     public Labyrinth(int width, int height, Game game) {
         if (height < 1) height = 1;
@@ -157,6 +303,20 @@ public class Labyrinth implements Steppable {
 
         for (Room r : this.rooms)
             roomsXML.appendChild(r.saveXML(document));
+
+        labyrinth.appendChild(roomsXML);
+
+        return labyrinth;
+    }
+
+    public Element saveXML2(Document document) {
+        Element labyrinth = document.createElement("labyrinth");
+        labyrinth.setAttribute("width", String.valueOf(width));
+        labyrinth.setAttribute("height", String.valueOf(height));
+        Element roomsXML = document.createElement("rooms");
+
+        for (Room r : this.rooms)
+            roomsXML.appendChild(r.saveXML2(document));
 
         labyrinth.appendChild(roomsXML);
 
@@ -584,7 +744,7 @@ public class Labyrinth implements Steppable {
                 }
             }
             // Draw each player
-            for (Steppable steppable : game.getSteppables()) {
+            /*for (Steppable steppable : game.getSteppables()) {
                 if (steppable instanceof Player) {
                     Player player = (Player) steppable;
                     Room room2 = player.where();
@@ -603,7 +763,7 @@ public class Labyrinth implements Steppable {
                         g.drawImage(playerImage, x2, y2, roomWidth, roomHeight, null);
                     }
                 }
-            }
+            }*/
         }
     }
 }

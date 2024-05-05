@@ -28,6 +28,7 @@ public class Door {
     }
 
     private HashMap<Direction, Door> selection;
+
     public void acceptDoors(HashMap<Direction, Door> doors) {
         selection = doors;
     }
@@ -35,15 +36,16 @@ public class Door {
     public Element saveXML(Document document) {
         Element door = document.createElement("door");
         door.setAttribute("is_vanished", String.valueOf(isVanished));
-        door.setAttribute("even_direction", Direction.valueOf(evenIndex).name()); // odd_direction is not written out to avoid redundancy
-        door.setAttribute("even_room", String.valueOf(roomMap[0].getID()));
-        door.setAttribute("odd_room", String.valueOf(roomMap[1].getID()));
-        door.setAttribute("even_passable", String.valueOf(passableMap[0]));
-        door.setAttribute("odd_passable", String.valueOf(passableMap[1]));
+        door.setAttribute("target_direction", Direction.valueOf(evenIndex).name()); // odd_direction is not written out to avoid redundancy
+        door.setAttribute("target_room", String.valueOf(roomMap[0].getID()));
+        door.setAttribute("origin_room", String.valueOf(roomMap[1].getID()));
+        door.setAttribute("towards_target_passable", String.valueOf(passableMap[0]));
+        door.setAttribute("towards_origin_passable", String.valueOf(passableMap[1]));
         return door;
     }
 
     public Door(Room from, Room to, Direction in, boolean passable) {
+        evenIndex = (in.getValue() & 1) == 1 ? in.getValue() - 1 : in.getValue();
         from.configureDoors(this);
         selection.put(in, this);
         to.configureDoors(this);
@@ -51,12 +53,12 @@ public class Door {
         setVanished(false);
         setPassable(in, passable);
         setPassable(in.getReverse(), passable);
-        evenIndex = Direction.getEvenPairValue(in);
         roomMap[in.getValue() & 1] = to;
         roomMap[in.getReverse().getValue() & 1] = from;
     }
 
     public Door(Room from, Room to, Direction in, boolean passable2To, boolean passable2From) {
+        evenIndex = (in.getValue() & 1) == 1 ? in.getValue() - 1 : in.getValue();
         from.configureDoors(this);
         selection.put(in, this);
         to.configureDoors(this);
@@ -64,7 +66,6 @@ public class Door {
         setVanished(false);
         setPassable(in, passable2To);
         setPassable(in.getReverse(), passable2From);
-        evenIndex = Direction.getEvenPairValue(in);
         roomMap[in.getValue() & 1] = to;
         roomMap[in.getReverse().getValue() & 1] = from;
     }

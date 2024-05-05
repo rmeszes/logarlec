@@ -75,6 +75,47 @@ public class Room implements Steppable {
         for (Item i : this.items)
             itemsXML.appendChild(i.saveXML(document));
 
+        Element doorsXML = document.createElement("doors");
+
+        for (Map.Entry<Direction, Door> d : doors.entrySet()) {
+            Element door = document.createElement("door");
+            door.setAttribute("is_passable", String.valueOf(d.getValue().isPassable(d.getKey())));
+            door.setAttribute("connects_to", String.valueOf(d.getValue().connectsTo(d.getKey()).getID()));
+            door.setAttribute("is_vanished", String.valueOf(d.getValue().isVanished()));
+            doorsXML.appendChild(door);
+        }
+
+        room.appendChild(doorsXML);
+        room.appendChild(itemsXML);
+        room.appendChild(occupantsXML);
+        return room;
+    }
+
+    public Element saveXML2(Document document) {
+        Element room = document.createElement("room");
+        room.setAttribute("capacity", String.valueOf(capacity));
+        room.setAttribute("type", this.getClass().getName());
+        room.setAttribute("id", String.valueOf(id));
+        room.setAttribute("stickiness", String.valueOf(stickiness));
+        Element occupantsXML = document.createElement("occupants");
+
+        for (Player p : this.occupants)
+            occupantsXML.appendChild(p.saveXML(document));
+
+        Element listenersXML = document.createElement("phantom_listeners");
+
+        for (ProximityListener pl : this.listeners) {
+            Element e;
+
+            if ((e = pl.savePhantomListenerXML(document)) != null)
+                listenersXML.appendChild(e);
+        }
+
+        Element itemsXML = document.createElement("items");
+
+        for (Item i : this.items)
+            itemsXML.appendChild(i.saveXML(document));
+
         room.appendChild(itemsXML);
         room.appendChild(occupantsXML);
         return room;
