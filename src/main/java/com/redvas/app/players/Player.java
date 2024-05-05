@@ -103,7 +103,14 @@ public abstract class Player implements Steppable {
      * @param item: picked item that they will dispose of
      */
     public void removeFromInventory(Item item) {
-        items.remove(item);
+        // ilyet gondolom nem lehet, de a tranzisztor merge-nél csak az egyiket remove-olta az eredeti
+        for (int i = 0; i < items.size(); i++){
+            if (items.get(i).toString().equals(item.toString())) {
+                items.remove(i);
+                break;
+            }
+        }
+        // items.remove(item);
     }
 
     /**
@@ -154,11 +161,11 @@ public abstract class Player implements Steppable {
      * @param index: identifier of item they want to pick UP
      */
     private boolean pickItem(int index) {
-        if (where.getItem(index) == null) {
+        if (where.getItem(index - 1) == null) { // -1 mert a kiírásokkor 1-5 ig vannak itemek, a list meg 0-tól kezd
             return false;
         }
         else {
-            where.getItem(index).pickup(this);
+            where.getItem(index - 1).pickup(this);
             return true;
         }
     }
@@ -173,8 +180,7 @@ public abstract class Player implements Steppable {
             return false;
         }
         else {
-            where.addItem(item);
-            items.remove(item);
+            item.dispose();
             logger.fine("Player has disposed of an item.");
             return true;
         }
@@ -331,7 +337,7 @@ public abstract class Player implements Steppable {
         if(getItems().isEmpty())
             builder.append("None.\n");
         else{
-            int i = 0;
+            int i = 1;
             for (Item item : items)
                 builder.append(i++).append(". ").append(item.toString()).append('\n');
         }
@@ -341,7 +347,7 @@ public abstract class Player implements Steppable {
         if(where().getItems().isEmpty())
             builder.append("Room has no items\n");
         else {
-            int i = 0;
+            int i = 1;
             for (Item item : where.getItems())
                 builder.append(i++).append(". ").append(item.toString()).append('\n');
         }

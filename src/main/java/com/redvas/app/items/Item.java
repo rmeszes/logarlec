@@ -14,6 +14,7 @@ public abstract class Item {
     protected Room whichRoom = null;
     protected String name;
     protected boolean isReal;
+    protected boolean isInRoom;
 
     private final int id;
 
@@ -30,10 +31,12 @@ public abstract class Item {
         this.owner = owner;
         this.owner.addToInventory(this);
         this.id = id;
+        this.isInRoom = false;
     }
 
     protected Item(Integer id, Room whichRoom, Boolean isListener) {
         this.whichRoom = whichRoom;
+        this.isInRoom = true;
 
         if (Boolean.FALSE.equals(isListener))
             this.whichRoom.addItem(this);
@@ -56,7 +59,7 @@ public abstract class Item {
     }
 
     public Room getRoom() {
-        if (owner != null)
+        if (isInRoom == false)
             return owner.where();
         else
             return whichRoom;
@@ -68,7 +71,7 @@ public abstract class Item {
     protected void destroy() {
         getOwner().removeFromInventory(this);
         logger.fine(() -> this + " was taken from inventory");
-        owner = null;
+        isInRoom = true; // owner = null -t helyettesíti, lehet nem is kell de idk
     }
 
     /**
@@ -95,10 +98,10 @@ public abstract class Item {
      */
     public void dispose() {
         logger.fine(() -> this + " is being disposed of");
-        whichRoom = owner.where();
+        this.whichRoom = owner.where();
         getOwner().removeFromInventory(this);
         getOwner().where().addItem(this);
-        owner = null;
+        isInRoom = true;
     }
 
     /**
@@ -106,12 +109,13 @@ public abstract class Item {
      * @param who: player that will pick up
      */
     public void pickup(Player who) {
+        logger.fine(() -> "-------------got this far");
         if(who.getItems().size() < 5) {
             logger.fine(() -> this + " is being picked up by " + who);
             owner = who;
             who.addToInventory(this);
             whichRoom.removeItem(this);
-            whichRoom = null;
+            this.isInRoom = false;
         }
         else{
             logger.fine("Inventory full");
