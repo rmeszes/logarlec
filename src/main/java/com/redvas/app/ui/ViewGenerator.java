@@ -18,7 +18,7 @@ public class ViewGenerator implements GeneratorListener {
 
     @Override
     public void enchantedRoomCreated(EnchantedRoom er, int x, int y) {
-        new EnchantedRoomView(er);
+        new EnchantedRoomView(er, x, y);
     }
 
     @Override
