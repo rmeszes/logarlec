@@ -1,5 +1,6 @@
 package com.redvas.app.ui.items;
 
 public interface ItemChangeListener {
-    void positionChanged(int newX, int newY);
+    // amikor a tárgy helyzete változik (szobából felveszi valaki, leteszi valaki)
+    void positionChanged(boolean isInRoom);
 }

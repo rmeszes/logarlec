@@ -34,7 +34,7 @@ public class FFP2View implements ItemChangeListener{
     }
 
     @Override
-    public void positionChanged(int newX, int newY) {
+    public void positionChanged(boolean isInRoom) {
 
     }
 }

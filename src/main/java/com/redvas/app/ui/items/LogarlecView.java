@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class LogarlecView {
+public class LogarlecView implements ItemChangeListener{
     private static final Logger logger = App.getConsoleLogger(LogarlecView.class.getName());
     private final Logarlec logarlec;
     private int x;
@@ -32,5 +32,8 @@ public class LogarlecView {
 
     }
 
-    // a logarlécnek nem kell positionChanged, hiszen nem lehet elmozdítani, csak felvenni
+    @Override
+    public void positionChanged(boolean isInRoom) {
+
+    }
 }

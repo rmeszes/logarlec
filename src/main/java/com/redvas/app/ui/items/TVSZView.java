@@ -1,7 +1,6 @@
 package com.redvas.app.ui.items;
 
 import com.redvas.app.App;
-import com.redvas.app.items.AirFreshener;
 import com.redvas.app.items.TVSZ;
 
 import javax.imageio.ImageIO;
@@ -11,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class TVSZView {
+public class TVSZView implements ItemChangeListener{
     private static final Logger logger = App.getConsoleLogger(TVSZView.class.getName());
     private final TVSZ tvsz;
     private int x;
@@ -30,6 +29,11 @@ public class TVSZView {
     }
 
     public void draw(Graphics2D g) {
+
+    }
+
+    @Override
+    public void positionChanged(boolean isInRoom) {
 
     }
 }

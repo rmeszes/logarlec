@@ -89,4 +89,9 @@ public class ViewGenerator implements GeneratorListener {
     public void ffp2Created(FFP2 ffp2, int x, int y) {
         new FFP2View(ffp2, x, y);
     }
+
+    @Override
+    public void combinedTransistorCreated(CombinedTransistor ct, int x, int y) {
+        new CombinedTransistorView(ct,x, y);
+    }
 }

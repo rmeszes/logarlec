@@ -12,7 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class WetWipeView {
+public class WetWipeView implements ItemChangeListener{
     private static final Logger logger = App.getConsoleLogger(WetWipeView.class.getName());
     private final WetWipe wipe;
     private int x;
@@ -34,7 +34,8 @@ public class WetWipeView {
 
     }
 
-    public void updatePosition(int x, int y) {  // A modell hívja amikor a tárgyat letesszük
-                                                // minden update után ki kell rajzolni, ezt is a modell hívja
+    @Override
+    public void positionChanged(boolean isInRoom) {
+
     }
 }
