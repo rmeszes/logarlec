@@ -76,8 +76,8 @@ public abstract class Player implements Steppable {
      * @return item that they picked
      */
     protected Item getItem(int index) {     // inventory 0-4ig
-        if (index < 0 || index > 4) { throw new IllegalArgumentException();}
-        return items.get(index);
+        if (index < 1 || index > 5) { throw new IllegalArgumentException();}
+        return items.get(index - 1);
     }
 
     /** this item behaves differently than others
