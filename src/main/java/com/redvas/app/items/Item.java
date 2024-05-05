@@ -109,7 +109,6 @@ public abstract class Item {
      * @param who: player that will pick up
      */
     public void pickup(Player who) {
-        logger.fine(() -> "-------------got this far");
         if(who.getItems().size() < 5) {
             logger.fine(() -> this + " is being picked up by " + who);
             owner = who;

@@ -42,9 +42,7 @@ public class Transistor extends Item {
 
     @Override
     public void merge(Transistor item){
-        logger.fine(() -> "TESTLINE1");
         item.destroy();
-        logger.fine(() -> "TESTLINE2");
         destroy();
         CombinedTransistor ct1 = new CombinedTransistor(-1, this.owner);
         CombinedTransistor ct2 = new CombinedTransistor(-2, this.owner);
