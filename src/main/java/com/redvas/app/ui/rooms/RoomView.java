@@ -71,7 +71,5 @@ public class RoomView implements RoomChangeListener {
         else  {  // gázos és ragad
             g.drawImage(floorImageWhenGaseousAndSticky, x, y, roomWidth, roomHeight, null);
         }
-
-
     }
 }
