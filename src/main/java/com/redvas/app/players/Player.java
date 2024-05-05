@@ -80,7 +80,7 @@ public abstract class Player implements Steppable {
      * @param index: chosen item that they want to pick
      * @return item that they picked
      */
-    protected Item getItem(int index) {     // inventory 1-5ig
+    protected Item getItem(int index) {     // inventory 0-4ig
         if (index < 1 || index > 5) { throw new IllegalArgumentException();}
         return items.get(index - 1);
     }
@@ -106,7 +106,14 @@ public abstract class Player implements Steppable {
      * @param item: picked item that they will dispose of
      */
     public void removeFromInventory(Item item) {
-        items.remove(item);
+        // ilyet gondolom nem lehet, de a tranzisztor merge-nél csak az egyiket remove-olta az eredeti
+        for (int i = 0; i < items.size(); i++){
+            if (items.get(i).toString().equals(item.toString())) {
+                items.remove(i);
+                break;
+            }
+        }
+        // items.remove(item);
     }
 
     /**
@@ -176,8 +183,7 @@ public abstract class Player implements Steppable {
             return false;
         }
         else {
-            where.addItem(item);
-            items.remove(item);
+            item.dispose();
             logger.fine("Player has disposed of an item.");
             return true;
         }

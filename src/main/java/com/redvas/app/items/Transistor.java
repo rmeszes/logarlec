@@ -47,18 +47,12 @@ public class Transistor extends Item {
 
     @Override
     public void merge(Transistor item){
-        CombinedTransistor ct1 = new CombinedTransistor(-1, whichRoom);
-        CombinedTransistor ct2 = new CombinedTransistor(-2, whichRoom);
+        item.destroy();
+        destroy();
+        CombinedTransistor ct1 = new CombinedTransistor(-1, this.owner);
+        CombinedTransistor ct2 = new CombinedTransistor(-2, this.owner);
         ct1.setPair(ct2);
         ct2.setPair(ct1);
-        ct1.owner = getOwner();
-        ct2.owner = getOwner();
-        ct1.whichRoom = null;
-        ct2.whichRoom = null;
-        getOwner().addToInventory(ct1);
-        getOwner().addToInventory(ct2);
-        destroy();
-        item.destroy();
         logger.fine(() -> "Merged transistor");
     }
 

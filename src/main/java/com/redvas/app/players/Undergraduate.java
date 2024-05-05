@@ -165,7 +165,7 @@ public class Undergraduate extends Player implements Steppable {
      */
     @Override
     public void mergeItems(int i1, int i2) {
-        if ((i1 >= 1 && i1 <= 5) && (i2 >= 1 && i2 <=5)) {
+        if ((i1 >= 1 && i1 <= 5) && (i2 >= 1 && i2 <= 5)) {
             getItem(i1).merge((Transistor)getItem(i2));
         }
     }
