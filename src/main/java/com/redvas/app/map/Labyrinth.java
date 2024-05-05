@@ -182,7 +182,7 @@ public class Labyrinth implements Steppable {
     }
 
 
-    /*public static Labyrinth loadXML2(Element labyrinth, Game g) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public static Labyrinth loadXML2(Element labyrinth, Game g) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         NodeList rooms = labyrinth.getElementsByTagName("room");
         Labyrinth l = new Labyrinth(
                 Integer.parseInt(labyrinth.getAttribute("width")),
@@ -276,7 +276,7 @@ public class Labyrinth implements Steppable {
             e.getKey().loadXML(e.getValue(), id2item);
 
         return l;
-    }*/
+    }
 
     public Labyrinth(int width, int height, Game game) {
         if (height < 1) height = 1;
@@ -284,7 +284,7 @@ public class Labyrinth implements Steppable {
         this.height = height;
         this.width = width;
         this.game = game;
-        /*try {
+        try {
             doorImage = ImageIO.read(new File("src/main/resources/door.png"));
             floorImage = ImageIO.read(new File("src/main/resources/floor.png"));
             playerImage = ImageIO.read(new File("src/main/resources/player.png"));
@@ -292,7 +292,7 @@ public class Labyrinth implements Steppable {
             profImage = ImageIO.read(new File("src/main/resources/prof.png"));
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
     public Element saveXML(Document document) {
