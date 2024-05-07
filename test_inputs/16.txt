@@ -1,6 +1,6 @@
 load 21
 move
-l
+left
 act
 use
 1

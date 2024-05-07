@@ -24,6 +24,10 @@ public class AirFreshener extends Item implements ProximityListener {
         super(id, whichRoom, false);
     }
 
+    /**
+     * using it means the item subscribes to the proximity of the room
+     * this proximity will change the gaseous state, it will stop being gaseous
+     */
     @Override
     public void use() {
         logger.finest("Airfreshener used");
@@ -36,18 +40,45 @@ public class AirFreshener extends Item implements ProximityListener {
         return "AirFreshener";
     }
 
+    /**
+     *
+     * @param newcomer: the one who just entered the room in this round
+     */
     public void proximityChanged(Player newcomer) {
         logger.finest("proximityChanged");
     }
+
+    /**
+     *
+     * @param proximity: list of players who are still in the room by the end of the round
+     *                 because they had a chance to leave, or put on a mask
+     */
     public void proximityEndOfRound(List<Player> proximity) {
         logger.finest("proximityEndOfRound");
     }
+
+    /**
+     *
+     * @param proximity: list of players who are in the room by the beginning of the round
+     */
     public void proximityInitially(List<Player> proximity) {
         logger.finest("proximityInitially");
     }
+
+    /**
+     *
+     * @return 4: we make sure that if two objects are being used at the same time
+     * eg: someone opens a RottenCamembert but someone also used an AirFreshener
+     * then there is a rule (priority rule) which allows us to decide what will affect the room
+     */
     public int listenerPriority() {
         return 4;
     }
+
+    /**
+     *
+     * @param by: this function does not do anything, Janitor can not affect the AirFreshener
+     */
     public void getAffected(Janitor by) {
         logger.finest("getAffected");
     }

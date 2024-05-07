@@ -12,11 +12,26 @@ public class Transistor extends Item {
         super(id, whichRoom, false);
     }
 
+    /** using the transistor means trying to merge it
+     *  we iterate through the inventory, if we find another Transistor item we merge
+     *  else we don't
+     *  to avoid type-checks, we just put it in a try catch block
+     */
     @Override
     public void use() {
-        //TODO kitalálni az egészet, honnan tudjuk van-e másik transistor?
+        assert owner.getItems() != null : "use() called with no owner";
+        for (Item item : owner.getItems()) {
+            if(item != this) {
+                try {
+                    item.merge((Transistor) item);
+                    logger.fine("Merged"); //THIS SHOULD BE CALLED BUT IS NOT
+                    break;
+                } catch (ClassCastException e) {
+                    logger.fine("tried merging to another non-transistor"); //THIS SHOULD BE CALLED BUT IS NOT
+                }
+            }
+        }
     }
-
     protected Transistor(Integer id, Player owner) {
         super(id, owner);
     }
@@ -28,22 +43,19 @@ public class Transistor extends Item {
      * @param item: the one that will be merged
      */
 
-
-
     @Override
     public void merge(Transistor item){
-        CombinedTransistor ct1 = new CombinedTransistor(-1, whichRoom);
-        CombinedTransistor ct2 = new CombinedTransistor(-2, whichRoom);
+        logger.fine("Merge function from transistor called");
+        if (item.getClass() != Transistor.class) {
+            logger.fine("tried merging to another non-transistor");
+            return;
+        }
+        item.destroy();
+        destroy();
+        CombinedTransistor ct1 = new CombinedTransistor(-1, this.owner);
+        CombinedTransistor ct2 = new CombinedTransistor(-2, this.owner);
         ct1.setPair(ct2);
         ct2.setPair(ct1);
-        ct1.owner = getOwner();
-        ct2.owner = getOwner();
-        ct1.whichRoom = null;
-        ct2.whichRoom = null;
-        getOwner().addToInventory(ct1);
-        getOwner().addToInventory(ct2);
-        destroy();
-        item.destroy();
         logger.fine(() -> "Merged transistor");
     }
 

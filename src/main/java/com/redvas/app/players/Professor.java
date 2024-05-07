@@ -11,16 +11,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class Professor extends Player implements ProximityListener {
+public class Professor extends Player implements ProximityListener{
     protected static final Logger logger = App.getConsoleLogger(Professor.class.getName());
     private int paralyzeCountdown;
 
+    /**
+     *
+     * @param id: identificator of this sepcific prof
+     * @param room: where they are
+     * @param game: which game they are in
+     */
     public Professor(Integer id, Room room, Game game) {
         super(id, room, game);
         paralyzeCountdown = 0;
         where.subscribeToProximity(this);
+        where.addOccupant(this);
     }
 
+    /**
+     *
+     * @param professor: the instance of a professor that we are loading
+     */
     @Override
     public void loadXML(Element professor) {
         super.loadXML(professor);
@@ -28,6 +39,12 @@ public class Professor extends Player implements ProximityListener {
         where.subscribeToProximity(this);
     }
 
+    /**
+     * they unsubscribe from the proximity of the room they are leaving
+     * and subscribe to the one where they enter
+     * this will make them affected by WetWipes, gas etc
+     * @param room: chosen room where they move (they move randomly)
+     */
     @Override
     public void moveTo(Room room) {
         if (where() != null)
@@ -37,6 +54,11 @@ public class Professor extends Player implements ProximityListener {
 
     }
 
+    /**
+     *
+     * @param document: xml file where we save the current state of the game
+     * @return
+     */
     @Override
     public Element saveXML(Document document) {
         Element professor = super.saveXML(document);
@@ -63,6 +85,9 @@ public class Professor extends Player implements ProximityListener {
         // Nothing happens
     }
 
+    /**
+     * if they are not paralyzed they choose a random room
+     */
     @Override
     public void step() {
         if(paralyzeCountdown != 0) {
@@ -99,6 +124,10 @@ public class Professor extends Player implements ProximityListener {
         return "Professor";
     }
 
+    /**
+     * if they are unprotected, they drop out
+     *
+     */
     @Override
     public void proximityChanged(Player newcomer) {
         List<Player> players = new ArrayList<>();
@@ -106,11 +135,21 @@ public class Professor extends Player implements ProximityListener {
         dropoutUndergraduates(players);
     }
 
+    /**
+     *
+     * @param proximity: list of players that are in the room by the end of the round
+     *                 if they are unprotected, need to be dropped out
+     *                 the undergrad.dropout() function checks whether they are protected or not
+     */
     @Override
     public void proximityEndOfRound(List<Player> proximity) {
         dropoutUndergraduates(proximity);
     }
-
+    /**
+     *
+     * @param proximity: list of players that are in the room by the beginning of the round
+     *
+     */
     @Override
     public void proximityInitially(List<Player> proximity) {
         dropoutUndergraduates(proximity);
@@ -121,21 +160,37 @@ public class Professor extends Player implements ProximityListener {
         return 0;
     }
 
+    /**
+     * Professors are not affected by janitors
+     *
+     */
     @Override
     public void getAffected(Janitor by) {
-        //don't think its needed (unless more complicated solution for janitor)
+        return;
     }
-
+    /**
+     * not affected by airfresheners
+     *
+     */
     @Override
     public void getAffected(AirFreshener by) {
-        ////don't think its needed
+        return;
     }
 
+    /**
+     * must implement the interface's functions
+     * @param listener
+     */
     @Override
     public void affect(ProximityListener listener) {
-        //does nothing
+        return;
     }
 
+    /**
+     *
+     * @param proximity: players in this room
+     *                 the dropout() function checks whether they are protected or not
+     */
     private void dropoutUndergraduates(List<Player> proximity) {
         for(Player player : proximity) {
             player.dropout();

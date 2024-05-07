@@ -26,6 +26,9 @@ public class Logarlec extends Item {
         who.pickLogarlec();
     }
 
+    /**
+     * can not be used
+     */
     @Override
     public void use() {
         //won't be

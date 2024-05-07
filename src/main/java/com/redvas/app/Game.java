@@ -60,7 +60,6 @@ public class Game extends JPanel{
     private GamePanel gamePanel;
 
     public Game() throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        // load("2.xml");
         logger.fine("How many players?");
         int playerCount = App.reader.nextInt();
         if(App.reader.hasNextLine()) App.reader.nextLine();
@@ -145,7 +144,6 @@ public class Game extends JPanel{
 
             if (end) return;
         }
-        gamePanel.repaint();
     }
 
     public void undergraduateVictory() {

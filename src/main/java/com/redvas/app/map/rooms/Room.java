@@ -140,6 +140,7 @@ public class Room implements Steppable {
      * @param item: someone picked it up
      */
     public void removeItem(Item item) {
+        items.remove(item);
         logger.finest(()->"Room item inventory no longer holds this " + item);
     }
 
@@ -206,6 +207,8 @@ public class Room implements Steppable {
 
     private final int capacity;
 
+    public int getListenerCount() {  return listeners.size(); }
+
     // to be called before addOccupant()
     public void subscribeToProximity(ProximityListener pl) {
         listeners.forEach(pl::affect);
@@ -264,8 +267,12 @@ public class Room implements Steppable {
         return null;
     }
 
-    public List<Room> getAccessibleRooms() {
-        return new ArrayList<>();
+    public Set<Room> getAccessibleRooms() {
+        Set<Room> rooms = HashSet.newHashSet(4);
+        for(Door door : doors.values()) {
+            if(door.isPassable()) rooms.add(door.connectsTo());
+        }
+        return rooms;
     }
 
     public Set<Direction> getAccessibleDirections() {
