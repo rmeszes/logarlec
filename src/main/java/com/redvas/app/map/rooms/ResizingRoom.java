@@ -73,8 +73,8 @@ public class ResizingRoom extends Room {
             doors.remove(Direction.TOP_LEFT);
             doors.remove(Direction.BOTTOM_RIGHT);
 
-            doors.put(Direction.UP, new Door(r, mergeD));
-            r.doors.put(Direction.DOWN, new Door(this, !mergeD));
+            doors.put(Direction.UP, new Door(this, r, mergeDirection, mergeD));
+            r.doors.put(Direction.DOWN, new Door(this, r, mergeDirection, !mergeD));
 
             doors.put(Direction.LEFT, doors.get(Direction.BOTTOM_LEFT));
             doors.put(Direction.RIGHT, doors.get(Direction.BOTTOM_RIGHT));
@@ -95,8 +95,8 @@ public class ResizingRoom extends Room {
             doors.remove(Direction.TOP_RIGHT);
             doors.remove(Direction.BOTTOM_RIGHT);
 
-            doors.put(Direction.LEFT, new Door(r, mergeD));
-            r.doors.put(Direction.RIGHT, new Door(this, !mergeD));
+            doors.put(Direction.LEFT, new Door(this, r, mergeDirection, mergeD));
+            r.doors.put(Direction.RIGHT, new Door(r, this, mergeDirection, !mergeD));
         }
 
         mergeD = !mergeD;
@@ -109,10 +109,10 @@ public class ResizingRoom extends Room {
 
         if ((door = doors.getOrDefault(mergeDirection, null)) == null) return;
 
-        if (!door.isPassable() && !door.connectsTo().doors.get(reverseDirections.get(mergeDirection)).isPassable())
+        if (!door.isPassable(mergeDirection) && !door.isPassable(mergeDirection.getReverse()))
             return;
 
-        Room room = door.connectsTo();
+        Room room = door.connectsTo(mergeDirection);
 
         if (isMerged() || !room.incorporatable()) return;
 
@@ -124,12 +124,12 @@ public class ResizingRoom extends Room {
             Door d;
 
             if ((d = room.doors.get(Direction.LEFT)) != null)
-                d.connectsTo().doors.get(Direction.RIGHT).setConnection(this);
+                d.setConnection(Direction.RIGHT, this);
 
             doors.put(Direction.TOP_RIGHT, room.doors.get(Direction.RIGHT));
 
             if ((d = room.doors.get(Direction.RIGHT)) != null)
-                d.connectsTo().doors.get(Direction.LEFT).setConnection(this);
+                d.setConnection(Direction.LEFT, this);
 
             doors.put(Direction.BOTTOM_LEFT, doors.get(Direction.LEFT));
             doors.put(Direction.BOTTOM_RIGHT, doors.get(Direction.RIGHT));
@@ -140,7 +140,7 @@ public class ResizingRoom extends Room {
             doors.put(Direction.UP, room.doors.get(Direction.UP));
 
             if ((d = room.doors.get(Direction.UP)) != null)
-                d.connectsTo().doors.get(Direction.DOWN).setConnection(this);
+                d.setConnection(Direction.DOWN, this);
 
         }
         else if (mergeDirection == Direction.LEFT) {
@@ -149,21 +149,20 @@ public class ResizingRoom extends Room {
             Door d;
 
             if ((d = room.doors.get(Direction.UP)) != null)
-                d.connectsTo().doors.get(Direction.DOWN).setConnection(this);
+                d.setConnection(Direction.DOWN, this);
 
             doors.put(Direction.TOP_RIGHT, doors.get(Direction.UP));
             doors.put(Direction.BOTTOM_LEFT, room.doors.get(Direction.DOWN));
 
             if ((d = room.doors.get(Direction.DOWN)) != null)
-                d.connectsTo().doors.get(Direction.UP).setConnection(this);
+                d.setConnection(Direction.UP, this);
 
             doors.put(Direction.BOTTOM_RIGHT, doors.get(Direction.DOWN));
 
             doors.put(Direction.LEFT, room.doors.get(Direction.LEFT));
 
             if ((d = room.doors.get(Direction.LEFT)) != null)
-                d.connectsTo().doors.get(Direction.RIGHT).setConnection(this);
-
+                d.setConnection(Direction.RIGHT, this);
 
             doors.put(Direction.UP, null);
             doors.put(Direction.DOWN, null);
@@ -177,12 +176,12 @@ public class ResizingRoom extends Room {
             Door d;
 
             if ((d = room.doors.get(Direction.LEFT)) != null)
-                d.connectsTo().doors.get(Direction.RIGHT).setConnection(this);
+                d.setConnection(Direction.RIGHT, this);
 
             doors.put(Direction.BOTTOM_RIGHT, room.doors.get(Direction.RIGHT));
 
             if ((d = room.doors.get(Direction.RIGHT)) != null)
-                d.connectsTo().doors.get(Direction.LEFT).setConnection(this);
+                d.setConnection(Direction.LEFT, this);
 
             doors.put(Direction.LEFT, null);
             doors.put(Direction.RIGHT, null);
@@ -190,7 +189,7 @@ public class ResizingRoom extends Room {
             doors.put(Direction.DOWN, room.doors.get(Direction.DOWN));
 
             if ((d = room.doors.get(Direction.DOWN)) != null)
-                d.connectsTo().doors.get(Direction.UP).setConnection(this);
+                d.setConnection(Direction.UP, this);
         }
         else if (mergeDirection == Direction.RIGHT) {
             doors.put(Direction.TOP_LEFT, doors.get(Direction.UP));
@@ -199,18 +198,18 @@ public class ResizingRoom extends Room {
             Door d;
 
             if ((d = room.doors.get(Direction.UP)) != null)
-                d.connectsTo().doors.get(Direction.DOWN).setConnection(this);
+                d.setConnection(Direction.DOWN, this);
 
             doors.put(Direction.BOTTOM_LEFT, doors.get(Direction.DOWN));
             doors.put(Direction.BOTTOM_RIGHT, room.doors.get(Direction.DOWN));
 
             if ((d = room.doors.get(Direction.DOWN)) != null)
-                d.connectsTo().doors.get(Direction.UP).setConnection(this);
+                d.setConnection(Direction.UP, this);
 
             doors.put(Direction.RIGHT, room.doors.get(Direction.RIGHT));
 
             if ((d = room.doors.get(Direction.RIGHT)) != null)
-                d.connectsTo().doors.get(Direction.LEFT).setConnection(this);
+                d.setConnection(Direction.LEFT, this);
 
             doors.put(Direction.UP, null);
             doors.put(Direction.DOWN, null);

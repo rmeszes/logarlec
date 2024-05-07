@@ -11,14 +11,12 @@ import com.redvas.app.players.Janitor;
 import com.redvas.app.players.Player;
 import com.redvas.app.players.Professor;
 import com.redvas.app.players.Undergraduate;
-import jdk.jshell.spi.ExecutionControl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import javax.imageio.ImageIO;
-import javax.naming.OperationNotSupportedException;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -36,7 +34,13 @@ public class Labyrinth implements Steppable {
     BufferedImage profImage;
     BufferedImage janitorImage;
 
-    private int nextId;
+    private final List<Door> everyDoor = new ArrayList<>();
+
+    private static class data {
+        public boolean passable;
+        public boolean vanished;
+        public Direction direction;
+    }
 
     public static Labyrinth loadXML(Element labyrinth, Game g) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         NodeList rooms = labyrinth.getElementsByTagName("room");
@@ -115,21 +119,157 @@ public class Labyrinth implements Steppable {
             }
         }
 
+        HashMap<Room, HashMap<Room, data>> origins = new HashMap<>();
+        rooms = labyrinth.getElementsByTagName("room");
 
         for (int i = 0; i < rooms.getLength(); i++) {
-            NodeList doors = ((Element) rooms.item(i)).getElementsByTagName("door");
+            Element room = (Element) rooms.item(i);
+
+            NodeList doors = room.getElementsByTagName("door");
+
 
             for (int j = 0; j < doors.getLength(); j++) {
-                Element door = ((Element) doors.item(j));
-                l.rooms.get(i).configureDoors();
-                Door d;
-                l.selection.put(Direction.valueOf(door.getAttribute("direction")),
-                        d = new Door(id2room.get(
-                                Integer.parseInt(door.getAttribute("connects_to"))),
-                                Boolean.parseBoolean(door.getAttribute("is_passable")))
-                );
-                d.setVanished(Boolean.parseBoolean(door.getAttribute("is_vanished")));
+                Element door = (Element) doors.item(j);
+                data d = new data();
+                Room from = id2room.get(Integer.parseInt(room.getAttribute("id")));
+                if (from.getID() == 2)
+                    System.out.println();
+                Room to = id2room.get(Integer.parseInt(door.getAttribute("connects_to")));
+                d.passable = Boolean.parseBoolean(door.getAttribute("is_passable"));
+                d.vanished = Boolean.parseBoolean(door.getAttribute("is_vanished"));
+                d.direction = Direction.valueOf(door.getAttribute("direction"));
+                HashMap<Room, data> sub;
+
+                boolean makeEdge = false;
+
+                if ((sub = origins.getOrDefault(to, null)) != null) {
+                    data other;
+
+                    if (from.getID() == 2)
+                        System.out.println();
+
+                    if ((other = sub.getOrDefault(from, null)) != null) {
+                        l.everyDoor.add(new Door(from, to, d.direction, d.passable, other.passable));
+                        l.everyDoor.get(l.everyDoor.size() - 1).setVanished(other.vanished);
+                        sub.remove(from);
+                    }
+                    else makeEdge = true;
+                } else makeEdge = true;
+                if (makeEdge) {
+                    if (from.getID() == 2)
+                        System.out.println();
+
+                    if ((sub = origins.getOrDefault(from, null)) == null)
+                        origins.put(from, sub = new HashMap<>());
+
+                    sub.put(to, d);
+                }
             }
+        }
+
+        for (Map.Entry<Room, HashMap<Room, data>> e : origins.entrySet())
+            for (Map.Entry<Room, data> e2 : e.getValue().entrySet()) {
+                Door d = new Door(e.getKey(), e2.getKey(), e2.getValue().direction, e2.getValue().passable, false);
+                d.setVanished(e2.getValue().vanished);
+                l.everyDoor.add(d);
+            }
+
+
+        for (Map.Entry<Item, Element> e : items.entrySet())
+            e.getKey().loadXML(e.getValue(), id2item);
+
+        return l;
+    }
+
+
+    public static Labyrinth loadXML2(Element labyrinth, Game g) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        NodeList rooms = labyrinth.getElementsByTagName("room");
+        Labyrinth l = new Labyrinth(
+                Integer.parseInt(labyrinth.getAttribute("width")),
+                Integer.parseInt(labyrinth.getAttribute("height")),
+                g
+        );
+
+        Constructor<?> ctor;
+        HashMap<Item, Element> items = new HashMap<>();
+        HashMap<Integer, Room> id2room = new HashMap<>();
+        HashMap<Integer, Item> id2item = new HashMap<>();
+
+        for (int i = 0; i < rooms.getLength(); i++) {
+            Element room = (Element) rooms.item(i);
+            ctor = Class.forName(room.getAttribute("type")).getDeclaredConstructor(Labyrinth.class, Integer.class, Integer.class);
+            ctor.setAccessible(true);
+            Room r = (Room) ctor.newInstance(l, Integer.parseInt(room.getAttribute("id")), Integer.parseInt(room.getAttribute("capacity")));
+            r.loadXML(room);
+            l.rooms.add(r);
+            id2room.put(r.getID(), r);
+
+            NodeList subs = rooms.item(i).getChildNodes();
+
+            for (int m = 0; m < subs.getLength(); m++) {
+                if (subs.item(m).getNodeType() != Node.ELEMENT_NODE) continue;
+                Element sub = (Element) subs.item(m);
+
+                if (sub.getTagName().equals("items")) {
+                    NodeList roomItems = sub.getElementsByTagName("item");
+
+                    for (int k = 0; k < roomItems.getLength(); k++) {
+                        Element roomItem = (Element) roomItems.item(k);
+                        int roomItemID = Integer.parseInt(roomItem.getAttribute("id"));
+                        ctor = Class.forName(roomItem.getAttribute("type")).getDeclaredConstructor(Integer.class, Room.class);
+                        ctor.setAccessible(true);
+                        Item it = (Item) ctor.newInstance(roomItemID, r);
+                        items.put(it, roomItem);
+                        id2item.put(it.getID(), it);
+                    }
+                } else if (sub.getTagName().equals("occupants")) {
+                    NodeList occupants = ((Element) rooms.item(i)).getElementsByTagName("player");
+
+                    for (int j = 0; j < occupants.getLength(); j++) {
+                        Element occupant = (Element) occupants.item(j);
+
+                        ctor = Class.forName(occupant.getAttribute("type")).getDeclaredConstructor(Integer.class, Room.class, Game.class);
+                        Player p = (Player) ctor.newInstance(Integer.parseInt(occupant.getAttribute("id")),
+                                l.rooms.get(Integer.parseInt(occupant.getAttribute("where"))),
+                                g);
+                        p.loadXML(occupant);
+
+                        NodeList playerItems = occupant.getElementsByTagName("item");
+
+                        for (int k = 0; k < playerItems.getLength(); k++) {
+                            Element playerItem = (Element) playerItems.item(k);
+                            int playerItemID = Integer.parseInt(playerItem.getAttribute("id"));
+                            ctor = Class.forName(playerItem.getAttribute("type")).getDeclaredConstructor(Integer.class, Player.class);
+                            ctor.setAccessible(true);
+                            Item it = (Item) ctor.newInstance(playerItemID, p);
+                            items.put(it, playerItem);
+                            id2item.put(it.getID(), it);
+                        }
+                    }
+                }
+            }
+
+            NodeList phantomListeners = room.getElementsByTagName("phantom_listener");
+
+            for (int m = 0; m < phantomListeners.getLength(); m++) {
+                Element phantomListener = (Element) phantomListeners.item(m);
+                ctor = Class.forName(phantomListener.getAttribute("type")).getDeclaredConstructor(Integer.class, Room.class, Boolean.class);
+                ctor.setAccessible(true);
+                ctor.newInstance(Integer.parseInt(phantomListener.getAttribute("id")), r, true);
+            }
+        }
+
+        NodeList doors = labyrinth.getElementsByTagName("door");
+
+        for (int i = 0; i < doors.getLength(); i++) {
+            Element door = (Element)doors.item(i);
+
+            l.everyDoor.add(new Door(id2room.get(
+                            Integer.parseInt(door.getAttribute("origin_room"))),
+                            id2room.get(Integer.parseInt(door.getAttribute("target_room"))),
+                            Direction.valueOf(door.getAttribute("target_direction")),
+                            Boolean.parseBoolean(door.getAttribute("target_passable")),
+                            Boolean.parseBoolean(door.getAttribute("origin_passable"))));
         }
 
         for (Map.Entry<Item, Element> e : items.entrySet())
@@ -151,19 +291,7 @@ public class Labyrinth implements Steppable {
             janitorImage = ImageIO.read(new File("src/main/resources/janitor.png"));
             profImage = ImageIO.read(new File("src/main/resources/prof.png"));
         } catch (IOException e) {
-            readImagesInJar();
-        }
-    }
-
-    private void readImagesInJar() {
-        try {
-            doorImage = ImageIO.read(new File("door.png"));
-            floorImage = ImageIO.read(new File("floor.png"));
-            playerImage = ImageIO.read(new File("player.png"));
-            janitorImage = ImageIO.read(new File("janitor.png"));
-            profImage = ImageIO.read(new File("prof.png"));
-        } catch (IOException e) {
-            logger.severe(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -177,6 +305,28 @@ public class Labyrinth implements Steppable {
             roomsXML.appendChild(r.saveXML(document));
 
         labyrinth.appendChild(roomsXML);
+
+        return labyrinth;
+    }
+
+    public Element saveXML2(Document document) {
+        Element labyrinth = document.createElement("labyrinth");
+        labyrinth.setAttribute("width", String.valueOf(width));
+        labyrinth.setAttribute("height", String.valueOf(height));
+        Element roomsXML = document.createElement("rooms");
+
+        for (Room r : this.rooms)
+            roomsXML.appendChild(r.saveXML2(document));
+
+        labyrinth.appendChild(roomsXML);
+
+        Element doorsXML = document.createElement("doors");
+
+        for (Door d : everyDoor)
+            doorsXML.appendChild(d.saveXML(document));
+
+        labyrinth.appendChild(doorsXML);
+
         return labyrinth;
     }
 
@@ -245,7 +395,7 @@ public class Labyrinth implements Steppable {
         array[j] = tmp;
     }
 
-    private <T, E, J, K, L> void shuffle(T[] array1, E[] array2, J[] array3, K[] array4, L[] array5) {
+    private <T, E, J, K, L> void shuffle(T[] array1, E[] array2, J[] array3, K[] array4) {
 
         for (int i = 0; i < array1.length - 1; i++) {
             int rid = random.nextInt(i, array1.length);
@@ -255,14 +405,18 @@ public class Labyrinth implements Steppable {
                 swap(array2, i, rid);
                 swap(array3, i, rid);
                 swap(array4, i, rid);
-                swap(array5, i, rid);
             }
         }
     }
 
-    private void mkstat2(Boolean[] stat, Room[][] rooms, Room[][] visits, int x, int y) {
+    private void mkstat3(Boolean[] stat, int limCheck, int x, int y) {
+        for (int i = 0; i < limCheck; i++)
+            stat[i] = x + xc[i] >= 0 && x + xc[i] < width &&
+                    y + yc[i] >= 0 && y + yc[i] < height;
+    }
 
-        for (int i = 0; i < 4; i++)
+    private void mkstat2(Boolean[] stat, int limCheck, Room[][] rooms, Room[][] visits, int x, int y) {
+        for (int i = 0; i < limCheck; i++)
             stat[i] = x + xc[i] >= 0 && x + xc[i] < width &&
                     y + yc[i] >= 0 && y + yc[i] < height &&
                     visits[y][x] != rooms[y + yc[i]][x + xc[i]] &&
@@ -286,6 +440,17 @@ public class Labyrinth implements Steppable {
     // LEFT, UP, RIGHT, DOWN (x + deltax, y + deltay)
     Integer[] xc = new Integer[]{-1, 0, 1, 0}; // x axis delta
     Integer[] yc = new Integer[]{0, -1, 0, 1}; // y axis delta
+
+    private void reset() {
+        directions = new Direction[] {
+                Direction.LEFT,
+                Direction.UP,
+                Direction.RIGHT,
+                Direction.DOWN
+        };
+        xc = new Integer[]{-1, 0, 1, 0};
+        yc = new Integer[]{0, -1, 0, 1};
+    }
 
     private boolean resizeablePair(boolean[][] resizingMap, int x1, int y1, int x2, int y2) {
         boolean neighboursOkay = true;
@@ -314,9 +479,9 @@ public class Labyrinth implements Steppable {
             if (visitable == 0)
                 pts.remove(at);
             else {
-                shuffle(xc, yc, stat, directions, rdirections);
-                shuffle(xc, yc, stat, directions, rdirections);
-                shuffle(xc, yc, stat, directions, rdirections);
+                shuffle(xc, yc, stat, directions);
+                shuffle(xc, yc, stat, directions);
+                shuffle(xc, yc, stat, directions);
 
                 int letsVisit = random.nextInt(1, visitable + 1);
 
@@ -325,22 +490,12 @@ public class Labyrinth implements Steppable {
                         visited++;
                         visits[pts.get(at).y + yc[i]][pts.get(at).x + xc[i]] = rooms[pts.get(at).y][pts.get(at).x];
 
-                        rooms[pts.get(at).y][pts.get(at).x].configureDoors();
-                        selection.put(directions[i], new Door(rooms[pts.get(at).y + yc[i]][pts.get(at).x + xc[i]], true));
-
-                        rooms[pts.get(at).y + yc[i]][pts.get(at).x + xc[i]].configureDoors();
-                        selection.put(rdirections[i], new Door(rooms[pts.get(at).y][pts.get(at).x], true));
-
-                        if (resizeablePair(resizingMap, pts.get(at).x, pts.get(at).y, pts.get(at).x + xc[i], pts.get(at).y + yc[i]) && Math.abs(random.nextGaussian()) > 0.81) {
-                            ResizingRoom er = new ResizingRoom(rooms[pts.get(at).y][pts.get(at).x].getID(), this, random.nextInt(2, 6), directions[i]);
-                            rooms[pts.get(at).y][pts.get(at).x].configureDoors();
-                            message = selection;
-                            er.receiveDoors();
-                            rooms[pts.get(at).y + yc[i]][pts.get(at).x + xc[i]].configureDoors();
-                            selection.put(rdirections[i], new Door(er, true));
-                            rooms[pts.get(at).y][pts.get(at).x] = er;
-                            resizingMap[pts.get(at).y][pts.get(at).x] = resizingMap[pts.get(at).y + yc[i]][pts.get(at).x + xc[i]] = true;
-                        }
+                        everyDoor.add(new Door(
+                                rooms[pts.get(at).y][pts.get(at).x], //from
+                                rooms[pts.get(at).y + yc[i]][pts.get(at).x + xc[i]], // to
+                                directions[i], // in direction
+                                true
+                        ));
 
                         pts.add(new PT(pts.get(at).x + xc[i], pts.get(at).y + yc[i]));
                     }
@@ -351,80 +506,63 @@ public class Labyrinth implements Steppable {
         }
     }
 
-    private final Direction[] directions = new Direction[]{
+    private Direction[] directions = new Direction[]{
             Direction.LEFT,
             Direction.UP,
             Direction.RIGHT,
             Direction.DOWN
     };
-    private final Direction[] rdirections = new Direction[]{
-            Direction.RIGHT,
-            Direction.DOWN,
-            Direction.LEFT,
-            Direction.UP
-    };
     // visitor pattern
     private Map<Direction, Door> selection;
 
-    public Map<Direction, Door> sendDoors() {
-        return message;
-    }
+    private void resizify(Room[][] rooms) {
+        boolean[][] resizingMap = new boolean[height][width];
+        Boolean[] stat = new Boolean[2];
+        reset();
 
-    private Map<Direction, Door> message;
+        for (int y = 0; y < height; y++)
+            for (int x = 0; x < width; x++) {
+                mkstat3(stat, 2, x, y);
 
-    public void acceptDoors(Map<Direction, Door> doors) {
-        selection = doors;
+                for (int i = 0; i < 2; i++)
+                    if (stat[i])
+                        if (Math.random() > 0.85)
+                            if (resizeablePair(resizingMap, x, y, x + xc[i], y + yc[i])) {
+                                rooms[y][x] = rooms[y][x].convertToResizing(directions[i], random.nextInt(2, 6));
+                                resizingMap[y][x] = resizingMap[y + yc[i]][x + xc[i]] = true;
+                            }
+            }
     }
 
     private void enchant() {
         for (int i = 0; i < width * height; i++)
             if (random.nextGaussian() > 0.8) {
-                EnchantedRoom er = new EnchantedRoom(this, rooms.get(i).getID(), random.nextInt(2, 6));
-                rooms.get(i).configureDoors();
-
-                Set<Map.Entry<Direction, Door>> doors = selection.entrySet();
-
-                for (Map.Entry<Direction, Door> e : doors) {
-                    e.getValue().setVanished(random.nextBoolean());
-                    e.getValue().connectsTo().configureDoors();
-                    selection.get(reverseDirections.get(e.getKey())).setVanished(e.getValue().isVanished());
-                    selection.get(reverseDirections.get(e.getKey())).setConnection(er);
-                    er.configureDoors();
-                    selection.put(e.getKey(), e.getValue());
-                }
-
-                rooms.add(i, er);
+                Room r = rooms.get(i).convertToEnchanted(random.nextInt(2, 6));
+                rooms.set(i, r);
             }
-        logger.fine("Labyrinth created");
     }
 
-    private void cyclify(Room[][] rooms, Room[][] visits, boolean[][] resizingMap) {
+
+    private void cyclicize(Room[][] rooms, Room[][] visits, boolean[][] resizingMap) {
         Boolean[] stat = new Boolean[4];
+        reset();
+        // after resetting, the first 2 directions are UP and LEFT
 
         for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++) {
-                mkstat2(stat, rooms, visits, x, y);
+                mkstat2(stat, 2, rooms, visits, x, y);
 
-                for (int k = 0; k < 4; k++)
+                for (int k = 0; k < 2; k++)
                     if (Boolean.TRUE.equals(stat[k])) {
-                        rooms[y][x].configureDoors();
                         boolean makeEdge = random.nextDouble(0, 1) > 0.88;
-                        selection.put(directions[k], new Door(rooms[y + yc[k]][x + xc[k]], makeEdge));
 
-                        if (makeEdge) {
-                            rooms[y + yc[k]][x + xc[k]].configureDoors();
-
-                            if (resizeablePair(resizingMap, x, y, x + xc[k], y + yc[k]) && Math.abs(random.nextGaussian()) > 0.81) {
-                                ResizingRoom er = new ResizingRoom(rooms[y][x].getID(), this, random.nextInt(2, 6), directions[k]);
-                                rooms[y][x].configureDoors();
-                                message = selection;
-                                er.receiveDoors();
-                                rooms[y + yc[k]][x + xc[k]].configureDoors();
-                                selection.put(rdirections[k], new Door(er, true));
-                                rooms[y][x] = er;
-                                resizingMap[y][x] = resizingMap[y + yc[k]][x + xc[k]] = true;
-                            }
-                        }
+                        everyDoor.add(new Door(
+                                rooms[y][x],
+                                rooms[y + yc[k]][x + xc[k]],
+                                directions[k],
+                                makeEdge,
+                                random.nextDouble(0, 1) > 0.88
+                        ));
                     }
             }
     }
@@ -434,9 +572,8 @@ public class Labyrinth implements Steppable {
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                Room room = new Room(this, nextId++, random.nextInt(2, 6));
+                Room room = new Room(this, i * width + j, random.nextInt(2, 6));
                 roomsLocal[i][j] = room;
-                remember(room);
             }
         }
 
@@ -447,7 +584,9 @@ public class Labyrinth implements Steppable {
         visits[ry][rx] = roomsLocal[ry][rx];
         boolean[][] map = new boolean[height][width];
         randomOrderSearch(roomsLocal, visits, map, rx, ry);
-        cyclify(roomsLocal, visits, map);
+        cyclicize(roomsLocal, visits, map);
+
+        resizify(roomsLocal);
 
         for (int y = 0; y < height; y++)
             rooms.addAll(Arrays.asList(roomsLocal[y]).subList(0, width));
@@ -482,7 +621,6 @@ public class Labyrinth implements Steppable {
         generate();
         emplacePlayers(playerCount);
         emplaceItems();
-        nextId = playerCount; //Players get the first x ID-s, cuz it's how their name is printed.
     }
 
     /**
@@ -497,37 +635,23 @@ public class Labyrinth implements Steppable {
             r.step();
     }
 
-
-
     private void emplacePlayers(int playerCount) {
-
+        int nextId = 1;
         logger.fine("Placing players..");
 
-        int professorCount;
-        int janitorCount;
-        if(playerCount == 1 || playerCount == 2) {
-            professorCount = 1;
-            janitorCount = 1;
-        }
-        else {
-            professorCount = random.nextInt(1, playerCount/2);
-            janitorCount = random.nextInt(1, playerCount/2);
+        for (int i = 1; i <= playerCount; i++) {
+            game.registerSteppable(new Undergraduate(nextId++, getRandomRoom(), game));
         }
 
+        int professorCount = random.nextInt(1, playerCount);
         for (int i = 1; i <= professorCount; i++) {
-            game.registerSteppable(new Professor(nextId++, getRandomRoom(), game));
+            game.registerSteppable(new Professor(nextId, getRandomRoom(), game));
         }
 
+        int janitorCount = random.nextInt(1, playerCount);
 
         for (int i = 1; i <= janitorCount; i++) {
-            game.registerSteppable(new Janitor(nextId++, getRandomRoom(), game));
-        }
-
-        for (int i = 0; i < playerCount; i++) {
-            Room room = getRandomRoom();
-            while(room.getListenerCount() != 0) room = getRandomRoom(); //makes sure undegrad doesn't get immediately affected by something
-            game.registerSteppable(new Undergraduate(i, getRandomRoom(), game));
-            //Players get the first x ID-s, cuz it's how their name is printed.
+            game.registerSteppable(new Janitor(nextId, getRandomRoom(), game));
         }
     }
 
@@ -536,13 +660,13 @@ public class Labyrinth implements Steppable {
 
         Map<String, Integer> numOfItems = howManyItems();
 
-        for (int i = 0; i < numOfItems.get("AirFreshener"); i++) new AirFreshener(nextId++, getRandomRoom());
-        for (int i = 0; i < numOfItems.get("FFP2"); i++) new FFP2(nextId++, getRandomRoom());
-        for (int i = 0; i < numOfItems.get("HolyBeer"); i++) new HolyBeer(nextId++, getRandomRoom());
-        for (int i = 0; i < numOfItems.get("RottenCamembert"); i++) new RottenCamembert(nextId++, getRandomRoom());
-        for (int i = 0; i < numOfItems.get("Transistor"); i++) new Transistor(nextId++, getRandomRoom());
-        for (int i = 0; i < numOfItems.get("TVSZ"); i++) new TVSZ(nextId++, getRandomRoom());
-        for (int i = 0; i < numOfItems.get("WetWipe"); i++) new WetWipe(nextId++, getRandomRoom());
+        for (int i = 0; i < numOfItems.get("AirFreshener"); i++) new AirFreshener(1, getRandomRoom());
+        for (int i = 0; i < numOfItems.get("FFP2"); i++) new FFP2(2, getRandomRoom());
+        for (int i = 0; i < numOfItems.get("HolyBeer"); i++) new HolyBeer(3, getRandomRoom());
+        for (int i = 0; i < numOfItems.get("RottenCamembert"); i++) new RottenCamembert(4, getRandomRoom());
+        for (int i = 0; i < numOfItems.get("Transistor"); i++) new Transistor(5, getRandomRoom());
+        for (int i = 0; i < numOfItems.get("TVSZ"); i++) new TVSZ(6, getRandomRoom());
+        for (int i = 0; i < numOfItems.get("WetWipe"); i++) new WetWipe(7, getRandomRoom());
     }
 
     private Map<String, Integer> howManyItems() {
@@ -570,7 +694,6 @@ public class Labyrinth implements Steppable {
         return rooms.get(random.nextInt(0, rooms.size()));
     }
 
-    //TODO igen ezt az egészet át kell írni, senki ne kezdje el újrahasználni
     public void draw(Graphics2D g) {
         g.setColor(Color.BLACK);
         int roomWidth = 100;
@@ -618,13 +741,12 @@ public class Labyrinth implements Steppable {
                     case RIGHT:
                         g.drawLine(x + roomWidth, y + roomHeight / 2, x + roomWidth / 2, y + roomHeight / 2);
                         break;
-                    default:
-                        logger.severe("operation not yet implemented");
                 }
             }
             // Draw each player
-            for (Steppable steppable : game.getSteppablesForRound()) {
-                if (steppable instanceof Player player) {
+            /*for (Steppable steppable : game.getSteppables()) {
+                if (steppable instanceof Player) {
+                    Player player = (Player) steppable;
                     Room room2 = player.where();
                     int index = rooms.indexOf(room2);
 
@@ -641,7 +763,7 @@ public class Labyrinth implements Steppable {
                         g.drawImage(playerImage, x2, y2, roomWidth, roomHeight, null);
                     }
                 }
-            }
+            }*/
         }
     }
 }
