@@ -1,8 +1,12 @@
 package com.redvas.app.ui;
 
+import com.redvas.app.map.Labyrinth;
+
 import javax.swing.*;
+import java.awt.*;
+
 public class GamePanel extends JPanel {
-    /*private transient Labyrinth labyrinth;
+    private final transient Labyrinth labyrinth;
 
     public GamePanel(Labyrinth labyrinth) {
         this.labyrinth = labyrinth;
@@ -17,7 +21,7 @@ public class GamePanel extends JPanel {
 
         // Call the draw method of the labyrinth
         labyrinth.draw(g2d);
-    } */
+    }
 
 
 }

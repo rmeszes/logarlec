@@ -34,15 +34,5 @@ public class AirFreshenerView implements ItemChangeListener{
 
     @Override
     public void positionChanged(boolean isInRoom) {
-
-    public AirFreshenerView(AirFreshener airFreshener, int x, int y) {
-        this.airFreshener = airFreshener;
-        this.x = x;
-        this.y = y;
-        try {
-            airfreshenerImage = ImageIO.read(new File("src/main/resources/floor.png"));
-        } catch (IOException e) {
-            logger.severe(e.getMessage());
-        }
     }
 }
