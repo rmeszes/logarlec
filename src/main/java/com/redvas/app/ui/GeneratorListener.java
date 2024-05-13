@@ -25,4 +25,5 @@ public interface GeneratorListener {
     void wetWipeCreated(WetWipe wetWipe, int x, int y);
     void transistorCreated(Transistor t, int x, int y);
     void ffp2Created(FFP2 ffp2, int x, int y);
+    void combinedTransistorCreated(CombinedTransistor ct, int x, int y);
 }
