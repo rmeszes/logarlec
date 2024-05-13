@@ -11,10 +11,6 @@ import com.redvas.app.players.ProximityListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -87,6 +83,7 @@ public class Room implements Steppable {
      * @param item: someone picked it up
      */
     public void removeItem(Item item) {
+        items.remove(item);
         logger.finest(()->"Room item inventory no longer holds this " + item);
     }
 
@@ -231,8 +228,12 @@ public class Room implements Steppable {
         return null;
     }
 
-    public List<Room> getAccessibleRooms() {
-        return new ArrayList<>();
+    public Set<Room> getAccessibleRooms() {
+        Set<Room> rooms = HashSet.newHashSet(4);
+        for(Door door : doors.values()) {
+            if(door.isPassable()) rooms.add(door.connectsTo());
+        }
+        return rooms;
     }
 
     public Set<Direction> getAccessibleDirections() {

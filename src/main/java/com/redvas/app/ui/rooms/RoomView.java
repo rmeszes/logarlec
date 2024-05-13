@@ -19,10 +19,10 @@ public class RoomView implements RoomChangeListener {
     private boolean isSticky = false;       // alapból legyen hamis, de am ez nem int a modellben??
     private boolean isGaseous = false;
 
-    BufferedImage floorImage;               // alap
-    BufferedImage floorImageWhenGaseous;    // amikor gázossá válik
-    BufferedImage floorImageWhenSticky;     // amikor ragadós a szoba
-    BufferedImage floorImageWhenGaseousAndSticky;     // amikor ragadós és gázos a szoba   VAN ILYEN??
+    private BufferedImage floorImage;               // alap
+    private BufferedImage floorImageWhenGaseous;    // amikor gázossá válik
+    private BufferedImage floorImageWhenSticky;     // amikor ragadós a szoba
+    private BufferedImage floorImageWhenGaseousAndSticky;     // amikor ragadós és gázos a szoba   VAN ILYEN??
 
     public RoomView(Room r, int x, int y) {
         this.room = r;
@@ -71,7 +71,5 @@ public class RoomView implements RoomChangeListener {
         else  {  // gázos és ragad
             g.drawImage(floorImageWhenGaseousAndSticky, x, y, roomWidth, roomHeight, null);
         }
-
-
     }
 }

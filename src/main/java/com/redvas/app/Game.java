@@ -168,7 +168,6 @@ public class Game extends JPanel{
 
             if (end) return;
         }
-        gamePanel.repaint();
     }
 
     public void undergraduateVictory() {

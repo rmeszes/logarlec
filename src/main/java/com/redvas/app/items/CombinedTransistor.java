@@ -12,6 +12,9 @@ public class CombinedTransistor extends Item {
     private CombinedTransistor pairedWith;
     private boolean isActive = false;
 
+    protected CombinedTransistor(Integer id, Player owner) {
+        super(id, owner);
+    }
     public CombinedTransistor(Integer id, Room whichRoom) {
         super(id, whichRoom, false);
     }
@@ -20,7 +23,10 @@ public class CombinedTransistor extends Item {
         super(id, whichRoom, false);
     }
 
-
+    /**
+     *
+     * @param pair: we need to have two CTransistors, one to put down and one to use to teleport
+     */
     public void setPair(CombinedTransistor pair){
         pairedWith = pair;
     }
@@ -31,7 +37,7 @@ public class CombinedTransistor extends Item {
      */
     @Override
     public void use(){
-        if (pairedWith.whichRoom != null){ // if the pair is on the ground already (in half state)
+        if (pairedWith.isInRoom){ // if the pair is on the ground already (in half state)
             isActive = true;
             logger.fine(() -> "Activated the transistors");
         }
@@ -39,11 +45,12 @@ public class CombinedTransistor extends Item {
             logger.fine(() -> "You must place the first transistor before activation");
         }
     }
-    protected CombinedTransistor(Integer id, Player owner) {
-        super(id, owner);
-    }
 
-
+    /**
+     *
+     * @param ct item to load
+     * @param id2item Needed for overrides
+     */
     @Override
     public void loadXML(Element ct, Map<Integer, Item> id2item) {
         super.loadXML(ct, id2item);
@@ -51,6 +58,11 @@ public class CombinedTransistor extends Item {
         isActive = Boolean.parseBoolean(ct.getAttribute("is_active"));
     }
 
+    /**
+     *
+     * @param document: xml file where we save
+     * @return transistor that is being saved
+     */
     @Override
     public Element saveXML(Document document) {
         Element transistor = super.saveXML(document);
@@ -65,7 +77,7 @@ public class CombinedTransistor extends Item {
      */
     @Override
     public void pickup(Player who) {
-        if (pairedWith.whichRoom != null){ // if the pair is on the ground already (in half state)
+        if (!pairedWith.isActive && isInRoom){ // if this is on the ground and not active (in half state)
             super.pickup(who);
             logger.fine(() -> "Picked up CombinedTransistor");
         }
@@ -82,19 +94,18 @@ public class CombinedTransistor extends Item {
      */
     @Override
     public void dispose() {
-        if (pairedWith.whichRoom == null) { // if pair is not on the ground (in base state)
+        if (!pairedWith.isInRoom) { // if pair is not on the ground (in base state)
             super.dispose();
             logger.fine(() -> "Placed first CombinedTransistor");
         }
         else {
             if (isActive) { // if pair is on the ground and this is activated (in active state)
-                CombinedTransistor tmp = new CombinedTransistor(-1, whichRoom);
-                tmp.owner = getOwner();
                 super.dispose();
-                tmp.owner.moveTo(pairedWith.whichRoom);
+                owner.moveTo(pairedWith.whichRoom);
                 isActive = false;
-                pairedWith.pickup(tmp.owner);
-                logger.fine(() -> "Transported player to the first CombinedTransistor's room: " + pairedWith.whichRoom.toString());
+                pairedWith.pickup(owner);
+                logger.fine(() -> "Transported player to the first CombinedTransistor's room");
+                // graphics repaint() needed
             }
             else { // if pair is on the ground and this is not activated (in half state)
                 logger.fine(() -> "Cannot place second CombinedTransistor without activating it first");
@@ -107,6 +118,6 @@ public class CombinedTransistor extends Item {
      */
     @Override
     public String toString() {
-        return "Combined Transistor, owner: " + getOwner().toString() + ", room: " + getRoom().toString();
+        return "Combined Transistor, owner: " + getOwner().toString() + ", id: " + getID();
     }
 }
