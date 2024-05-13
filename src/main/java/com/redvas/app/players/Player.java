@@ -339,7 +339,8 @@ public abstract class Player implements Steppable {
      * @return Returns the room they moved to or null.
      */
     protected Room randomMove() {
-        Set<Room> rooms = where().getAccessibleRooms();
+        List<Room> rooms = where().getAccessibleRooms();
+
         for(Room room : rooms) {
             if(Boolean.TRUE.equals(room.canAccept())) {
                 logger.fine("Moving to: Room id: " + room.getID());

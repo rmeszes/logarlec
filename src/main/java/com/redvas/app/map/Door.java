@@ -1,88 +1,83 @@
 package com.redvas.app.map;
 
-
-import com.redvas.app.App;
 import com.redvas.app.map.rooms.Room;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
-import java.util.logging.Logger;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Door {
-    private Room connectsTo;
-    private boolean passable;
-    private boolean vanished;
+    // the direction, and the reverse directions are even and odd valued. The even value is preserved only
+    private int evenIndex = -1;
+    private final Room[] roomMap = new Room[2];
+    private final boolean[] passableMap = new boolean[2];
 
-    protected static final Logger logger = App.getConsoleLogger(Door.class.getName());
+    public Room connectsTo(Direction d) { return roomMap[d.getValue() & 1]; }
 
-    public Door(Room connectsTo, boolean isPassable) {
-        this.connectsTo = connectsTo;
-        this.passable = isPassable;
-        logger.finest("Door init");
+    public void setConnection(Direction in, Room to) {
+        if (in.getValue() != evenIndex && in.getValue() != evenIndex + 1)
+            return;
+
+        roomMap[in.getValue() & 1] = to;
     }
 
+    private boolean isVanished = false;
 
-    /**
-     * @return Room: that is accessible through this door
-     */
-    public Room connectsTo() {
-        logger.finest("The door connects to this room.");
-        return this.connectsTo;
+    public void setVanished(boolean isVanished) {
+        this.isVanished = isVanished;
     }
 
-    /**
-     * @param room: neighboring room
-     */
-    public void setConnection(Room room) {
-        this.connectsTo = room;
-        logger.finest("This door now connects to a new Room");
+    private Map<Direction, Door> selection;
+
+    public void acceptDoors(Map<Direction, Door> doors) {
+        selection = doors;
     }
 
-    /**
-     * @return bool
-     */
-    public boolean isPassable() {
-        if (this.passable) {
-            logger.finest("This door is active.");
-            return true;
-        } else {
-            logger.finest("This door is inactive.");
-            return false;
-        }
+    public Element saveXML(Document document) {
+        Element door = document.createElement("door");
+        door.setAttribute("is_vanished", String.valueOf(isVanished));
+        door.setAttribute("target_direction", Direction.valueOf(evenIndex).name()); // odd_direction is not written out to avoid redundancy
+        door.setAttribute("target_room", String.valueOf(roomMap[0].getID()));
+        door.setAttribute("origin_room", String.valueOf(roomMap[1].getID()));
+        door.setAttribute("towards_target_passable", String.valueOf(passableMap[0]));
+        door.setAttribute("towards_origin_passable", String.valueOf(passableMap[1]));
+        return door;
     }
 
-    /**
-     * @param bool: true if door is open
-     */
-    public void setPassable(boolean bool) {
-        if (bool) {
-            this.passable = true;
-            logger.finest("This door is now passable");
-        } else {
-            this.passable = false;
-        }
+    public Door(Room from, Room to, Direction in, boolean passable) {
+        evenIndex = (in.getValue() & 1) == 1 ? in.getValue() - 1 : in.getValue();
+        from.configureDoors(this);
+        selection.put(in, this);
+        to.configureDoors(this);
+        selection.put(in.getReverse(), this);
+        setVanished(false);
+        setPassable(in, passable);
+        setPassable(in.getReverse(), passable);
+        roomMap[in.getValue() & 1] = to;
+        roomMap[in.getReverse().getValue() & 1] = from;
     }
 
-    /**
-     * @return bool: whether the door is vanished
-     */
-    public boolean isVanished() {
-        if (this.vanished) {
-            logger.finest("This door has vanished.");
-            return true;
-        } else {
-            logger.finest("This door hasn't vanished.");
-            return false;
-        }
+    public Door(Room from, Room to, Direction in, boolean passable2To, boolean passable2From) {
+        evenIndex = (in.getValue() & 1) == 1 ? in.getValue() - 1 : in.getValue();
+        from.configureDoors(this);
+        selection.put(in, this);
+        to.configureDoors(this);
+        selection.put(in.getReverse(), this);
+        setVanished(false);
+        setPassable(in, passable2To);
+        setPassable(in.getReverse(), passable2From);
+        roomMap[in.getValue() & 1] = to;
+        roomMap[in.getReverse().getValue() & 1] = from;
     }
 
-    /**
-     * @param bool: true if the door is vanished
-     */
-    public void setVanished(boolean bool) {
-        if (bool) {
-            this.vanished = true;
-            logger.finest("This door has vanished");
-        } else {
-            this.vanished = false;
-        }
+    public boolean isVanished() { return isVanished; }
+    public boolean isPassable(Direction in) { return passableMap[in.getValue() & 1]; }
+
+    public void setPassable(Direction in, boolean isPassable) {
+        if (in.getValue() != evenIndex && in.getValue() != evenIndex + 1)
+            return;
+
+        passableMap[in.getValue() & 1] = isPassable;
     }
 }
