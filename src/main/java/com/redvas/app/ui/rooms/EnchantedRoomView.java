@@ -2,6 +2,7 @@ package com.redvas.app.ui.rooms;
 
 import com.redvas.app.App;
 import com.redvas.app.map.rooms.EnchantedRoom;
+import com.redvas.app.ui.View;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -10,12 +11,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class EnchantedRoomView implements RoomChangeListener {
+public class EnchantedRoomView extends View implements RoomChangeListener {
     private static final Logger logger = App.getConsoleLogger(EnchantedRoomView.class.getName());
 
     private final EnchantedRoom eRoom;
-    private final int x;
-    private final int y;
     private boolean isSticky = false;
     private boolean isGaseous = false;
 

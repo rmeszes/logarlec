@@ -405,7 +405,8 @@ public class Labyrinth implements Steppable {
     // visitor pattern
     private Map<Direction, Door> selection;
 
-    private void resizify(Room[][] rooms) {
+
+    private boolean[][] resizify(Room[][] rooms) {
         boolean[][] resizingMap = new boolean[height][width];
         Boolean[] stat = new Boolean[2];
         reset();
@@ -417,16 +418,24 @@ public class Labyrinth implements Steppable {
                 for (int i = 0; i < 2; i++)
                     if (Boolean.TRUE.equals(stat[i]) && Math.random() > 0.85 && resizeablePair(resizingMap, x, y, x + xc[i], y + yc[i])) {
                         rooms[y][x] = rooms[y][x].convertToResizing(directions[i], random.nextInt(2, 6));
+                        listener.resizingRoomCreated((ResizingRoom) rooms[y][x], x, y);
                         resizingMap[y][x] = resizingMap[y + yc[i]][x + xc[i]] = true;
                     }
             }
+
+        return resizingMap;
     }
 
-    private void enchant(Room[][] rooms) {
+    private void enchant(Room[][] rooms, boolean[][] resizingMap) {
         for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++)
-                if (random.nextGaussian() > 0.8)
-                    rooms[y][x] = rooms[y][x].convertToEnchanted(random.nextInt(2, 6));
+                if (!resizingMap[y][x]) {
+                    if (random.nextGaussian() > 0.8) {
+                        rooms[y][x] = rooms[y][x].convertToEnchanted(random.nextInt(2, 6));
+                        listener.enchantedRoomCreated((EnchantedRoom) rooms[y][x], x, y);
+                    }
+                    else listener.roomCreated(rooms[y][x], x, y);
+                }
     }
 
 
@@ -476,13 +485,13 @@ public class Labyrinth implements Steppable {
         randomOrderSearch(roomsLocal, visits, map, rx, ry);
         cyclicize(roomsLocal, visits, map);
 
-        resizify(roomsLocal);
-        enchant(roomsLocal);
+        /*boolean[][] resizingMap = resizify(roomsLocal);
+        enchant(roomsLocal, resizingMap);*/
 
-        for (int i = 0; i < height; i++)
-            for (int j = 0; j < width; j++) {
-                listener.roomCreated(roomsLocal[i][j], j, i);
-                rooms.add(roomsLocal[i][j]);
+        for (int y = 0; y < height; y++)
+            for (int x = 0; x < width; x++) {
+                rooms.add(roomsLocal[y][x]);
+                listener.roomCreated(roomsLocal[y][x], x,y);
             }
     }
 

@@ -2,6 +2,7 @@ package com.redvas.app.ui.rooms;
 
 import com.redvas.app.App;
 import com.redvas.app.map.rooms.Room;
+import com.redvas.app.ui.View;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -11,12 +12,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class RoomView implements RoomChangeListener {
+public class RoomView extends View implements RoomChangeListener {
     private static final Logger logger = App.getConsoleLogger(RoomView.class.getName());
 
     private final Room room;
-    private final int x;
-    private final int y;
     private boolean isSticky = false;       // alapból legyen hamis, de am ez nem int a modellben??
     private boolean isGaseous = false;
 
@@ -26,6 +25,7 @@ public class RoomView implements RoomChangeListener {
     private BufferedImage floorImageWhenGaseousAndSticky;     // amikor ragadós és gázos a szoba   VAN ILYEN??
 
     public RoomView(Room r, int x, int y) {
+        z = 0;
         this.room = r;
         this.x = x;
         this.y = y;
@@ -68,7 +68,7 @@ public class RoomView implements RoomChangeListener {
         return flippedImage;
     }
 
-    public static final int SIZE = 200;
+    public static final int SIZE = 100;
 
     public void draw(Graphics2D g) {
         g.setColor(Color.BLACK);

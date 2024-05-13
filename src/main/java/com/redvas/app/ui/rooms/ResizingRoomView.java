@@ -2,6 +2,7 @@ package com.redvas.app.ui.rooms;
 
 import com.redvas.app.App;
 import com.redvas.app.map.rooms.ResizingRoom;
+import com.redvas.app.ui.View;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -10,7 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class ResizingRoomView implements RoomChangeListener {
+public class ResizingRoomView extends View implements RoomChangeListener {
     private static final Logger logger = App.getConsoleLogger(ResizingRoomView.class.getName());
 
     private final ResizingRoom rRoom;

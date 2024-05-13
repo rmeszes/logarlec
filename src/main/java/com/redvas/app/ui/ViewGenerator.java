@@ -19,29 +19,35 @@ import com.redvas.app.ui.rooms.EnchantedRoomView;
 import com.redvas.app.ui.rooms.ResizingRoomView;
 import com.redvas.app.ui.rooms.RoomView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ViewGenerator implements GeneratorListener {
-    public ViewGenerator(int width, int height, int players, GamePanel panel, Game game) {
+    private List<View> views = new ArrayList<>();
+    public List<View> getViews() { return views; }
+
+
+    public ViewGenerator(int width, int height, int players, Game game) {
         new Labyrinth(width, height, game, players, this);
-        panel.repaint();
     }
 
     @Override
     public void enchantedRoomCreated(EnchantedRoom er, int x, int y) {
-        new EnchantedRoomView(er, x, y);
+        views.add(new EnchantedRoomView(er, x, y));
     }
 
     @Override
     public void resizingRoomCreated(ResizingRoom rr, int x, int y){
-        new ResizingRoomView(rr, x, y);
+        views.add(new ResizingRoomView(rr, x, y));
     }
     @Override
     public void roomCreated(Room room, int x, int y) {
-        new RoomView(room, x, y);
+        views.add(new RoomView(room, x, y));
     }
 
     @Override
     public void doorCreated(Door door, int room1x, int room1y, int room2x, int room2y) {
-        new DoorView(door, room1x, room1y, room2x, room2y);
+        views.add(new DoorView(door, room1x, room1y, room2x, room2y));
     }
 
     @Override

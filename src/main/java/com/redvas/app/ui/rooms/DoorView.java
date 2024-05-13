@@ -80,18 +80,19 @@ public class DoorView extends View {
 
         return flippedImage;
     }
-
     public DoorView(Door door, int r1x, int r1y, int r2x, int r2y) {
+        z = 1;
+
         if (door.connectsTo(Direction.RIGHT) != null) {
             // remember x and y specify top left coordinates
-            orientation = Orientation.Horizontal;
+            orientation = Orientation.Vertical;
             x = (Math.min(r1x, r2x) + 1) * RoomView.SIZE;
-            y = r1y;
+            y = r1y * RoomView.SIZE;
         }
         else {
-            orientation = Orientation.Vertical;
+            orientation = Orientation.Horizontal;
             y = (Math.max(r1y, r2y)) * RoomView.SIZE;
-            x = r1x;
+            x = r1x * RoomView.SIZE;
         }
 
         this.door = door;

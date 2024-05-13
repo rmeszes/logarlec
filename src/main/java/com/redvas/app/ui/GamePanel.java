@@ -12,6 +12,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class GamePanel extends JPanel {
@@ -30,12 +31,27 @@ public class GamePanel extends JPanel {
 
     private Game game;
 
+    @Override
+    public Dimension getPreferredSize()
+    {
+        return new Dimension(width * RoomView.SIZE, height * RoomView.SIZE);
+    }
+
+    private int width, height;
     public GamePanel(int width, int height, int players) {
+        this.width = width;
+        this.height = height;
         JFrame window = new JFrame();
         window.add(this);
-        window.setSize(width * RoomView.SIZE,height * RoomView.SIZE);
+        // window.setSize(width * RoomView.SIZE,height * RoomView.SIZE);
+        window.setVisible(true); //Don't show window for tests
+        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        window.pack();
         game = new Game();
-        generator = new ViewGenerator(width, height, players, this, game);
+        generator = new ViewGenerator(width, height, players, game);
+        views = generator.getViews();
+        views.sort(Comparator.comparingInt(a -> a.z));
+        repaint();
     }
     private double uiScale = 1.0;
 
