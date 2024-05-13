@@ -87,35 +87,7 @@ public class Room implements Steppable {
         return room;
     }
 
-    public Element saveXML2(Document document) {
-        Element room = document.createElement("room");
-        room.setAttribute("capacity", String.valueOf(capacity));
-        room.setAttribute("type", this.getClass().getName());
-        room.setAttribute("id", String.valueOf(id));
-        room.setAttribute("stickiness", String.valueOf(stickiness));
-        Element occupantsXML = document.createElement("occupants");
-
-        for (Player p : this.occupants)
-            occupantsXML.appendChild(p.saveXML(document));
-
-        Element listenersXML = document.createElement("phantom_listeners");
-
-        for (ProximityListener pl : this.listeners) {
-            Element e;
-
-            if ((e = pl.savePhantomListenerXML(document)) != null)
-                listenersXML.appendChild(e);
-        }
-
-        Element itemsXML = document.createElement("items");
-
-        for (Item i : this.items)
-            itemsXML.appendChild(i.saveXML(document));
-
-        room.appendChild(itemsXML);
-        room.appendChild(occupantsXML);
-        return room;
-    }
+    
     private static final Logger logger = App.getConsoleLogger(Room.class.getName());
     protected final Labyrinth labyrinth;
     public void configureDoors(Door d) {
