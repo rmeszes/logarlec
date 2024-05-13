@@ -11,6 +11,7 @@ import com.redvas.app.players.Janitor;
 import com.redvas.app.players.Player;
 import com.redvas.app.players.Professor;
 import com.redvas.app.players.Undergraduate;
+import com.redvas.app.ui.GeneratorListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -380,6 +381,12 @@ public class Labyrinth implements Steppable {
                                 true
                         ));
 
+                        listener.doorCreated(
+                                everyDoor.get(everyDoor.size()  - 1),
+                                pts.get(at).x, pts.get(at).y,
+                                pts.get(at).x + xc[i], pts.get(at).y + yc[i]
+                        );
+
                         pts.add(new PT(pts.get(at).x + xc[i], pts.get(at).y + yc[i]));
                     }
                 }
@@ -415,12 +422,11 @@ public class Labyrinth implements Steppable {
             }
     }
 
-    private void enchant() {
-        for (int i = 0; i < width * height; i++)
-            if (random.nextGaussian() > 0.8) {
-                Room r = rooms.get(i).convertToEnchanted(random.nextInt(2, 6));
-                rooms.set(i, r);
-            }
+    private void enchant(Room[][] rooms) {
+        for (int y = 0; y < height; y++)
+            for (int x = 0; x < width; x++)
+                if (random.nextGaussian() > 0.8)
+                    rooms[y][x] = rooms[y][x].convertToEnchanted(random.nextInt(2, 6));
     }
 
 
@@ -444,6 +450,12 @@ public class Labyrinth implements Steppable {
                                 makeEdge,
                                 random.nextDouble(0, 1) > 0.88
                         ));
+
+                        listener.doorCreated(
+                                everyDoor.get(everyDoor.size()  - 1),
+                                x, y,
+                                x + xc[k], y + yc[k]
+                                );
                     }
             }
     }
@@ -451,12 +463,9 @@ public class Labyrinth implements Steppable {
     private void generate() {
         Room[][] roomsLocal = new Room[height][width];
 
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                Room room = new Room(this, i * width + j, random.nextInt(2, 6));
-                roomsLocal[i][j] = room;
-            }
-        }
+        for (int i = 0; i < height; i++)
+            for (int j = 0; j < width; j++)
+                roomsLocal[i][j] = new Room(this, i * width + j, random.nextInt(2, 6));
 
         Room[][] visits = new Room[height][width];
         Random r = random;
@@ -468,11 +477,13 @@ public class Labyrinth implements Steppable {
         cyclicize(roomsLocal, visits, map);
 
         resizify(roomsLocal);
+        enchant(roomsLocal);
 
-        for (int y = 0; y < height; y++)
-            rooms.addAll(Arrays.asList(roomsLocal[y]).subList(0, width));
-
-        enchant();
+        for (int i = 0; i < height; i++)
+            for (int j = 0; j < width; j++) {
+                listener.roomCreated(roomsLocal[i][j], j, i);
+                rooms.add(roomsLocal[i][j]);
+            }
     }
 
     protected static HashMap<Direction, Direction> reverseDirections = new HashMap<>();
@@ -496,9 +507,11 @@ public class Labyrinth implements Steppable {
 
     private final int height;
     private final int width;
+    private GeneratorListener listener;
 
-    public Labyrinth(int width, int height, Game game, int playerCount) {
+    public Labyrinth(int width, int height, Game game, int playerCount, GeneratorListener listener) {
         this(width, height, game);
+        this.listener = listener;
         generate();
         emplacePlayers(playerCount);
         emplaceItems();
@@ -573,78 +586,5 @@ public class Labyrinth implements Steppable {
     private Room getRandomRoom() {
         if (rooms.isEmpty()) throw new NoSuchElementException("Rooms not created yet!");
         return rooms.get(random.nextInt(0, rooms.size()));
-    }
-
-    public void draw(Graphics2D g) {
-        g.setColor(Color.BLACK);
-        int roomWidth = 100;
-        int roomHeight = 100;
-
-        //draw each room
-        for (int i = 0; i < rooms.size(); i++) {
-            Room room = rooms.get(i);
-
-            //position of the room
-            int x = (i % this.width) * roomWidth;
-            int y = (i / this.width) * roomHeight;
-
-            g.drawImage(floorImage, x, y, roomWidth, roomHeight, null);
-
-            //EZ ELVILEG NEM LEHET ILYEN
-            if (room instanceof EnchantedRoom) {
-                g.setColor(Color.BLUE);
-                g.fillRect(x, y, roomWidth, roomHeight);
-                g.setColor(Color.BLACK);
-            }
-
-            if (room instanceof ResizingRoom) {
-                g.setColor(Color.RED);
-                g.fillRect(x, y, roomWidth, roomHeight);
-                g.setColor(Color.BLACK);
-            }
-
-            //draw doors
-            float thickness = 3.0f; // Set the thickness you want
-            g.setStroke(new BasicStroke(thickness));
-
-            Set<Direction> accessibe = room.getAccessibleDirections();
-            for (Direction direction : accessibe) {
-                switch (direction) {
-                    case UP:
-                        g.drawLine(x + roomWidth / 2, y, x + roomWidth / 2, y + roomHeight / 2);
-                        break;
-                    case DOWN:
-                        g.drawLine(x + roomWidth / 2, y + roomHeight, x + roomWidth / 2, y + roomHeight / 2);
-                        break;
-                    case LEFT:
-                        g.drawLine(x, y + roomHeight / 2, x + roomWidth / 2, y + roomHeight / 2);
-                        break;
-                    case RIGHT:
-                        g.drawLine(x + roomWidth, y + roomHeight / 2, x + roomWidth / 2, y + roomHeight / 2);
-                        break;
-                }
-            }
-            // Draw each player
-            /*for (Steppable steppable : game.getSteppables()) {
-                if (steppable instanceof Player) {
-                    Player player = (Player) steppable;
-                    Room room2 = player.where();
-                    int index = rooms.indexOf(room2);
-
-                    // Position of the player
-                    int x2 = (index % this.width) * roomWidth;
-                    int y2 = (index / this.width) * roomHeight;
-
-                    if (player instanceof Professor) {
-                        g.drawImage(profImage, x2, y2, roomWidth, roomHeight, null);
-                    } else if (player instanceof Janitor) {
-                        g.drawImage(janitorImage, x2, y2, roomWidth, roomHeight, null);
-                    } else if (player instanceof Undergraduate) {
-
-                        g.drawImage(playerImage, x2, y2, roomWidth, roomHeight, null);
-                    }
-                }
-            }*/
-        }
     }
 }

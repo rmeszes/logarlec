@@ -1,7 +1,9 @@
 package com.redvas.app.ui;
 
+import com.redvas.app.Game;
 import com.redvas.app.items.*;
 import com.redvas.app.map.Door;
+import com.redvas.app.map.Labyrinth;
 import com.redvas.app.map.rooms.EnchantedRoom;
 import com.redvas.app.map.rooms.ResizingRoom;
 import com.redvas.app.map.rooms.Room;
@@ -18,7 +20,10 @@ import com.redvas.app.ui.rooms.ResizingRoomView;
 import com.redvas.app.ui.rooms.RoomView;
 
 public class ViewGenerator implements GeneratorListener {
-
+    public ViewGenerator(int width, int height, int players, GamePanel panel, Game game) {
+        new Labyrinth(width, height, game, players, this);
+        panel.repaint();
+    }
 
     @Override
     public void enchantedRoomCreated(EnchantedRoom er, int x, int y) {
@@ -35,8 +40,8 @@ public class ViewGenerator implements GeneratorListener {
     }
 
     @Override
-    public void doorCreated(Door door, int x, int y) {
-        new DoorView(door, x, y);
+    public void doorCreated(Door door, int room1x, int room1y, int room2x, int room2y) {
+        new DoorView(door, room1x, room1y, room2x, room2y);
     }
 
     @Override

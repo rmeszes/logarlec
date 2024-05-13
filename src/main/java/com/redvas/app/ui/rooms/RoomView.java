@@ -5,6 +5,7 @@ import com.redvas.app.map.rooms.Room;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -51,25 +52,41 @@ public class RoomView implements RoomChangeListener {
 
     }
 
+    public static BufferedImage flipY(BufferedImage image) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        BufferedImage flippedImage = new BufferedImage(width, height, image.getType());
+
+        Graphics2D g2d = flippedImage.createGraphics();
+        AffineTransform at = AffineTransform.getScaleInstance(1, -1);
+        at.translate(0, -height);
+        g2d.transform(at);
+        g2d.drawImage(image, 0, 0, null);
+        g2d.dispose();
+
+        return flippedImage;
+    }
+
+    public static final int SIZE = 200;
+
     public void draw(Graphics2D g) {
         g.setColor(Color.BLACK);
-        int roomWidth = 200;
-        int roomHeight = 200;
 
         if (!isGaseous && !isSticky) {      // alap
-            g.drawImage(floorImage, x, y, roomWidth, roomHeight, null);
+            g.drawImage(floorImage, x * SIZE, y * SIZE, SIZE, SIZE, null);
         }
 
         else if (!isGaseous) {  // csak ragad
-            g.drawImage(floorImageWhenSticky, x, y, roomWidth, roomHeight, null);
+            g.drawImage(floorImageWhenSticky, x * SIZE, y * SIZE, SIZE, SIZE, null);
         }
 
         else if (!isSticky) {  // csak gázos
-            g.drawImage(floorImageWhenGaseous, x, y, roomWidth, roomHeight, null);
+            g.drawImage(floorImageWhenGaseous, x * SIZE, y * SIZE, SIZE, SIZE, null);
         }
 
         else  {  // gázos és ragad
-            g.drawImage(floorImageWhenGaseousAndSticky, x, y, roomWidth, roomHeight, null);
+            g.drawImage(floorImageWhenGaseousAndSticky, x * SIZE, y * SIZE, SIZE, SIZE, null);
         }
     }
 }

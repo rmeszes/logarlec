@@ -13,7 +13,7 @@ public interface GeneratorListener {
     void enchantedRoomCreated(EnchantedRoom er, int x, int y);
     void resizingRoomCreated(ResizingRoom rr, int x, int y);
     void roomCreated(Room room, int x, int y);
-    void doorCreated(Door door, int x, int y);
+    void doorCreated(Door door, int r1x, int r1y, int r2x, int r2y);
     void professorCreated(Professor er, int x, int y);
     void undergraduateCreated(Undergraduate undergraduate, int x, int y);
     void janitorCreated(Janitor janitor, int x, int y);

@@ -59,70 +59,19 @@ public class Game extends JPanel{
     private transient Labyrinth labyrinth;
     private GamePanel gamePanel;
 
-    public Game() throws ParserConfigurationException, TransformerException {
-        logger.fine("How many players?");
-        int playerCount = App.reader.nextInt();
-        if(App.reader.hasNextLine()) App.reader.nextLine();
-
-        if(playerCount > 6) playerCount = 6;
-
-        logger.fine("Starting new game..");
-
-        labyrinth = new Labyrinth(random.nextInt(4,12), random.nextInt(4,5), this,playerCount);
-        createWindow();
-
-        play();
-    }
-
-    private Game(String arg) throws ParserConfigurationException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException, TransformerException {
-        logger.fine(() -> String.format("Loading game.. %s%n", arg));
-        load(arg);
-
-        createWindow();
-
-        play();
-    }
-
-    private Game(int arg) throws IOException, ParserConfigurationException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException, TransformerException {
-        logger.fine(() -> String.format("Loading preset: %d%n", arg));
-        load("./test_saves/" + arg + ".xml");
-
-        createWindow();
-
-        play();
-    }
-
-    private void createWindow() {
-        gamePanel = new GamePanel(labyrinth);
-        JFrame window = new JFrame();
-        window.add(gamePanel);
-        window.setSize(600,800);
-        if(Boolean.FALSE.equals(App.isTest())) window.setVisible(true); //Don't show window for tests
-        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    }
 
     /**
      * method for when the game is started from scratch
      */
-    public static Game startNewGame() throws ParserConfigurationException, TransformerException {
-        return new Game();
-    }
 
     /**
      * method for when the game has to load a previous save
      */
-    public static Game loadGame(String arg) throws ParserConfigurationException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException, TransformerException {
-        return new Game(arg);
-    }
 
     /**
      * method for when the game has to load a preset
      */
-    public static Game loadPreset(int arg) throws IOException, ParserConfigurationException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException, TransformerException {
-        return new Game(arg);
-    }
 
-    public Set<Steppable> getSteppablesForRound() { return steppablesForRound; }
 
     public void registerSteppable(Steppable steppable) {
         steppablesForRound.add(steppable);
@@ -139,7 +88,7 @@ public class Game extends JPanel{
     public void playRound() {
         logger.fine("New round");
 
-        for (Steppable s : getSteppablesForRound()) {
+        for (Steppable s : steppablesForRound) {
             s.step();
 
             if (end) return;
@@ -170,14 +119,6 @@ public class Game extends JPanel{
 
     public void unRegisterSteppable(Steppable s) {
         steppablesForRound.remove(s);
-    }
-
-    public Labyrinth getLabyrinth() {
-        return labyrinth;
-    }
-
-    public void setLabyrinth(Labyrinth labyrinth) {
-        this.labyrinth = labyrinth;
     }
 
     public GamePanel getGamePanel() {
