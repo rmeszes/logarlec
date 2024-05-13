@@ -34,6 +34,5 @@ public class AirFreshenerView implements ItemChangeListener{
 
     @Override
     public void positionChanged(boolean isInRoom) {
-
     }
 }

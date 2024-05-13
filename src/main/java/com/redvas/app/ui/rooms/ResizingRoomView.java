@@ -2,7 +2,6 @@ package com.redvas.app.ui.rooms;
 
 import com.redvas.app.App;
 import com.redvas.app.map.rooms.ResizingRoom;
-import com.redvas.app.map.rooms.Room;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

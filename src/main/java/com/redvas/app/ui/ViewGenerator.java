@@ -8,10 +8,14 @@ import com.redvas.app.map.rooms.Room;
 import com.redvas.app.players.Janitor;
 import com.redvas.app.players.Professor;
 import com.redvas.app.players.Undergraduate;
-import com.redvas.app.ui.rooms.ResizingRoomView;
-import com.redvas.app.ui.rooms.*;
-import com.redvas.app.ui.players.*;
 import com.redvas.app.ui.items.*;
+import com.redvas.app.ui.players.JanitorView;
+import com.redvas.app.ui.players.ProfessorView;
+import com.redvas.app.ui.players.UndergraduateView;
+import com.redvas.app.ui.rooms.DoorView;
+import com.redvas.app.ui.rooms.EnchantedRoomView;
+import com.redvas.app.ui.rooms.ResizingRoomView;
+import com.redvas.app.ui.rooms.RoomView;
 
 public class ViewGenerator implements GeneratorListener {
 

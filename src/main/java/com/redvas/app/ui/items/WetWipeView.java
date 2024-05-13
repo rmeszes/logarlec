@@ -2,8 +2,6 @@ package com.redvas.app.ui.items;
 
 import com.redvas.app.App;
 import com.redvas.app.items.WetWipe;
-import com.redvas.app.map.rooms.Room;
-import com.redvas.app.ui.rooms.RoomView;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
