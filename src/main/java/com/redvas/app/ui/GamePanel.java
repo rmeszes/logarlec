@@ -1,9 +1,6 @@
 package com.redvas.app.ui;
 
-import com.redvas.app.map.Labyrinth;
-import javax.swing.JPanel;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import javax.swing.*;
 public class GamePanel extends JPanel {
     /*private transient Labyrinth labyrinth;
 
