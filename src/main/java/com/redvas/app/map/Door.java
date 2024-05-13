@@ -13,7 +13,10 @@ public class Door {
     private final Room[] roomMap = new Room[2];
     private final boolean[] passableMap = new boolean[2];
 
-    public Room connectsTo(Direction d) { return roomMap[d.getValue() & 1]; }
+    public Room connectsTo(Direction d) {
+        if (d.getValue() != evenIndex && d.getValue() !=evenIndex + 1) return null;
+        return roomMap[d.getValue() & 1];
+    }
 
     public void setConnection(Direction in, Room to) {
         if (in.getValue() != evenIndex && in.getValue() != evenIndex + 1)

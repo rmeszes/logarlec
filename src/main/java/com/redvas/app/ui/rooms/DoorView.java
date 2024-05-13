@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import javax.swing.text.Utilities;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +35,7 @@ public class DoorView extends View {
             horizontalSymDoorImage;
 
     private static BufferedImage rotate90(BufferedImage image) {
-        int width = image.getWidth();
+        /*int width = image.getWidth();
         int height = image.getHeight();
 
         BufferedImage rotatedImage = new BufferedImage(height, width, image.getType());
@@ -46,6 +47,19 @@ public class DoorView extends View {
         g2d.drawImage(image, at, null);
         g2d.dispose();
 
+        return rotatedImage;*/
+        final double rads = Math.toRadians(90);
+        final double sin = Math.abs(Math.sin(rads));
+        final double cos = Math.abs(Math.cos(rads));
+        final int w = (int) Math.floor(image.getWidth() * cos + image.getHeight() * sin);
+        final int h = (int) Math.floor(image.getHeight() * cos + image.getWidth() * sin);
+        final BufferedImage rotatedImage = new BufferedImage(w, h, image.getType());
+        final AffineTransform at = new AffineTransform();
+        at.translate(w / 2, h / 2);
+        at.rotate(rads,0, 0);
+        at.translate(-image.getWidth() / 2, -image.getHeight() / 2);
+        final AffineTransformOp rotateOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+        rotateOp.filter(image,rotatedImage);
         return rotatedImage;
     }
 
@@ -159,18 +173,18 @@ public class DoorView extends View {
                         UITool.fitHeight2AspectRatio(horizontalSymDoorImage, RoomView.SIZE),
                         null
                 );
-            else if (door.isPassable(Direction.RIGHT))
-                g.drawImage(rightDoorImage,
+            else if (door.isPassable(Direction.UP))
+                g.drawImage(topDoorImage,
                         x,y,
                         RoomView.SIZE,
-                        UITool.fitWidth2AspectRatio(rightDoorImage, RoomView.SIZE),
+                        UITool.fitWidth2AspectRatio(topDoorImage, RoomView.SIZE),
                         null
                 );
             else
-                g.drawImage(leftDoorImage,
+                g.drawImage(bottomDoorImage,
                         x,y,
                         RoomView.SIZE,
-                        UITool.fitWidth2AspectRatio(leftDoorImage, RoomView.SIZE),
+                        UITool.fitWidth2AspectRatio(bottomDoorImage, RoomView.SIZE),
                         null
                 );
         }
