@@ -44,6 +44,7 @@ public class Labyrinth implements Steppable {
 
     public static Labyrinth loadXML(Element labyrinth, Game g) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         NodeList rooms = labyrinth.getElementsByTagName("room");
+
         Labyrinth l = new Labyrinth(
                 Integer.parseInt(labyrinth.getAttribute("width")),
                 Integer.parseInt(labyrinth.getAttribute("height")),
@@ -181,103 +182,6 @@ public class Labyrinth implements Steppable {
         return l;
     }
 
-
-    public static Labyrinth loadXML2(Element labyrinth, Game g) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        NodeList rooms = labyrinth.getElementsByTagName("room");
-        Labyrinth l = new Labyrinth(
-                Integer.parseInt(labyrinth.getAttribute("width")),
-                Integer.parseInt(labyrinth.getAttribute("height")),
-                g
-        );
-
-        Constructor<?> ctor;
-        HashMap<Item, Element> items = new HashMap<>();
-        HashMap<Integer, Room> id2room = new HashMap<>();
-        HashMap<Integer, Item> id2item = new HashMap<>();
-
-        for (int i = 0; i < rooms.getLength(); i++) {
-            Element room = (Element) rooms.item(i);
-            ctor = Class.forName(room.getAttribute("type")).getDeclaredConstructor(Labyrinth.class, Integer.class, Integer.class);
-            ctor.setAccessible(true);
-            Room r = (Room) ctor.newInstance(l, Integer.parseInt(room.getAttribute("id")), Integer.parseInt(room.getAttribute("capacity")));
-            r.loadXML(room);
-            l.rooms.add(r);
-            id2room.put(r.getID(), r);
-
-            NodeList subs = rooms.item(i).getChildNodes();
-
-            for (int m = 0; m < subs.getLength(); m++) {
-                if (subs.item(m).getNodeType() != Node.ELEMENT_NODE) continue;
-                Element sub = (Element) subs.item(m);
-
-                if (sub.getTagName().equals("items")) {
-                    NodeList roomItems = sub.getElementsByTagName("item");
-
-                    for (int k = 0; k < roomItems.getLength(); k++) {
-                        Element roomItem = (Element) roomItems.item(k);
-                        int roomItemID = Integer.parseInt(roomItem.getAttribute("id"));
-                        ctor = Class.forName(roomItem.getAttribute("type")).getDeclaredConstructor(Integer.class, Room.class);
-                        ctor.setAccessible(true);
-                        Item it = (Item) ctor.newInstance(roomItemID, r);
-                        items.put(it, roomItem);
-                        id2item.put(it.getID(), it);
-                    }
-                } else if (sub.getTagName().equals("occupants")) {
-                    NodeList occupants = ((Element) rooms.item(i)).getElementsByTagName("player");
-
-                    for (int j = 0; j < occupants.getLength(); j++) {
-                        Element occupant = (Element) occupants.item(j);
-
-                        ctor = Class.forName(occupant.getAttribute("type")).getDeclaredConstructor(Integer.class, Room.class, Game.class);
-                        Player p = (Player) ctor.newInstance(Integer.parseInt(occupant.getAttribute("id")),
-                                l.rooms.get(Integer.parseInt(occupant.getAttribute("where"))),
-                                g);
-                        p.loadXML(occupant);
-
-                        NodeList playerItems = occupant.getElementsByTagName("item");
-
-                        for (int k = 0; k < playerItems.getLength(); k++) {
-                            Element playerItem = (Element) playerItems.item(k);
-                            int playerItemID = Integer.parseInt(playerItem.getAttribute("id"));
-                            ctor = Class.forName(playerItem.getAttribute("type")).getDeclaredConstructor(Integer.class, Player.class);
-                            ctor.setAccessible(true);
-                            Item it = (Item) ctor.newInstance(playerItemID, p);
-                            items.put(it, playerItem);
-                            id2item.put(it.getID(), it);
-                        }
-                    }
-                }
-            }
-
-            NodeList phantomListeners = room.getElementsByTagName("phantom_listener");
-
-            for (int m = 0; m < phantomListeners.getLength(); m++) {
-                Element phantomListener = (Element) phantomListeners.item(m);
-                ctor = Class.forName(phantomListener.getAttribute("type")).getDeclaredConstructor(Integer.class, Room.class, Boolean.class);
-                ctor.setAccessible(true);
-                ctor.newInstance(Integer.parseInt(phantomListener.getAttribute("id")), r, true);
-            }
-        }
-
-        NodeList doors = labyrinth.getElementsByTagName("door");
-
-        for (int i = 0; i < doors.getLength(); i++) {
-            Element door = (Element)doors.item(i);
-
-            l.everyDoor.add(new Door(id2room.get(
-                            Integer.parseInt(door.getAttribute("origin_room"))),
-                            id2room.get(Integer.parseInt(door.getAttribute("target_room"))),
-                            Direction.valueOf(door.getAttribute("target_direction")),
-                            Boolean.parseBoolean(door.getAttribute("target_passable")),
-                            Boolean.parseBoolean(door.getAttribute("origin_passable"))));
-        }
-
-        for (Map.Entry<Item, Element> e : items.entrySet())
-            e.getKey().loadXML(e.getValue(), id2item);
-
-        return l;
-    }
-
     public Labyrinth(int width, int height, Game game) {
         if (height < 1) height = 1;
         if (width < 1) width = 1;
@@ -305,27 +209,6 @@ public class Labyrinth implements Steppable {
             roomsXML.appendChild(r.saveXML(document));
 
         labyrinth.appendChild(roomsXML);
-
-        return labyrinth;
-    }
-
-    public Element saveXML2(Document document) {
-        Element labyrinth = document.createElement("labyrinth");
-        labyrinth.setAttribute("width", String.valueOf(width));
-        labyrinth.setAttribute("height", String.valueOf(height));
-        Element roomsXML = document.createElement("rooms");
-
-        for (Room r : this.rooms)
-            roomsXML.appendChild(r.saveXML2(document));
-
-        labyrinth.appendChild(roomsXML);
-
-        Element doorsXML = document.createElement("doors");
-
-        for (Door d : everyDoor)
-            doorsXML.appendChild(d.saveXML(document));
-
-        labyrinth.appendChild(doorsXML);
 
         return labyrinth;
     }
