@@ -1,7 +1,5 @@
 package com.redvas.app.map;
 
-import java.util.HashMap;
-
 public enum Direction {
     UP(0),
     DOWN(1),

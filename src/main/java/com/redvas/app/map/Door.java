@@ -5,6 +5,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Door {
     // the direction, and the reverse directions are even and odd valued. The even value is preserved only
@@ -27,9 +28,9 @@ public class Door {
         this.isVanished = isVanished;
     }
 
-    private HashMap<Direction, Door> selection;
+    private Map<Direction, Door> selection;
 
-    public void acceptDoors(HashMap<Direction, Door> doors) {
+    public void acceptDoors(Map<Direction, Door> doors) {
         selection = doors;
     }
 

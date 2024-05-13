@@ -134,7 +134,7 @@ public class Labyrinth implements Steppable {
                 data d = new data();
                 Room from = id2room.get(Integer.parseInt(room.getAttribute("id")));
                 if (from.getID() == 2)
-                    System.out.println();
+                    logger.fine("");
                 Room to = id2room.get(Integer.parseInt(door.getAttribute("connects_to")));
                 d.passable = Boolean.parseBoolean(door.getAttribute("is_passable"));
                 d.vanished = Boolean.parseBoolean(door.getAttribute("is_vanished"));
@@ -147,7 +147,7 @@ public class Labyrinth implements Steppable {
                     data other;
 
                     if (from.getID() == 2)
-                        System.out.println();
+                        logger.fine("");
 
                     if ((other = sub.getOrDefault(from, null)) != null) {
                         l.everyDoor.add(new Door(from, to, d.direction, d.passable, other.passable));
@@ -158,7 +158,7 @@ public class Labyrinth implements Steppable {
                 } else makeEdge = true;
                 if (makeEdge) {
                     if (from.getID() == 2)
-                        System.out.println();
+                        logger.fine("");
 
                     if ((sub = origins.getOrDefault(from, null)) == null)
                         origins.put(from, sub = new HashMap<>());
@@ -195,7 +195,7 @@ public class Labyrinth implements Steppable {
             janitorImage = ImageIO.read(new File("src/main/resources/janitor.png"));
             profImage = ImageIO.read(new File("src/main/resources/prof.png"));
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.severe(e.getMessage());
         }
     }
 
@@ -408,12 +408,10 @@ public class Labyrinth implements Steppable {
                 mkstat3(stat, 2, x, y);
 
                 for (int i = 0; i < 2; i++)
-                    if (stat[i])
-                        if (Math.random() > 0.85)
-                            if (resizeablePair(resizingMap, x, y, x + xc[i], y + yc[i])) {
-                                rooms[y][x] = rooms[y][x].convertToResizing(directions[i], random.nextInt(2, 6));
-                                resizingMap[y][x] = resizingMap[y + yc[i]][x + xc[i]] = true;
-                            }
+                    if (Boolean.TRUE.equals(stat[i]) && Math.random() > 0.85 && resizeablePair(resizingMap, x, y, x + xc[i], y + yc[i])) {
+                        rooms[y][x] = rooms[y][x].convertToResizing(directions[i], random.nextInt(2, 6));
+                        resizingMap[y][x] = resizingMap[y + yc[i]][x + xc[i]] = true;
+                    }
             }
     }
 
