@@ -4,7 +4,6 @@ import com.redvas.app.App;
 import com.redvas.app.items.FFP2;
 
 import javax.imageio.ImageIO;
-import javax.swing.text.View;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;

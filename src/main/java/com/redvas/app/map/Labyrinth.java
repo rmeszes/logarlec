@@ -11,22 +11,20 @@ import com.redvas.app.players.Janitor;
 import com.redvas.app.players.Player;
 import com.redvas.app.players.Professor;
 import com.redvas.app.players.Undergraduate;
-import jdk.jshell.spi.ExecutionControl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import javax.imageio.ImageIO;
-import javax.naming.OperationNotSupportedException;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class Labyrinth implements Steppable {

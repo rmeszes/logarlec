@@ -1,7 +1,6 @@
 package com.redvas.app.ui.items;
 
 import com.redvas.app.App;
-import com.redvas.app.items.AirFreshener;
 import com.redvas.app.items.Transistor;
 
 import javax.imageio.ImageIO;

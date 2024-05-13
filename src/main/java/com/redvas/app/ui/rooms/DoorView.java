@@ -2,7 +2,6 @@ package com.redvas.app.ui.rooms;
 
 import com.redvas.app.App;
 import com.redvas.app.map.Door;
-import com.redvas.app.map.rooms.EnchantedRoom;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
