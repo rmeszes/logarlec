@@ -515,8 +515,11 @@ public class Labyrinth implements Steppable {
     }
 
     public Labyrinth(int width, int height, Game game, int playerCount, GeneratorListener listener) {
-        this(width, height, playerCount, game);
+        this(width, height, game);
         this.listener = listener;
+        generate();
+        // emplacePlayers(playerCount);
+        emplaceItems();
     }
 
     /**

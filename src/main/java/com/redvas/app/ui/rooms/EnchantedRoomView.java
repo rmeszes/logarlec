@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class EnchantedRoomView extends View implements RoomChangeListener {
+public class EnchantedRoomView implements RoomChangeListener, View {
     private static final Logger logger = App.getConsoleLogger(EnchantedRoomView.class.getName());
 
     private final EnchantedRoom eRoom;
@@ -22,7 +22,7 @@ public class EnchantedRoomView extends View implements RoomChangeListener {
     BufferedImage eFloorImageWhenGaseous;
     BufferedImage eFloorImageWhenSticky;
     BufferedImage eFloorImageWhenGaseousAndSticky;
-
+private int x, y;
     public EnchantedRoomView(EnchantedRoom er, int x, int y) {
         this.eRoom = er;
         this.x = x;
@@ -67,5 +67,10 @@ public class EnchantedRoomView extends View implements RoomChangeListener {
         else  {  // gázos és ragad
             g.drawImage(eFloorImageWhenGaseousAndSticky, x, y, roomWidth, roomHeight, null);
         }
+    }
+
+    @Override
+    public void draw() {
+
     }
 }

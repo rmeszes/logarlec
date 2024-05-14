@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class ResizingRoomView extends View implements RoomChangeListener {
+public class ResizingRoomView implements RoomChangeListener, View {
     private static final Logger logger = App.getConsoleLogger(ResizingRoomView.class.getName());
 
     private final ResizingRoom rRoom;
@@ -72,6 +72,11 @@ public class ResizingRoomView extends View implements RoomChangeListener {
             g.drawImage(rFloorImageWhenGaseousAndSticky, x, y, roomWidth, roomHeight, null);
         }
 
+
+    }
+
+    @Override
+    public void draw() {
 
     }
 }

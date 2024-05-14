@@ -5,8 +5,10 @@ import com.redvas.app.map.rooms.Room;
 import com.redvas.app.players.Player;
 import com.redvas.app.ui.PlayersView;
 import com.redvas.app.ui.View;
+import com.redvas.app.ui.players.PlayerView;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
@@ -16,9 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class RoomView extends View implements RoomChangeListener {
+public class RoomView extends JPanel implements RoomChangeListener, View {
     private static final Logger logger = App.getConsoleLogger(RoomView.class.getName());
-
+    private int x , y;
     private final Room room;
     private boolean isSticky = false;       // alapból legyen hamis, de am ez nem int a modellben??
     private boolean isGaseous = false;
@@ -28,11 +30,9 @@ public class RoomView extends View implements RoomChangeListener {
     private BufferedImage floorImageWhenSticky;     // amikor ragadós a szoba
     private BufferedImage floorImageWhenGaseousAndSticky;     // amikor ragadós és gázos a szoba   VAN ILYEN??
 
-    public RoomView(Room r, int x, int y) {
-        z = 0;
+    public RoomView(Room r) {
         this.room = r;
-        this.x = x;
-        this.y = y;
+
         try {
             floorImage = ImageIO.read(new File("src/main/resources/floor.png"));
             floorImageWhenGaseous = ImageIO.read(new File("src/main/resources/floor.png"));
@@ -74,25 +74,32 @@ public class RoomView extends View implements RoomChangeListener {
 
     public static final int SIZE = 100;
 
+    private List<PlayerView> playerViews = new ArrayList<>();
 
+    public void draw() {
+        repaint();
+    }
 
-    public void draw(Graphics2D g) {
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
         g.setColor(Color.BLACK);
 
         if (!isGaseous && !isSticky) {      // alap
-            g.drawImage(floorImage, x * SIZE, y * SIZE, SIZE, SIZE, null);
+            g.drawImage(floorImage, 0, 0, SIZE, SIZE, null);
         }
 
         else if (!isGaseous) {  // csak ragad
-            g.drawImage(floorImageWhenSticky, x * SIZE, y * SIZE, SIZE, SIZE, null);
+            g.drawImage(floorImageWhenSticky, 0, 0, SIZE, SIZE, null);
         }
 
         else if (!isSticky) {  // csak gázos
-            g.drawImage(floorImageWhenGaseous, x * SIZE, y * SIZE, SIZE, SIZE, null);
+            g.drawImage(floorImageWhenGaseous, 0, 0, SIZE, SIZE, null);
         }
 
         else  {  // gázos és ragad
-            g.drawImage(floorImageWhenGaseousAndSticky, x * SIZE, y * SIZE, SIZE, SIZE, null);
+            g.drawImage(floorImageWhenGaseousAndSticky, 0, 0, SIZE, SIZE, null);
         }
     }
 }

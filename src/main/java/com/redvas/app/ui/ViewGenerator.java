@@ -2,6 +2,7 @@ package com.redvas.app.ui;
 
 import com.redvas.app.Game;
 import com.redvas.app.items.*;
+import com.redvas.app.map.Direction;
 import com.redvas.app.map.Door;
 import com.redvas.app.map.Labyrinth;
 import com.redvas.app.map.rooms.EnchantedRoom;
@@ -14,42 +15,48 @@ import com.redvas.app.ui.items.*;
 import com.redvas.app.ui.players.JanitorView;
 import com.redvas.app.ui.players.ProfessorView;
 import com.redvas.app.ui.players.UndergraduateView;
-import com.redvas.app.ui.rooms.DoorView;
-import com.redvas.app.ui.rooms.EnchantedRoomView;
-import com.redvas.app.ui.rooms.ResizingRoomView;
-import com.redvas.app.ui.rooms.RoomView;
+import com.redvas.app.ui.rooms.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ViewGenerator implements GeneratorListener {
-    private List<View> views = new ArrayList<>();
+    private RoomView[][] rooms;
     public List<View> getViews() { return views; }
 
     private Game game;
     public Game getGame() { return game; }
 
-    public ViewGenerator(int width, int height, int players) {
+    private GamePanel gp;
+
+    public ViewGenerator(int width, int height, int players, GamePanel gp) {
+        this.gp = gp;
+        gp.setLayout(null);
+        rooms = new RoomView[height][width];
         game = new Game(width, height, players, this);
     }
 
     @Override
     public void enchantedRoomCreated(EnchantedRoom er, int x, int y) {
-        views.add(new EnchantedRoomView(er, x, y));
     }
 
     @Override
     public void resizingRoomCreated(ResizingRoom rr, int x, int y){
-        views.add(new ResizingRoomView(rr, x, y));
     }
     @Override
     public void roomCreated(Room room, int x, int y) {
-        views.add(new RoomView(room, x, y));
+        rooms[y][x] = new RoomView(room);
     }
 
     @Override
     public void doorCreated(Door door, int room1x, int room1y, int room2x, int room2y) {
-        views.add(new DoorView(door, room1x, room1y, room2x, room2y));
+        Orientation orientation;
+
+        if (door.connectsTo(Direction.RIGHT) != null) {
+            orientation = Orientation.Horizontal;
+        }
+
+        DoorView dv = new DoorView(door, );
     }
 
     @Override

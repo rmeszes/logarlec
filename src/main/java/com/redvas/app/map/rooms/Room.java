@@ -170,6 +170,7 @@ public class Room implements Steppable {
         reverseDirections.put(Direction.RIGHT, Direction.LEFT);
     }
 
+    public List<Player> getOccupants() { return occupants; }
     protected List<Player> occupants = new ArrayList<>();
     protected HashMap<Direction, Door> doors = new HashMap<>(8);
 
