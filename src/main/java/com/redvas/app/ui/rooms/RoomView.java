@@ -3,6 +3,7 @@ package com.redvas.app.ui.rooms;
 import com.redvas.app.App;
 import com.redvas.app.map.rooms.Room;
 import com.redvas.app.players.Player;
+import com.redvas.app.ui.GamePanel;
 import com.redvas.app.ui.PlayersView;
 import com.redvas.app.ui.View;
 import com.redvas.app.ui.players.PlayerView;
@@ -29,7 +30,6 @@ public class RoomView extends JPanel implements RoomChangeListener, View {
     private BufferedImage floorImageWhenGaseous;    // amikor gázossá válik
     private BufferedImage floorImageWhenSticky;     // amikor ragadós a szoba
     private BufferedImage floorImageWhenGaseousAndSticky;     // amikor ragadós és gázos a szoba   VAN ILYEN??
-
     public RoomView(Room r) {
         this.room = r;
 
@@ -72,7 +72,7 @@ public class RoomView extends JPanel implements RoomChangeListener, View {
         return flippedImage;
     }
 
-    public static final int SIZE = 100;
+    public static final int SIZE = (int)(100 * GamePanel.getMagnification());
 
     private List<PlayerView> playerViews = new ArrayList<>();
 

@@ -54,7 +54,6 @@ public class GamePanel extends JPanel {
     private final int width;
     private final int height;
     public GamePanel(int width, int height, int players) {
-        setLayout(null);
         this.width = width;
         this.height = height;
         JFrame window = new JFrame();
@@ -66,9 +65,9 @@ public class GamePanel extends JPanel {
 
         repaint();
     }
-    private double uiScale = 1.0;
+    public static final double uiScale = 1.5;
 
-    public double getMagnification() { return uiScale; }
+    public static double getMagnification() { return uiScale; }
 
 
 }

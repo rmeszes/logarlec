@@ -29,8 +29,6 @@ public class App
         if (test)
             new Prototype();
         else new GamePanel(6, 4, 2);
-
-        //probably graphic will be here
     }
 
     public static boolean isTest() {

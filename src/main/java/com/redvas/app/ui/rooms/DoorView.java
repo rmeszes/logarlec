@@ -136,7 +136,7 @@ public class DoorView extends JPanel {
                 width = UITool.fitWidth2AspectRatio(leftDoorImage, RoomView.SIZE);
                 height = RoomView.SIZE;
                 x -= width;
-                x -= VDOOR_WIDTH / 2;
+                x += VDOOR_WIDTH / 2;
             }
 
         }
@@ -159,7 +159,7 @@ public class DoorView extends JPanel {
                 height = UITool.fitHeight2AspectRatio(topDoorImage, RoomView.SIZE);
                 width = RoomView.SIZE;
                 y -= height;
-                y -= VDOOR_WIDTH / 2;
+                y += VDOOR_WIDTH / 2;
             }
             else {
                 myImage = bottomDoorImage;
