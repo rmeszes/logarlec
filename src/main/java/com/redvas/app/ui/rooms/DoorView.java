@@ -154,7 +154,7 @@ public class DoorView extends JPanel implements DoorChangeListener {
                 myImage = horizontalSymDoorImage;
                 height = UITool.fitHeight2AspectRatio(horizontalSymDoorImage, RoomView.SIZE);
                 width = RoomView.SIZE;
-                y -= height / 2;
+                y -= height / 2 - 1;
             }
 
             else if (door.isPassable(Direction.UP)) {
