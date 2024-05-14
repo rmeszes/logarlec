@@ -124,4 +124,43 @@ public class Game extends JPanel{
     public GamePanel getGamePanel() {
         return gamePanel;
     }
+
+    private void menu() throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        boolean badInput;
+
+        logger.fine("""
+                
+                Type 'start' to start a new game,
+                'load #' to load a preset gamestate,
+                'load save' to load a saved game  or
+                'quit' to exit the game
+                """);
+
+        do {
+            String input = stdin.nextLine();
+            String[] inputSplit = input.split(" "); //need this so I can make the switch statement
+
+            badInput = false;
+            switch(inputSplit[0]) {
+                case "start" -> commandStart();     // meghívja a game ctor-ját menü nélkül
+                case "load" -> commandLoad(inputSplit[1]);
+                case "quit" -> commandQuit();
+                default -> {
+                    badInput = true;
+                    logger.warning("\nUnknown command");
+                }
+            }
+        } while(badInput);
+    }
+
+
+
+    private void commandLoad(String arg) throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException{
+        try {
+            int i = Integer.parseInt(arg);
+            game = Game.loadPreset(i);
+        } catch (NumberFormatException ignored) {
+            game = Game.loadGame(arg);
+        }
+    }
 }
