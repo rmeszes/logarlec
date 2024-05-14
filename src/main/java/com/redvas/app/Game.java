@@ -130,8 +130,9 @@ public class Game extends JPanel{
         play();
     }
 
-    private void loadPreset() {
-        load();
+    private void loadPreset(int arg) throws IOException, ParserConfigurationException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException, TransformerException {
+        load("./test_saves/" + arg + ".xml");
+        play();
     }
 
     private void menu() throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
@@ -187,10 +188,9 @@ public class Game extends JPanel{
     private void commandLoad(String arg) throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException{
         try {
             int i = Integer.parseInt(arg);
-
-            game = Game.loadPreset(i);
+            loadPreset(i);
         } catch (NumberFormatException ignored) {
-            game = Game.loadGame(arg);
+            // ?
         }
     }
 }
