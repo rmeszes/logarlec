@@ -46,8 +46,6 @@ public class RoomView extends JPanel implements RoomChangeListener, View {
     @Override
     public void roomStickinessChange(boolean isSticky) {    // Amikor a modellben változik, akkor ezt kell hívni és ez updateli a view-t
         this.isSticky = isSticky;
-
-        // redraw majd itt ?    De ugye nem komponens, a tartalmazó cucc repaintj-je??
     }
 
     @Override

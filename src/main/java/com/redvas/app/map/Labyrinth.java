@@ -472,7 +472,7 @@ public class Labyrinth implements Steppable {
             for (int x = 0; x < width; x++) {
                 rooms.add(roomsLocal[y][x]);
                 if (listener != null)
-                listener.roomCreated(roomsLocal[y][x], x,y);
+                    listener.roomCreated(roomsLocal[y][x], x,y);
             }
     }
 
