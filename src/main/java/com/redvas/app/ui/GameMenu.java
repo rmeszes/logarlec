@@ -16,15 +16,25 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 public class GameMenu extends JFrame {
+    private static GameMenu gameMenu = null;
     public Prototype prototype;
 
-    public GameMenu(Prototype _prototype) {
-        prototype = _prototype;
+    public static void createGameMenu(Prototype prototype) {
+        gameMenu = new GameMenu(prototype);
+    }
+
+    public static GameMenu getGameMenu() {
+        if(gameMenu == null) { throw new GameMenuNotCreatedException();}
+        return gameMenu;
+    }
+
+    private GameMenu(Prototype prototype) {
+        this.prototype = prototype;
 
         // Set up the main frame
         setTitle("Game Menu");
         setSize(300, 200);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         // Create components
         JButton startGameButton = new JButton("Start new game");
@@ -33,47 +43,25 @@ public class GameMenu extends JFrame {
         JButton exitButton = new JButton("Exit");
 
         // Add action listeners
-        startGameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    startNewGame();
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
+        startGameButton.addActionListener(e -> {
+            try {
+                startNewGame();
+            } catch (Exception ex) {
+                System.exit(1);
             }
         });
 
         loadPresetGamestateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                //TODO loadtestsave
             }
         });
 
         loadSavedGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //showPlayerList();
-            }
-        });
-
-
-        exitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                System.exit(0);
-            }
-        });
-
-
-        // Kilépések kezelésére
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-
-                System.exit(0);
+                //TODO loadsavedgame
             }
         });
 

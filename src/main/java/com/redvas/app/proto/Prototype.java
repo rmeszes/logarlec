@@ -24,9 +24,7 @@ public class Prototype {
         logger.fine("\nApp started successfully.");
 
         if(_isGraphicsMenu) {       // Ha grafikus menüvel indítjuk
-            SwingUtilities.invokeLater(() -> {
-                GameMenu gameMenu = new GameMenu(this);
-            });
+            GameMenu.createGameMenu(this);
         }
         else {      // Ha a commandLine-ból szeretnénk vezérelni
             menu();

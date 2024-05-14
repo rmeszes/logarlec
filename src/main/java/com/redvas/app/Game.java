@@ -1,6 +1,7 @@
 package com.redvas.app;
 
 import com.redvas.app.map.Labyrinth;
+import com.redvas.app.ui.GameMenu;
 import com.redvas.app.ui.GamePanel;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -85,6 +86,7 @@ public class Game extends JPanel{
 
             if (result == JOptionPane.OK_OPTION) {
                 playerCount = (int) playerCountComboBox.getSelectedItem(); // Get the selected item from the combo box
+                GameMenu.getGameMenu().setVisible(false);
             } else {
                 // User canceled, handle it as needed
                 return;

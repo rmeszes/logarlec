@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 public class App
 {
     private static boolean test;
-    private static boolean isGraphicsMenu;
 
     public static final Scanner reader = new Scanner(System.in);
 
@@ -26,16 +25,7 @@ public class App
             test = true;
         }
 
-        if(args.length > 0 && args[0].equals("graphics")) {     // grafikus, NEM tesztelésre
-            isGraphicsMenu = true;
-        }
-        else {      // Ha nem grafikus menü
-            isGraphicsMenu = false;
-        }
-
-        new Prototype(isGraphicsMenu);
-
-        //probably graphic will be here
+        new Prototype(!test);
     }
 
     public static boolean isTest() {
