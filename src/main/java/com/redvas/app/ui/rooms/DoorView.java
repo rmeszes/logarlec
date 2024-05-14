@@ -63,7 +63,7 @@ public class DoorView extends View {
         return rotatedImage;
     }
 
-    private static BufferedImage flipY(BufferedImage image) {
+    private static BufferedImage flipX(BufferedImage image) {
         int width = image.getWidth();
         int height = image.getHeight();
 
@@ -79,7 +79,7 @@ public class DoorView extends View {
         return flippedImage;
     }
 
-    private static BufferedImage flipX(BufferedImage image) {
+    private static BufferedImage flipY(BufferedImage image) {
         int width = image.getWidth();
         int height = image.getHeight();
 
@@ -87,7 +87,7 @@ public class DoorView extends View {
 
         Graphics2D g2d = flippedImage.createGraphics();
         AffineTransform at = AffineTransform.getScaleInstance(-1, 1);
-        at.translate(0, -width);
+        at.translate(-width, 0);
         g2d.transform(at);
         g2d.drawImage(image, 0, 0, null);
         g2d.dispose();
@@ -115,6 +115,7 @@ public class DoorView extends View {
             leftDoorImage = ImageIO.read(new File(root + "/src/main/resources/map/leftDoor.png"));
             verticalSymDoorImage = ImageIO.read(new File(root + "/src/main/resources/map/verticalSymDoor.png"));
             rightDoorImage = flipY(leftDoorImage);
+            ImageIO.write(rightDoorImage, "PNG", new File("right.PNG"));
             topDoorImage = rotate90(leftDoorImage);
             bottomDoorImage = flipX(topDoorImage);
             horizontalSymDoorImage = rotate90(verticalSymDoorImage);
@@ -128,12 +129,14 @@ public class DoorView extends View {
     private final Orientation orientation;
 
     public void draw(Graphics2D g) {
+        int s = UITool.fitWidth2AspectRatio(verticalVanishedDoorImage, RoomView.SIZE);
+
         if (orientation == Orientation.Vertical) {
             if (door.isVanished()) {
                 int w = UITool.fitWidth2AspectRatio(verticalVanishedDoorImage, RoomView.SIZE);
 
                 g.drawImage(verticalVanishedDoorImage,
-                        x, y,
+                        x - s / 2, y,
                         w,
                         RoomView.SIZE,
                         null
@@ -154,7 +157,7 @@ public class DoorView extends View {
                 int w = UITool.fitWidth2AspectRatio(rightDoorImage, RoomView.SIZE);
 
                 g.drawImage(rightDoorImage,
-                        x, y,
+                        x - s / 2, y,
                         w,
                         RoomView.SIZE,
                         null
@@ -165,7 +168,7 @@ public class DoorView extends View {
                 int w = UITool.fitWidth2AspectRatio(leftDoorImage, RoomView.SIZE);
 
                 g.drawImage(leftDoorImage,
-                        x - w, y,
+                        x - w + s / 2, y,
                         w,
                         RoomView.SIZE,
                         null
@@ -178,7 +181,7 @@ public class DoorView extends View {
                 int h = UITool.fitHeight2AspectRatio(horizontalVanishedDoorImage, RoomView.SIZE);
 
                 g.drawImage(horizontalVanishedDoorImage,
-                        x,y,
+                        x,y - s / 2,
                         RoomView.SIZE,
                         h,
                         null
@@ -199,7 +202,7 @@ public class DoorView extends View {
                 int h = UITool.fitHeight2AspectRatio(topDoorImage, RoomView.SIZE);
 
                 g.drawImage(topDoorImage,
-                        x,y + h,
+                        x,y - h,
                         RoomView.SIZE,
                         h,
                         null
@@ -209,7 +212,7 @@ public class DoorView extends View {
                 int h = UITool.fitHeight2AspectRatio(bottomDoorImage, RoomView.SIZE);
 
                 g.drawImage(bottomDoorImage,
-                        x,y,
+                        x,y - s / 2,
                         RoomView.SIZE,
                         h,
                         null
