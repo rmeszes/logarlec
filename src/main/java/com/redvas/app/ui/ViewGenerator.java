@@ -22,12 +22,11 @@ import java.util.List;
 
 public class ViewGenerator implements GeneratorListener {
     private RoomView[][] rooms;
-    public List<View> getViews() { return views; }
 
     private Game game;
     public Game getGame() { return game; }
 
-    private GamePanel gp;
+    private final GamePanel gp;
 
     public ViewGenerator(int width, int height, int players, GamePanel gp) {
         this.gp = gp;
@@ -46,17 +45,15 @@ public class ViewGenerator implements GeneratorListener {
     @Override
     public void roomCreated(Room room, int x, int y) {
         rooms[y][x] = new RoomView(room);
+        rooms[y][x].setBounds(x * RoomView.SIZE, y * RoomView.SIZE, RoomView.SIZE, RoomView.SIZE);
+        gp.add(rooms[y][x]);
     }
 
     @Override
     public void doorCreated(Door door, int room1x, int room1y, int room2x, int room2y) {
-        Orientation orientation;
-
-        if (door.connectsTo(Direction.RIGHT) != null) {
-            orientation = Orientation.Horizontal;
-        }
-
-        DoorView dv = new DoorView(door, );
+        DoorView dv = new DoorView(door, room1x, room1y, room2x, room2y);
+        dv.setBounds(dv.globalX(), dv.globalY(), dv.width(), dv.height());
+        gp.add(dv);
     }
 
     @Override

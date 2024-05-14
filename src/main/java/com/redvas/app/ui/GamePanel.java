@@ -34,8 +34,6 @@ import java.util.List;
 public class GamePanel extends JPanel {
     private final transient ViewGenerator generator;
 
-    private List<View> views = new ArrayList<>();
-
     // called view Views, whenever a change occurs
     public void refresh() {
         repaint();
@@ -65,9 +63,8 @@ public class GamePanel extends JPanel {
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         window.pack();
         generator = new ViewGenerator(width, height, players, this);
-        views = generator.getViews();
 
-        // repaint();
+        repaint();
     }
     private double uiScale = 1.0;
 
