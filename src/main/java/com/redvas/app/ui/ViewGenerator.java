@@ -26,9 +26,11 @@ public class ViewGenerator implements GeneratorListener {
     private List<View> views = new ArrayList<>();
     public List<View> getViews() { return views; }
 
+    private Game game;
+    public Game getGame() { return game; }
 
-    public ViewGenerator(int width, int height, int players, Game game) {
-        new Labyrinth(width, height, game, players, this);
+    public ViewGenerator(int width, int height, int players) {
+        game = new Game(width, height, players, this);
     }
 
     @Override

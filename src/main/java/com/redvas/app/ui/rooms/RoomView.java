@@ -2,6 +2,8 @@ package com.redvas.app.ui.rooms;
 
 import com.redvas.app.App;
 import com.redvas.app.map.rooms.Room;
+import com.redvas.app.players.Player;
+import com.redvas.app.ui.PlayersView;
 import com.redvas.app.ui.View;
 
 import javax.imageio.ImageIO;
@@ -10,6 +12,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class RoomView extends View implements RoomChangeListener {
@@ -69,6 +73,8 @@ public class RoomView extends View implements RoomChangeListener {
     }
 
     public static final int SIZE = 100;
+
+
 
     public void draw(Graphics2D g) {
         g.setColor(Color.BLACK);

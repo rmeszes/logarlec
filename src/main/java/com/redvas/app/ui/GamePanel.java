@@ -38,7 +38,8 @@ public class GamePanel extends JPanel {
         return new Dimension(width * RoomView.SIZE, height * RoomView.SIZE);
     }
 
-    private int width, height;
+    private final int width;
+    private final int height;
     public GamePanel(int width, int height, int players) {
         this.width = width;
         this.height = height;
@@ -48,12 +49,7 @@ public class GamePanel extends JPanel {
         window.setVisible(true); //Don't show window for tests
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         window.pack();
-        game = new Game();
-
-        if (App.isTest())
-            game.
-
-        generator = new ViewGenerator(width, height, players, game);
+        generator = new ViewGenerator(width, height, players);
         views = generator.getViews();
         views.sort(Comparator.comparingInt(a -> a.z));
         repaint();

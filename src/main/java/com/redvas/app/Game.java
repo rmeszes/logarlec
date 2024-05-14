@@ -165,6 +165,10 @@ public class Game extends JPanel{
         } while(badInput);
     }
 
+    private void commandQuit() {
+        System.exit(0);
+    }
+
     private int width, height, players;
 
     private void init(int width, int height, int players) {

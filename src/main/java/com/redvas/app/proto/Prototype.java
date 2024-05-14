@@ -16,6 +16,6 @@ public class Prototype {
     private static final Logger logger = App.getConsoleLogger(Prototype.class.getName());
     public Prototype() throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         logger.fine("\nApp started successfully.");
-        new GamePanel(6, 4, 2);
+        new Game(6, 4);
     }
 }

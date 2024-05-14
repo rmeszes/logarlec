@@ -2,6 +2,7 @@ package com.redvas.app;
 
 
 import com.redvas.app.proto.Prototype;
+import com.redvas.app.ui.GamePanel;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -16,7 +17,7 @@ import java.util.logging.Logger;
 
 public class App
 {
-    private static boolean test;
+    private static boolean test = false;
 
     public static final Scanner reader = new Scanner(System.in);
 
@@ -24,7 +25,10 @@ public class App
         if(args.length > 0 && args[0].equals("test")) {
             test = true;
         }
-        new Prototype();
+
+        if (test)
+            new Prototype();
+        else new GamePanel(6, 4, 2);
 
         //probably graphic will be here
     }

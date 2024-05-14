@@ -23,6 +23,7 @@ public class Room implements Steppable {
     public int getCapacity() { return capacity; }
 
     public EnchantedRoom convertToEnchanted(int capacity) {
+
         EnchantedRoom er = new EnchantedRoom(labyrinth, id, capacity);
 
         for (Map.Entry<Direction, Door> e : doors.entrySet()) {
