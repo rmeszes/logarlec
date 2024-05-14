@@ -2,9 +2,7 @@ package com.redvas.app.ui;
 
 import com.redvas.app.Game;
 import com.redvas.app.items.*;
-import com.redvas.app.map.Direction;
 import com.redvas.app.map.Door;
-import com.redvas.app.map.Labyrinth;
 import com.redvas.app.map.rooms.EnchantedRoom;
 import com.redvas.app.map.rooms.ResizingRoom;
 import com.redvas.app.map.rooms.Room;
@@ -16,9 +14,6 @@ import com.redvas.app.ui.players.JanitorView;
 import com.redvas.app.ui.players.ProfessorView;
 import com.redvas.app.ui.players.UndergraduateView;
 import com.redvas.app.ui.rooms.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ViewGenerator implements GeneratorListener {
     private RoomView[][] rooms;
@@ -44,15 +39,13 @@ public class ViewGenerator implements GeneratorListener {
     }
     @Override
     public void roomCreated(Room room, int x, int y) {
-        rooms[y][x] = new RoomView(room);
-        rooms[y][x].setBounds(x * RoomView.SIZE, y * RoomView.SIZE, RoomView.SIZE, RoomView.SIZE);
+        rooms[y][x] = new RoomView(room, x, y); // beallitja a sajat boundjait a panelen belul
         gp.add(rooms[y][x]);
     }
 
     @Override
     public void doorCreated(Door door, int room1x, int room1y, int room2x, int room2y) {
-        DoorView dv = new DoorView(door, room1x, room1y, room2x, room2y);
-        dv.setBounds(dv.globalX(), dv.globalY(), dv.width(), dv.height());
+        DoorView dv = new DoorView(door, room1x, room1y, room2x, room2y);  // beallitja a sajat boundjait a panelen belul
         gp.add(dv);
     }
 

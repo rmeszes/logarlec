@@ -4,11 +4,9 @@ import com.redvas.app.App;
 import com.redvas.app.map.Direction;
 import com.redvas.app.map.Door;
 import com.redvas.app.ui.UITool;
-import com.redvas.app.ui.View;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.text.Utilities;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
@@ -17,7 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class DoorView extends JPanel {
+public class DoorView extends JPanel implements DoorChangeListener {
     private static final Logger logger = App.getConsoleLogger(EnchantedRoomView.class.getName());
     private final Door door;
     private static BufferedImage
@@ -28,7 +26,9 @@ public class DoorView extends JPanel {
             verticalSymDoorImage,
             verticalVanishedDoorImage,
             horizontalVanishedDoorImage,
-            horizontalSymDoorImage;
+            horizontalSymDoorImage,
+            verticalLockedDoor,
+            horizontalLockedDoor;
 
     private static BufferedImage rotate90(BufferedImage image) {
         final double rads = Math.toRadians(90);
@@ -76,6 +76,8 @@ public class DoorView extends JPanel {
             horizontalSymDoorImage = rotate90(verticalSymDoorImage);
             verticalVanishedDoorImage = ImageIO.read(new File(root + "/src/main/resources/map/verticalVanishedDoor.png"));
             horizontalVanishedDoorImage = rotate90(verticalVanishedDoorImage);
+            verticalLockedDoor = ImageIO.read(new File(root + "/src/main/resources/map/verticalLockedDoor.png"));
+            horizontalLockedDoor = rotate90(verticalLockedDoor);
         } catch (IOException e) {
             logger.severe(e.getMessage());
         }
@@ -106,12 +108,8 @@ public class DoorView extends JPanel {
     public int height() { return height;}
     public int globalX() { return x; }
     public int globalY() { return y; }
-    public DoorView(Door door, int r1x, int r1y, int r2x, int r2y) {
-        setOpaque(false);
-        x = Math.max(r1x, r2x) * RoomView.SIZE;
-        y = Math.max(r1y, r2y) * RoomView.SIZE;
-        Orientation orientation = door.connectsTo(Direction.RIGHT) == null ? Orientation.Horizontal : Orientation.Vertical;
-
+    private final Orientation orientation;
+    private void update() {
         if (orientation == Orientation.Vertical) {
             if (door.isVanished()) {
                 myImage = verticalVanishedDoorImage;
@@ -131,14 +129,19 @@ public class DoorView extends JPanel {
                 height = RoomView.SIZE;
                 x -= VDOOR_WIDTH / 2;
             }
-            else {
+            else if (door.isPassable(Direction.LEFT)) {
                 myImage = leftDoorImage;
                 width = UITool.fitWidth2AspectRatio(leftDoorImage, RoomView.SIZE);
                 height = RoomView.SIZE;
                 x -= width;
                 x += VDOOR_WIDTH / 2;
             }
-
+            else {
+                myImage = verticalLockedDoor;
+                width = UITool.fitWidth2AspectRatio(verticalLockedDoor, RoomView.SIZE);
+                height = RoomView.SIZE;
+                x -= width / 2;
+            }
         }
         else {
             if (door.isVanished()) {
@@ -161,22 +164,40 @@ public class DoorView extends JPanel {
                 y -= height;
                 y += VDOOR_WIDTH / 2;
             }
-            else {
+            else if (door.isPassable(Direction.DOWN)) {
                 myImage = bottomDoorImage;
                 height = UITool.fitHeight2AspectRatio(bottomDoorImage, RoomView.SIZE);
                 width = RoomView.SIZE;
                 y -= VDOOR_WIDTH / 2;
+            } else {
+                myImage = horizontalLockedDoor;
+                height = UITool.fitHeight2AspectRatio(horizontalLockedDoor, RoomView.SIZE);
+                width = RoomView.SIZE;
+                y -= VDOOR_WIDTH / 2;
             }
-
         }
 
-        this.door = door;
+        setBounds(x, y, width, height);
+        repaint();
+    }
 
+    public DoorView(Door door, int r1x, int r1y, int r2x, int r2y) {
+        setOpaque(false);
+        x = Math.max(r1x, r2x) * RoomView.SIZE;
+        y = Math.max(r1y, r2y) * RoomView.SIZE;
+        orientation = door.connectsTo(Direction.RIGHT) == null ? Orientation.Horizontal : Orientation.Vertical;
+        this.door = door;
+        update();
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(myImage, 0, 0, width, height, null);
+    }
+
+    @Override
+    public void changed() {
+        update();
     }
 }

@@ -1,6 +1,7 @@
 package com.redvas.app.map;
 
 import com.redvas.app.map.rooms.Room;
+import com.redvas.app.ui.rooms.DoorChangeListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -29,6 +30,8 @@ public class Door {
 
     public void setVanished(boolean isVanished) {
         this.isVanished = isVanished;
+        if (listener != null)
+            listener.changed();
     }
 
     private Map<Direction, Door> selection;
@@ -46,6 +49,12 @@ public class Door {
         door.setAttribute("towards_target_passable", String.valueOf(passableMap[0]));
         door.setAttribute("towards_origin_passable", String.valueOf(passableMap[1]));
         return door;
+    }
+
+
+    private DoorChangeListener listener = null;
+    public void setListener(DoorChangeListener listener) {
+        this.listener = listener;
     }
 
     public Door(Room from, Room to, Direction in, boolean passable) {
@@ -82,5 +91,7 @@ public class Door {
             return;
 
         passableMap[in.getValue() & 1] = isPassable;
+        if (listener != null)
+            listener.changed();
     }
 }

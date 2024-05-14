@@ -429,7 +429,7 @@ public class Labyrinth implements Steppable {
 
                 for (int k = 0; k < 2; k++)
                     if (Boolean.TRUE.equals(stat[k])) {
-                        boolean makeEdge = random.nextDouble(0, 1) > 0.88;
+                        boolean makeEdge = random.nextDouble(0, 1) > 0.4;
 
                         everyDoor.add(new Door(
                                 rooms[y][x],

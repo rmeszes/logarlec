@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 
 public class RoomView extends JPanel implements RoomChangeListener, View {
     private static final Logger logger = App.getConsoleLogger(RoomView.class.getName());
-    private int x , y;
     private final Room room;
     private boolean isSticky = false;       // alapból legyen hamis, de am ez nem int a modellben??
     private boolean isGaseous = false;
@@ -30,8 +29,9 @@ public class RoomView extends JPanel implements RoomChangeListener, View {
     private BufferedImage floorImageWhenGaseous;    // amikor gázossá válik
     private BufferedImage floorImageWhenSticky;     // amikor ragadós a szoba
     private BufferedImage floorImageWhenGaseousAndSticky;     // amikor ragadós és gázos a szoba   VAN ILYEN??
-    public RoomView(Room r) {
+    public RoomView(Room r, int x, int y) {
         this.room = r;
+        setBounds(x * SIZE, y * SIZE, SIZE, SIZE);
 
         try {
             floorImage = ImageIO.read(new File("src/main/resources/floor.png"));

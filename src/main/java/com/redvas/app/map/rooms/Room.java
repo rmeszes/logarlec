@@ -8,6 +8,7 @@ import com.redvas.app.map.Door;
 import com.redvas.app.map.Labyrinth;
 import com.redvas.app.players.Player;
 import com.redvas.app.players.ProximityListener;
+import com.redvas.app.ui.rooms.RoomChangeListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -123,6 +124,13 @@ public class Room implements Steppable {
 
     public void loadXML(Element room) {
         stickiness = Integer.parseInt(room.getAttribute("stickiness"));
+    }
+
+    private RoomChangeListener listener = null;
+
+    public Room(Labyrinth labyrinth, Integer id, Integer capacity, RoomChangeListener listener) {
+        this(labyrinth, id, capacity);
+        this.listener = listener;
     }
 
     public Room(Labyrinth labyrinth, Integer id, Integer capacity) {
