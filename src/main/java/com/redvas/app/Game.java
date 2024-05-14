@@ -125,6 +125,14 @@ public class Game extends JPanel{
         return gamePanel;
     }
 
+
+    private void commandStart() throws ParserConfigurationException, TransformerException {
+        logger.fine("How many players?");
+        int playerCount = App.reader.nextInt();
+        if(App.reader.hasNextLine()) App.reader.nextLine();
+        play();
+    }
+
     private void menu() throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         boolean badInput;
 
