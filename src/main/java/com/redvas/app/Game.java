@@ -184,6 +184,11 @@ public class Game extends JPanel{
         labyrinth = new Labyrinth(width, height, this, players, listener);
     }
 
+    public Game(int preset) throws IOException, ParserConfigurationException, ClassNotFoundException, InvocationTargetException, TransformerException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        loadPreset(preset);
+        play();
+    }
+
 
     private void commandLoad(String arg) throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException{
         try {
