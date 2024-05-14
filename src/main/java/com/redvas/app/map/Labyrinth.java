@@ -29,12 +29,6 @@ import java.util.*;
 import java.util.logging.Logger;
 
 public class Labyrinth implements Steppable {
-    BufferedImage doorImage;
-    BufferedImage floorImage;
-    BufferedImage playerImage;
-    BufferedImage profImage;
-    BufferedImage janitorImage;
-
     private final List<Door> everyDoor = new ArrayList<>();
 
     private static class data {
@@ -181,23 +175,6 @@ public class Labyrinth implements Steppable {
             e.getKey().loadXML(e.getValue(), id2item);
 
         return l;
-    }
-
-    public Labyrinth(int width, int height, Game game) {
-        if (height < 1) height = 1;
-        if (width < 1) width = 1;
-        this.height = height;
-        this.width = width;
-        this.game = game;
-        try {
-            doorImage = ImageIO.read(new File("src/main/resources/door.png"));
-            floorImage = ImageIO.read(new File("src/main/resources/floor.png"));
-            playerImage = ImageIO.read(new File("src/main/resources/player.png"));
-            janitorImage = ImageIO.read(new File("src/main/resources/janitor.png"));
-            profImage = ImageIO.read(new File("src/main/resources/prof.png"));
-        } catch (IOException e) {
-            logger.severe(e.getMessage());
-        }
     }
 
     public Element saveXML(Document document) {
@@ -418,7 +395,8 @@ public class Labyrinth implements Steppable {
                 for (int i = 0; i < 2; i++)
                     if (Boolean.TRUE.equals(stat[i]) && Math.random() > 0.85 && resizeablePair(resizingMap, x, y, x + xc[i], y + yc[i])) {
                         rooms[y][x] = rooms[y][x].convertToResizing(directions[i], random.nextInt(2, 6));
-                        listener.resizingRoomCreated((ResizingRoom) rooms[y][x], x, y);
+                        if (listener != null)
+                            listener.resizingRoomCreated((ResizingRoom) rooms[y][x], x, y);
                         resizingMap[y][x] = resizingMap[y + yc[i]][x + xc[i]] = true;
                     }
             }
@@ -432,9 +410,10 @@ public class Labyrinth implements Steppable {
                 if (!resizingMap[y][x]) {
                     if (random.nextGaussian() > 0.8) {
                         rooms[y][x] = rooms[y][x].convertToEnchanted(random.nextInt(2, 6));
-                        listener.enchantedRoomCreated((EnchantedRoom) rooms[y][x], x, y);
+                        if (listener != null)
+                            listener.enchantedRoomCreated((EnchantedRoom) rooms[y][x], x, y);
                     }
-                    else listener.roomCreated(rooms[y][x], x, y);
+                    else if (listener != null) listener.roomCreated(rooms[y][x], x, y);
                 }
     }
 
@@ -460,11 +439,12 @@ public class Labyrinth implements Steppable {
                                 random.nextDouble(0, 1) > 0.88
                         ));
 
-                        listener.doorCreated(
-                                everyDoor.get(everyDoor.size()  - 1),
-                                x, y,
-                                x + xc[k], y + yc[k]
-                                );
+                        if (listener != null)
+                            listener.doorCreated(
+                                    everyDoor.get(everyDoor.size()  - 1),
+                                    x, y,
+                                    x + xc[k], y + yc[k]
+                                    );
                     }
             }
     }
@@ -491,6 +471,7 @@ public class Labyrinth implements Steppable {
         for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++) {
                 rooms.add(roomsLocal[y][x]);
+                if (listener != null)
                 listener.roomCreated(roomsLocal[y][x], x,y);
             }
     }
@@ -516,14 +497,26 @@ public class Labyrinth implements Steppable {
 
     private final int height;
     private final int width;
-    private GeneratorListener listener;
+    private GeneratorListener listener = null;
 
-    public Labyrinth(int width, int height, Game game, int playerCount, GeneratorListener listener) {
+    private Labyrinth(int width, int height, Game game) {
+        if (height < 1) height = 1;
+        if (width < 1) width = 1;
+        this.height = height;
+        this.width = width;
+        this.game = game;
+    }
+
+    public Labyrinth(int width, int height, int playerCount, Game game) {
         this(width, height, game);
-        this.listener = listener;
         generate();
         emplacePlayers(playerCount);
         emplaceItems();
+    }
+
+    public Labyrinth(int width, int height, Game game, int playerCount, GeneratorListener listener) {
+        this(width, height, playerCount, game);
+        this.listener = listener;
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.redvas.app.ui;
 
+import com.redvas.app.App;
 import com.redvas.app.Game;
 import com.redvas.app.map.Labyrinth;
 import com.redvas.app.ui.rooms.RoomView;
@@ -48,6 +49,10 @@ public class GamePanel extends JPanel {
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         window.pack();
         game = new Game();
+
+        if (App.isTest())
+            game.
+
         generator = new ViewGenerator(width, height, players, game);
         views = generator.getViews();
         views.sort(Comparator.comparingInt(a -> a.z));

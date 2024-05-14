@@ -2,6 +2,7 @@ package com.redvas.app;
 
 import com.redvas.app.map.Labyrinth;
 import com.redvas.app.ui.GamePanel;
+import com.redvas.app.ui.GeneratorListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -57,7 +59,6 @@ public class Game extends JPanel{
     private final Set<Steppable> steppablesForRound = new HashSet<>();
 
     private transient Labyrinth labyrinth;
-    private GamePanel gamePanel;
 
 
     /**
@@ -121,16 +122,16 @@ public class Game extends JPanel{
         steppablesForRound.remove(s);
     }
 
-    public GamePanel getGamePanel() {
-        return gamePanel;
-    }
-
-
     private void commandStart() throws ParserConfigurationException, TransformerException {
         logger.fine("How many players?");
         int playerCount = App.reader.nextInt();
+        labyrinth = new Labyrinth(width, height, playerCount, this);
         if(App.reader.hasNextLine()) App.reader.nextLine();
         play();
+    }
+
+    private void loadPreset() {
+        load();
     }
 
     private void menu() throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
@@ -143,6 +144,8 @@ public class Game extends JPanel{
                 'load save' to load a saved game  or
                 'quit' to exit the game
                 """);
+
+        Scanner stdin = new Scanner(System.in);
 
         do {
             String input = stdin.nextLine();
@@ -161,11 +164,30 @@ public class Game extends JPanel{
         } while(badInput);
     }
 
+    private int width, height, players;
+
+    private void init(int width, int height, int players) {
+        this.width = width;
+        this.height = height;
+        this.players = players;
+    }
+
+    public Game(int width, int height) throws ParserConfigurationException, IOException, ClassNotFoundException, TransformerException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        init(width, height, players);
+        menu();
+    }
+
+
+    public Game(int width, int height, int players, GeneratorListener listener) {
+        init(width, height, players);
+        labyrinth = new Labyrinth(width, height, this, players, listener);
+    }
 
 
     private void commandLoad(String arg) throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException{
         try {
             int i = Integer.parseInt(arg);
+
             game = Game.loadPreset(i);
         } catch (NumberFormatException ignored) {
             game = Game.loadGame(arg);
