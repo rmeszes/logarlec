@@ -2,15 +2,17 @@ package com.redvas.app.ui.items;
 
 import com.redvas.app.App;
 import com.redvas.app.items.Logarlec;
+import com.redvas.app.ui.View;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class LogarlecView implements ItemChangeListener{
+public class LogarlecView extends JPanel implements ItemChangeListener, View {
     private static final Logger logger = App.getConsoleLogger(LogarlecView.class.getName());
     private final Logarlec logarlec;
     private int x;
@@ -27,13 +29,19 @@ public class LogarlecView implements ItemChangeListener{
             logger.severe(e.getMessage());
         }
     }
-
-    public void draw(Graphics2D g) {
-
+@Override
+    public void draw() {
+        repaint();
     }
 
     @Override
     public void positionChanged(boolean isInRoom) {
 
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(logarlecImage, 0, 0, 100, 100, null);
     }
 }

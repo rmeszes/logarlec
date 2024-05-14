@@ -2,15 +2,18 @@ package com.redvas.app.ui.items;
 
 import com.redvas.app.App;
 import com.redvas.app.items.AirFreshener;
+import com.redvas.app.ui.View;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class AirFreshenerView implements ItemChangeListener{
+public class AirFreshenerView extends JPanel implements ItemChangeListener, View {
     private static final Logger logger = App.getConsoleLogger(AirFreshenerView.class.getName());
     private final AirFreshener freshener;
     private int x;
@@ -28,11 +31,19 @@ public class AirFreshenerView implements ItemChangeListener{
         }
     }
 
-    public void draw(Graphics2D g) {
-
-    }
 
     @Override
     public void positionChanged(boolean isInRoom) {
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(freshenerImage, 0, 0, 100, 100, null);
+    }
+
+    @Override
+    public void draw() {
+        repaint();
     }
 }

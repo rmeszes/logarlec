@@ -52,7 +52,7 @@ public class UndergraduateView extends JPanel implements UndergraduateChangeList
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if(this.isFainted)
+        if(!this.isFainted)
             g.drawImage(undergradImage, 0, 0, 100, 100, null);
         else
             g.drawImage(drunkUndergradImage, 0, 0, 100, 100, null);

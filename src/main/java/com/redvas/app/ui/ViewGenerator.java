@@ -51,61 +51,74 @@ public class ViewGenerator implements GeneratorListener {
 
     @Override
     public void professorCreated(Professor er, int x, int y) {
-        new ProfessorView(er);
+        ProfessorView pv = new ProfessorView(er);
+        gp.add(pv);
     }
 
     @Override
     public void undergraduateCreated(Undergraduate undergraduate, int x, int y) {
-        new UndergraduateView(undergraduate);
+        UndergraduateView uv = new UndergraduateView(undergraduate);
+        gp.add(uv);
     }
 
     @Override
     public void janitorCreated(Janitor janitor, int x, int y) {
-        new JanitorView(janitor);
+
+        JanitorView jv = new JanitorView(janitor);
+        gp.add(jv);
     }
 
     @Override
     public void logarlecCreated(Logarlec l, int x, int y) {
-        new LogarlecView(l, x, y);
+        LogarlecView lv = new LogarlecView(l, x, y);
+        gp.add(lv);
     }
 
     @Override
     public void airFreshenerCreated(AirFreshener a, int x, int y) {
-        new AirFreshenerView(a, x, y);
+        AirFreshenerView av = new AirFreshenerView(a, x, y);
+        gp.add(av);
     }
 
     @Override
     public void rottenCamembertCreated(RottenCamembert rottenCamembert, int x, int y) {
-        new RottenCamembertView(rottenCamembert, x, y);
+        RottenCamembertView rv = new RottenCamembertView(rottenCamembert, x, y);
+        gp.add(rv);
     }
 
     @Override
     public void holyBeerCreated(HolyBeer holyBeer, int x, int y) {
-        new HolyBeerView(holyBeer, x, y);
+        HolyBeerView hv = new HolyBeerView(holyBeer, x, y);
+        gp.add(hv);
     }
 
     @Override
     public void tvszCreated(TVSZ tvsz, int x, int y) {
-        new TVSZView(tvsz, x, y);
+        TVSZView tv = new TVSZView(tvsz, x, y);
+        gp.add(tv);
     }
 
     @Override
     public void wetWipeCreated(WetWipe wetWipe, int x, int y) {
-        new WetWipeView(wetWipe, x, y);
+        WetWipeView wv = new WetWipeView(wetWipe, x, y);
+        gp.add(wv);
     }
 
     @Override
     public void transistorCreated(Transistor t, int x, int y) {
-        new TransistorView(t, x, y);
+        TransistorView trv= new  TransistorView(t, x, y);
+        gp.add(trv);
     }
 
     @Override
     public void ffp2Created(FFP2 ffp2, int x, int y) {
-        new FFP2View(ffp2, x, y);
+        FFP2View fv = new FFP2View(ffp2, x, y);
+        gp.add(fv);
     }
 
     @Override
     public void combinedTransistorCreated(CombinedTransistor ct, int x, int y) {
-        new CombinedTransistorView(ct,x, y);
+        CombinedTransistorView ctv = new CombinedTransistorView(ct,x, y);
+        gp.add(ctv);
     }
 }

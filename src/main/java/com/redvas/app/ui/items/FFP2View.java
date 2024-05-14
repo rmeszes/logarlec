@@ -2,15 +2,17 @@ package com.redvas.app.ui.items;
 
 import com.redvas.app.App;
 import com.redvas.app.items.FFP2;
+import com.redvas.app.ui.View;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class FFP2View implements ItemChangeListener{
+public class FFP2View extends JPanel implements ItemChangeListener, View {
     private static final Logger logger = App.getConsoleLogger(FFP2View.class.getName());
     private final FFP2 ffp2;
     private int x;
@@ -27,9 +29,15 @@ public class FFP2View implements ItemChangeListener{
             logger.severe(e.getMessage());
         }
     }
+@Override
+    public void draw() {
+        repaint();
+    }
 
-    public void draw(Graphics2D g) {
-
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(ffp2Image, 0, 0, 100, 100, null);
     }
 
     @Override

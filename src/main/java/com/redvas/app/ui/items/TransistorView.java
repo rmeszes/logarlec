@@ -2,15 +2,17 @@ package com.redvas.app.ui.items;
 
 import com.redvas.app.App;
 import com.redvas.app.items.Transistor;
+import com.redvas.app.ui.View;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class TransistorView implements ItemChangeListener{
+public class TransistorView extends JPanel implements ItemChangeListener, View {
     private static final Logger logger = App.getConsoleLogger(TransistorView.class.getName());
     private final Transistor transistor;
     private int x;
@@ -28,8 +30,14 @@ public class TransistorView implements ItemChangeListener{
         }
     }
 
-    public void draw(Graphics2D g) {
-
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(transistorImage, 0, 0, 100, 100, null);
+    }
+    @Override
+    public void draw() {
+        repaint();
     }
 
     @Override
