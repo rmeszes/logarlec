@@ -100,7 +100,7 @@ public class DoorView extends View {
         if (door.connectsTo(Direction.RIGHT) != null) {
             // remember x and y specify top left coordinates
             orientation = Orientation.Vertical;
-            x = (Math.min(r1x, r2x) + 1) * RoomView.SIZE;
+            x = Math.max(r1x, r2x) * RoomView.SIZE;
             y = r1y * RoomView.SIZE;
         }
         else {
@@ -129,64 +129,93 @@ public class DoorView extends View {
 
     public void draw(Graphics2D g) {
         if (orientation == Orientation.Vertical) {
-            if (door.isVanished())
+            if (door.isVanished()) {
+                int w = UITool.fitWidth2AspectRatio(verticalVanishedDoorImage, RoomView.SIZE);
+
                 g.drawImage(verticalVanishedDoorImage,
-                        x,y,
-                        UITool.fitWidth2AspectRatio(verticalVanishedDoorImage, RoomView.SIZE),
+                        x, y,
+                        w,
                         RoomView.SIZE,
                         null
                 );
-            else if (door.isPassable(Direction.RIGHT) && door.isPassable(Direction.LEFT))
+            }
+
+            else if (door.isPassable(Direction.RIGHT) && door.isPassable(Direction.LEFT)) {
+                int w = UITool.fitWidth2AspectRatio(verticalSymDoorImage, RoomView.SIZE);
+
                 g.drawImage(verticalSymDoorImage,
-                        x,y,
-                        UITool.fitWidth2AspectRatio(verticalSymDoorImage, RoomView.SIZE),
+                        x - w / 2, y,
+                        w,
                         RoomView.SIZE,
                         null
                 );
-            else if (door.isPassable(Direction.RIGHT))
+            }
+            else if (door.isPassable(Direction.RIGHT)) {
+                int w = UITool.fitWidth2AspectRatio(rightDoorImage, RoomView.SIZE);
+
                 g.drawImage(rightDoorImage,
-                        x,y,
-                        UITool.fitWidth2AspectRatio(rightDoorImage, RoomView.SIZE),
+                        x, y,
+                        w,
                         RoomView.SIZE,
                         null
                 );
-            else
+            }
+
+            else {
+                int w = UITool.fitWidth2AspectRatio(leftDoorImage, RoomView.SIZE);
+
                 g.drawImage(leftDoorImage,
-                        x,y,
-                        UITool.fitWidth2AspectRatio(leftDoorImage, RoomView.SIZE),
+                        x - w, y,
+                        w,
                         RoomView.SIZE,
                         null
                 );
+            }
+
         }
         else {
-            if (door.isVanished())
+            if (door.isVanished()) {
+                int h = UITool.fitHeight2AspectRatio(horizontalVanishedDoorImage, RoomView.SIZE);
+
                 g.drawImage(horizontalVanishedDoorImage,
                         x,y,
                         RoomView.SIZE,
-                        UITool.fitHeight2AspectRatio(horizontalVanishedDoorImage, RoomView.SIZE),
+                        h,
                         null
                 );
-            else if (door.isPassable(Direction.UP) && door.isPassable(Direction.DOWN))
+            }
+            else if (door.isPassable(Direction.UP) && door.isPassable(Direction.DOWN)) {
+                int h = UITool.fitHeight2AspectRatio(horizontalSymDoorImage, RoomView.SIZE);
+
                 g.drawImage(horizontalSymDoorImage,
-                        x,y,
+                        x,y - h / 2,
                         RoomView.SIZE,
-                        UITool.fitHeight2AspectRatio(horizontalSymDoorImage, RoomView.SIZE),
+                        h,
                         null
                 );
-            else if (door.isPassable(Direction.UP))
+            }
+
+            else if (door.isPassable(Direction.UP)) {
+                int h = UITool.fitHeight2AspectRatio(topDoorImage, RoomView.SIZE);
+
                 g.drawImage(topDoorImage,
-                        x,y,
+                        x,y + h,
                         RoomView.SIZE,
-                        UITool.fitWidth2AspectRatio(topDoorImage, RoomView.SIZE),
+                        h,
                         null
                 );
-            else
+            }
+            else {
+                int h = UITool.fitHeight2AspectRatio(bottomDoorImage, RoomView.SIZE);
+
                 g.drawImage(bottomDoorImage,
                         x,y,
                         RoomView.SIZE,
-                        UITool.fitWidth2AspectRatio(bottomDoorImage, RoomView.SIZE),
+                        h,
                         null
                 );
+            }
+
         }
     }
 }
