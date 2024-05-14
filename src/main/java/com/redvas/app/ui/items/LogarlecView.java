@@ -22,7 +22,7 @@ public class LogarlecView implements ItemChangeListener{
         this.x = x;
         this.y = y;
         try {
-            logarlecImage = ImageIO.read(new File("src/main/resources/floor.png"));
+            logarlecImage = ImageIO.read(new File("src/main/resources/items/logarlec.png"));
         } catch (IOException e) {
             logger.severe(e.getMessage());
         }

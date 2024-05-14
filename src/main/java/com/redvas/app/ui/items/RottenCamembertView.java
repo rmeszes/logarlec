@@ -22,7 +22,7 @@ public class RottenCamembertView implements ItemChangeListener{
         this.x = x;
         this.y = y;
         try {
-            camembertImage = ImageIO.read(new File("src/main/resources/floor.png"));
+            camembertImage = ImageIO.read(new File("src/main/resources/items/rotten_camembert.png"));
         } catch (IOException e) {
             logger.severe(e.getMessage());
         }

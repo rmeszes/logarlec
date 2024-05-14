@@ -22,7 +22,7 @@ public class TransistorView implements ItemChangeListener{
         this.x = x;
         this.y = y;
         try {
-            transistorImage = ImageIO.read(new File("src/main/resources/floor.png"));
+            transistorImage = ImageIO.read(new File("src/main/resources/items/transistor.png"));
         } catch (IOException e) {
             logger.severe(e.getMessage());
         }

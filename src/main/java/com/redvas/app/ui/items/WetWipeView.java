@@ -22,7 +22,7 @@ public class WetWipeView implements ItemChangeListener{
         this.x = x;
         this.y = y;
         try {
-            wipeImage = ImageIO.read(new File("src/main/resources/floor.png"));
+            wipeImage = ImageIO.read(new File("src/main/resources/items/wetwipe.png"));
         } catch (IOException e) {
             logger.severe(e.getMessage());
         }

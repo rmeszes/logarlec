@@ -22,7 +22,7 @@ public class FFP2View implements ItemChangeListener{
         this.x = x;
         this.y = y;
         try {
-            ffp2Image = ImageIO.read(new File("src/main/resources/floor.png"));
+            ffp2Image = ImageIO.read(new File("src/main/resources/items/ffp2.png"));
         } catch (IOException e) {
             logger.severe(e.getMessage());
         }

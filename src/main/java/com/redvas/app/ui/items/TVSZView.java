@@ -22,7 +22,7 @@ public class TVSZView implements ItemChangeListener{
         this.x = x;
         this.y = y;
         try {
-            tvszImage = ImageIO.read(new File("src/main/resources/floor.png"));
+            tvszImage = ImageIO.read(new File("src/main/resources/items/tvsz.png"));
         } catch (IOException e) {
             logger.severe(e.getMessage());
         }

@@ -22,7 +22,7 @@ public class AirFreshenerView implements ItemChangeListener{
         this.x = x;
         this.y = y;
         try {
-            freshenerImage = ImageIO.read(new File("src/main/resources/floor.png"));
+            freshenerImage = ImageIO.read(new File("src/main/resources/item/airfreshener.png"));
         } catch (IOException e) {
             logger.severe(e.getMessage());
         }

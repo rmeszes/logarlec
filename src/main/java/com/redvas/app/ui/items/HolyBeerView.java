@@ -22,7 +22,7 @@ public class HolyBeerView implements ItemChangeListener{
         this.x = x;
         this.y = y;
         try {
-            beerImage = ImageIO.read(new File("src/main/resources/floor.png"));
+            beerImage = ImageIO.read(new File("src/main/resources/items/holybeer.png"));
         } catch (IOException e) {
             logger.severe(e.getMessage());
         }
