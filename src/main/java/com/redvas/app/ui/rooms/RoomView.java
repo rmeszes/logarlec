@@ -77,15 +77,10 @@ public class RoomView extends JPanel implements RoomChangeListener {
     @Override
     public void occupantEntered(Player p) {
         addOccupant(activeLeavingPlayer);
+        activeLeavingPlayer = null;
     }
 
     public static final int SIZE = (int)(100 * GamePanel.getMagnification());
-
-    private List<PlayerView> playerViews = new ArrayList<>();
-
-    public void draw() {
-        repaint();
-    }
 
     @Override
     protected void paintComponent(Graphics g) {
