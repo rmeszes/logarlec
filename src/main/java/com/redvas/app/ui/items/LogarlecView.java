@@ -4,13 +4,14 @@ import com.redvas.app.App;
 import com.redvas.app.items.Logarlec;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class LogarlecView implements ItemChangeListener{
+public class LogarlecView extends JPanel implements ItemChangeListener {
     private static final Logger logger = App.getConsoleLogger(LogarlecView.class.getName());
     private final Logarlec logarlec;
     private int x;
@@ -22,18 +23,20 @@ public class LogarlecView implements ItemChangeListener{
         this.x = x;
         this.y = y;
         try {
-            logarlecImage = ImageIO.read(new File("src/main/resources/floor.png"));
+            logarlecImage = ImageIO.read(new File("src/main/resources/items/logarlec.png"));
         } catch (IOException e) {
             logger.severe(e.getMessage());
         }
     }
 
-    public void draw(Graphics2D g) {
+    @Override
+    public void positionChanged(boolean isInRoom) {
 
     }
 
     @Override
-    public void positionChanged(boolean isInRoom) {
-
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(logarlecImage, 0, 0, 100, 100, null);
     }
 }

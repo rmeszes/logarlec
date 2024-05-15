@@ -4,13 +4,14 @@ import com.redvas.app.App;
 import com.redvas.app.items.WetWipe;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class WetWipeView implements ItemChangeListener{
+public class WetWipeView extends JPanel implements ItemChangeListener {
     private static final Logger logger = App.getConsoleLogger(WetWipeView.class.getName());
     private final WetWipe wipe;
     private int x;
@@ -22,14 +23,16 @@ public class WetWipeView implements ItemChangeListener{
         this.x = x;
         this.y = y;
         try {
-            wipeImage = ImageIO.read(new File("src/main/resources/floor.png"));
+            wipeImage = ImageIO.read(new File("src/main/resources/items/wetwipe.png"));
         } catch (IOException e) {
             logger.severe(e.getMessage());
         }
     }
 
-    public void draw(Graphics2D g) {
-
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(wipeImage, 0, 0, 100, 100, null);
     }
 
     @Override
