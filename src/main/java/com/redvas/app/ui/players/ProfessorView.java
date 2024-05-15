@@ -2,27 +2,33 @@ package com.redvas.app.ui.players;
 
 import com.redvas.app.map.rooms.Room;
 import com.redvas.app.players.Professor;
+import com.redvas.app.ui.UITool;
 import com.redvas.app.ui.players.listeners.PlayerChangeListener;
 import com.redvas.app.ui.players.listeners.ProfessorChangeListener;
+import com.redvas.app.ui.rooms.RoomView;
 
-public class ProfessorView implements PlayerChangeListener, ProfessorChangeListener {
+import java.awt.*;
+
+public class ProfessorView extends PlayerView implements PlayerChangeListener, ProfessorChangeListener {
     private final Professor professor;
+
     public ProfessorView(Professor professor) {
+        super(professor);
         this.professor = professor;
-    }
-
-    @Override
-    public void positionChanged(Room from, Room to) {
-
-    }
-
-    @Override
-    public void faintedChanged(boolean isFainted) {
-
+        this.myImage = professorImage;
+        professor.setListener((ProfessorChangeListener) this);
     }
 
     @Override
     public void paralyzedChanged(boolean isParalyzed) {
+        if (isParalyzed) myImage = professorParalyzedImage;
+        else myImage = professorImage;
+        repaint();
+    }
 
+    @Override
+    public void faintedChanged(boolean isFainted) {
+        // TODO: switch to fainted or initial image
+        repaint();
     }
 }

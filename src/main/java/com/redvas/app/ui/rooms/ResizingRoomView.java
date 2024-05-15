@@ -2,7 +2,7 @@ package com.redvas.app.ui.rooms;
 
 import com.redvas.app.App;
 import com.redvas.app.map.rooms.ResizingRoom;
-import com.redvas.app.ui.View;
+import com.redvas.app.players.Player;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class ResizingRoomView implements RoomChangeListener, View {
+public class ResizingRoomView implements RoomChangeListener {
     private static final Logger logger = App.getConsoleLogger(ResizingRoomView.class.getName());
 
     private final ResizingRoom rRoom;
@@ -51,6 +51,16 @@ public class ResizingRoomView implements RoomChangeListener, View {
         return;
     }
 
+    @Override
+    public void occupantLeft(Player p) {
+
+    }
+
+    @Override
+    public void occupantEntered(Player p) {
+
+    }
+
     public void draw(Graphics2D g) {
         int roomWidth = 200;
         int roomHeight = 200;
@@ -72,11 +82,6 @@ public class ResizingRoomView implements RoomChangeListener, View {
             g.drawImage(rFloorImageWhenGaseousAndSticky, x, y, roomWidth, roomHeight, null);
         }
 
-
-    }
-
-    @Override
-    public void draw() {
 
     }
 }

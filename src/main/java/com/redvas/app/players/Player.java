@@ -6,6 +6,8 @@ import com.redvas.app.Steppable;
 import com.redvas.app.items.Item;
 import com.redvas.app.map.Direction;
 import com.redvas.app.map.rooms.Room;
+import com.redvas.app.ui.players.PlayerView;
+import com.redvas.app.ui.players.listeners.PlayerChangeListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -65,6 +67,13 @@ public abstract class Player implements Steppable {
         moveTo(room);
         game.registerSteppable(this);
     }
+
+    private PlayerChangeListener listener = null;
+
+    public void setListener(PlayerChangeListener listener) {
+        this.listener = listener;
+    }
+
     public void loadXML(Element player) {
         faintCountdown = Integer.parseInt(player.getAttribute("faint_countdown"));
         ffp2Countdown = Integer.parseInt(player.getAttribute("ffp2_countdown"));
@@ -90,6 +99,17 @@ public abstract class Player implements Steppable {
      */
     public abstract void pickLogarlec();
 
+    @Override
+    public void step() {
+        if (faintCountdown > 0) {
+            logger.fine(() -> this + " is fainted for " + faintCountdown + " rounds");
+            faintCountdown--;
+
+            if (faintCountdown == 0 && listener != null)
+                listener.faintedChanged(false);
+        }
+    }
+
     /** drops the items from inventory
      *
      */
@@ -98,6 +118,9 @@ public abstract class Player implements Steppable {
             logger.fine("Undergraduate has fainted and dropped items");
             faintCountdown = 3;
             dropItems();
+
+            if (listener != null)
+                listener.faintedChanged(true);
         }
     }
 
@@ -121,7 +144,6 @@ public abstract class Player implements Steppable {
      * @param item: picked item that they will pick up
      */
     public void addToInventory(Item item) {
-
         if(items.size() < 5) { //ha van hely az inventoryban
             items.add(item);            // felvesszük a tárgyat az inventoryba
         }
@@ -149,7 +171,6 @@ public abstract class Player implements Steppable {
 
         where = room;
         room.addOccupant(this);
-
     }
 
     /** player chose to activate this protection

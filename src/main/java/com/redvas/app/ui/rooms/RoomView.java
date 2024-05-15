@@ -4,14 +4,11 @@ import com.redvas.app.App;
 import com.redvas.app.map.rooms.Room;
 import com.redvas.app.players.Player;
 import com.redvas.app.ui.GamePanel;
-import com.redvas.app.ui.PlayersView;
-import com.redvas.app.ui.View;
 import com.redvas.app.ui.players.PlayerView;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class RoomView extends JPanel implements RoomChangeListener, View {
+public class RoomView extends JPanel implements RoomChangeListener {
     private static final Logger logger = App.getConsoleLogger(RoomView.class.getName());
     private final Room room;
     private boolean isSticky = false;       // alapból legyen hamis, de am ez nem int a modellben??
@@ -43,6 +40,17 @@ public class RoomView extends JPanel implements RoomChangeListener, View {
         }
     }
 
+    private final List<PlayerView> occupants = new ArrayList<>();
+
+    public void addOccupant(PlayerView p) {
+        occupants.add(p);
+        int roomLocalY = (occupants.size() - 1) / 3;
+        int roomLocalX = (occupants.size() - 1) % 3;
+        p.occupyRoomPosition(roomLocalX, roomLocalY);
+        add(p);
+        // REPAINT IS NOT REQUIRED HERE
+    }
+
     @Override
     public void roomStickinessChange(boolean isSticky) {    // Amikor a modellben változik, akkor ezt kell hívni és ez updateli a view-t
         this.isSticky = isSticky;
@@ -54,20 +62,21 @@ public class RoomView extends JPanel implements RoomChangeListener, View {
 
     }
 
-    public static BufferedImage flipY(BufferedImage image) {
-        int width = image.getWidth();
-        int height = image.getHeight();
+    private static PlayerView activeLeavingPlayer = null;
 
-        BufferedImage flippedImage = new BufferedImage(width, height, image.getType());
+    @Override
+    public void occupantLeft(Player p) {
+        for (PlayerView pw : occupants)
+            if (pw.getPlayer() == p) {
+                occupants.remove(pw);
+                activeLeavingPlayer = pw;
+                return;
+            }
+    }
 
-        Graphics2D g2d = flippedImage.createGraphics();
-        AffineTransform at = AffineTransform.getScaleInstance(1, -1);
-        at.translate(0, -height);
-        g2d.transform(at);
-        g2d.drawImage(image, 0, 0, null);
-        g2d.dispose();
-
-        return flippedImage;
+    @Override
+    public void occupantEntered(Player p) {
+        addOccupant(activeLeavingPlayer);
     }
 
     public static final int SIZE = (int)(100 * GamePanel.getMagnification());
@@ -81,8 +90,6 @@ public class RoomView extends JPanel implements RoomChangeListener, View {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        g.setColor(Color.BLACK);
 
         if (!isGaseous && !isSticky) {      // alap
             g.drawImage(floorImage, 0, 0, SIZE, SIZE, null);

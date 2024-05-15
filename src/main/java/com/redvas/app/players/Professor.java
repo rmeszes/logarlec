@@ -4,6 +4,7 @@ import com.redvas.app.App;
 import com.redvas.app.Game;
 import com.redvas.app.items.AirFreshener;
 import com.redvas.app.map.rooms.Room;
+import com.redvas.app.ui.players.listeners.ProfessorChangeListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -26,6 +27,12 @@ public class Professor extends Player implements ProximityListener{
         paralyzeCountdown = 0;
         where.subscribeToProximity(this);
         where.addOccupant(this);
+    }
+
+    private ProfessorChangeListener listener = null;
+
+    public void setListener(ProfessorChangeListener listener) {
+        this.listener = listener;
     }
 
     /**
@@ -92,14 +99,18 @@ public class Professor extends Player implements ProximityListener{
     public void step() {
         if(paralyzeCountdown != 0) {
             paralyzeCountdown--;    // itt returnol
+
+            if (paralyzeCountdown == 0 && listener != null)
+                listener.paralyzedChanged(false);
         }
-        else {
+        else if (faintCountdown == 0)  {
             Room room = randomMove();
             if(room != null) {
                 room.subscribeToProximity(this);
             }
         }
 
+        super.step();
     }
 
     /** they stop moving and causing undergrads to drop out
@@ -108,6 +119,8 @@ public class Professor extends Player implements ProximityListener{
     @Override
     public void paralyze() {
         paralyzeCountdown = 3;
+        if (listener != null)
+            listener.paralyzedChanged(true);
         logger.finest(() -> this + " is paralyzed");
     }
 

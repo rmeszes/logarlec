@@ -126,10 +126,14 @@ public class Room implements Steppable {
         stickiness = Integer.parseInt(room.getAttribute("stickiness"));
     }
 
-    private RoomChangeListener listener = null;
-
     public Room(Labyrinth labyrinth, Integer id, Integer capacity, RoomChangeListener listener) {
         this(labyrinth, id, capacity);
+        this.listener = listener;
+    }
+
+    private RoomChangeListener listener = null;
+
+    public void setListener(RoomChangeListener listener) {
         this.listener = listener;
     }
 
@@ -144,6 +148,10 @@ public class Room implements Steppable {
      */
     public void removeOccupant(Player player) {
         logger.finest(()->"Room occupant list no longer contains this " + player);
+        occupants.remove(player);
+
+        if (listener != null)
+            listener.occupantLeft(player);
     }
 
     // to be called after subscribeToProximity()
@@ -156,6 +164,9 @@ public class Room implements Steppable {
         listeners.forEach(listener -> listener.proximityChanged(player));
         stickiness++;
         occupants.add(player);
+
+        if (listener != null)
+            listener.occupantEntered(player);
     }
 
 

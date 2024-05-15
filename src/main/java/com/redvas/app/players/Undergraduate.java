@@ -5,6 +5,7 @@ import com.redvas.app.Game;
 import com.redvas.app.Steppable;
 import com.redvas.app.items.Transistor;
 import com.redvas.app.map.rooms.Room;
+import com.redvas.app.ui.players.listeners.UndergraduateChangeListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -74,14 +75,16 @@ public class Undergraduate extends Player implements Steppable {
      */
     @Override
     public void step() {
-        if (faintCountdown > 0) {
-            logger.fine(() -> this + " is fainted for " + faintCountdown + " rounds");
-            faintCountdown--;
-        }
-        else {
-            logger.fine(() -> this.toString() + ':');
+        if (faintCountdown == 0)
             getCommand();
-        }
+
+        super.step();
+    }
+
+    private UndergraduateChangeListener listener = null;
+
+    public void setListener(UndergraduateChangeListener listener) {
+        this.listener = listener;
     }
 
     /**
@@ -145,6 +148,8 @@ public class Undergraduate extends Player implements Steppable {
             logger.fine(()->"Player " + getID() + " has dropped out");
             game.unRegisterSteppable(this);
             getGame().undergraduateDroppedout();
+            if (listener != null)
+                listener.droppedOut();
         }
     }
 

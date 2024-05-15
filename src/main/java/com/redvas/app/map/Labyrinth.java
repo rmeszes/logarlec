@@ -248,6 +248,7 @@ public class Labyrinth implements Steppable {
 
     protected static final Logger logger = App.getConsoleLogger(Labyrinth.class.getName());
 
+    private Room[][] rooms2D;
     private final List<Room> rooms = new ArrayList<>();
 
     private <T> void swap(T[] array, int i, int j) {
@@ -468,6 +469,8 @@ public class Labyrinth implements Steppable {
         /*boolean[][] resizingMap = resizify(roomsLocal);
         enchant(roomsLocal, resizingMap);*/
 
+        rooms2D = roomsLocal;
+        // TODO: TO BE REMOVED IN THE FUTURE!!!!!! (NOT FOR NOW, THO...)
         for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++) {
                 rooms.add(roomsLocal[y][x]);
@@ -518,7 +521,7 @@ public class Labyrinth implements Steppable {
         this(width, height, game);
         this.listener = listener;
         generate();
-        // emplacePlayers(playerCount);
+        emplacePlayers(playerCount);
         emplaceItems();
     }
 
@@ -534,23 +537,59 @@ public class Labyrinth implements Steppable {
             r.step();
     }
 
+    private int randomX() {
+        return random.nextInt(width);
+    }
+
+    private int randomY() {
+        return random.nextInt(height);
+    }
+
     private void emplacePlayers(int playerCount) {
         int nextId = 1;
         logger.fine("Placing players..");
 
         for (int i = 1; i <= playerCount; i++) {
-            game.registerSteppable(new Undergraduate(nextId++, getRandomRoom(), game));
+            int rx = randomX(), ry = randomY();
+            Undergraduate u = new Undergraduate(nextId++, rooms2D[ry][rx], game);
+            Undergraduate u2 = new Undergraduate(nextId++, rooms2D[ry][rx], game);
+            Undergraduate u3 = new Undergraduate(nextId++, rooms2D[ry][rx], game);
+            Undergraduate u4 = new Undergraduate(nextId++, rooms2D[ry][rx], game);
+
+            game.registerSteppable(u);
+            game.registerSteppable(u2);
+            game.registerSteppable(u3);
+            game.registerSteppable(u4);
+
+            if (listener != null)
+                listener.undergraduateCreated(u, rx, ry);
+            if (listener != null)
+                listener.undergraduateCreated(u2, rx, ry);
+            if (listener != null)
+                listener.undergraduateCreated(u3, rx, ry);
+            if (listener != null)
+                listener.undergraduateCreated(u4, rx, ry);
         }
 
         int professorCount = random.nextInt(1, playerCount);
         for (int i = 1; i <= professorCount; i++) {
-            game.registerSteppable(new Professor(nextId, getRandomRoom(), game));
+            int rx = randomX(), ry = randomY();
+            Professor p = new Professor(nextId, rooms2D[ry][rx], game);
+            game.registerSteppable(p);
+
+            if (listener != null)
+                listener.professorCreated(p, rx, ry);
         }
 
         int janitorCount = random.nextInt(1, playerCount);
 
         for (int i = 1; i <= janitorCount; i++) {
-            game.registerSteppable(new Janitor(nextId, getRandomRoom(), game));
+            int rx = randomX(), ry = randomY();
+            Janitor j = new Janitor(nextId, getRandomRoom(), game);
+            game.registerSteppable(j);
+
+            if (listener != null)
+                listener.janitorCreated(j, rx, ry);
         }
     }
 
