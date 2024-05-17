@@ -25,16 +25,16 @@ public class RoomView extends JPanel implements RoomChangeListener {
     private BufferedImage floorImage;               // alap
     private BufferedImage floorImageWhenGaseous;    // amikor gázossá válik
     private BufferedImage floorImageWhenSticky;     // amikor ragadós a szoba
-    private BufferedImage floorImageWhenGaseousAndSticky;     // amikor ragadós és gázos a szoba   VAN ILYEN??
+    private BufferedImage floorImageWhenEnchanted;
     public RoomView(Room r, int x, int y) {
         this.room = r;
         setBounds(x * SIZE, y * SIZE, SIZE, SIZE);
 
         try {
             floorImage = ImageIO.read(new File("src/main/resources/floor.png"));
-            floorImageWhenGaseous = ImageIO.read(new File("src/main/resources/floor.png"));
-            floorImageWhenSticky = ImageIO.read(new File("src/main/resources/floor.png"));
-            floorImageWhenGaseousAndSticky = ImageIO.read(new File("src/main/resources/floor.png"));
+            floorImageWhenGaseous = ImageIO.read(new File("src/main/resources/map/gaseous_room1000.png"));
+            floorImageWhenSticky = ImageIO.read(new File("src/main/resources/map/sticky_room1000.png"));
+            floorImageWhenEnchanted = ImageIO.read(new File("src/main/resources/map/enchanted_room1000.png"));
         } catch (IOException e) {
             logger.severe(e.getMessage());
         }
@@ -98,8 +98,8 @@ public class RoomView extends JPanel implements RoomChangeListener {
             g.drawImage(floorImageWhenGaseous, 0, 0, SIZE, SIZE, null);
         }
 
-        else  {  // gázos és ragad
-            g.drawImage(floorImageWhenGaseousAndSticky, 0, 0, SIZE, SIZE, null);
+        else  {  // elvarázsolt
+            g.drawImage(floorImageWhenEnchanted, 0, 0, SIZE, SIZE, null);
         }
     }
 }
