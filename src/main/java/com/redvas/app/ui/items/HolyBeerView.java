@@ -2,6 +2,7 @@ package com.redvas.app.ui.items;
 
 import com.redvas.app.App;
 import com.redvas.app.items.HolyBeer;
+import com.redvas.app.ui.ItemsView;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -11,7 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class HolyBeerView extends JPanel implements ItemChangeListener {
+public class HolyBeerView extends ItemsView implements ItemChangeListener {
     private static final Logger logger = App.getConsoleLogger(HolyBeerView.class.getName());
     private final HolyBeer beer;
     private int x;
@@ -19,19 +20,11 @@ public class HolyBeerView extends JPanel implements ItemChangeListener {
     BufferedImage beerImage;
 
     public HolyBeerView(HolyBeer holyBeer, int x, int y) {
+        super(holyBeer);
         this.beer = holyBeer;
         this.x = x;
         this.y = y;
-        try {
-            beerImage = ImageIO.read(new File("src/main/resources/items/holybeer.png"));
-        } catch (IOException e) {
-            logger.severe(e.getMessage());
-        }
-    }
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(beerImage, 0, 0, 100, 100, null);
+        this.itemImage = HolyBeerImage;
     }
 
     @Override
