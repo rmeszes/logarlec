@@ -589,22 +589,59 @@ public class Labyrinth implements Steppable {
             game.registerSteppable(j);
 
             if (listener != null)
+                //Szerintem ez igy nem pont oda rajzolodik ki ahova random generaltuk
+                //ez a randomX randomY micsoda? ha mar volt egy getRandomRoom
+
+                // TODO !!!
                 listener.janitorCreated(j, rx, ry);
         }
     }
 
+    /**
+     * I tried to do this, I modified so it does not use getRandomRoom but generates two ints and uses rooms2D
+     * because it needs to be stored (the x and y values) in order to draw the items in the correct room
+     */
     private void emplaceItems() {
         logger.fine("Placing items..");
 
         Map<String, Integer> numOfItems = howManyItems();
 
-        for (int i = 0; i < numOfItems.get("AirFreshener"); i++) new AirFreshener(1, getRandomRoom());
-        for (int i = 0; i < numOfItems.get("FFP2"); i++) new FFP2(2, getRandomRoom());
-        for (int i = 0; i < numOfItems.get("HolyBeer"); i++) new HolyBeer(3, getRandomRoom());
-        for (int i = 0; i < numOfItems.get("RottenCamembert"); i++) new RottenCamembert(4, getRandomRoom());
-        for (int i = 0; i < numOfItems.get("Transistor"); i++) new Transistor(5, getRandomRoom());
-        for (int i = 0; i < numOfItems.get("TVSZ"); i++) new TVSZ(6, getRandomRoom());
-        for (int i = 0; i < numOfItems.get("WetWipe"); i++) new WetWipe(7, getRandomRoom());
+        for (int i = 0; i < numOfItems.get("AirFreshener"); i++) {
+            int rx = randomX(), ry = randomY();
+            AirFreshener a = new AirFreshener(1, rooms2D[ry][rx]);
+            if (listener != null) listener.airFreshenerCreated(a, rx, ry);
+        }
+        for (int i = 0; i < numOfItems.get("FFP2"); i++) {
+            int rx = randomX(), ry = randomY();
+            FFP2 f = new FFP2(2, rooms2D[ry][rx]);
+            if (listener != null) listener.ffp2Created(f, rx, ry);
+        }
+        for (int i = 0; i < numOfItems.get("HolyBeer"); i++){
+            int rx = randomX(), ry = randomY();
+            HolyBeer hb = new HolyBeer(3, rooms2D[ry][rx]);
+            if (listener != null) listener.holyBeerCreated(hb, rx, ry);
+        }
+        for (int i = 0; i < numOfItems.get("RottenCamembert"); i++) {
+            int rx = randomX(), ry = randomY();
+            RottenCamembert rc = new RottenCamembert(4, rooms2D[ry][rx]);
+            if (listener != null) listener.rottenCamembertCreated(rc, rx, ry);
+        }
+        for (int i = 0; i < numOfItems.get("Transistor"); i++) {
+            int rx = randomX(), ry = randomY();
+            Transistor t = new Transistor(5, rooms2D[ry][rx]);
+            if (listener != null) listener.transistorCreated(t, rx, ry);
+        }
+        for (int i = 0; i < numOfItems.get("TVSZ"); i++) {
+            int rx = randomX(), ry = randomY();
+            TVSZ tvsz = new TVSZ(6, rooms2D[ry][rx]);
+            if (listener != null) listener.tvszCreated(tvsz, rx, ry);
+
+        }
+        for (int i = 0; i < numOfItems.get("WetWipe"); i++) {
+            int rx = randomX(), ry = randomY();
+            WetWipe ww = new WetWipe(7, rooms2D[ry][rx]);
+            if (listener != null) listener.wetWipeCreated(ww, rx, ry);
+        }
     }
 
     private Map<String, Integer> howManyItems() {

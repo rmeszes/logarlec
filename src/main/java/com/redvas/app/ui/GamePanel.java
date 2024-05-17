@@ -65,7 +65,7 @@ public class GamePanel extends JPanel {
 
         repaint();
     }
-    public static final double uiScale = 1.5;
+    public static final double uiScale = 3.0;
 
     public static double getMagnification() { return uiScale; }
 
