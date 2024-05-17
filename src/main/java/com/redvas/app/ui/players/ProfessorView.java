@@ -28,7 +28,10 @@ public class ProfessorView extends PlayerView implements PlayerChangeListener, P
 
     @Override
     public void faintedChanged(boolean isFainted) {
-        // TODO: switch to fainted or initial image
+        if (isFainted)
+            myImage = professorParalyzedImage;
+        else
+            myImage = professorImage;
         repaint();
     }
 }

@@ -51,7 +51,7 @@ public class ViewGenerator implements GeneratorListener {
 
     @Override
     public void professorCreated(Professor er, int x, int y) {
-        new ProfessorView(er);
+        rooms[y][x].addOccupant(new ProfessorView(er));
     }
 
     @Override
@@ -61,7 +61,7 @@ public class ViewGenerator implements GeneratorListener {
 
     @Override
     public void janitorCreated(Janitor janitor, int x, int y) {
-        new JanitorView(janitor);
+        rooms[y][x].addOccupant(new JanitorView(janitor));
     }
 
     @Override

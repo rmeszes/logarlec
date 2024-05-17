@@ -28,7 +28,8 @@ public class App
 
         if (test)
             new Prototype();
-        else new GamePanel(6, 4, 2);
+        else new GamePanel(5,5,4);
+
     }
 
     public static boolean isTest() {
