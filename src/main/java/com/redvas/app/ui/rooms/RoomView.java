@@ -4,6 +4,7 @@ import com.redvas.app.App;
 import com.redvas.app.map.rooms.Room;
 import com.redvas.app.players.Player;
 import com.redvas.app.ui.GamePanel;
+import com.redvas.app.ui.ItemsView;
 import com.redvas.app.ui.players.PlayerView;
 
 import javax.imageio.ImageIO;
@@ -41,6 +42,15 @@ public class RoomView extends JPanel implements RoomChangeListener {
     }
 
     private final List<PlayerView> occupants = new ArrayList<>();
+    private final List<ItemsView> items = new ArrayList<>();
+
+    public void addItem(ItemsView iv){
+        items.add(iv);
+        int roomLocalY = (items.size() - 1) / 3;
+        int roomLocalX = (items.size() - 1) % 3;
+        iv.occupyRoomPosition(roomLocalX, roomLocalY);
+        add(iv);
+    }
 
     public void addOccupant(PlayerView p) {
         occupants.add(p);

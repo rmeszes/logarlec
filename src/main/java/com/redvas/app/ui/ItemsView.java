@@ -1,6 +1,7 @@
 package com.redvas.app.ui;
 
 import com.redvas.app.items.Item;
+import com.redvas.app.ui.rooms.RoomView;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -49,6 +50,27 @@ public abstract class ItemsView extends JPanel{
             throw new RuntimeException(e);
         }
     }
+    public void occupyRoomPosition(int x, int y) {
+        int margin = (int)(RoomView.SIZE * 0.1);
+        int contentLength = RoomView.SIZE - 2 * margin;
+        int playerSpaceTotal = contentLength / 3;
+        boolean heightIsGreater = itemImage.getHeight() > itemImage.getWidth();
+
+        if (heightIsGreater)
+            this.setBounds(
+                    margin + playerSpaceTotal * x,
+                    margin + playerSpaceTotal * y,
+                    UITool.fitWidth2AspectRatio(itemImage, playerSpaceTotal),
+                    playerSpaceTotal
+            );
+        else this.setBounds(
+                margin + playerSpaceTotal * x,
+                margin + playerSpaceTotal * y,
+                playerSpaceTotal,
+                UITool.fitHeight2AspectRatio(itemImage, playerSpaceTotal)
+        );
+    }
+
 
     @Override
     protected void paintComponent(Graphics g) {

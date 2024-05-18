@@ -72,41 +72,49 @@ public class ViewGenerator implements GeneratorListener {
 
     @Override
     public void airFreshenerCreated(AirFreshener a, int x, int y) {
-        new AirFreshenerView(a, x, y);
+        AirFreshenerView av = new AirFreshenerView(a, x, y);
+        rooms[y][x].addItem(av);
     }
 
     @Override
     public void rottenCamembertCreated(RottenCamembert rottenCamembert, int x, int y) {
-        new RottenCamembertView(rottenCamembert, x, y);
+        RottenCamembertView rcv = new RottenCamembertView(rottenCamembert, x, y);
+        rooms[y][x].addItem(rcv);
     }
 
     @Override
     public void holyBeerCreated(HolyBeer holyBeer, int x, int y) {
-        new HolyBeerView(holyBeer, x, y);
+        HolyBeerView hbv = new HolyBeerView(holyBeer, x, y);
+        rooms[y][x].addItem(hbv);
     }
 
     @Override
     public void tvszCreated(TVSZ tvsz, int x, int y) {
-        new TVSZView(tvsz, x, y);
+        TVSZView tv = new TVSZView(tvsz, x, y);
+        rooms[y][x].addItem(tv);
     }
 
     @Override
     public void wetWipeCreated(WetWipe wetWipe, int x, int y) {
-        new WetWipeView(wetWipe, x, y);
+        WetWipeView wv = new WetWipeView(wetWipe, x, y);
+        rooms[y][x].addItem(wv);
     }
 
     @Override
     public void transistorCreated(Transistor t, int x, int y) {
-        new TransistorView(t, x, y);
+        TransistorView tv = new TransistorView(t, x, y);
+        rooms[y][x].addItem(tv);
     }
 
     @Override
     public void ffp2Created(FFP2 ffp2, int x, int y) {
-        new FFP2View(ffp2, x, y);
+        FFP2View fv = new FFP2View(ffp2, x, y);
+        rooms[y][x].addItem(fv);
     }
 
     @Override
     public void combinedTransistorCreated(CombinedTransistor ct, int x, int y) {
-        new CombinedTransistorView(ct,x, y);
+        CombinedTransistorView ctv = new CombinedTransistorView(ct,x, y);
+        rooms[y][x].addItem(ctv);
     }
 }
