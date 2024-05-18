@@ -584,14 +584,10 @@ public class Labyrinth implements Steppable {
         for (int i = 1; i <= janitorCount; i++) {
             int rx = randomX();
             int ry = randomY();
-            Janitor j = new Janitor(nextId, getRandomRoom(), game);
+            Janitor j = new Janitor(nextId, rooms2D[rx][ry], game);
             game.registerSteppable(j);
 
             if (listener != null)
-                //Szerintem ez igy nem pont oda rajzolodik ki ahova random generaltuk
-                //ez a randomX randomY micsoda? ha mar volt egy getRandomRoom
-
-                // TODO !!!
                 listener.janitorCreated(j, rx, ry);
         }
     }
