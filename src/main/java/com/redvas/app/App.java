@@ -27,7 +27,7 @@ public class App
         }
 
         if (test)
-            new Prototype();
+            Prototype.run();
         else new GamePanel(5,5,4);
 
     }

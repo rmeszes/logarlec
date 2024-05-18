@@ -145,7 +145,7 @@ public class Game extends JPanel{
                 'quit' to exit the game
                 """);
 
-        Scanner stdin = new Scanner(System.in);
+        Scanner stdin = App.reader;
 
         do {
             String input = stdin.nextLine();

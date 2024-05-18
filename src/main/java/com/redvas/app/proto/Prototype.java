@@ -10,9 +10,12 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Logger;
 
-public class Prototype {
+public abstract class Prototype {
     private static final Logger logger = App.getConsoleLogger(Prototype.class.getName());
-    public Prototype() throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+
+    private Prototype() {}
+
+    public static void run() throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         logger.fine("\nApp started successfully.");
         new Game(6, 4);
     }
