@@ -5,7 +5,6 @@ import com.redvas.app.ui.rooms.DoorChangeListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class Door {

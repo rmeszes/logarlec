@@ -18,17 +18,16 @@ import java.util.logging.Logger;
 public class DoorView extends JPanel implements DoorChangeListener {
     private static final Logger logger = App.getConsoleLogger(EnchantedRoomView.class.getName());
     private final Door door;
-    private static BufferedImage
-            leftDoorImage,
-            rightDoorImage,
-            topDoorImage,
-            bottomDoorImage,
-            verticalSymDoorImage,
-            verticalVanishedDoorImage,
-            horizontalVanishedDoorImage,
-            horizontalSymDoorImage,
-            verticalLockedDoor,
-            horizontalLockedDoor;
+    private static BufferedImage leftDoorImage;
+    private static BufferedImage rightDoorImage;
+    private static BufferedImage topDoorImage;
+    private static BufferedImage bottomDoorImage;
+    private static BufferedImage verticalSymDoorImage;
+    private static BufferedImage verticalVanishedDoorImage;
+    private static BufferedImage horizontalVanishedDoorImage;
+    private static BufferedImage horizontalSymDoorImage;
+    private static BufferedImage verticalLockedDoor;
+    private static BufferedImage horizontalLockedDoor;
 
     private static BufferedImage rotate90(BufferedImage image) {
         final double rads = Math.toRadians(90);
@@ -38,9 +37,9 @@ public class DoorView extends JPanel implements DoorChangeListener {
         final int h = (int) Math.floor(image.getHeight() * cos + image.getWidth() * sin);
         final BufferedImage rotatedImage = new BufferedImage(w, h, image.getType());
         final AffineTransform at = new AffineTransform();
-        at.translate(w / 2, h / 2);
+        at.translate(w / 2d, h / 2d);
         at.rotate(rads,0, 0);
-        at.translate(-image.getWidth() / 2, -image.getHeight() / 2);
+        at.translate(-image.getWidth() / 2d, -image.getHeight() / 2d);
         final AffineTransformOp rotateOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
         rotateOp.filter(image,rotatedImage);
         return rotatedImage;

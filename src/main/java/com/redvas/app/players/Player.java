@@ -6,7 +6,6 @@ import com.redvas.app.Steppable;
 import com.redvas.app.items.Item;
 import com.redvas.app.map.Direction;
 import com.redvas.app.map.rooms.Room;
-import com.redvas.app.ui.players.PlayerView;
 import com.redvas.app.ui.players.listeners.PlayerChangeListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

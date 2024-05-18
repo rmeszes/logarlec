@@ -1,13 +1,8 @@
 package com.redvas.app.ui.players;
 
-import com.redvas.app.map.rooms.Room;
 import com.redvas.app.players.Professor;
-import com.redvas.app.ui.UITool;
 import com.redvas.app.ui.players.listeners.PlayerChangeListener;
 import com.redvas.app.ui.players.listeners.ProfessorChangeListener;
-import com.redvas.app.ui.rooms.RoomView;
-
-import java.awt.*;
 
 public class ProfessorView extends PlayerView implements PlayerChangeListener, ProfessorChangeListener {
     private final Professor professor;

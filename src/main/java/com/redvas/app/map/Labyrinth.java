@@ -17,21 +17,15 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 import java.util.*;
 import java.util.logging.Logger;
 
 public class Labyrinth implements Steppable {
     private final List<Door> everyDoor = new ArrayList<>();
 
-    private static class data {
+    private static class Data {
         public boolean passable;
         public boolean vanished;
         public Direction direction;
@@ -115,7 +109,7 @@ public class Labyrinth implements Steppable {
             }
         }
 
-        HashMap<Room, HashMap<Room, data>> origins = new HashMap<>();
+        HashMap<Room, HashMap<Room, Data>> origins = new HashMap<>();
         rooms = labyrinth.getElementsByTagName("room");
 
         for (int i = 0; i < rooms.getLength(); i++) {
@@ -126,7 +120,7 @@ public class Labyrinth implements Steppable {
 
             for (int j = 0; j < doors.getLength(); j++) {
                 Element door = (Element) doors.item(j);
-                data d = new data();
+                Data d = new Data();
                 Room from = id2room.get(Integer.parseInt(room.getAttribute("id")));
                 if (from.getID() == 2)
                     logger.fine("");
@@ -134,12 +128,12 @@ public class Labyrinth implements Steppable {
                 d.passable = Boolean.parseBoolean(door.getAttribute("is_passable"));
                 d.vanished = Boolean.parseBoolean(door.getAttribute("is_vanished"));
                 d.direction = Direction.valueOf(door.getAttribute("direction"));
-                HashMap<Room, data> sub;
+                HashMap<Room, Data> sub;
 
                 boolean makeEdge = false;
 
                 if ((sub = origins.getOrDefault(to, null)) != null) {
-                    data other;
+                    Data other;
 
                     if (from.getID() == 2)
                         logger.fine("");
@@ -155,16 +149,18 @@ public class Labyrinth implements Steppable {
                     if (from.getID() == 2)
                         logger.fine("");
 
-                    if ((sub = origins.getOrDefault(from, null)) == null)
-                        origins.put(from, sub = new HashMap<>());
+                    if ((sub = origins.getOrDefault(from, null)) == null) {
+                        origins.put(from, sub);
+                        sub = new HashMap<>();
+                    }
 
                     sub.put(to, d);
                 }
             }
         }
 
-        for (Map.Entry<Room, HashMap<Room, data>> e : origins.entrySet())
-            for (Map.Entry<Room, data> e2 : e.getValue().entrySet()) {
+        for (Map.Entry<Room, HashMap<Room, Data>> e : origins.entrySet())
+            for (Map.Entry<Room, Data> e2 : e.getValue().entrySet()) {
                 Door d = new Door(e.getKey(), e2.getKey(), e2.getValue().direction, e2.getValue().passable, false);
                 d.setVanished(e2.getValue().vanished);
                 l.everyDoor.add(d);
@@ -257,7 +253,7 @@ public class Labyrinth implements Steppable {
         array[j] = tmp;
     }
 
-    private <T, E, J, K, L> void shuffle(T[] array1, E[] array2, J[] array3, K[] array4) {
+    private <T, E, J, K> void shuffle(T[] array1, E[] array2, J[] array3, K[] array4) {
 
         for (int i = 0; i < array1.length - 1; i++) {
             int rid = random.nextInt(i, array1.length);
@@ -550,7 +546,8 @@ public class Labyrinth implements Steppable {
         logger.fine("Placing players..");
 
         for (int i = 1; i <= playerCount; i++) {
-            int rx = randomX(), ry = randomY();
+            int rx = randomX();
+            int ry = randomY();
             Undergraduate u = new Undergraduate(nextId++, rooms2D[ry][rx], game);
             Undergraduate u2 = new Undergraduate(nextId++, rooms2D[ry][rx], game);
             Undergraduate u3 = new Undergraduate(nextId++, rooms2D[ry][rx], game);
@@ -573,7 +570,8 @@ public class Labyrinth implements Steppable {
 
         int professorCount = random.nextInt(1, playerCount);
         for (int i = 1; i <= professorCount; i++) {
-            int rx = randomX(), ry = randomY();
+            int rx = randomX();
+            int ry = randomY();
             Professor p = new Professor(nextId, rooms2D[ry][rx], game);
             game.registerSteppable(p);
 
@@ -584,7 +582,8 @@ public class Labyrinth implements Steppable {
         int janitorCount = random.nextInt(1, playerCount);
 
         for (int i = 1; i <= janitorCount; i++) {
-            int rx = randomX(), ry = randomY();
+            int rx = randomX();
+            int ry = randomY();
             Janitor j = new Janitor(nextId, getRandomRoom(), game);
             game.registerSteppable(j);
 
@@ -607,38 +606,45 @@ public class Labyrinth implements Steppable {
         Map<String, Integer> numOfItems = howManyItems();
 
         for (int i = 0; i < numOfItems.get("AirFreshener"); i++) {
-            int rx = randomX(), ry = randomY();
+            int rx = randomX();
+            int ry = randomY();
             AirFreshener a = new AirFreshener(1, rooms2D[ry][rx]);
             if (listener != null) listener.airFreshenerCreated(a, rx, ry);
         }
         for (int i = 0; i < numOfItems.get("FFP2"); i++) {
-            int rx = randomX(), ry = randomY();
+            int rx = randomX();
+            int ry = randomY();
             FFP2 f = new FFP2(2, rooms2D[ry][rx]);
             if (listener != null) listener.ffp2Created(f, rx, ry);
         }
         for (int i = 0; i < numOfItems.get("HolyBeer"); i++){
-            int rx = randomX(), ry = randomY();
+            int rx = randomX();
+            int ry = randomY();
             HolyBeer hb = new HolyBeer(3, rooms2D[ry][rx]);
             if (listener != null) listener.holyBeerCreated(hb, rx, ry);
         }
         for (int i = 0; i < numOfItems.get("RottenCamembert"); i++) {
-            int rx = randomX(), ry = randomY();
+            int rx = randomX();
+            int ry = randomY();
             RottenCamembert rc = new RottenCamembert(4, rooms2D[ry][rx]);
             if (listener != null) listener.rottenCamembertCreated(rc, rx, ry);
         }
         for (int i = 0; i < numOfItems.get("Transistor"); i++) {
-            int rx = randomX(), ry = randomY();
+            int rx = randomX();
+            int ry = randomY();
             Transistor t = new Transistor(5, rooms2D[ry][rx]);
             if (listener != null) listener.transistorCreated(t, rx, ry);
         }
         for (int i = 0; i < numOfItems.get("TVSZ"); i++) {
-            int rx = randomX(), ry = randomY();
+            int rx = randomX();
+            int ry = randomY();
             TVSZ tvsz = new TVSZ(6, rooms2D[ry][rx]);
             if (listener != null) listener.tvszCreated(tvsz, rx, ry);
 
         }
         for (int i = 0; i < numOfItems.get("WetWipe"); i++) {
-            int rx = randomX(), ry = randomY();
+            int rx = randomX();
+            int ry = randomY();
             WetWipe ww = new WetWipe(7, rooms2D[ry][rx]);
             if (listener != null) listener.wetWipeCreated(ww, rx, ry);
         }

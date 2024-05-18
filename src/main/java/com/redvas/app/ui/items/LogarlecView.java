@@ -4,12 +4,7 @@ import com.redvas.app.App;
 import com.redvas.app.items.Logarlec;
 import com.redvas.app.ui.ItemsView;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.logging.Logger;
 
 public class LogarlecView extends ItemsView implements ItemChangeListener {

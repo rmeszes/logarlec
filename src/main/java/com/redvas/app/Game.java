@@ -1,7 +1,6 @@
 package com.redvas.app;
 
 import com.redvas.app.map.Labyrinth;
-import com.redvas.app.ui.GamePanel;
 import com.redvas.app.ui.GeneratorListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

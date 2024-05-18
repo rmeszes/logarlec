@@ -1,35 +1,10 @@
 package com.redvas.app.ui;
 
-import com.redvas.app.App;
 import com.redvas.app.Game;
-import com.redvas.app.items.*;
-import com.redvas.app.map.Door;
-import com.redvas.app.map.Labyrinth;
-import com.redvas.app.map.rooms.EnchantedRoom;
-import com.redvas.app.map.rooms.ResizingRoom;
-import com.redvas.app.map.rooms.Room;
-import com.redvas.app.players.Janitor;
-import com.redvas.app.players.Professor;
-import com.redvas.app.players.Undergraduate;
-import com.redvas.app.ui.items.*;
-import com.redvas.app.ui.players.JanitorView;
-import com.redvas.app.ui.players.ProfessorView;
-import com.redvas.app.ui.players.UndergraduateView;
-import com.redvas.app.ui.rooms.DoorView;
-import com.redvas.app.ui.rooms.EnchantedRoomView;
-import com.redvas.app.ui.rooms.ResizingRoomView;
 import com.redvas.app.ui.rooms.RoomView;
-import org.xml.sax.SAXException;
 
 import javax.swing.*;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 import java.awt.*;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 public class GamePanel extends JPanel {
     private final transient ViewGenerator generator;

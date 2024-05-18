@@ -13,7 +13,8 @@ import com.redvas.app.ui.items.*;
 import com.redvas.app.ui.players.JanitorView;
 import com.redvas.app.ui.players.ProfessorView;
 import com.redvas.app.ui.players.UndergraduateView;
-import com.redvas.app.ui.rooms.*;
+import com.redvas.app.ui.rooms.DoorView;
+import com.redvas.app.ui.rooms.RoomView;
 
 public class ViewGenerator implements GeneratorListener {
     private RoomView[][] rooms;
