@@ -150,8 +150,8 @@ public class Labyrinth implements Steppable {
                         logger.fine("");
 
                     if ((sub = origins.getOrDefault(from, null)) == null) {
-                        origins.put(from, sub);
                         sub = new HashMap<>();
+                        origins.put(from, sub);
                     }
 
                     sub.put(to, d);
@@ -597,7 +597,7 @@ public class Labyrinth implements Steppable {
     }
 
     /**
-     * I tried to do this, I modified so it does not use getRandomRoom but generates two ints and uses rooms2D
+     * I tried to do this, I modified it, so it does not use getRandomRoom but generates two ints and uses rooms2D
      * because it needs to be stored (the x and y values) in order to draw the items in the correct room
      */
     private void emplaceItems() {
