@@ -53,21 +53,22 @@ public abstract class ItemsView extends JPanel{
     public void occupyRoomPosition(int x, int y) {
         int margin = (int)(RoomView.SIZE * 0.1);
         int contentLength = RoomView.SIZE - 2 * margin;
-        int playerSpaceTotal = contentLength / 3;
+        int itemSpaceTotal = contentLength / 3;
         boolean heightIsGreater = itemImage.getHeight() > itemImage.getWidth();
+        int yPosition = RoomView.SIZE - margin - itemSpaceTotal * (y + 1); // Adjust the y position
 
         if (heightIsGreater)
             this.setBounds(
-                    margin + playerSpaceTotal * x,
-                    margin + playerSpaceTotal * y,
-                    UITool.fitWidth2AspectRatio(itemImage, playerSpaceTotal),
-                    playerSpaceTotal
+                    margin + itemSpaceTotal * x,
+                    yPosition,
+                    UITool.fitWidth2AspectRatio(itemImage, itemSpaceTotal),
+                    itemSpaceTotal
             );
         else this.setBounds(
-                margin + playerSpaceTotal * x,
-                margin + playerSpaceTotal * y,
-                playerSpaceTotal,
-                UITool.fitHeight2AspectRatio(itemImage, playerSpaceTotal)
+                margin + itemSpaceTotal * x,
+                yPosition,
+                itemSpaceTotal,
+                UITool.fitHeight2AspectRatio(itemImage, itemSpaceTotal)
         );
     }
 
