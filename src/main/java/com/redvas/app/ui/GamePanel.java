@@ -33,6 +33,8 @@ public class GamePanel extends JPanel {
         this.height = height;
         JFrame window = new JFrame();
         window.add(this);
+        window.setResizable(false);
+        window.setResizable(false);
         window.setVisible(true);
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         window.pack();
