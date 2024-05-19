@@ -24,7 +24,6 @@ public class GameMenu extends JFrame {
 
         // Create components
         JButton startGameButton = new JButton("Start new game");
-        //JButton loadPresetGamestateButton = new JButton("Load preset gamestate");
         JButton loadSavedGameButton = new JButton("Load saved game");
         JButton exitButton = new JButton("Exit");
 
@@ -33,7 +32,7 @@ public class GameMenu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    new GamePanel(5,5,4);
+                    startNewGame();
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
@@ -76,6 +75,22 @@ public class GameMenu extends JFrame {
         // Display the frame
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+
+    private void startNewGame() {
+        /*SwingUtilities.invokeLater(() -> {
+            // Create a new frame for the game panel
+            JFrame gameFrame = new JFrame("Game");
+            GamePanel gamePanel = new GamePanel(5, 5, 4);  // Create game panel with specific dimensions and players
+            gameFrame.add(gamePanel);  // Add game panel to the frame
+            gameFrame.pack();  // Pack the frame to adjust to the preferred size of the game panel
+            gameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);  // Ensure closing this frame doesn't exit the application
+            gameFrame.setResizable(false);  // Disable resizing
+            gameFrame.setVisible(true);  // Make the game frame visible
+        });
+         */
+        GamePanel gamePanel = new GamePanel(5, 5, 4);
+        dispose();
     }
 
 }

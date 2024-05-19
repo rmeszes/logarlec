@@ -31,11 +31,15 @@ public class GamePanel extends JPanel {
     public GamePanel(int width, int height, int players) {
         this.width = width;
         this.height = height;
+
+        //   /*
         JFrame window = new JFrame();
         window.add(this);
         window.setVisible(true);
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         window.pack();
+         //   */
+
         generator = new ViewGenerator(width, height, players, this);
 
         repaint();
