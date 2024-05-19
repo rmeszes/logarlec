@@ -214,10 +214,10 @@ public abstract class Player implements Steppable {
      * @param direction: where they move
      * @return
      */
-    private boolean moveTowards (Direction direction) {
-        Room r;
+    public boolean moveTowards (Direction direction) {
+        Room r = where.isAccessible(direction);
 
-        if ((r = where.isAccessible(direction)) != null && r.canAccept()) {
+        if (r != null && r.canAccept()) {
                 moveTo(r);
                 return true;
             }

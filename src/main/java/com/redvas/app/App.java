@@ -1,6 +1,9 @@
 package com.redvas.app;
 
 
+import com.redvas.app.map.rooms.Room;
+import com.redvas.app.players.Player;
+import com.redvas.app.players.Undergraduate;
 import com.redvas.app.proto.Prototype;
 import com.redvas.app.ui.GameMenu;
 import com.redvas.app.ui.GamePanel;
@@ -33,11 +36,25 @@ public class App
         else {
             // menüből indítható, de a playerek/itemek a generálást követően eltűnnek
             SwingUtilities.invokeLater(() -> {
-                 GameMenu gameMenu = new GameMenu();
+                 //GameMenu gameMenu = new GameMenu();
             });
 
             // nincs menü, itemek megjelennek
-            //new GamePanel(5,5,4);
+            GamePanel gp = new GamePanel(5,5,4);
+
+            // vezérlés próbálkozások
+            Game testgame = gp.generator.getGame();    // ezeket mind publicra tettem
+            Room testRoom = testgame.labyrinth.rooms.get(1);
+            Undergraduate testPlayer = new Undergraduate(1, testRoom, testgame);
+            gp.playerToMove = testPlayer;
+
+            // 1. verzió - konzolról adjuk meg az irányokat - NEM ÍGY KÉNE
+            //testgame.movePlayer(testPlayer);
+
+
+            // 2. verzió - implementáltam KeyListenert a GamePanelen belül, csak itt a körök lebonyolítását
+            // kéne valahogyan megoldani. (összes lehetséges playeren végigmenni vmilyen sorrendben és ezekere rendre: lépés + act (ami opcionális) )    Plusz a szobák mikor is változnak?
+            // Ezek a körök annyira nem tiszták nekem, de lehetne mondjuk úgy hogy ha minden játékos lépett egy adott körben
         }
 
     }

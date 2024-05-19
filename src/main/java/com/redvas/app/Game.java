@@ -1,6 +1,7 @@
 package com.redvas.app;
 
 import com.redvas.app.map.Labyrinth;
+import com.redvas.app.players.Player;
 import com.redvas.app.ui.GeneratorListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -57,7 +58,7 @@ public class Game extends JPanel{
 
     private final Set<Steppable> steppablesForRound = new HashSet<>();
 
-    private transient Labyrinth labyrinth;
+    public transient Labyrinth labyrinth;
 
 
     /**
@@ -200,5 +201,39 @@ public class Game extends JPanel{
         } catch (NumberFormatException ignored) {
             // ?
         }
+    }
+
+    // Amikkel a játékot vezérelni fogjuk - vagy mégsem, hiszen megoldottam keyboard listenerrel. Majd ha úgy döntünk hogy az jó akkor ezt ki lehet szedni
+
+    public void movePlayer(Player p) {
+        try {
+            System.out.print("Enter a character to move the player (W/A/S/D): ");
+            char character = (char) System.in.read();
+
+            switch (character) {
+                case 'W':
+                case 'w':
+                    //moveUp(p);
+                    break;
+                case 'A':
+                case 'a':
+                    //moveLeft(p);
+                    break;
+                case 'S':
+                case 's':
+                    //moveDown(p);
+                    break;
+                case 'D':
+                case 'd':
+                    //moveRight(p);
+                    break;
+                default:
+                    System.out.println("Invalid input. Please enter W, A, S, or D.");
+                    break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
