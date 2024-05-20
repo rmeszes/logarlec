@@ -56,6 +56,11 @@ public class RoomView extends JPanel implements RoomChangeListener {
 
     private List<DoorView> doors = new ArrayList<>();
 
+    private void repaintCorrectly() {
+        repaint();
+        repaintDoors();
+    }
+
     private void repaintDoors() {
         for (DoorView dv : doors)
             SwingUtilities.invokeLater(new Runnable() {
@@ -78,8 +83,7 @@ public class RoomView extends JPanel implements RoomChangeListener {
             occupants.get(i).occupyRoomPosition(roomLocalX, roomLocalY);
         }
 
-        repaint();
-        repaintDoors();
+        repaintCorrectly();
     }
 
     public void addOccupant(PlayerView p) {
@@ -88,9 +92,7 @@ public class RoomView extends JPanel implements RoomChangeListener {
         int roomLocalX = (occupants.size() - 1) % 3;
         add(p);
         p.occupyRoomPosition(roomLocalX, roomLocalY);
-        repaint();
-        repaintDoors();
-
+        repaintCorrectly();
     }
 
     @Override
@@ -124,7 +126,6 @@ public class RoomView extends JPanel implements RoomChangeListener {
         if (activeLeavingPlayer == null) return;
         addOccupant(activeLeavingPlayer);
         activeLeavingPlayer = null;
-        // repaint();
     }
 
     public static final int SIZE = (int)(100 * GamePanel.getMagnification());
