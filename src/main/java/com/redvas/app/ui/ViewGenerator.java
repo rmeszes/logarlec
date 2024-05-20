@@ -62,11 +62,10 @@ public class ViewGenerator implements GeneratorListener {
 
     @Override
     public void doorCreated(Door door, int room1x, int room1y, int room2x, int room2y) {
-
         DoorView dv = new DoorView(door, room1x, room1y, room2x, room2y);  // beallitja a sajat boundjait a panelen belul
         gp.add(dv);
         doors[room1y][room1x].add(dv);
-        doors[room2y][room2y].add(dv);
+        doors[room2y][room2x].add(dv);
     }
 
     @Override
