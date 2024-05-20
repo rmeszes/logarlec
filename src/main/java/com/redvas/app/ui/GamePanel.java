@@ -44,7 +44,7 @@ public class GamePanel extends JPanel {
         setFocusable(true);
         requestFocusInWindow();
 
-        addKeyListener(new KeyAdapter() {
+        /*addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 char keyChar = e.getKeyChar();
@@ -115,6 +115,7 @@ public class GamePanel extends JPanel {
                 repaint();  // Repaint the panel to update any changes
             }
         });
+         */
 
         repaint();
     }

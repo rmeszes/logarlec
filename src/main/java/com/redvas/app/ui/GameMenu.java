@@ -51,6 +51,22 @@ public class GameMenu extends JFrame {
                         //} catch (ParserConfigurationException | TransformerException exception){
                         //    exception.printStackTrace();
                         //}
+                        new SwingWorker<Void, Void>() {
+                            @Override
+                            protected Void doInBackground() throws Exception {
+                                game.play();
+                                return null;
+                            }
+
+                            @Override
+                            protected void done() {
+                                try {
+                                    get();
+                                } catch (Exception ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
+                        }.execute();
 
                     });
                     //dispose();
