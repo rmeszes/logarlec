@@ -92,7 +92,7 @@ public class Undergraduate extends Player implements Steppable {
      * like move, act, list
      */
     private void getCommand() {
-        if (ffp2Countdown > 0) ffp2Countdown--;
+        // if (ffp2Countdown > 0) ffp2Countdown--;
         HashMap<String, Supplier<Boolean>> cmds = new HashMap<>();
         cmds.put("move", this::consoleMove);
         cmds.put("act", this::consoleAct);
