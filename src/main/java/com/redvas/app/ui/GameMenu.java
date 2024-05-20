@@ -1,10 +1,13 @@
 package com.redvas.app.ui;
 
 import com.redvas.app.Game;
+import com.redvas.app.map.Labyrinth;
 import com.redvas.app.map.rooms.Room;
 import com.redvas.app.players.Undergraduate;
 
 import javax.swing.*;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +17,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class GameMenu extends JFrame {
     final GameWindow[] gameWindowContainer = new GameWindow[1];
+    int PlayerCount = 2;    // default
 
     public GameMenu() {
        // Set up the main frame
@@ -33,13 +37,23 @@ public class GameMenu extends JFrame {
                 try {
                     //SwingUtilities.invokeLater(() -> new GameWindow(5,5,4));
                     SwingUtilities.invokeLater(() -> {
-                        gameWindowContainer[0] = new GameWindow(5, 5, 4);   // így el tudjuk tárolni a GameWindow-ot
-                        Game testgame = gameWindowContainer[0].gamePanel.generator.getGame();    // ezeket mind publicra tettem
+                        // ehhez külön ablak ahol megkérdezzük a fe
+                        setPlayerCount();
 
-                        Undergraduate testPlayer = testgame.labyrinth.getTestPlayer();
+                        int width = 5, height = 5;
+                        gameWindowContainer[0] = new GameWindow(width, height, PlayerCount);   // így el tudjuk tárolni a GameWindow-ot
+                        Game game = gameWindowContainer[0].gamePanel.generator.getGame();    // ezeket mind publicra tettem
+
+                        Undergraduate testPlayer = game.labyrinth.getTestPlayer();
                         gameWindowContainer[0].gamePanel.playerToMove = testPlayer;
+                        //try{
+                        //    game.play();
+                        //} catch (ParserConfigurationException | TransformerException exception){
+                        //    exception.printStackTrace();
+                        //}
+
                     });
-                    dispose();
+                    //dispose();
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
@@ -82,5 +96,26 @@ public class GameMenu extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
+
+    public void setPlayerCount() {
+        Integer[] playerOptions = {1, 2, 3, 4, 5, 6};
+        JComboBox<Integer> playerCountComboBox = new JComboBox<>(playerOptions);
+
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Number of players:"));
+        panel.add(playerCountComboBox);
+
+        int result = JOptionPane.showConfirmDialog(null, panel, "Set Game Parameters",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+        if (result == JOptionPane.OK_OPTION) {
+            PlayerCount = (int) playerCountComboBox.getSelectedItem();
+            System.out.println("playerCount: " +  PlayerCount);
+        } else {
+
+            return;
+        }
+    }
+
 
 }
