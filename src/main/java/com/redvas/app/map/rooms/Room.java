@@ -111,6 +111,7 @@ public class Room implements Steppable {
      */
     public void removeItem(Item item) {
         logger.finest(()->"Room item inventory no longer holds this " + item);
+        items.remove(item);
     }
 
     /**
