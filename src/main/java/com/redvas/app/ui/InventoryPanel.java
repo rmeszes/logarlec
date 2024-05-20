@@ -54,14 +54,14 @@ public class InventoryPanel extends JPanel {
         }
 
         if (index != -1) {
-            if (selectedSlot == -1) {
-                selectedSlot = index;
-                slots[selectedSlot].setBorder(BorderFactory.createLineBorder(Color.RED));
-            } else {
-                slots[selectedSlot].setIcon(images[index]);
+            // Deselect the previously selected slot, if any
+            if (selectedSlot != -1) {
                 slots[selectedSlot].setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                selectedSlot = -1;
             }
+
+            // Select the new slot
+            selectedSlot = index;
+            slots[selectedSlot].setBorder(BorderFactory.createLineBorder(Color.RED));
         }
     }
 }

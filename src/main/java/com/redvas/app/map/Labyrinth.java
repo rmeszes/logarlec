@@ -552,23 +552,13 @@ public class Labyrinth implements Steppable {
             int rx = randomX();
             int ry = randomY();
             u = new Undergraduate(nextId++, rooms2D[ry][rx], game);
-            Undergraduate u2 = new Undergraduate(nextId++, rooms2D[ry][rx], game);
-            Undergraduate u3 = new Undergraduate(nextId++, rooms2D[ry][rx], game);
-            Undergraduate u4 = new Undergraduate(nextId++, rooms2D[ry][rx], game);
+
 
             game.registerSteppable(u);
-            game.registerSteppable(u2);
-            game.registerSteppable(u3);
-            game.registerSteppable(u4);
 
             if (listener != null)
                 listener.undergraduateCreated(u, rx, ry);
-            if (listener != null)
-                listener.undergraduateCreated(u2, rx, ry);
-            if (listener != null)
-                listener.undergraduateCreated(u3, rx, ry);
-            if (listener != null)
-                listener.undergraduateCreated(u4, rx, ry);
+
         }
 
         int professorCount = random.nextInt(1, playerCount);
