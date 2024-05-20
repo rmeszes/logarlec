@@ -28,6 +28,7 @@ public class RoomView extends JPanel implements RoomChangeListener {
     private BufferedImage floorImageWhenSticky;     // amikor ragadós a szoba
     private BufferedImage floorImageWhenEnchanted;
     public RoomView(Room r, int x, int y) {
+        r.setListener(this);
         setLayout(null);
         this.room = r;
         setBounds(x * SIZE, y * SIZE, SIZE, SIZE);
@@ -88,6 +89,7 @@ public class RoomView extends JPanel implements RoomChangeListener {
 
     @Override
     public void occupantEntered(Player p) {
+        if (activeLeavingPlayer == null) return;
         addOccupant(activeLeavingPlayer);
         activeLeavingPlayer = null;
         repaint();

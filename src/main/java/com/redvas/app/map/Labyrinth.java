@@ -245,7 +245,7 @@ public class Labyrinth implements Steppable {
     protected static final Logger logger = App.getConsoleLogger(Labyrinth.class.getName());
 
     private Room[][] rooms2D;
-    public final List<Room> rooms = new ArrayList<>();      // vezérlés teszt miatt public
+    private final List<Room> rooms = new ArrayList<>();      // vezérlés teszt miatt public
 
     private <T> void swap(T[] array, int i, int j) {
         T tmp = array[i];
@@ -541,6 +541,9 @@ public class Labyrinth implements Steppable {
         return random.nextInt(height);
     }
 
+    public Undergraduate getTestPlayer() { return u; }
+    private Undergraduate u;
+
     private void emplacePlayers(int playerCount) {
         int nextId = 1;
         logger.fine("Placing players..");
@@ -548,7 +551,7 @@ public class Labyrinth implements Steppable {
         for (int i = 1; i <= playerCount; i++) {
             int rx = randomX();
             int ry = randomY();
-            Undergraduate u = new Undergraduate(nextId++, rooms2D[ry][rx], game);
+            u = new Undergraduate(nextId++, rooms2D[ry][rx], game);
             Undergraduate u2 = new Undergraduate(nextId++, rooms2D[ry][rx], game);
             Undergraduate u3 = new Undergraduate(nextId++, rooms2D[ry][rx], game);
             Undergraduate u4 = new Undergraduate(nextId++, rooms2D[ry][rx], game);

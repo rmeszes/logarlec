@@ -35,8 +35,8 @@ public class GameMenu extends JFrame {
                     SwingUtilities.invokeLater(() -> {
                         gameWindowContainer[0] = new GameWindow(5, 5, 4);   // így el tudjuk tárolni a GameWindow-ot
                         Game testgame = gameWindowContainer[0].gamePanel.generator.getGame();    // ezeket mind publicra tettem
-                        Room testRoom = testgame.labyrinth.rooms.get(1);
-                        Undergraduate testPlayer = new Undergraduate(1, testRoom, testgame);
+
+                        Undergraduate testPlayer = testgame.labyrinth.getTestPlayer();
                         gameWindowContainer[0].gamePanel.playerToMove = testPlayer;
                     });
                     dispose();
