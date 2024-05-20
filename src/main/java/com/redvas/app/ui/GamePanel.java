@@ -52,7 +52,7 @@ public class GamePanel extends JPanel {
         setFocusable(true);
         requestFocusInWindow();
 
-        addKeyListener(new KeyAdapter() {  // Áttenni a JFrame-be
+        addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 char keyChar = e.getKeyChar();
