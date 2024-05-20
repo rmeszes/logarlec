@@ -83,7 +83,12 @@ public class Door {
     }
 
     public boolean isVanished() { return isVanished; }
-    public boolean isPassable(Direction in) { return passableMap[in.getValue() & 1]; }
+    public boolean isPassable(Direction in) {
+        if (in.getValue() != evenIndex && in.getValue() != evenIndex + 1)
+            return false;
+
+        return passableMap[in.getValue() & 1];
+    }
 
     public void setPassable(Direction in, boolean isPassable) {
         if (in.getValue() != evenIndex && in.getValue() != evenIndex + 1)
