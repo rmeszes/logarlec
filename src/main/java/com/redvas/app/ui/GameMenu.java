@@ -1,19 +1,14 @@
 package com.redvas.app.ui;
 
 import com.redvas.app.Game;
-import com.redvas.app.map.Labyrinth;
-import com.redvas.app.map.rooms.Room;
 import com.redvas.app.players.Undergraduate;
 
 import javax.swing.*;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class GameMenu extends JFrame {
     final GameWindow[] gameWindowContainer = new GameWindow[1];
@@ -46,11 +41,8 @@ public class GameMenu extends JFrame {
 
                         Undergraduate testPlayer = game.labyrinth.getTestPlayer();
                         gameWindowContainer[0].gamePanel.playerToMove = testPlayer;
-                        //try{
-                        //    game.play();
-                        //} catch (ParserConfigurationException | TransformerException exception){
-                        //    exception.printStackTrace();
-                        //}
+
+                        // MÛKÖDIK a konzollal ezzel a megoldással
                         new SwingWorker<Void, Void>() {
                             @Override
                             protected Void doInBackground() throws Exception {
@@ -126,6 +118,7 @@ public class GameMenu extends JFrame {
 
         if (result == JOptionPane.OK_OPTION) {
             PlayerCount = (int) playerCountComboBox.getSelectedItem();
+            dispose();
             System.out.println("playerCount: " +  PlayerCount);
         } else {
 
