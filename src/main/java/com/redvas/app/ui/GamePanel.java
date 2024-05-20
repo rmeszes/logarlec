@@ -58,7 +58,7 @@ public class GamePanel extends JPanel {
                         }
                         else {
                             System.out.println("sikertelen W");
-                            Room r = playerToMove.where().isAccessible(Direction.LEFT);
+                            Room r = playerToMove.where().isAccessible(Direction.UP);
                             if (r != null)
                                 System.out.println("destination capacity: " + r.getCapacity() + " currently: " + r.getOccupants().size());
                         }
@@ -88,7 +88,7 @@ public class GamePanel extends JPanel {
                         }
                         else {
                             System.out.println("sikertelen S");
-                            Room r = playerToMove.where().isAccessible(Direction.LEFT);
+                            Room r = playerToMove.where().isAccessible(Direction.DOWN);
                             if (r != null)
                                 System.out.println("destination capacity: " + r.getCapacity() + " currently: " + r.getOccupants().size());
                         }
@@ -103,7 +103,7 @@ public class GamePanel extends JPanel {
                         }
                         else {
                             System.out.println("sikertelen D");
-                            Room r = playerToMove.where().isAccessible(Direction.LEFT);
+                            Room r = playerToMove.where().isAccessible(Direction.RIGHT);
                             if (r != null)
                                 System.out.println("destination capacity: " + r.getCapacity() + " currently: " + r.getOccupants().size());
                         }

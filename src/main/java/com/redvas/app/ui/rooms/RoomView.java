@@ -54,13 +54,21 @@ public class RoomView extends JPanel implements RoomChangeListener {
         add(iv);
     }
 
+    private void reorderOccupants() {
+        for (int i = 0; i < occupants.size(); i++) {
+            int roomLocalY = i / 3;
+            int roomLocalX = i % 3;
+            occupants.get(i).occupyRoomPosition(roomLocalX, roomLocalY);
+        }
+    }
+
     public void addOccupant(PlayerView p) {
         occupants.add(p);
         int roomLocalY = (occupants.size() - 1) / 3;
         int roomLocalX = (occupants.size() - 1) % 3;
         add(p);
         p.occupyRoomPosition(roomLocalX, roomLocalY);
-        repaint();
+        // repaint();
     }
 
     @Override
@@ -80,11 +88,13 @@ public class RoomView extends JPanel implements RoomChangeListener {
     public void occupantLeft(Player p) {
         for (PlayerView pw : occupants)
             if (pw.getPlayer() == p) {
+                remove(pw);
                 occupants.remove(pw);
                 activeLeavingPlayer = pw;
-                return;
+                break;
             }
-        repaint();
+
+        reorderOccupants();
     }
 
     @Override

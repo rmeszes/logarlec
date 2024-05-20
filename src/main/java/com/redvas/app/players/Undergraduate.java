@@ -26,7 +26,7 @@ public class Undergraduate extends Player implements Steppable {
         this.dropScheduled = false;
         logger.fine(() -> this + " created");
         game.addUndergraduate();
-        where.addOccupant(this);
+        // where.addOccupant(this);
     }
 
     @Override

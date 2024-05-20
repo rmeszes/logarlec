@@ -59,7 +59,6 @@ public abstract class Player implements Steppable {
     // konstruktor
     protected Player(Integer id, Room room, Game game) {
         this.id = id;
-        this.where = room;
         this.items = new ArrayList<>();
         this.faintCountdown = 0;
         this.game = game;

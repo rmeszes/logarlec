@@ -26,7 +26,7 @@ public class Professor extends Player implements ProximityListener{
         super(id, room, game);
         paralyzeCountdown = 0;
         where.subscribeToProximity(this);
-        where.addOccupant(this);
+        // where.addOccupant(this);
     }
 
     private ProfessorChangeListener listener = null;
