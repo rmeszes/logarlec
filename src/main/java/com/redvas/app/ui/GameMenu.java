@@ -1,19 +1,12 @@
 package com.redvas.app.ui;
 
-import com.redvas.app.Game;
-import com.redvas.app.proto.Prototype;
-import org.xml.sax.SAXException;
-
 import javax.swing.*;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class GameMenu extends JFrame {
     public GameMenu() {
@@ -61,7 +54,6 @@ public class GameMenu extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-
                 System.exit(0);
             }
         });
@@ -78,19 +70,8 @@ public class GameMenu extends JFrame {
     }
 
     private void startNewGame() {
-        /*SwingUtilities.invokeLater(() -> {
-            // Create a new frame for the game panel
-            JFrame gameFrame = new JFrame("Game");
-            GamePanel gamePanel = new GamePanel(5, 5, 4);  // Create game panel with specific dimensions and players
-            gameFrame.add(gamePanel);  // Add game panel to the frame
-            gameFrame.pack();  // Pack the frame to adjust to the preferred size of the game panel
-            gameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);  // Ensure closing this frame doesn't exit the application
-            gameFrame.setResizable(false);  // Disable resizing
-            gameFrame.setVisible(true);  // Make the game frame visible
-        });
-         */
-        GamePanel gamePanel = new GamePanel(5, 5, 4);
         dispose();
+        new GamePanel(6, 4, 4);
     }
 
 }

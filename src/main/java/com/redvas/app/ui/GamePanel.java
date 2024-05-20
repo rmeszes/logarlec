@@ -10,10 +10,6 @@ public class GamePanel extends JPanel {
     private final transient ViewGenerator generator;
 
     // called view Views, whenever a change occurs
-    public void refresh() {
-        repaint();
-    }
-
     /*
     * public GamePanel(int preset) {}
     * */
@@ -35,16 +31,17 @@ public class GamePanel extends JPanel {
         //   /*
         JFrame window = new JFrame();
         window.add(this);
-        window.setVisible(true);
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        window.pack();
-         //   */
+
+
+        //   */
 
         generator = new ViewGenerator(width, height, players, this);
-
-        repaint();
+        window.pack();
+        window.setVisible(true);
+        window.repaint();
     }
-    public static final double uiScale = 3.0;
+    public static final double uiScale = 2.0;
 
     public static double getMagnification() { return uiScale; }
 

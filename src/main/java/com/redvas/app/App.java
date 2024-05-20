@@ -32,12 +32,7 @@ public class App
             Prototype.run();
         else {
             // menüből indítható, de a playerek/itemek a generálást követően eltűnnek
-            SwingUtilities.invokeLater(() -> {
-                 GameMenu gameMenu = new GameMenu();
-            });
-
-            // nincs menü, itemek megjelennek
-            //new GamePanel(5,5,4);
+            new GameMenu();
         }
 
     }
