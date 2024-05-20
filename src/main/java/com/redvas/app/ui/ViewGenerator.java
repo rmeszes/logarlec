@@ -16,6 +16,7 @@ import com.redvas.app.ui.players.UndergraduateView;
 import com.redvas.app.ui.rooms.DoorView;
 import com.redvas.app.ui.rooms.RoomView;
 
+import javax.swing.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,23 @@ public class ViewGenerator implements GeneratorListener {
             for (int j = 0; j < width; j++)
                 for (DoorView dv : doors[i][j])
                     rooms[i][j].addDoor(dv);
+
+        new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                game.play();
+                return null;
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    get();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }.execute();
     }
 
     @Override

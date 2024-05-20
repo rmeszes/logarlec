@@ -18,10 +18,6 @@ public class GamePanel extends JPanel {
     // valahogyan kéne tárolni az aktuális state-t (lépés, act), hogy a keyboardListener csakk a mozgásnál
 
     // called view Views, whenever a change occurs
-    public void refresh() {
-        repaint();
-    }
-
     /*
     * public GamePanel(int preset) {}
     * */
