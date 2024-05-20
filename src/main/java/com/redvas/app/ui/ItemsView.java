@@ -69,10 +69,7 @@ public abstract class ItemsView extends JPanel{
                 yPosition,
                 itemSpaceTotal,
                 UITool.fitHeight2AspectRatio(itemImage, itemSpaceTotal)
-        );
-
-        repaint();
-    }
+        );}
 
 
     @Override

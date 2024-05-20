@@ -16,8 +16,13 @@ import com.redvas.app.ui.players.UndergraduateView;
 import com.redvas.app.ui.rooms.DoorView;
 import com.redvas.app.ui.rooms.RoomView;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 public class ViewGenerator implements GeneratorListener {
     private RoomView[][] rooms;
+    private ArrayList<DoorView>[][] doors;
 
     private Game game;
     public Game getGame() { return game; }
@@ -28,7 +33,18 @@ public class ViewGenerator implements GeneratorListener {
         this.gp = gp;
         gp.setLayout(null);
         rooms = new RoomView[height][width];
+        doors = (ArrayList<DoorView>[][]) Array.newInstance(ArrayList.class, height, width);
+
+        for (int y = 0; y < height; y++)
+            for (int x = 0; x < width; x++)
+                doors[y][x] = new ArrayList<>();
+
         game = new Game(width, height, players, this);
+
+        for (int i = 0; i < height; i++)
+            for (int j = 0; j < width; j++)
+                for (DoorView dv : doors[i][j])
+                    rooms[i][j].addDoor(dv);
     }
 
     @Override
@@ -46,8 +62,11 @@ public class ViewGenerator implements GeneratorListener {
 
     @Override
     public void doorCreated(Door door, int room1x, int room1y, int room2x, int room2y) {
+
         DoorView dv = new DoorView(door, room1x, room1y, room2x, room2y);  // beallitja a sajat boundjait a panelen belul
         gp.add(dv);
+        doors[room1y][room1x].add(dv);
+        doors[room2y][room2y].add(dv);
     }
 
     @Override
