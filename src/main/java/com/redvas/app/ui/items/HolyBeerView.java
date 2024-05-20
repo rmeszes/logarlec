@@ -2,28 +2,25 @@ package com.redvas.app.ui.items;
 
 import com.redvas.app.App;
 import com.redvas.app.items.HolyBeer;
-import com.redvas.app.ui.ItemsView;
 
 import java.awt.image.BufferedImage;
 import java.util.logging.Logger;
 
 public class HolyBeerView extends ItemsView implements ItemChangeListener {
-    private static final Logger logger = App.getConsoleLogger(HolyBeerView.class.getName());
     private final HolyBeer beer;
-    private int x;
-    private int y;
-    BufferedImage beerImage;
 
-    public HolyBeerView(HolyBeer holyBeer, int x, int y) {
+    public HolyBeerView(HolyBeer holyBeer) {
         super(holyBeer);
         this.beer = holyBeer;
-        this.x = x;
-        this.y = y;
         this.itemImage = HolyBeerImage;
     }
 
     @Override
-    public void positionChanged(boolean isInRoom) {
-
+    public void isInRoom(boolean isInRoom) {
+        if (isInRoom)
+            this.setOpaque(true);
+        else
+            this.setOpaque(false);
+        repaint();
     }
 }

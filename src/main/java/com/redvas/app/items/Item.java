@@ -3,6 +3,7 @@ package com.redvas.app.items;
 import com.redvas.app.App;
 import com.redvas.app.map.rooms.Room;
 import com.redvas.app.players.Player;
+import com.redvas.app.ui.items.ItemChangeListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -92,6 +93,10 @@ public abstract class Item {
      */
     public abstract void use();
 
+    private ItemChangeListener listener = null;
+    public void setListener(ItemChangeListener listener) {
+        this.listener = listener;
+    }
 
     /** item was put on the floor (removed from inventory, added to floor of room)
      *
@@ -102,6 +107,9 @@ public abstract class Item {
         getOwner().removeFromInventory(this);
         getOwner().where().addItem(this);
         isInRoom = true;
+
+        if (listener != null)
+            listener.isInRoom(true);
     }
 
     /**
@@ -115,6 +123,8 @@ public abstract class Item {
             who.addToInventory(this);
             whichRoom.removeItem(this);
             this.isInRoom = false;
+            if (listener != null)
+                listener.isInRoom(false);
         }
         else{
             logger.fine("Inventory full");

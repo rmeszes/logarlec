@@ -120,7 +120,7 @@ public class GamePanel extends JPanel {
         repaint();
     }
 
-    public static final double uiScale = 1.0; // FULL HD-n a 2.0 a jó
+    public static final double uiScale = 2.0; // FULL HD-n a 2.0 a jó
 
     public static double getMagnification() { return uiScale; }
 

@@ -1,6 +1,7 @@
-package com.redvas.app.ui;
+package com.redvas.app.ui.items;
 
 import com.redvas.app.items.Item;
+import com.redvas.app.ui.UITool;
 import com.redvas.app.ui.rooms.RoomView;
 
 import javax.imageio.ImageIO;

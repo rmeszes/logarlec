@@ -85,54 +85,46 @@ public class ViewGenerator implements GeneratorListener {
 
     @Override
     public void logarlecCreated(Logarlec l, int x, int y) {
-         rooms[y][x].addItem(new LogarlecView(l, x, y));
+         rooms[y][x].addItem(new LogarlecView(l));
     }
 
     @Override
     public void airFreshenerCreated(AirFreshener a, int x, int y) {
-        AirFreshenerView av = new AirFreshenerView(a, x, y);
-        rooms[y][x].addItem(av);
+        rooms[y][x].addItem(new AirFreshenerView(a));
     }
 
     @Override
     public void rottenCamembertCreated(RottenCamembert rottenCamembert, int x, int y) {
-        RottenCamembertView rcv = new RottenCamembertView(rottenCamembert, x, y);
-        rooms[y][x].addItem(rcv);
+        rooms[y][x].addItem(new RottenCamembertView(rottenCamembert));
     }
 
     @Override
     public void holyBeerCreated(HolyBeer holyBeer, int x, int y) {
-        HolyBeerView hbv = new HolyBeerView(holyBeer, x, y);
-        rooms[y][x].addItem(hbv);
+        rooms[y][x].addItem(new HolyBeerView(holyBeer));
     }
 
     @Override
     public void tvszCreated(TVSZ tvsz, int x, int y) {
-        TVSZView tv = new TVSZView(tvsz, x, y);
-        rooms[y][x].addItem(tv);
+        rooms[y][x].addItem(new TVSZView(tvsz));
     }
 
     @Override
     public void wetWipeCreated(WetWipe wetWipe, int x, int y) {
-        WetWipeView wv = new WetWipeView(wetWipe, x, y);
-        rooms[y][x].addItem(wv);
+        rooms[y][x].addItem(new WetWipeView(wetWipe, x, y));
     }
 
     @Override
     public void transistorCreated(Transistor t, int x, int y) {
-        TransistorView tv = new TransistorView(t, x, y);
-        rooms[y][x].addItem(tv);
+        rooms[y][x].addItem(new TransistorView(t));
     }
 
     @Override
     public void ffp2Created(FFP2 ffp2, int x, int y) {
-        FFP2View fv = new FFP2View(ffp2, x, y);
-        rooms[y][x].addItem(fv);
+        rooms[y][x].addItem(new FFP2View(ffp2));
     }
 
     @Override
     public void combinedTransistorCreated(CombinedTransistor ct, int x, int y) {
-        CombinedTransistorView ctv = new CombinedTransistorView(ct,x, y);
-        rooms[y][x].addItem(ctv);
+        rooms[y][x].addItem(new CombinedTransistorView(ct));
     }
 }
