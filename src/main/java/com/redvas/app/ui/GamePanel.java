@@ -58,6 +58,9 @@ public class GamePanel extends JPanel {
                         }
                         else {
                             System.out.println("sikertelen W");
+                            Room r = playerToMove.where().isAccessible(Direction.LEFT);
+                            if (r != null)
+                                System.out.println("destination capacity: " + r.getCapacity() + " currently: " + r.getOccupants().size());
                         }
                         break;
                     case 'A':
@@ -70,6 +73,9 @@ public class GamePanel extends JPanel {
                         }
                         else {
                             System.out.println("sikertelen A");
+                            Room r = playerToMove.where().isAccessible(Direction.LEFT);
+                            if (r != null)
+                                System.out.println("destination capacity: " + r.getCapacity() + " currently: " + r.getOccupants().size());
                         }
                         break;
                     case 'S':
@@ -82,6 +88,9 @@ public class GamePanel extends JPanel {
                         }
                         else {
                             System.out.println("sikertelen S");
+                            Room r = playerToMove.where().isAccessible(Direction.LEFT);
+                            if (r != null)
+                                System.out.println("destination capacity: " + r.getCapacity() + " currently: " + r.getOccupants().size());
                         }
                         break;
                     case 'D':
@@ -94,6 +103,9 @@ public class GamePanel extends JPanel {
                         }
                         else {
                             System.out.println("sikertelen D");
+                            Room r = playerToMove.where().isAccessible(Direction.LEFT);
+                            if (r != null)
+                                System.out.println("destination capacity: " + r.getCapacity() + " currently: " + r.getOccupants().size());
                         }
                         break;
                     default:
