@@ -595,6 +595,12 @@ public class Labyrinth implements Steppable {
 
         Map<String, Integer> numOfItems = howManyItems();
 
+        //first, the point of the game: the logarlec (only 1)
+        int lx = randomX();
+        int ly = randomY();
+        Logarlec l = new Logarlec(0, rooms2D[ly][lx]);
+        if(listener != null) listener.logarlecCreated(l, lx, ly);
+
         for (int i = 0; i < numOfItems.get("AirFreshener"); i++) {
             int rx = randomX();
             int ry = randomY();
@@ -638,6 +644,7 @@ public class Labyrinth implements Steppable {
             WetWipe ww = new WetWipe(7, rooms2D[ry][rx]);
             if (listener != null) listener.wetWipeCreated(ww, rx, ry);
         }
+
     }
 
     private Map<String, Integer> howManyItems() {

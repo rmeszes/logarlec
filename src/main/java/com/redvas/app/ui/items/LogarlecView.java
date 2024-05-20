@@ -12,7 +12,6 @@ public class LogarlecView extends ItemsView implements ItemChangeListener {
     private final Logarlec logarlec;
     private int x;
     private int y;
-    BufferedImage logarlecImage;
 
     public LogarlecView(Logarlec l, int x, int y) {
         super(l);
