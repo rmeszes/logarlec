@@ -42,6 +42,8 @@ public abstract class PlayerView extends JPanel  {
                 playerSpaceTotal,
                 UITool.fitHeight2AspectRatio(myImage, playerSpaceTotal)
         );
+
+        repaint();
     }
 
 private Player player;

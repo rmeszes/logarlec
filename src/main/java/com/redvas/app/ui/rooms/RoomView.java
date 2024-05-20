@@ -102,7 +102,7 @@ public class RoomView extends JPanel implements RoomChangeListener {
         if (activeLeavingPlayer == null) return;
         addOccupant(activeLeavingPlayer);
         activeLeavingPlayer = null;
-        repaint();
+        // repaint();
     }
 
     public static final int SIZE = (int)(100 * GamePanel.getMagnification());
