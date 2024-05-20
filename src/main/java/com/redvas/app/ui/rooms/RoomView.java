@@ -59,7 +59,7 @@ public class RoomView extends JPanel implements RoomChangeListener {
         int roomLocalX = (occupants.size() - 1) % 3;
         add(p);
         p.occupyRoomPosition(roomLocalX, roomLocalY);
-        // REPAINT IS NOT REQUIRED HERE
+        repaint();
     }
 
     @Override
@@ -83,12 +83,14 @@ public class RoomView extends JPanel implements RoomChangeListener {
                 activeLeavingPlayer = pw;
                 return;
             }
+        repaint();
     }
 
     @Override
     public void occupantEntered(Player p) {
         addOccupant(activeLeavingPlayer);
         activeLeavingPlayer = null;
+        repaint();
     }
 
     public static final int SIZE = (int)(100 * GamePanel.getMagnification());

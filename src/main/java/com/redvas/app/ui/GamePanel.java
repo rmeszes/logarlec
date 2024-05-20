@@ -1,7 +1,8 @@
 package com.redvas.app.ui;
 
 import com.redvas.app.Game;
-import com.redvas.app.map.Direction;
+import com.redvas.app.map.*;
+import com.redvas.app.map.rooms.*;
 import com.redvas.app.players.Player;
 import com.redvas.app.ui.rooms.RoomView;
 
@@ -38,14 +39,6 @@ public class GamePanel extends JPanel {
         this.width = width;
         this.height = height;
 
-            /*
-        JFrame window = new JFrame();
-        window.add(this);
-        window.setVisible(true);
-        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        window.pack();
-          */
-
         generator = new ViewGenerator(width, height, players, this);
 
         setFocusable(true);
@@ -58,8 +51,10 @@ public class GamePanel extends JPanel {
                 switch (keyChar) {
                     case 'W':
                     case 'w':
+                        System.out.println("-------------\ncurrent room id: " + playerToMove.where().getID());
                         if(playerToMove.moveTowards(Direction.UP)) {        // a moveTowards miért boolean? Ha sikeres akkor váltson a playerToMove egy másikra, külünben pedig ne, ennek a logikája TODO
                             System.out.println("sikeres W");
+                            System.out.println("new room id: " + playerToMove.where().getID());
                         }
                         else {
                             System.out.println("sikertelen W");
@@ -67,8 +62,11 @@ public class GamePanel extends JPanel {
                         break;
                     case 'A':
                     case 'a':
+                        System.out.println("-------------\ncurrent room id: " + playerToMove.where().getID());
                         if(playerToMove.moveTowards(Direction.LEFT)) {
                             System.out.println("sikeres A");
+                            System.out.println("new room id: " + playerToMove.where().getID());
+                            repaint();
                         }
                         else {
                             System.out.println("sikertelen A");
@@ -76,8 +74,11 @@ public class GamePanel extends JPanel {
                         break;
                     case 'S':
                     case 's':
+                        System.out.println("-------------\ncurrent room id: " + playerToMove.where().getID());
                         if(playerToMove.moveTowards(Direction.DOWN)) {
                             System.out.println("sikeres S");
+                            System.out.println("new room id: " + playerToMove.where().getID());
+                            repaint();
                         }
                         else {
                             System.out.println("sikertelen S");
@@ -85,8 +86,11 @@ public class GamePanel extends JPanel {
                         break;
                     case 'D':
                     case 'd':
+                        System.out.println("-------------\ncurrent room id: " + playerToMove.where().getID());
                         if(playerToMove.moveTowards(Direction.RIGHT)) {
                             System.out.println("sikeres D");
+                            System.out.println("new room id: " + playerToMove.where().getID());
+                            repaint();
                         }
                         else {
                             System.out.println("sikertelen D");
@@ -102,7 +106,8 @@ public class GamePanel extends JPanel {
 
         repaint();
     }
-    public static final double uiScale = 3.0;
+
+    public static final double uiScale = 1.0; // FULL HD-n a 2.0 a jó
 
     public static double getMagnification() { return uiScale; }
 
