@@ -63,12 +63,7 @@ public class RoomView extends JPanel implements RoomChangeListener {
 
     private void repaintDoors() {
         for (DoorView dv : doors)
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    dv.repaint();
-                }
-            });
+            SwingUtilities.invokeLater(dv::repaint);
 
     }
 
