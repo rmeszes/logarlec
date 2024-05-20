@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class GameWindow extends JFrame {
     public GamePanel gamePanel;
-    private InventoryPanel inventoryPanel;    // majd kell egy ilyesmi osztály
+    private static ActionPanel actionPanel;    // majd kell egy ilyesmi osztály
 
     public GameWindow(int gameWidth, int gameHeight, int players) {
         setTitle("Logarlec");
@@ -13,10 +13,10 @@ public class GameWindow extends JFrame {
         setLayout(new BorderLayout());
 
         gamePanel = new GamePanel(gameWidth, gameHeight, players);
-        inventoryPanel = new InventoryPanel();
+        //actionPanel = new ActionPanel();
 
         add(gamePanel, BorderLayout.CENTER);
-        add(inventoryPanel, BorderLayout.SOUTH);
+        //add(actionPanel, BorderLayout.EAST);
 
         pack();
         setLocationRelativeTo(null); // Center the window

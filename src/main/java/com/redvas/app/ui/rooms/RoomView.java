@@ -4,7 +4,7 @@ import com.redvas.app.App;
 import com.redvas.app.map.rooms.Room;
 import com.redvas.app.players.Player;
 import com.redvas.app.ui.GamePanel;
-import com.redvas.app.ui.ItemsView;
+import com.redvas.app.ui.items.ItemsView;
 import com.redvas.app.ui.players.PlayerView;
 
 import javax.imageio.ImageIO;
