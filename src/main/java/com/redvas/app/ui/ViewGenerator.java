@@ -86,7 +86,7 @@ public class ViewGenerator implements GeneratorListener {
 
     @Override
     public void logarlecCreated(Logarlec l, int x, int y) {
-        new LogarlecView(l, x, y);
+         rooms[y][x].addItem(new LogarlecView(l, x, y));
     }
 
     @Override
