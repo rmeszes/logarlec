@@ -25,7 +25,6 @@ public class GamePanel extends JPanel {
     * public GamePanel(int preset) {}
     * */
 
-    // public Game game;   // ez minek volt itt? xd  (a generator-ban van egy game)
 
     @Override
     public Dimension getPreferredSize()
@@ -39,13 +38,13 @@ public class GamePanel extends JPanel {
         this.width = width;
         this.height = height;
 
-        //   /*
+            /*
         JFrame window = new JFrame();
         window.add(this);
         window.setVisible(true);
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         window.pack();
-         //   */
+          */
 
         generator = new ViewGenerator(width, height, players, this);
 

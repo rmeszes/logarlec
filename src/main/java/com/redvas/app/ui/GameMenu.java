@@ -1,5 +1,9 @@
 package com.redvas.app.ui;
 
+import com.redvas.app.Game;
+import com.redvas.app.map.rooms.Room;
+import com.redvas.app.players.Undergraduate;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,6 +13,8 @@ import java.awt.event.WindowEvent;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class GameMenu extends JFrame {
+    final GameWindow[] gameWindowContainer = new GameWindow[1];
+
     public GameMenu() {
        // Set up the main frame
         setTitle("Game Menu");
@@ -25,7 +31,15 @@ public class GameMenu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    startNewGame();
+                    //SwingUtilities.invokeLater(() -> new GameWindow(5,5,4));
+                    SwingUtilities.invokeLater(() -> {
+                        gameWindowContainer[0] = new GameWindow(5, 5, 4);   // így el tudjuk tárolni a GameWindow-ot
+                        Game testgame = gameWindowContainer[0].gamePanel.generator.getGame();    // ezeket mind publicra tettem
+                        Room testRoom = testgame.labyrinth.rooms.get(1);
+                        Undergraduate testPlayer = new Undergraduate(1, testRoom, testgame);
+                        gameWindowContainer[0].gamePanel.playerToMove = testPlayer;
+                    });
+                    dispose();
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
@@ -67,11 +81,6 @@ public class GameMenu extends JFrame {
         // Display the frame
         setLocationRelativeTo(null);
         setVisible(true);
-    }
-
-    private void startNewGame() {
-        dispose();
-        new GamePanel(6, 4, 4);
     }
 
 }
