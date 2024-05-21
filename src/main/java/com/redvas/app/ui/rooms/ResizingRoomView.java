@@ -14,23 +14,11 @@ import java.util.logging.Logger;
 
 public class ResizingRoomView extends RoomView implements ResizingRoomChangeListener {
     private static final Logger logger = App.getConsoleLogger(ResizingRoomView.class.getName());
-    private boolean isSticky = false;       // alapból legyen hamis, de am ez nem int a modellben??
-    private boolean isGaseous = false;
-
-    BufferedImage rhFloorImage;
-    BufferedImage rhFloorImageWhenGaseous;
-    BufferedImage rhFloorImageWhenSticky;
-    BufferedImage rhFloorImageWhenGaseousAndSticky;
-
-    // EZT MÉG NEM TOM HOGY DÖNTI EL
-    BufferedImage rvFloorImage;
-    BufferedImage rvFloorImageWhenGaseous;
-    BufferedImage rvFloorImageWhenSticky;
-    BufferedImage rvFloorImageWhenGaseousAndSticky;
 
     private ResizingRoom rr;
     public ResizingRoomView(ResizingRoom rr, int x, int y) {
         super(rr, x, y, false);
+        rr.setListener((ResizingRoomChangeListener) this);
         originalX = x;
         originalY = y;
         this.rr = rr;
