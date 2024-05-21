@@ -39,7 +39,7 @@ public class Undergraduate extends Player implements Steppable {
     public void setActive(boolean b) {
         if(isActive != b) {
             isActive = b;
-            listener.activeStateChanged();
+            if(listener != null) listener.activeStateChanged();
         }
     }
 
