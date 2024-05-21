@@ -5,7 +5,6 @@ import com.redvas.app.Game;
 import com.redvas.app.Steppable;
 import com.redvas.app.items.Transistor;
 import com.redvas.app.map.rooms.Room;
-import com.redvas.app.ui.GameOverListener;
 import com.redvas.app.ui.players.listeners.UndergraduateChangeListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

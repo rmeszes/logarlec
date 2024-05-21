@@ -13,9 +13,9 @@ import java.awt.event.KeyEvent;
 
 public class GamePanel extends JPanel {
     public final transient ViewGenerator generator;
-    public Player playerToMove;     // valahol kÈne egy ilyet is t·rolni, hogy tudja a keyboardListener hogy kit kell mozgatni, erre is kÈne valami logika ami a kˆrˆket lebonyolÌtja
+    public Player playerToMove;     // valahol k√©ne egy ilyet is t√°rolni, hogy tudja a keyboardListener hogy kit kell mozgatni, erre is k√©ne valami logika ami a k√∂r√∂ket lebonyol√≠tja
     // IDEAS below
-    // valahogyan kÈne t·rolni az aktu·lis state-t (lÈpÈs, act), hogy a keyboardListener csakk a mozg·sn·l
+    // valahogyan k√©ne t√°rolni az aktu√°lis state-t (l√©p√©s, act), hogy a keyboardListener csakk a mozg√°sn√°l
 
     // called view Views, whenever a change occurs
     /*
@@ -48,7 +48,7 @@ public class GamePanel extends JPanel {
                     case 'W':
                     case 'w':
                         System.out.println("-------------\ncurrent room id: " + playerToMove.where().getID());
-                        if(playerToMove.moveTowards(Direction.UP)) {        // a moveTowards miÈrt boolean? Ha sikeres akkor v·ltson a playerToMove egy m·sikra, k¸l¸nben pedig ne, ennek a logik·ja TODO
+                        if(playerToMove.moveTowards(Direction.UP)) {        // a moveTowards mi√©rt boolean? Ha sikeres akkor v√°ltson a playerToMove egy m√°sikra, k√ºl√ºnben pedig ne, ennek a logik√°ja TODO
                             System.out.println("sikeres W");
                             System.out.println("new room id: " + playerToMove.where().getID());
                         }
@@ -116,7 +116,7 @@ public class GamePanel extends JPanel {
         repaint();
     }
 
-    public static final double uiScale = 2.0; // FULL HD-n a 2.0 a jÛ
+    public static final double uiScale = 2.0; // FULL HD-n a 2.0 a j√≥
 
     public static double getMagnification() { return uiScale; }
 

@@ -41,7 +41,7 @@ public class GameMenu extends JFrame implements GameOverListener {
                 try {
                     //SwingUtilities.invokeLater(() -> new GameWindow(5,5,4));
                     SwingUtilities.invokeLater(() -> {
-                        // ehhez külön ablak ahol megkérdezzük a fe
+                        // ehhez kÃ¼lÃ¶n ablak ahol megkÃ©rdezzÃ¼k a fe
                         setPlayerCount();
 
                         int width = 5, height = 5;
@@ -51,7 +51,7 @@ public class GameMenu extends JFrame implements GameOverListener {
                         Undergraduate testPlayer = game.labyrinth.getTestPlayer();
                         gameWindowContainer[0].gamePanel.playerToMove = testPlayer;
 
-                        // MÛKÖDIK a konzollal ezzel a megoldással
+                        // MÅ°KÃ–DIK a konzollal ezzel a megoldÃ¡ssal
 
 
                     });
@@ -80,7 +80,7 @@ public class GameMenu extends JFrame implements GameOverListener {
         });
 
 
-        // Kilépések kezelésére
+        // KilÃ©pÃ©sek kezelÃ©sÃ©re
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
