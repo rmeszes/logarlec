@@ -35,7 +35,7 @@ public class RoomView extends JPanel implements RoomChangeListener {
     private static BufferedImage horizontal, vertical;
     private static BufferedImage horizontalGaseous, verticalGaseous;
     private static BufferedImage horizontalSticky, verticalSticky;
-    private static BufferedImage getHorizontalStickyGaseous, verticalStickyGaseous;
+    private static BufferedImage horizontalStickyGaseous, verticalStickyGaseous;
 
     {
         String root = System.getProperty("user.dir");
@@ -50,9 +50,9 @@ public class RoomView extends JPanel implements RoomChangeListener {
             enchantedSticky = ImageIO.read(new File(root + "/src/main/resources/map/enchanted_sticky_room.png"));
             enchantedStickyGaseous = ImageIO.read(new File(root + "/src/main/resources/map/enchanted_sticky_gaseous_room.png"));
             horizontal = ImageIO.read(new File(root + "/src/main/resources/map/horizontal_room.png"));
-            enchantedGaseous = ImageIO.read(new File(root + "/src/main/resources/map/horizontal_gaseous_room.png"));
-            enchantedSticky = ImageIO.read(new File(root + "/src/main/resources/map/horizontal_sticky_room.png"));
-            enchantedStickyGaseous = ImageIO.read(new File(root + "/src/main/resources/map/horizontal_sticky_gaseous_room.png"));
+            horizontalGaseous = ImageIO.read(new File(root + "/src/main/resources/map/horizontal_gaseous_room.png"));
+            horizontalSticky = ImageIO.read(new File(root + "/src/main/resources/map/horizontal_sticky_room.png"));
+            horizontalStickyGaseous = ImageIO.read(new File(root + "/src/main/resources/map/horizontal_sticky_gaseous_room.png"));
             vertical = ImageIO.read(new File(root + "/src/main/resources/map/horizontal_room.png"));
             verticalGaseous = ImageIO.read(new File(root + "/src/main/resources/map/vertical_gaseous_room.png"));
             verticalSticky = ImageIO.read(new File(root + "/src/main/resources/map/vertical_sticky_room.png"));
