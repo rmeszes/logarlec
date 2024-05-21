@@ -20,7 +20,7 @@ public class GameMenu extends JFrame implements GameOverListener {
         gameWindowContainer[0] = new GameWindow(width, height, PlayerCount);
         gameWindowContainer[0].gamePanel.generator.getGame().setGOListener((GameOverListener) this);
     }
-    final GameWindow[] gameWindowContainer = new GameWindow[1];
+    public static final GameWindow[] gameWindowContainer = new GameWindow[1];
     int PlayerCount = 2;    // default
 
     public GameMenu() {
