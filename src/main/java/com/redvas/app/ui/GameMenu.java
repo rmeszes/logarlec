@@ -1,5 +1,6 @@
 package com.redvas.app.ui;
 
+import com.redvas.app.App;
 import com.redvas.app.Game;
 import com.redvas.app.players.Undergraduate;
 
@@ -9,25 +10,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.logging.Logger;
 
 public class GameMenu extends JFrame implements GameOverListener {
+    private static final Logger logger = App.getConsoleLogger(GameMenu.class.getName());
     @Override
     public void onGameOver(boolean undergradVictory){
         gameWindowContainer[0].dispose();
         this.setVisible(true);
     }
     private void createGameWindow(int width, int height){
-        gameWindowContainer[0] = new GameWindow(width, height, PlayerCount);
-        gameWindowContainer[0].gamePanel.generator.getGame().setGOListener((GameOverListener) this);
+        gameWindowContainer[0] = new GameWindow(width, height, playerCount);
+        gameWindowContainer[0].gamePanel.generator.getGame().setGOListener(this);
     }
     public static final GameWindow[] gameWindowContainer = new GameWindow[1];
-    int PlayerCount = 2;    // default
+    int playerCount = 2;    // default
 
     public GameMenu() {
        // Set up the main frame
         setTitle("Game Menu");
         setSize(300, 200);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         // Create components
         JButton startGameButton = new JButton("Start new game");
@@ -35,48 +38,29 @@ public class GameMenu extends JFrame implements GameOverListener {
         JButton exitButton = new JButton("Exit");
 
         // Add action listeners
-        startGameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    //SwingUtilities.invokeLater(() -> new GameWindow(5,5,4));
-                    SwingUtilities.invokeLater(() -> {
-                        // ehhez külön ablak ahol megkérdezzük a fe
-                        setPlayerCount();
+        startGameButton.addActionListener(e -> SwingUtilities.invokeLater(() -> {
+            // ehhez külön ablak ahol megkérdezzük a felhasználót
+            setPlayerCount();
 
-                        int width = 5, height = 5;
-                        createGameWindow(width, height);
-                        Game game = gameWindowContainer[0].gamePanel.generator.getGame();    // ezeket mind publicra tettem
+            int width = 5;
+            int height = 5;
+            createGameWindow(width, height);
+            Game game = gameWindowContainer[0].gamePanel.generator.getGame();    // ezeket mind publicra tettem
 
-                        Undergraduate testPlayer = game.labyrinth.getTestPlayer();
-                        gameWindowContainer[0].gamePanel.playerToMove = testPlayer;
+            gameWindowContainer[0].gamePanel.playerToMove = game.labyrinth.getTestPlayer();
 
-                        // MŰKÖDIK a konzollal ezzel a megoldással
+            // MŰKÖDIK a konzollal ezzel a megoldással
 
 
-                    });
-                    //dispose();
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        });
+        }));
 
-        loadSavedGameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
+        loadSavedGameButton.addActionListener(e -> {
+            //TODO betöltés
+            Game game = gameWindowContainer[0].gamePanel.generator.getGame();
         });
 
 
-        exitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                System.exit(0);
-            }
-        });
+        exitButton.addActionListener(e -> System.exit(0));
 
 
         // Kilépések kezelésére
@@ -110,12 +94,10 @@ public class GameMenu extends JFrame implements GameOverListener {
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
-            PlayerCount = (int) playerCountComboBox.getSelectedItem();
+            assert(playerCountComboBox.getSelectedItem() != null);
+            playerCount = (int) playerCountComboBox.getSelectedItem();
             dispose();
-            System.out.println("playerCount: " +  PlayerCount);
-        } else {
-
-            return;
+            logger.fine(()->"playerCount: " + playerCount);
         }
     }
 
