@@ -19,7 +19,6 @@ public class EnchantedRoomView extends RoomView implements RoomChangeListener {
     public EnchantedRoomView(EnchantedRoom er, int x, int y) {
         super(er, x, y);
         this.er = er;
-        myImage = enchanted;
     }
 
     @Override

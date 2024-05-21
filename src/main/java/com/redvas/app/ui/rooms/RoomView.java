@@ -76,11 +76,11 @@ public class RoomView extends JPanel implements RoomChangeListener {
     }
 
     public RoomView(Room r, int x, int y) {
-        myImage = basic;
         r.setListener(this);
         setLayout(null);
         this.room = r;
         setBounds(x * SIZE, y * SIZE, SIZE, SIZE);
+        updateImage();
     }
 
     private final List<PlayerView> occupants = new ArrayList<>();
