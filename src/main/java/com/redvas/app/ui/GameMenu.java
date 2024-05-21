@@ -10,7 +10,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class GameMenu extends JFrame {
+public class GameMenu extends JFrame implements GameOverListener {
+    @Override
+    public void onGameOver(boolean undergradVictory){
+        gameWindowContainer[0].dispose();
+        this.setVisible(true);
+    }
+    private void createGameWindow(int width, int height){
+        gameWindowContainer[0] = new GameWindow(width, height, PlayerCount);
+        gameWindowContainer[0].gamePanel.generator.getGame().setGOListener((GameOverListener) this);
+    }
     final GameWindow[] gameWindowContainer = new GameWindow[1];
     int PlayerCount = 2;    // default
 
@@ -36,7 +45,7 @@ public class GameMenu extends JFrame {
                         setPlayerCount();
 
                         int width = 5, height = 5;
-                        gameWindowContainer[0] = new GameWindow(width, height, PlayerCount);   // így el tudjuk tárolni a GameWindow-ot
+                        createGameWindow(width, height);
                         Game game = gameWindowContainer[0].gamePanel.generator.getGame();    // ezeket mind publicra tettem
 
                         Undergraduate testPlayer = game.labyrinth.getTestPlayer();
@@ -52,7 +61,6 @@ public class GameMenu extends JFrame {
                 }
             }
         });
-
 
         loadSavedGameButton.addActionListener(new ActionListener() {
             @Override
@@ -111,6 +119,7 @@ public class GameMenu extends JFrame {
             return;
         }
     }
+
 
 
 }

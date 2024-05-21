@@ -53,15 +53,6 @@ public class ViewGenerator implements GeneratorListener {
                 game.play();
                 return null;
             }
-
-            @Override
-            protected void done() {
-                try {
-                    get();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
         }.execute();
     }
 

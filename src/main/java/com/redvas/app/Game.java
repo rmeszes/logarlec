@@ -2,6 +2,7 @@ package com.redvas.app;
 
 import com.redvas.app.map.Labyrinth;
 import com.redvas.app.players.Player;
+import com.redvas.app.ui.GameOverListener;
 import com.redvas.app.ui.GeneratorListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -84,26 +85,37 @@ public class Game extends JPanel{
             playRound();
             save();
         }
+
     }
 
     public void playRound() {
         logger.fine("New round");
 
         for (Steppable s : steppablesForRound) {
-            s.step();
+            if (!end)
+                s.step();
 
             //if (end) return;
         }
     }
 
+    private GameOverListener GOListener = null;
+    public void setGOListener(GameOverListener listener) {
+        this.GOListener = listener;
+    }
+
     public void undergraduateVictory() {
         logger.fine("Undergraduate team won the game!");
         end = true;
+        if (GOListener != null)
+            GOListener.onGameOver(true);
     }
 
     private void professorVictory() {
         logger.fine("Professor team won the game!");
         end = true;
+        if (GOListener != null)
+            GOListener.onGameOver(false);
     }
 
     private int undergraduates = 0;
