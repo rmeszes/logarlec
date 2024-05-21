@@ -5,11 +5,11 @@ import java.awt.*;
 
 public class GameWindow extends JFrame {
     public GamePanel gamePanel;
-    private static ActionPanel actionPanel;    // majd kell egy ilyesmi oszt�ly
+    private static ActionPanel actionPanel;    // majd kell egy ilyesmi osztály
 
     public GameWindow(int gameWidth, int gameHeight, int players) {
         setTitle("Logarlec");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
         gamePanel = new GamePanel(gameWidth, gameHeight, players);

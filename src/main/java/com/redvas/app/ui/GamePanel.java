@@ -1,15 +1,10 @@
 package com.redvas.app.ui;
 
-import com.redvas.app.Game;
-import com.redvas.app.map.*;
-import com.redvas.app.map.rooms.*;
 import com.redvas.app.players.Player;
 import com.redvas.app.ui.rooms.RoomView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class GamePanel extends JPanel {
     public final transient ViewGenerator generator;
@@ -116,8 +111,8 @@ public class GamePanel extends JPanel {
         repaint();
     }
 
-    public static final double uiScale = 2.0; // FULL HD-n a 2.0 a jó
+    public static final double UI_SCALE = 2.0; // FULL HD-n a 2.0 a jó
 
-    public static double getMagnification() { return uiScale; }
+    public static double getMagnification() { return UI_SCALE; }
 
 }

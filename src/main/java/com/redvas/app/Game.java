@@ -55,7 +55,6 @@ public class Game extends JPanel{
         transformer.transform(source, result);
     }
 
-    private static final Random random = new Random();
     protected static final Logger logger = App.getConsoleLogger(Game.class.getName());
 
     private final Set<Steppable> steppablesForRound = ConcurrentHashMap.newKeySet();
