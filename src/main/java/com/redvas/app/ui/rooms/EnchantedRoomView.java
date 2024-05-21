@@ -11,30 +11,29 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class EnchantedRoomView implements RoomChangeListener {
+public class EnchantedRoomView extends RoomView implements RoomChangeListener {
     private static final Logger logger = App.getConsoleLogger(EnchantedRoomView.class.getName());
 
-    private final EnchantedRoom eRoom;
-    private boolean isSticky = false;
-    private boolean isGaseous = false;
+    private EnchantedRoom er;
 
-    BufferedImage eFloorImage;
-    BufferedImage eFloorImageWhenGaseous;
-    BufferedImage eFloorImageWhenSticky;
-    BufferedImage eFloorImageWhenGaseousAndSticky;
-private int x, y;
     public EnchantedRoomView(EnchantedRoom er, int x, int y) {
-        this.eRoom = er;
-        this.x = x;
-        this.y = y;
-        try {
-            eFloorImage = ImageIO.read(new File("/src/main/resources/map/enchanted_room.png"));
-            eFloorImageWhenGaseous = ImageIO.read(new File("src/main/resources/map/enchanted_gaseous_room.png"));
-            eFloorImageWhenSticky = ImageIO.read(new File("src/main/resources/map/enchanted_sticky_room.png"));
-            eFloorImageWhenGaseousAndSticky = ImageIO.read(new File("src/main/resources/map/enchanted_sticky_gaseous_room.png"));
-        } catch (IOException e) {
-            logger.severe(e.getMessage());
+        super(er, x, y);
+        this.er = er;
+        myImage = enchanted;
+    }
+
+    @Override
+    protected void updateImage() {
+        if (isSticky) {
+            if (isGaseous) myImage = enchantedStickyGaseous;
+            else myImage = enchantedSticky;
         }
+        else {
+            if (isGaseous) myImage = enchantedGaseous;
+            else myImage = enchanted;
+        }
+
+        repaintCorrectly();
     }
 
     @Override
@@ -45,37 +44,5 @@ private int x, y;
     @Override
     public void roomGaseousnessChange(boolean isGaseous) {
         this.isGaseous = isGaseous;
-    }
-
-    @Override
-    public void occupantLeft(Player p) {
-
-    }
-
-    @Override
-    public void occupantEntered(Player p) {
-
-    }
-
-    public void draw(Graphics2D g) {
-        g.setColor(Color.BLACK);
-        int roomWidth = 200;
-        int roomHeight = 200;
-
-        if (!isGaseous && !isSticky) {      // alap
-            g.drawImage(eFloorImage, x, y, roomWidth, roomHeight, null);
-        }
-
-        else if (!isGaseous) {  // csak ragad
-            g.drawImage(eFloorImageWhenSticky, x, y, roomWidth, roomHeight, null);
-        }
-
-        else if (!isSticky) {  // csak gázos
-            g.drawImage(eFloorImageWhenGaseous, x, y, roomWidth, roomHeight, null);
-        }
-
-        else  {  // gázos és ragad
-            g.drawImage(eFloorImageWhenGaseousAndSticky, x, y, roomWidth, roomHeight, null);
-        }
     }
 }

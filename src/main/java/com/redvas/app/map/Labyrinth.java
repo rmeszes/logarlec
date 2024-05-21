@@ -404,7 +404,7 @@ public class Labyrinth implements Steppable {
     private void enchant(Room[][] rooms, boolean[][] resizingMap) {
         for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++)
-                if (!resizingMap[y][x]) {
+                if (resizingMap == null || !resizingMap[y][x]) {
                     if (random.nextGaussian() > 0.8) {
                         rooms[y][x] = rooms[y][x].convertToEnchanted(random.nextInt(2, 6));
                         if (listener != null)
@@ -462,8 +462,8 @@ public class Labyrinth implements Steppable {
         randomOrderSearch(roomsLocal, visits, map, rx, ry);
         cyclicize(roomsLocal, visits, map);
 
-        /*boolean[][] resizingMap = resizify(roomsLocal);
-        enchant(roomsLocal, resizingMap);*/
+        /*boolean[][] resizingMap = resizify(roomsLocal);*/
+        enchant(roomsLocal, null);
 
         rooms2D = roomsLocal;
         // TODO: TO BE REMOVED IN THE FUTURE!!!!!! (NOT FOR NOW, THO...)

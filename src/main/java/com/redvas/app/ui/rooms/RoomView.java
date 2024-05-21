@@ -20,22 +20,22 @@ import java.util.logging.Logger;
 public class RoomView extends JPanel implements RoomChangeListener {
     private static final Logger logger = App.getConsoleLogger(RoomView.class.getName());
     private final Room room;
-    private boolean isSticky = false;       // alapból legyen hamis, de am ez nem int a modellben??
-    private boolean isGaseous = false;
+    protected boolean isSticky = false;       // alapból legyen hamis, de am ez nem int a modellben??
+    protected boolean isGaseous = false;
 
-    private BufferedImage myImage;
-    private static BufferedImage basic;               // alap
-    private static BufferedImage basicGaseous;    // amikor gázossá válik
-    private static BufferedImage basicSticky;     // amikor ragadós a szoba
-    private static BufferedImage basicStickyGaseous;
-    private static BufferedImage enchanted;
-    private static BufferedImage enchantedSticky;
-    private static BufferedImage enchantedGaseous;
-    private static BufferedImage enchantedStickyGaseous;
-    private static BufferedImage horizontal, vertical;
-    private static BufferedImage horizontalGaseous, verticalGaseous;
-    private static BufferedImage horizontalSticky, verticalSticky;
-    private static BufferedImage getHorizontalStickyGaseous, verticalStickyGaseous;
+    protected BufferedImage myImage,
+            basic,
+            basicGaseous,
+            basicSticky,
+            basicStickyGaseous,
+            enchanted,
+            enchantedSticky,
+            enchantedGaseous,
+            enchantedStickyGaseous,
+            horizontal, vertical,
+            horizontalGaseous, verticalGaseous,
+            horizontalSticky, verticalSticky,
+            getHorizontalStickyGaseous, verticalStickyGaseous;
 
     {
         String root = System.getProperty("user.dir");
@@ -44,7 +44,7 @@ public class RoomView extends JPanel implements RoomChangeListener {
             basic = ImageIO.read(new File(root + "/src/main/resources/map/basic_room.png"));
             basicSticky = ImageIO.read(new File(root + "/src/main/resources/map/basic_sticky_room.png"));
             basicGaseous = ImageIO.read(new File(root + "/src/main/resources/map/basic_gaseous_room.png"));
-            basicStickyGaseous = ImageIO.read(new File(root + "/src/main/resources/map/basic_gaseous_sticky_room.png"));
+            basicStickyGaseous = ImageIO.read(new File(root + "/src/main/resources/map/basic_sticky_gaseous_room.png"));
             enchanted = ImageIO.read(new File(root + "/src/main/resources/map/enchanted_room.png"));
             enchantedGaseous = ImageIO.read(new File(root + "/src/main/resources/map/enchanted_gaseous_room.png"));
             enchantedSticky = ImageIO.read(new File(root + "/src/main/resources/map/enchanted_sticky_room.png"));
@@ -53,7 +53,7 @@ public class RoomView extends JPanel implements RoomChangeListener {
             enchantedGaseous = ImageIO.read(new File(root + "/src/main/resources/map/horizontal_gaseous_room.png"));
             enchantedSticky = ImageIO.read(new File(root + "/src/main/resources/map/horizontal_sticky_room.png"));
             enchantedStickyGaseous = ImageIO.read(new File(root + "/src/main/resources/map/horizontal_sticky_gaseous_room.png"));
-            vertical = ImageIO.read(new File(root + "/src/main/resources/map/horizontal_room.png"));
+            vertical = ImageIO.read(new File(root + "/src/main/resources/map/vertical_room.png"));
             verticalGaseous = ImageIO.read(new File(root + "/src/main/resources/map/vertical_gaseous_room.png"));
             verticalSticky = ImageIO.read(new File(root + "/src/main/resources/map/vertical_sticky_room.png"));
             verticalStickyGaseous = ImageIO.read(new File(root + "/src/main/resources/map/vertical_sticky_gaseous_room.png"));
@@ -118,7 +118,7 @@ public class RoomView extends JPanel implements RoomChangeListener {
         repaintCorrectly();
     }
 
-    private void updateImage() {
+    protected void updateImage() {
         if (isSticky) {
             if (isGaseous) myImage = basicStickyGaseous;
             else myImage = basicSticky;
@@ -127,6 +127,8 @@ public class RoomView extends JPanel implements RoomChangeListener {
             if (isGaseous) myImage = basicGaseous;
             else myImage = basic;
         }
+
+        repaintCorrectly();
     }
 
 

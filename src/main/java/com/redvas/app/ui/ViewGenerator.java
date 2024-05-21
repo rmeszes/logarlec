@@ -14,6 +14,7 @@ import com.redvas.app.ui.players.JanitorView;
 import com.redvas.app.ui.players.ProfessorView;
 import com.redvas.app.ui.players.UndergraduateView;
 import com.redvas.app.ui.rooms.DoorView;
+import com.redvas.app.ui.rooms.EnchantedRoomView;
 import com.redvas.app.ui.rooms.RoomView;
 
 import javax.swing.*;
@@ -58,6 +59,8 @@ public class ViewGenerator implements GeneratorListener {
 
     @Override
     public void enchantedRoomCreated(EnchantedRoom er, int x, int y) {
+        rooms[y][x] = new EnchantedRoomView(er, x, y);
+        gp.add(rooms[y][x]);
     }
 
     @Override
