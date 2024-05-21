@@ -1,11 +1,9 @@
 package com.redvas.app.ui.rooms;
 
 import com.redvas.app.App;
-import com.redvas.app.items.Item;
 import com.redvas.app.map.rooms.Room;
 import com.redvas.app.players.Player;
 import com.redvas.app.ui.GamePanel;
-import com.redvas.app.ui.items.ItemChangeListener;
 import com.redvas.app.ui.items.ItemsView;
 import com.redvas.app.ui.players.PlayerView;
 
@@ -26,25 +24,45 @@ public class RoomView extends JPanel implements RoomChangeListener {
     private boolean isGaseous = false;
 
     private BufferedImage myImage;
-    private static BufferedImage floorImage;               // alap
-    private static BufferedImage floorImageWhenGaseous;    // amikor gázossá válik
-    private static BufferedImage floorImageWhenSticky;     // amikor ragadós a szoba
-    private static BufferedImage floorImageWhenEnchanted;
+    private static BufferedImage basic;               // alap
+    private static BufferedImage basicGaseous;    // amikor gázossá válik
+    private static BufferedImage basicSticky;     // amikor ragadós a szoba
+    private static BufferedImage basicStickyGaseous;
+    private static BufferedImage enchanted;
+    private static BufferedImage enchantedSticky;
+    private static BufferedImage enchantedGaseous;
+    private static BufferedImage enchantedStickyGaseous;
+    private static BufferedImage horizontal, vertical;
+    private static BufferedImage horizontalGaseous, verticalGaseous;
+    private static BufferedImage horizontalSticky, verticalSticky;
+    private static BufferedImage getHorizontalStickyGaseous, verticalStickyGaseous;
 
     {
         String root = System.getProperty("user.dir");
 
         try {
-            floorImage = ImageIO.read(new File(root + "/src/main/resources/floor.png"));
-            floorImageWhenSticky = ImageIO.read(new File(root + "/src/main/resources/map/sticky_room1000.png"));
-            floorImageWhenGaseous = ImageIO.read(new File(root + "/src/main/resources/map/gaseous_room1000.png"));
-            floorImageWhenEnchanted = ImageIO.read(new File(root + "/src/main/resources/players/fainted_janitor.png"));
+            basic = ImageIO.read(new File(root + "/src/main/resources/map/basic_room.png"));
+            basicSticky = ImageIO.read(new File(root + "/src/main/resources/map/basic_sticky_room.png"));
+            basicGaseous = ImageIO.read(new File(root + "/src/main/resources/map/basic_gaseous_room.png"));
+            basicStickyGaseous = ImageIO.read(new File(root + "/src/main/resources/map/basic_gaseous_sticky_room.png"));
+            enchanted = ImageIO.read(new File(root + "/src/main/resources/map/enchanted_room.png"));
+            enchantedGaseous = ImageIO.read(new File(root + "/src/main/resources/map/enchanted_gaseous_room.png"));
+            enchantedSticky = ImageIO.read(new File(root + "/src/main/resources/map/enchanted_sticky_room.png"));
+            enchantedStickyGaseous = ImageIO.read(new File(root + "/src/main/resources/map/enchanted_sticky_gaseous_room.png"));
+            horizontal = ImageIO.read(new File(root + "/src/main/resources/map/horizontal_room.png"));
+            enchantedGaseous = ImageIO.read(new File(root + "/src/main/resources/map/horizontal_gaseous_room.png"));
+            enchantedSticky = ImageIO.read(new File(root + "/src/main/resources/map/horizontal_sticky_room.png"));
+            enchantedStickyGaseous = ImageIO.read(new File(root + "/src/main/resources/map/horizontal_sticky_gaseous_room.png"));
+            vertical = ImageIO.read(new File(root + "/src/main/resources/map/horizontal_room.png"));
+            verticalGaseous = ImageIO.read(new File(root + "/src/main/resources/map/vertical_gaseous_room.png"));
+            verticalSticky = ImageIO.read(new File(root + "/src/main/resources/map/vertical_sticky_room.png"));
+            verticalStickyGaseous = ImageIO.read(new File(root + "/src/main/resources/map/vertical_sticky_gaseous_room.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
     public RoomView(Room r, int x, int y) {
-        myImage = floorImage;
+        myImage = basic;
         r.setListener(this);
         setLayout(null);
         this.room = r;
@@ -100,16 +118,28 @@ public class RoomView extends JPanel implements RoomChangeListener {
         repaintCorrectly();
     }
 
+    private void updateImage() {
+        if (isSticky) {
+            if (isGaseous) myImage = basicStickyGaseous;
+            else myImage = basicSticky;
+        }
+        else {
+            if (isGaseous) myImage = basicGaseous;
+            else myImage = basic;
+        }
+    }
+
+
     @Override
     public void roomStickinessChange(boolean isSticky) {    // Amikor a modellben változik, akkor ezt kell hívni és ez updateli a view-t
-        if (isSticky) myImage = floorImageWhenSticky;
-        else myImage = floorImage;
+        this.isSticky = isSticky;
+        updateImage();
     }
 
     @Override
     public void roomGaseousnessChange(boolean isGaseous) {
-        if (isGaseous) myImage = floorImageWhenGaseous;
-        else myImage = floorImage;
+        this.isGaseous = isGaseous;
+        updateImage();
     }
 
     private static PlayerView activeLeavingPlayer = null;
