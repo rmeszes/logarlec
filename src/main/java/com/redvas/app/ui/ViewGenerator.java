@@ -15,6 +15,7 @@ import com.redvas.app.ui.players.ProfessorView;
 import com.redvas.app.ui.players.UndergraduateView;
 import com.redvas.app.ui.rooms.DoorView;
 import com.redvas.app.ui.rooms.EnchantedRoomView;
+import com.redvas.app.ui.rooms.ResizingRoomView;
 import com.redvas.app.ui.rooms.RoomView;
 
 import javax.swing.*;
@@ -48,6 +49,8 @@ public class ViewGenerator implements GeneratorListener {
                 for (DoorView dv : doors[i][j])
                     rooms[i][j].addDoor(dv);
 
+
+
         new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
@@ -65,6 +68,8 @@ public class ViewGenerator implements GeneratorListener {
 
     @Override
     public void resizingRoomCreated(ResizingRoom rr, int x, int y){
+        rooms[y][x] = new ResizingRoomView(rr, x, y);
+        gp.add(rooms[y][x]);
     }
     @Override
     public void roomCreated(Room room, int x, int y) {

@@ -23,6 +23,8 @@ public class RoomView extends JPanel implements RoomChangeListener {
     protected boolean isSticky = false;       // alapból legyen hamis, de am ez nem int a modellben??
     protected boolean isGaseous = false;
 
+
+
     protected BufferedImage myImage,
             basic,
             basicGaseous,
@@ -83,6 +85,13 @@ public class RoomView extends JPanel implements RoomChangeListener {
         updateImage();
     }
 
+    public RoomView(Room r, int x, int y, boolean counterfeitParameter) {
+        r.setListener(this);
+        setLayout(null);
+        this.room = r;
+        setBounds(x * SIZE, y * SIZE, SIZE, SIZE);
+    }
+
     private final List<PlayerView> occupants = new ArrayList<>();
     private final List<ItemsView> items = new ArrayList<>();
 
@@ -97,7 +106,7 @@ public class RoomView extends JPanel implements RoomChangeListener {
         items.remove(iv);
     }
 
-    private List<DoorView> doors = new ArrayList<>();
+    protected List<DoorView> doors = new ArrayList<>();
 
     public void repaintCorrectly() {
         SwingUtilities.invokeLater(() -> paintImmediately(getBounds()));

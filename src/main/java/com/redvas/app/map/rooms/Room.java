@@ -135,6 +135,7 @@ public class Room implements Steppable {
     }
 
     private RoomChangeListener listener = null;
+    public RoomChangeListener getListener() { return listener; }
 
     public void setListener(RoomChangeListener listener) {
         this.listener = listener;

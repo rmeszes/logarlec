@@ -462,7 +462,7 @@ public class Labyrinth implements Steppable {
         randomOrderSearch(roomsLocal, visits, map, rx, ry);
         cyclicize(roomsLocal, visits, map);
 
-        /*boolean[][] resizingMap = resizify(roomsLocal);*/
+        boolean[][] resizingMap = resizify(roomsLocal);
         enchant(roomsLocal, null);
 
         rooms2D = roomsLocal;
