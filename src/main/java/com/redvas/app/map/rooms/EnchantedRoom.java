@@ -17,5 +17,6 @@ public class EnchantedRoom extends Room {
 
     public EnchantedRoom(Labyrinth labyrinth, Integer id, Integer capacity) {
         super(labyrinth, id, capacity);
+
     }
 }

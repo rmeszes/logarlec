@@ -34,14 +34,4 @@ public class EnchantedRoomView extends RoomView implements RoomChangeListener {
 
         repaintCorrectly();
     }
-
-    @Override
-    public void roomStickinessChange(boolean isSticky) {
-        this.isSticky = isSticky;
-    }
-
-    @Override
-    public void roomGaseousnessChange(boolean isGaseous) {
-        this.isGaseous = isGaseous;
-    }
 }

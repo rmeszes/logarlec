@@ -33,11 +33,13 @@ public class ResizingRoom extends Room {
         return resizingRoom;
     }
 
-    private boolean isMerged() {
+    public boolean isMerged() {
         return doors.getOrDefault(Direction.BOTTOM_RIGHT, null) != null;
     }
     private boolean mergeD = false;
     private int incorporatedId = -1;
+
+    public Direction getMergeDirection() { return mergeDirection; }
     private Direction mergeDirection;
     @Override
     protected boolean incorporatable() { return false; }
