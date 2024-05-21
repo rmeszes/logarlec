@@ -402,15 +402,6 @@ public abstract class Player implements Steppable {
                 builder.append(i++).append(". ").append(item.toString()).append('\n');
         }
 
-        builder.append("Accessible rooms: (directions)\n");
-
-        if(where().getAccessibleDirections().isEmpty())
-            builder.append("No accessible rooms\n");
-        else {
-            for(Direction direction : where.getAccessibleDirections()) {
-                builder.append(direction.toString()).append('\n');
-            }
-        }
         logger.fine(builder::toString);
         return false;
     }
