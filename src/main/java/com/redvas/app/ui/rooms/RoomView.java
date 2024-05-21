@@ -173,6 +173,7 @@ public class RoomView extends JPanel implements RoomChangeListener {
         if (activeLeavingPlayer == null) return;
         addOccupant(activeLeavingPlayer);
         activeLeavingPlayer = null;
+        repaintCorrectly();
     }
 
     private static ItemsView activeItem = null;
