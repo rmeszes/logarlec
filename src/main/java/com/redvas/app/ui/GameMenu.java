@@ -54,10 +54,11 @@ public class GameMenu extends JFrame implements GameOverListener {
 
         }));
 
-        loadSavedGameButton.addActionListener(e -> {
-            //TODO betöltés
+        //TODO betöltés
+        /*loadSavedGameButton.addActionListener(e -> {
 
-        });
+
+        });*/
 
 
         exitButton.addActionListener(e -> System.exit(0));
@@ -72,9 +73,9 @@ public class GameMenu extends JFrame implements GameOverListener {
         });
 
         // Set up layout
-        setLayout(new GridLayout(3, 1));
+        setLayout(new GridLayout(2, 1));
         add(startGameButton);
-        add(loadSavedGameButton);
+        //add(loadSavedGameButton);
         add(exitButton);
 
         // Display the frame

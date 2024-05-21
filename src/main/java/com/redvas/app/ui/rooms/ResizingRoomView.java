@@ -69,25 +69,11 @@ public class ResizingRoomView extends RoomView implements ResizingRoomChangeList
                 else
                     setBounds(originalX, originalY, (int)getBounds().getWidth() * 2, RoomView.SIZE);
 
-                if (isSticky) {
-                    if (isGaseous) myImage = horizontalStickyGaseous;
-                    else myImage = horizontalSticky;
-                }
-                else {
-                    if (isGaseous) myImage = horizontalGaseous;
-                    else myImage = horizontal;
-                }
+                super.updateImage();
             }
         }
         else {
-            if (isSticky) {
-                if (isGaseous) myImage = basicStickyGaseous;
-                else myImage = basicSticky;
-            }
-            else {
-                if (isGaseous) myImage = basicGaseous;
-                else myImage = basic;
-            }
+            super.updateImage();
         }
 
         repaintCorrectly();
