@@ -467,12 +467,12 @@ public class Labyrinth implements Steppable {
 
         rooms2D = roomsLocal;
         // TODO: TO BE REMOVED IN THE FUTURE!!!!!! (NOT FOR NOW, THO...)
-        for (int y = 0; y < height; y++)
+        /*for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++) {
                 rooms.add(roomsLocal[y][x]);
                 if (listener != null)
                     listener.roomCreated(roomsLocal[y][x], x,y);
-            }
+            }*/
     }
 
     protected static HashMap<Direction, Direction> reverseDirections = new HashMap<>();
