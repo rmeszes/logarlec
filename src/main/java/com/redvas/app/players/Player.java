@@ -183,11 +183,11 @@ public abstract class Player implements Steppable {
      * @param index: identifier of item they want to pick UP
      */
     private boolean pickItem(int index) {
-        if (where.getItem(index) == null) {
+        if (where.getItem(index - 1) == null) {
             return false;
         }
         else {
-            where.getItem(index).pickup(this);
+            where.getItem(index - 1).pickup(this);
             return true;
         }
     }
@@ -197,7 +197,7 @@ public abstract class Player implements Steppable {
      * @param index: identifier of item they want to put down
      */
     private boolean disposeItem(int index) {
-        Item item = getItem(index);
+        Item item = getItem(index - 1);
         if(item == null) {
             return false;
         }
@@ -386,7 +386,7 @@ public abstract class Player implements Steppable {
         if(getItems().isEmpty())
             builder.append("None.\n");
         else{
-            int i = 0;
+            int i = 1;
             for (Item item : items)
                 builder.append(i++).append(". ").append(item.toString()).append('\n');
         }
@@ -396,7 +396,7 @@ public abstract class Player implements Steppable {
         if(where().getItems().isEmpty())
             builder.append("Room has no items\n");
         else {
-            int i = 0;
+            int i = 1;
             for (Item item : where.getItems())
                 builder.append(i++).append(". ").append(item.toString()).append('\n');
         }
