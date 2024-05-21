@@ -20,22 +20,22 @@ import java.util.logging.Logger;
 public class RoomView extends JPanel implements RoomChangeListener {
     private static final Logger logger = App.getConsoleLogger(RoomView.class.getName());
     private final Room room;
-    private boolean isSticky = false;       // alapból legyen hamis, de am ez nem int a modellben??
-    private boolean isGaseous = false;
+    protected boolean isSticky = false;       // alapból legyen hamis, de am ez nem int a modellben??
+    protected boolean isGaseous = false;
 
-    private BufferedImage myImage;
-    private static BufferedImage basic;               // alap
-    private static BufferedImage basicGaseous;    // amikor gázossá válik
-    private static BufferedImage basicSticky;     // amikor ragadós a szoba
-    private static BufferedImage basicStickyGaseous;
-    private static BufferedImage enchanted;
-    private static BufferedImage enchantedSticky;
-    private static BufferedImage enchantedGaseous;
-    private static BufferedImage enchantedStickyGaseous;
-    private static BufferedImage horizontal, vertical;
-    private static BufferedImage horizontalGaseous, verticalGaseous;
-    private static BufferedImage horizontalSticky, verticalSticky;
-    private static BufferedImage horizontalStickyGaseous, verticalStickyGaseous;
+    protected BufferedImage myImage,
+            basic,
+            basicGaseous,
+            basicSticky,
+            basicStickyGaseous,
+            enchanted,
+            enchantedSticky,
+            enchantedGaseous,
+            enchantedStickyGaseous,
+            horizontal, vertical,
+            horizontalGaseous, verticalGaseous,
+            horizontalSticky, verticalSticky,
+            horizontalStickyGaseous, verticalStickyGaseous;
 
     {
         String root = System.getProperty("user.dir");
@@ -61,6 +61,20 @@ public class RoomView extends JPanel implements RoomChangeListener {
             throw new RuntimeException(e);
         }
     }
+
+    protected void updateImage() {
+        if (isSticky) {
+            if (isGaseous) myImage = basicStickyGaseous;
+            else myImage = basicSticky;
+        }
+        else {
+            if (isGaseous) myImage = basicGaseous;
+            else myImage = basic;
+        }
+
+        repaintCorrectly();
+    }
+
     public RoomView(Room r, int x, int y) {
         myImage = basic;
         r.setListener(this);
@@ -117,18 +131,6 @@ public class RoomView extends JPanel implements RoomChangeListener {
         p.occupyRoomPosition(roomLocalX, roomLocalY);
         repaintCorrectly();
     }
-
-    private void updateImage() {
-        if (isSticky) {
-            if (isGaseous) myImage = basicStickyGaseous;
-            else myImage = basicSticky;
-        }
-        else {
-            if (isGaseous) myImage = basicGaseous;
-            else myImage = basic;
-        }
-    }
-
 
     @Override
     public void roomStickinessChange(boolean isSticky) {    // Amikor a modellben változik, akkor ezt kell hívni és ez updateli a view-t
