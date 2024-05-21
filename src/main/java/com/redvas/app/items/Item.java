@@ -51,6 +51,9 @@ public abstract class Item {
 
     }
 
+    public void setIfReal(boolean b) {isReal = b;}
+    public boolean isReal() {return isReal;}
+
     public int getID() {
         return id;
     }

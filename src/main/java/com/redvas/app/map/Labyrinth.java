@@ -600,6 +600,13 @@ public class Labyrinth implements Steppable {
         int ly = randomY();
         Logarlec l = new Logarlec(0, rooms2D[ly][lx]);
         if(listener != null) listener.logarlecCreated(l, lx, ly);
+        if(Boolean.FALSE.equals(l.isReal())) {
+            lx = randomX();
+            ly = randomY();
+            l = new Logarlec(1, rooms2D[ly][lx]);
+            l.setIfReal(true);
+            if(listener != null) listener.logarlecCreated(l, lx, ly);
+        }
 
         for (int i = 0; i < numOfItems.get("AirFreshener"); i++) {
             int rx = randomX();
