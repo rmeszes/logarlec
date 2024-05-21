@@ -21,6 +21,7 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.time.Duration;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -107,6 +108,12 @@ public class Game extends JPanel{
         end = true;
         if (GOListener != null)
             GOListener.onGameOver(true);
+        try {
+            Thread.sleep(Duration.ofSeconds(5));
+        } catch (InterruptedException ignored) {
+            Thread.currentThread().interrupt();
+        }
+        System.exit(0);
     }
 
     private void professorVictory() {
@@ -114,6 +121,12 @@ public class Game extends JPanel{
         end = true;
         if (GOListener != null)
             GOListener.onGameOver(false);
+        try {
+            Thread.sleep(Duration.ofSeconds(5));
+        } catch (InterruptedException ignored) {
+            Thread.currentThread().interrupt();
+        }
+        System.exit(0);
     }
 
     private int undergraduates = 0;
