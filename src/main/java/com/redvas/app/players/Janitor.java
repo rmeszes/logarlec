@@ -30,13 +30,16 @@ public class Janitor extends Player implements ProximityListener{
                 for(Room room : where().getAccessibleRooms()) {
                     if(Boolean.TRUE.equals(room.canAccept())) {
                         player.moveTo(room);
-                        logger.fine("A player was sent outside");
+                        logger.fine(player.toString() + " was sent out from " + where().getID() + " to " + room.getID());
                         moved = true;
                         break;
                     }
                 }
                 if(!moved) return; //If all rooms are full, the rest stays
             }
+            logger.fine("this room occupants: " + where().getOccupants().size());
+            if (where().getOccupants().size() <= 2) // this is stupid but its fine for now
+                break;
         }
     }
 

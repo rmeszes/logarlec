@@ -22,6 +22,7 @@ public class Transistor extends Item {
         if(!isReal) {
             logger.fine(this + " was a fake item.");
             destroy();
+            return;
         }
 
         assert owner.getItems() != null : "use() called with no owner";
@@ -29,10 +30,10 @@ public class Transistor extends Item {
             if(item != this) {
                 try {
                     item.merge((Transistor) item);
-                    logger.fine("Merged"); //THIS SHOULD BE CALLED BUT IS NOT
+                    logger.fine("Merged");
                     break;
                 } catch (ClassCastException e) {
-                    logger.fine("tried merging to another non-transistor"); //THIS SHOULD BE CALLED BUT IS NOT
+                    logger.fine("tried merging to another non-transistor");
                 }
             }
         }
@@ -50,7 +51,6 @@ public class Transistor extends Item {
 
     @Override
     public void merge(Transistor item){
-        logger.fine("Merge function from transistor called");
         if (item.getClass() != Transistor.class) {
             logger.fine("tried merging to another non-transistor");
             return;
