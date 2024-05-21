@@ -8,9 +8,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import java.util.Map;
+import java.util.Random;
 import java.util.logging.Logger;
 
 public abstract class Item {
+    protected static Random rand = new Random();
+
     protected Player owner;
     protected Room whichRoom = null;
     protected String name;
@@ -33,6 +36,7 @@ public abstract class Item {
         this.owner.addToInventory(this);
         this.id = id;
         this.isInRoom = false;
+        isReal = rand.nextBoolean();
     }
 
     protected Item(Integer id, Room whichRoom, Boolean isListener) {
@@ -42,7 +46,9 @@ public abstract class Item {
         if (Boolean.FALSE.equals(isListener))
             this.whichRoom.addItem(this);
 
+        isReal = rand.nextBoolean();
         this.id = id;
+
     }
 
     public int getID() {

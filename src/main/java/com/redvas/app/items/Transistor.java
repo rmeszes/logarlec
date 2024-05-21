@@ -19,6 +19,11 @@ public class Transistor extends Item {
      */
     @Override
     public void use() {
+        if(!isReal) {
+            logger.fine(this + " was a fake item.");
+            destroy();
+        }
+
         assert owner.getItems() != null : "use() called with no owner";
         for (Item item : owner.getItems()) {
             if(item != this) {

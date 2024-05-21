@@ -33,7 +33,10 @@ public class AirFreshener extends Item implements ProximityListener {
     @Override
     public void use() {
         logger.finest("Airfreshener used");
-        owner.where().subscribeToProximity(this);
+        if(isReal)
+            owner.where().subscribeToProximity(this);
+        else
+            logger.fine(()-> this + " was a fake item.");
         destroy();
     }
 

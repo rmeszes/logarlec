@@ -36,7 +36,12 @@ public class TVSZ extends Item {
     @Override
     public void use() {
         logger.fine(() -> this + " is being used...");
-        getOwner().setProtectionFor(1);
+        if(isReal)
+            getOwner().setProtectionFor(1);
+        else {
+            logger.fine(() -> this + " was a fake item.");
+            destroy();
+        }
 
         if (uses == 0)
             destroy();

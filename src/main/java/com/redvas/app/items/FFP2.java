@@ -23,6 +23,9 @@ public class FFP2 extends Item {
         logger.fine(() -> this + " is being used...");
         if(isReal)
             getOwner().useFFP2();
+        else {
+            logger.fine(() -> this + " was a fake item.");
+        }
         destroy();
     }
 
