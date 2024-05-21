@@ -20,20 +20,30 @@ public class ResizingRoomView implements RoomChangeListener {
     private boolean isSticky = false;       // alapból legyen hamis, de am ez nem int a modellben??
     private boolean isGaseous = false;
 
-    BufferedImage rFloorImage;
-    BufferedImage rFloorImageWhenGaseous;
-    BufferedImage rFloorImageWhenSticky;
-    BufferedImage rFloorImageWhenGaseousAndSticky;
+    BufferedImage rhFloorImage;
+    BufferedImage rhFloorImageWhenGaseous;
+    BufferedImage rhFloorImageWhenSticky;
+    BufferedImage rhFloorImageWhenGaseousAndSticky;
+
+    // EZT MÉG NEM TOM HOGY DÖNTI EL
+    BufferedImage rvFloorImage;
+    BufferedImage rvFloorImageWhenGaseous;
+    BufferedImage rvFloorImageWhenSticky;
+    BufferedImage rvFloorImageWhenGaseousAndSticky;
 
     public ResizingRoomView(ResizingRoom rr, int x, int y) {
         this.rRoom = rr;
         this.x = x;
         this.y = y;
         try {
-            rFloorImage = ImageIO.read(new File("src/main/resources/floor.png"));
-            rFloorImageWhenGaseous = ImageIO.read(new File("src/main/resources/floor.png"));
-            rFloorImageWhenSticky = ImageIO.read(new File("src/main/resources/floor.png"));
-            rFloorImageWhenGaseousAndSticky = ImageIO.read(new File("src/main/resources/floor.png"));
+            rhFloorImage = ImageIO.read(new File("src/main/resources/map/horizontal_room.png"));
+            rhFloorImageWhenGaseous = ImageIO.read(new File("src/main/resources/map/horizontal_gaseous_room.png"));
+            rhFloorImageWhenSticky = ImageIO.read(new File("src/main/resources/map/horizontal_sticky_room.png"));
+            rhFloorImageWhenGaseousAndSticky = ImageIO.read(new File("src/main/resources/map/horizontal_sticky_gaseous_room.png"));
+            rvFloorImage = ImageIO.read(new File("src/main/resources/map/vertical_room.png"));
+            rvFloorImageWhenGaseous = ImageIO.read(new File("src/main/resources/map/vertical_gaseous_room.png"));
+            rvFloorImageWhenSticky = ImageIO.read(new File("src/main/resources/map/vertical_sticky_room.png"));
+            rvFloorImageWhenGaseousAndSticky = ImageIO.read(new File("src/main/resources/map/vertical_sticky_gaseous_room.png"));
         } catch (IOException e) {
             logger.severe(e.getMessage());
         }
@@ -67,21 +77,19 @@ public class ResizingRoomView implements RoomChangeListener {
         g.setColor(Color.BLACK);
 
         if (!isGaseous && !isSticky) {      // alap
-            g.drawImage(rFloorImage, x, y, roomWidth, roomHeight, null);
+            g.drawImage(rhFloorImage, x, y, roomWidth, roomHeight, null);
         }
 
         else if (!isGaseous) {  // csak ragad
-            g.drawImage(rFloorImageWhenSticky, x, y, roomWidth, roomHeight, null);
+            g.drawImage(rhFloorImageWhenSticky, x, y, roomWidth, roomHeight, null);
         }
 
         else if (!isSticky) {  // csak gázos
-            g.drawImage(rFloorImageWhenGaseous, x, y, roomWidth, roomHeight, null);
+            g.drawImage(rhFloorImageWhenGaseous, x, y, roomWidth, roomHeight, null);
         }
 
         else  {  // gázos és ragad
-            g.drawImage(rFloorImageWhenGaseousAndSticky, x, y, roomWidth, roomHeight, null);
+            g.drawImage(rhFloorImageWhenGaseousAndSticky, x, y, roomWidth, roomHeight, null);
         }
-
-
     }
 }

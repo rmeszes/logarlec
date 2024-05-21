@@ -29,16 +29,16 @@ public class RoomView extends JPanel implements RoomChangeListener {
     private static BufferedImage floorImage;               // alap
     private static BufferedImage floorImageWhenGaseous;    // amikor gázossá válik
     private static BufferedImage floorImageWhenSticky;     // amikor ragadós a szoba
-    private static BufferedImage floorImageWhenEnchanted;
+    private static BufferedImage floorImageWhenStickyAndGaseous; // amikor mindkettő
 
     {
         String root = System.getProperty("user.dir");
 
         try {
-            floorImage = ImageIO.read(new File(root + "/src/main/resources/floor.png"));
-            floorImageWhenSticky = ImageIO.read(new File(root + "/src/main/resources/map/sticky_room1000.png"));
-            floorImageWhenGaseous = ImageIO.read(new File(root + "/src/main/resources/map/gaseous_room1000.png"));
-            floorImageWhenEnchanted = ImageIO.read(new File(root + "/src/main/resources/players/fainted_janitor.png"));
+            floorImage = ImageIO.read(new File(root + "/src/main/resources/map/basic_room.png"));
+            floorImageWhenSticky = ImageIO.read(new File(root + "/src/main/resources/map/basic_sticky_room.png"));
+            floorImageWhenGaseous = ImageIO.read(new File(root + "/src/main/resources/map/basic_gaseous_room.png"));
+            floorImageWhenStickyAndGaseous = ImageIO.read(new File(root + "/src/main/resources/map/basic_gaseous_sticky_room.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -102,13 +102,23 @@ public class RoomView extends JPanel implements RoomChangeListener {
 
     @Override
     public void roomStickinessChange(boolean isSticky) {    // Amikor a modellben változik, akkor ezt kell hívni és ez updateli a view-t
-        if (isSticky) myImage = floorImageWhenSticky;
+        if (isSticky) {
+            if (isGaseous)
+                myImage = floorImageWhenStickyAndGaseous;
+            else
+                myImage = floorImageWhenSticky;
+        }
         else myImage = floorImage;
     }
 
     @Override
     public void roomGaseousnessChange(boolean isGaseous) {
-        if (isGaseous) myImage = floorImageWhenGaseous;
+        if (isGaseous) {
+            if (isSticky)
+                myImage = floorImageWhenStickyAndGaseous;
+            else
+                myImage = floorImageWhenGaseous;
+        }
         else myImage = floorImage;
     }
 

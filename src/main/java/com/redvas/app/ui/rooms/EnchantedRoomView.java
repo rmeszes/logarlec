@@ -28,10 +28,10 @@ private int x, y;
         this.x = x;
         this.y = y;
         try {
-            eFloorImage = ImageIO.read(new File("src/main/resources/floor.png"));
-            eFloorImageWhenGaseous = ImageIO.read(new File("src/main/resources/floor.png"));
-            eFloorImageWhenSticky = ImageIO.read(new File("src/main/resources/floor.png"));
-            eFloorImageWhenGaseousAndSticky = ImageIO.read(new File("src/main/resources/floor.png"));
+            eFloorImage = ImageIO.read(new File("/src/main/resources/map/enchanted_room.png"));
+            eFloorImageWhenGaseous = ImageIO.read(new File("src/main/resources/map/enchanted_gaseous_room.png"));
+            eFloorImageWhenSticky = ImageIO.read(new File("src/main/resources/map/enchanted_sticky_room.png"));
+            eFloorImageWhenGaseousAndSticky = ImageIO.read(new File("src/main/resources/map/enchanted_sticky_gaseous_room.png"));
         } catch (IOException e) {
             logger.severe(e.getMessage());
         }
