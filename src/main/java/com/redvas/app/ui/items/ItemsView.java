@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public abstract class ItemsView extends JPanel{
+public abstract class ItemsView extends JPanel implements ItemChangeListener{
     protected BufferedImage itemImage;
     protected static final BufferedImage AirFreshenerImage;
     protected static final BufferedImage CombinedTransistorImage;
@@ -23,7 +23,7 @@ public abstract class ItemsView extends JPanel{
     protected static final BufferedImage TVSZImage;
     protected static final BufferedImage WetWipeImage;
 
-    private Item item;
+    private final Item item;
 
     public Item getItem() {
         return item;
@@ -77,6 +77,11 @@ public abstract class ItemsView extends JPanel{
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(itemImage, 0, 0, null);
+    }
+
+    @Override
+    public void isInRoom(boolean isInRoom){
+        repaint();
     }
 }
 

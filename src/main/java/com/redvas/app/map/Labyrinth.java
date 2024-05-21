@@ -561,7 +561,7 @@ public class Labyrinth implements Steppable {
 
         }
 
-        int professorCount = random.nextInt(1, playerCount);
+        int professorCount = random.nextInt(1, playerCount + 1);
 
         for (int i = 1; i <= professorCount; i++) {
             int rx = randomX();
@@ -573,7 +573,7 @@ public class Labyrinth implements Steppable {
                 listener.professorCreated(p, rx, ry);
         }
 
-        int janitorCount = random.nextInt(1, playerCount);
+        int janitorCount = random.nextInt(1, playerCount + 1);
 
         for (int i = 1; i <= janitorCount; i++) {
             int rx = randomX();

@@ -92,7 +92,7 @@ public class Game extends JPanel{
         for (Steppable s : steppablesForRound) {
             s.step();
 
-            if (end) return;
+            //if (end) return;
         }
     }
 
