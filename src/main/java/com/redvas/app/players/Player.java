@@ -284,6 +284,7 @@ public abstract class Player implements Steppable {
             else if (Objects.equals(cmd, "abort"))
                 return false;
             else {
+                consoleList();
                 logger.fine("Supply parameter:");
 
                 try {
