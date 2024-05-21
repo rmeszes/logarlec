@@ -245,7 +245,7 @@ public class Labyrinth implements Steppable {
     protected static final Logger logger = App.getConsoleLogger(Labyrinth.class.getName());
 
     private Room[][] rooms2D;
-    private final List<Room> rooms = new ArrayList<>();      // vezérlés teszt miatt public
+    private final List<Room> rooms = new ArrayList<>();      // vezï¿½rlï¿½s teszt miatt public
 
     private <T> void swap(T[] array, int i, int j) {
         T tmp = array[i];

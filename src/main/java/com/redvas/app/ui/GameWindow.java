@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class GameWindow extends JFrame {
     public GamePanel gamePanel;
-    private static ActionPanel actionPanel;    // majd kell egy ilyesmi osztály
+    private static ActionPanel actionPanel;    // majd kell egy ilyesmi osztï¿½ly
 
     public GameWindow(int gameWidth, int gameHeight, int players) {
         setTitle("Logarlec");
