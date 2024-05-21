@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 public class DoorView extends JPanel implements DoorChangeListener {
     private static final Logger logger = App.getConsoleLogger(EnchantedRoomView.class.getName());
     private final Door door;
+    public Door getDoor() { return door; }
     private static BufferedImage leftDoorImage;
     private static BufferedImage rightDoorImage;
     private static BufferedImage topDoorImage;

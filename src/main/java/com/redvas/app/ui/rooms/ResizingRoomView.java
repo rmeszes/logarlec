@@ -1,87 +1,65 @@
 package com.redvas.app.ui.rooms;
 
-import com.redvas.app.App;
+import com.redvas.app.map.Direction;
 import com.redvas.app.map.rooms.ResizingRoom;
-import com.redvas.app.players.Player;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Logger;
+public class ResizingRoomView extends RoomView implements ResizingRoomChangeListener {
 
-public class ResizingRoomView implements RoomChangeListener {
-    private static final Logger logger = App.getConsoleLogger(ResizingRoomView.class.getName());
-
-    private final ResizingRoom rRoom;
-    private final int x;
-    private final int y;
-    private boolean isSticky = false;       // alapból legyen hamis, de am ez nem int a modellben??
-    private boolean isGaseous = false;
-
-    BufferedImage rFloorImage;
-    BufferedImage rFloorImageWhenGaseous;
-    BufferedImage rFloorImageWhenSticky;
-    BufferedImage rFloorImageWhenGaseousAndSticky;
-
+    private final transient ResizingRoom rr;
     public ResizingRoomView(ResizingRoom rr, int x, int y) {
-        this.rRoom = rr;
-        this.x = x;
-        this.y = y;
-        try {
-            rFloorImage = ImageIO.read(new File("src/main/resources/floor.png"));
-            rFloorImageWhenGaseous = ImageIO.read(new File("src/main/resources/floor.png"));
-            rFloorImageWhenSticky = ImageIO.read(new File("src/main/resources/floor.png"));
-            rFloorImageWhenGaseousAndSticky = ImageIO.read(new File("src/main/resources/floor.png"));
-        } catch (IOException e) {
-            logger.severe(e.getMessage());
-        }
+        super(rr, x, y, false);
+        rr.setListener((ResizingRoomChangeListener) this);
+        originalX = x;
+        originalY = y;
+        this.rr = rr;
+        updateImage();
     }
+    private final int originalX;
+    private final int originalY;
 
     @Override
-    public void roomStickinessChange(boolean isSticky) {
-        this.isSticky = isSticky;
-        return;
+    protected void updateImage() {
+        if (rr.isMerged()) {
+            RoomView toIncorporate = null;
+
+            for (DoorView dv : doors)
+                if ((toIncorporate = (RoomView) dv.getDoor().connectsTo(rr.getMergeDirection()).getListener()) != null)
+                    break;
+
+            if (rr.getMergeDirection() == Direction.UP || rr.getMergeDirection() == Direction.DOWN) {
+                if (rr.getMergeDirection() == Direction.UP && toIncorporate != null)
+                    setBounds(toIncorporate.getBounds().x, toIncorporate.getBounds().y, RoomView.SIZE, RoomView.SIZE * 2);
+                else
+                    setBounds(originalX, originalY, RoomView.SIZE, RoomView.SIZE * 2);
+
+                if (isSticky) {
+                    if (isGaseous) myImage = verticalStickyGaseous;
+                    else myImage = verticalSticky;
+                }
+                else {
+                    if (isGaseous) myImage = verticalGaseous;
+                    else myImage = vertical;
+                }
+            }
+            else {
+                if (rr.getMergeDirection() == Direction.LEFT && toIncorporate != null)
+                    setBounds(originalX - toIncorporate.getBounds().x, originalY, RoomView.SIZE * 2, RoomView.SIZE);
+                else
+                    setBounds(originalX, originalY, (int)getBounds().getWidth() * 2, RoomView.SIZE);
+
+                super.updateImage();
+            }
+        }
+        else {
+            super.updateImage();
+        }
+
+        repaintCorrectly();
     }
+
 
     @Override
-    public void roomGaseousnessChange(boolean isGaseous) {
-        this.isGaseous = isGaseous;
-        return;
-    }
-
-    @Override
-    public void occupantLeft(Player p) {
-
-    }
-
-    @Override
-    public void occupantEntered(Player p) {
-
-    }
-
-    public void draw(Graphics2D g) {
-        int roomWidth = 200;
-        int roomHeight = 200;
-        g.setColor(Color.BLACK);
-
-        if (!isGaseous && !isSticky) {      // alap
-            g.drawImage(rFloorImage, x, y, roomWidth, roomHeight, null);
-        }
-
-        else if (!isGaseous) {  // csak ragad
-            g.drawImage(rFloorImageWhenSticky, x, y, roomWidth, roomHeight, null);
-        }
-
-        else if (!isSticky) {  // csak gázos
-            g.drawImage(rFloorImageWhenGaseous, x, y, roomWidth, roomHeight, null);
-        }
-
-        else  {  // gázos és ragad
-            g.drawImage(rFloorImageWhenGaseousAndSticky, x, y, roomWidth, roomHeight, null);
-        }
-
-
+    public void mergedChanged(boolean isMerged) {
+        updateImage();
     }
 }

@@ -81,7 +81,6 @@ public class Door {
         roomMap[in.getValue() & 1] = to;
         roomMap[in.getReverse().getValue() & 1] = from;
     }
-
     public boolean isVanished() { return isVanished; }
     public boolean isPassable(Direction in) {
         if (in.getValue() != evenIndex && in.getValue() != evenIndex + 1)

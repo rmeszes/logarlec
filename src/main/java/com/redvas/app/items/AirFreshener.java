@@ -4,8 +4,6 @@ import com.redvas.app.map.rooms.Room;
 import com.redvas.app.players.Janitor;
 import com.redvas.app.players.Player;
 import com.redvas.app.players.ProximityListener;
-import com.redvas.app.ui.items.ItemChangeListener;
-import com.redvas.app.ui.players.listeners.ProfessorChangeListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

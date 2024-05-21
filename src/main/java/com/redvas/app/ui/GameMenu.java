@@ -2,12 +2,9 @@ package com.redvas.app.ui;
 
 import com.redvas.app.App;
 import com.redvas.app.Game;
-import com.redvas.app.players.Undergraduate;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.logging.Logger;
@@ -54,10 +51,11 @@ public class GameMenu extends JFrame implements GameOverListener {
 
         }));
 
-        loadSavedGameButton.addActionListener(e -> {
-            //TODO betöltés
+        //TODO betöltés
+        /*loadSavedGameButton.addActionListener(e -> {
 
-        });
+
+        });*/
 
 
         exitButton.addActionListener(e -> System.exit(0));
@@ -72,9 +70,9 @@ public class GameMenu extends JFrame implements GameOverListener {
         });
 
         // Set up layout
-        setLayout(new GridLayout(3, 1));
+        setLayout(new GridLayout(2, 1));
         add(startGameButton);
-        add(loadSavedGameButton);
+        //add(loadSavedGameButton);
         add(exitButton);
 
         // Display the frame

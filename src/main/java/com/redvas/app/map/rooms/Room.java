@@ -3,6 +3,7 @@ package com.redvas.app.map.rooms;
 import com.redvas.app.App;
 import com.redvas.app.Steppable;
 import com.redvas.app.items.Item;
+import com.redvas.app.items.RottenCamembert;
 import com.redvas.app.map.Direction;
 import com.redvas.app.map.Door;
 import com.redvas.app.map.Labyrinth;
@@ -133,6 +134,7 @@ public class Room implements Steppable {
     }
 
     private RoomChangeListener listener = null;
+    public RoomChangeListener getListener() { return listener; }
 
     public void setListener(RoomChangeListener listener) {
         this.listener = listener;
@@ -143,6 +145,11 @@ public class Room implements Steppable {
         this.id = id;
         this.capacity = capacity;
     }
+
+    public void giveListener(RottenCamembert rc) {
+        rc.acceptListener(listener);
+    }
+
     /**
      *
      * @param player: the one that left the room

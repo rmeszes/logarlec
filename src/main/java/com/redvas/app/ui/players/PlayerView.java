@@ -1,5 +1,6 @@
 package com.redvas.app.ui.players;
 
+import com.redvas.app.App;
 import com.redvas.app.players.Player;
 import com.redvas.app.ui.UITool;
 import com.redvas.app.ui.rooms.RoomView;
@@ -10,16 +11,19 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public abstract class PlayerView extends JPanel  {
-    protected BufferedImage myImage;
-    protected static final BufferedImage undergraduateImage;
-    protected static final BufferedImage professorImage;
-    protected static final BufferedImage janitorImage;
-    protected static final BufferedImage professorParalyzedImage;
-    protected static final BufferedImage drunkundergradImage;
-    protected static final BufferedImage faintedjanitorImage;
-    protected static final BufferedImage activeUndergraduateImage;
+    private static final Logger logger = App.getConsoleLogger(Player.class.getName());
+
+    protected transient BufferedImage myImage;
+    protected static BufferedImage undergraduateImage;
+    protected static BufferedImage professorImage;
+    protected static BufferedImage janitorImage;
+    protected static BufferedImage professorParalyzedImage;
+    protected static BufferedImage drunkundergradImage;
+    protected static BufferedImage faintedjanitorImage;
+    protected static BufferedImage activeUndergraduateImage;
 
     protected boolean heightIsGreater = true;
     protected int playerSpaceTotal;
@@ -45,7 +49,7 @@ public abstract class PlayerView extends JPanel  {
         );
     }
 
-private Player player;
+private transient Player player;
 
     public Player getPlayer() { return player; }
 
@@ -66,7 +70,8 @@ private Player player;
             drunkundergradImage = ImageIO.read(new File(root + "/src/main/resources/players/drunk_undergrad.png"));
             activeUndergraduateImage = ImageIO.read(new File(root + "/src/main/resources/players/active_undergrad.png"));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.severe(()->"Images could not be read: " + e.getMessage());
+            System.exit(2);
         }
     }
 

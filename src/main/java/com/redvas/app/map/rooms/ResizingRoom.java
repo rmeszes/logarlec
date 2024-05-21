@@ -4,6 +4,7 @@ import com.redvas.app.App;
 import com.redvas.app.map.Direction;
 import com.redvas.app.map.Door;
 import com.redvas.app.map.Labyrinth;
+import com.redvas.app.ui.rooms.ResizingRoomChangeListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -33,11 +34,13 @@ public class ResizingRoom extends Room {
         return resizingRoom;
     }
 
-    private boolean isMerged() {
+    public boolean isMerged() {
         return doors.getOrDefault(Direction.BOTTOM_RIGHT, null) != null;
     }
     private boolean mergeD = false;
     private int incorporatedId = -1;
+
+    public Direction getMergeDirection() { return mergeDirection; }
     private Direction mergeDirection;
     @Override
     protected boolean incorporatable() { return false; }
@@ -54,6 +57,12 @@ public class ResizingRoom extends Room {
     public ResizingRoom(Integer id, Labyrinth labyrinth, Integer capacity, Direction mergeDirection) {
         super(labyrinth, id,capacity);
         this.mergeDirection = mergeDirection;
+    }
+
+    private ResizingRoomChangeListener listener = null;
+
+    public void setListener(ResizingRoomChangeListener listener) {
+        this.listener = listener;
     }
 
     public void split() {
@@ -100,6 +109,8 @@ public class ResizingRoom extends Room {
         }
 
         mergeD = !mergeD;
+        if (listener != null)
+            listener.mergedChanged(false);
     }
 
     public void expand() {
@@ -216,5 +227,7 @@ public class ResizingRoom extends Room {
         }
 
         room.destroy();
+        if (listener != null)
+            listener.mergedChanged(true);
     }
 }

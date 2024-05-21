@@ -376,8 +376,6 @@ public class Labyrinth implements Steppable {
             Direction.RIGHT,
             Direction.DOWN
     };
-    // visitor pattern
-    private Map<Direction, Door> selection;
 
 
     private boolean[][] resizify(Room[][] rooms) {
@@ -404,7 +402,7 @@ public class Labyrinth implements Steppable {
     private void enchant(Room[][] rooms, boolean[][] resizingMap) {
         for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++)
-                if (!resizingMap[y][x]) {
+                if (resizingMap == null || !resizingMap[y][x]) {
                     if (random.nextGaussian() > 0.8) {
                         rooms[y][x] = rooms[y][x].convertToEnchanted(random.nextInt(2, 6));
                         if (listener != null)
@@ -415,7 +413,7 @@ public class Labyrinth implements Steppable {
     }
 
 
-    private void cyclicize(Room[][] rooms, Room[][] visits, boolean[][] resizingMap) {
+    private void cyclicize(Room[][] rooms, Room[][] visits) {
         Boolean[] stat = new Boolean[4];
         reset();
         // after resetting, the first 2 directions are UP and LEFT
@@ -460,19 +458,19 @@ public class Labyrinth implements Steppable {
         visits[ry][rx] = roomsLocal[ry][rx];
         boolean[][] map = new boolean[height][width];
         randomOrderSearch(roomsLocal, visits, map, rx, ry);
-        cyclicize(roomsLocal, visits, map);
+        cyclicize(roomsLocal, visits);
 
-        /*boolean[][] resizingMap = resizify(roomsLocal);
-        enchant(roomsLocal, resizingMap);*/
+        resizify(roomsLocal);
+        enchant(roomsLocal, null);
 
         rooms2D = roomsLocal;
         // TODO: TO BE REMOVED IN THE FUTURE!!!!!! (NOT FOR NOW, THO...)
-        for (int y = 0; y < height; y++)
+        /*for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++) {
                 rooms.add(roomsLocal[y][x]);
                 if (listener != null)
                     listener.roomCreated(roomsLocal[y][x], x,y);
-            }
+            }*/
     }
 
     protected static HashMap<Direction, Direction> reverseDirections = new HashMap<>();
@@ -529,8 +527,9 @@ public class Labyrinth implements Steppable {
     public void step() {
         logger.fine("Labyrinth step");
 
-        for (Room r : rooms)
-            r.step();
+        for (int i = 0; i < height; i++)
+            for (int j = 0; j < width; j++)
+                rooms2D[i][j].step();
     }
 
     private int randomX() {

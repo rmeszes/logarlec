@@ -1,9 +1,6 @@
 package com.redvas.app.ui.items;
 
-import com.redvas.app.App;
 import com.redvas.app.items.CombinedTransistor;
-
-import java.util.logging.Logger;
 
 public class CombinedTransistorView extends ItemsView implements ItemChangeListener {
     private final CombinedTransistor ctransistor;
