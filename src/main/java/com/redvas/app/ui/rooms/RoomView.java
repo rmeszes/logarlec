@@ -44,7 +44,7 @@ public class RoomView extends JPanel implements RoomChangeListener {
             basic = ImageIO.read(new File(root + "/src/main/resources/map/basic_room.png"));
             basicSticky = ImageIO.read(new File(root + "/src/main/resources/map/basic_sticky_room.png"));
             basicGaseous = ImageIO.read(new File(root + "/src/main/resources/map/basic_gaseous_room.png"));
-            basicStickyGaseous = ImageIO.read(new File(root + "/src/main/resources/map/basic_gaseous_sticky_room.png"));
+            basicStickyGaseous = ImageIO.read(new File(root + "/src/main/resources/map/basic_sticky_gaseous_room.png"));
             enchanted = ImageIO.read(new File(root + "/src/main/resources/map/enchanted_room.png"));
             enchantedGaseous = ImageIO.read(new File(root + "/src/main/resources/map/enchanted_gaseous_room.png"));
             enchantedSticky = ImageIO.read(new File(root + "/src/main/resources/map/enchanted_sticky_room.png"));
