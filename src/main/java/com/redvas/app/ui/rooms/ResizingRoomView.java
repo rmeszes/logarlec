@@ -48,7 +48,7 @@ public class ResizingRoomView extends RoomView implements ResizingRoomChangeList
                     break;
 
             if (rr.getMergeDirection() == Direction.UP || rr.getMergeDirection() == Direction.DOWN) {
-                if (rr.getMergeDirection() == Direction.UP)
+                if (rr.getMergeDirection() == Direction.UP && toIncorporate != null)
                     setBounds(toIncorporate.getBounds().x, toIncorporate.getBounds().y, RoomView.SIZE, RoomView.SIZE * 2);
                 else
                     setBounds(originalX, originalY, RoomView.SIZE, RoomView.SIZE * 2);
@@ -63,7 +63,7 @@ public class ResizingRoomView extends RoomView implements ResizingRoomChangeList
                 }
             }
             else {
-                if (rr.getMergeDirection() == Direction.LEFT)
+                if (rr.getMergeDirection() == Direction.LEFT && toIncorporate != null)
                     setBounds(originalX - toIncorporate.getBounds().x, originalY, RoomView.SIZE * 2, RoomView.SIZE);
                 else
                     setBounds(originalX, originalY, (int)getBounds().getWidth() * 2, RoomView.SIZE);
