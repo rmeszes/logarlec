@@ -109,13 +109,13 @@ public class RoomView extends JPanel implements RoomChangeListener {
     protected List<DoorView> doors = new ArrayList<>();
 
     public void repaintCorrectly() {
-        SwingUtilities.invokeLater(() -> paintImmediately(getBounds()));
+        repaint();
         repaintDoors();
     }
 
     private void repaintDoors() {
         for (DoorView dv : doors)
-            SwingUtilities.invokeLater(() -> dv.paintImmediately(dv.getBounds()));
+            SwingUtilities.invokeLater(dv::repaint);
     }
 
     public void addDoor(DoorView dv) {
@@ -173,7 +173,7 @@ public class RoomView extends JPanel implements RoomChangeListener {
         if (activeLeavingPlayer == null) return;
         addOccupant(activeLeavingPlayer);
         activeLeavingPlayer = null;
-        repaintCorrectly();
+        // repaintCorrectly();
     }
 
     private static ItemsView activeItem = null;
