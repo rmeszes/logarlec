@@ -22,7 +22,10 @@ public class HolyBeer extends Item {
     @Override
     public void use() {
         logger.finest(() -> this + " is being used...");
-        getOwner().setProtectionFor(3);
+        if(isReal)
+            getOwner().setProtectionFor(3);
+        else
+            logger.fine(() -> this + " was a fake item.");
         destroy();
     }
 

@@ -1,10 +1,10 @@
 package com.redvas.app.map;
 
 import com.redvas.app.map.rooms.Room;
+import com.redvas.app.ui.rooms.DoorChangeListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class Door {
@@ -13,7 +13,10 @@ public class Door {
     private final Room[] roomMap = new Room[2];
     private final boolean[] passableMap = new boolean[2];
 
-    public Room connectsTo(Direction d) { return roomMap[d.getValue() & 1]; }
+    public Room connectsTo(Direction d) {
+        if (d.getValue() != evenIndex && d.getValue() !=evenIndex + 1) return null;
+        return roomMap[d.getValue() & 1];
+    }
 
     public void setConnection(Direction in, Room to) {
         if (in.getValue() != evenIndex && in.getValue() != evenIndex + 1)
@@ -26,6 +29,8 @@ public class Door {
 
     public void setVanished(boolean isVanished) {
         this.isVanished = isVanished;
+        if (listener != null)
+            listener.changed();
     }
 
     private Map<Direction, Door> selection;
@@ -43,6 +48,12 @@ public class Door {
         door.setAttribute("towards_target_passable", String.valueOf(passableMap[0]));
         door.setAttribute("towards_origin_passable", String.valueOf(passableMap[1]));
         return door;
+    }
+
+
+    private DoorChangeListener listener = null;
+    public void setListener(DoorChangeListener listener) {
+        this.listener = listener;
     }
 
     public Door(Room from, Room to, Direction in, boolean passable) {
@@ -72,12 +83,19 @@ public class Door {
     }
 
     public boolean isVanished() { return isVanished; }
-    public boolean isPassable(Direction in) { return passableMap[in.getValue() & 1]; }
+    public boolean isPassable(Direction in) {
+        if (in.getValue() != evenIndex && in.getValue() != evenIndex + 1)
+            return false;
+
+        return passableMap[in.getValue() & 1];
+    }
 
     public void setPassable(Direction in, boolean isPassable) {
         if (in.getValue() != evenIndex && in.getValue() != evenIndex + 1)
             return;
 
         passableMap[in.getValue() & 1] = isPassable;
+        if (listener != null)
+            listener.changed();
     }
 }

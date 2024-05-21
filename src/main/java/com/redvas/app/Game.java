@@ -1,7 +1,9 @@
 package com.redvas.app;
 
 import com.redvas.app.map.Labyrinth;
-import com.redvas.app.ui.GamePanel;
+import com.redvas.app.players.Player;
+import com.redvas.app.ui.GameOverListener;
+import com.redvas.app.ui.GeneratorListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -21,7 +23,9 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 public class Game extends JPanel{
@@ -54,75 +58,23 @@ public class Game extends JPanel{
     private static final Random random = new Random();
     protected static final Logger logger = App.getConsoleLogger(Game.class.getName());
 
-    private final Set<Steppable> steppablesForRound = new HashSet<>();
+    private final Set<Steppable> steppablesForRound = ConcurrentHashMap.newKeySet();
 
-    private transient Labyrinth labyrinth;
-    private GamePanel gamePanel;
+    public transient Labyrinth labyrinth;
 
-    public Game() throws ParserConfigurationException, TransformerException {
-        logger.fine("How many players?");
-        int playerCount = App.reader.nextInt();
-        if(App.reader.hasNextLine()) App.reader.nextLine();
-
-        if(playerCount > 6) playerCount = 6;
-
-        logger.fine("Starting new game..");
-
-        labyrinth = new Labyrinth(random.nextInt(4,12), random.nextInt(4,5), this,playerCount);
-        createWindow();
-
-        play();
-    }
-
-    private Game(String arg) throws ParserConfigurationException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException, TransformerException {
-        logger.fine(() -> String.format("Loading game.. %s%n", arg));
-        load(arg);
-
-        createWindow();
-
-        play();
-    }
-
-    private Game(int arg) throws IOException, ParserConfigurationException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException, TransformerException {
-        logger.fine(() -> String.format("Loading preset: %d%n", arg));
-        load("./test_saves/" + arg + ".xml");
-
-        createWindow();
-
-        play();
-    }
-
-    private void createWindow() {
-        gamePanel = new GamePanel(labyrinth);
-        JFrame window = new JFrame();
-        window.add(gamePanel);
-        window.setSize(600,800);
-        if(Boolean.FALSE.equals(App.isTest())) window.setVisible(true); //Don't show window for tests
-        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    }
 
     /**
      * method for when the game is started from scratch
      */
-    public static Game startNewGame() throws ParserConfigurationException, TransformerException {
-        return new Game();
-    }
 
     /**
      * method for when the game has to load a previous save
      */
-    public static Game loadGame(String arg) throws ParserConfigurationException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException, TransformerException {
-        return new Game(arg);
-    }
 
     /**
      * method for when the game has to load a preset
      */
-    public static Game loadPreset(int arg) throws IOException, ParserConfigurationException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException, TransformerException {
-        return new Game(arg);
-    }
 
-    public Set<Steppable> getSteppablesForRound() { return steppablesForRound; }
 
     public void registerSteppable(Steppable steppable) {
         steppablesForRound.add(steppable);
@@ -134,26 +86,37 @@ public class Game extends JPanel{
             playRound();
             save();
         }
+
     }
 
     public void playRound() {
         logger.fine("New round");
 
-        for (Steppable s : getSteppablesForRound()) {
-            s.step();
+        for (Steppable s : steppablesForRound) {
+            if (!end)
+                s.step();
 
             if (end) return;
         }
     }
 
+    private GameOverListener GOListener = null;
+    public void setGOListener(GameOverListener listener) {
+        this.GOListener = listener;
+    }
+
     public void undergraduateVictory() {
         logger.fine("Undergraduate team won the game!");
         end = true;
+        if (GOListener != null)
+            GOListener.onGameOver(true);
     }
 
     private void professorVictory() {
         logger.fine("Professor team won the game!");
         end = true;
+        if (GOListener != null)
+            GOListener.onGameOver(false);
     }
 
     private int undergraduates = 0;
@@ -172,15 +135,118 @@ public class Game extends JPanel{
         steppablesForRound.remove(s);
     }
 
-    public Labyrinth getLabyrinth() {
-        return labyrinth;
+    private void commandStart() throws ParserConfigurationException, TransformerException {
+        logger.fine("How many players?");
+        int playerCount = App.reader.nextInt();
+        labyrinth = new Labyrinth(width, height, playerCount, this);
+        if(App.reader.hasNextLine()) App.reader.nextLine();
+        play();
     }
 
-    public void setLabyrinth(Labyrinth labyrinth) {
-        this.labyrinth = labyrinth;
+    private void loadPreset(int arg) throws IOException, ParserConfigurationException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException, TransformerException {
+        load("./test_saves/" + arg + ".xml");
+        play();
     }
 
-    public GamePanel getGamePanel() {
-        return gamePanel;
+    private void menu() throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        boolean badInput;
+
+        logger.fine("""
+                
+                Type 'start' to start a new game,
+                'load #' to load a preset gamestate,
+                'load save' to load a saved game  or
+                'quit' to exit the game
+                """);
+
+        Scanner stdin = App.reader;
+
+        do {
+            String input = stdin.nextLine();
+            String[] inputSplit = input.split(" "); //need this so I can make the switch statement
+
+            badInput = false;
+            switch(inputSplit[0]) {
+                case "start" -> commandStart();     // meghívja a game ctor-ját menü nélkül
+                case "load" -> commandLoad(inputSplit[1]);
+                case "quit" -> commandQuit();
+                default -> {
+                    badInput = true;
+                    logger.warning("\nUnknown command");
+                }
+            }
+        } while(badInput);
+    }
+
+    private void commandQuit() {
+        System.exit(0);
+    }
+
+    private int width, height, players;
+
+    private void init(int width, int height, int players) {
+        this.width = width;
+        this.height = height;
+        this.players = players;
+    }
+
+    public Game(int width, int height) throws ParserConfigurationException, IOException, ClassNotFoundException, TransformerException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        init(width, height, players);
+        menu();
+    }
+
+
+    public Game(int width, int height, int players, GeneratorListener listener) {
+        init(width, height, players);
+        labyrinth = new Labyrinth(width, height, this, players, listener);
+    }
+
+    public Game(int preset) throws IOException, ParserConfigurationException, ClassNotFoundException, InvocationTargetException, TransformerException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        loadPreset(preset);
+        play();
+    }
+
+
+    private void commandLoad(String arg) throws ParserConfigurationException, TransformerException, IOException, ClassNotFoundException, InvocationTargetException, SAXException, NoSuchMethodException, InstantiationException, IllegalAccessException{
+        try {
+            int i = Integer.parseInt(arg);
+            loadPreset(i);
+        } catch (NumberFormatException ignored) {
+            // ?
+        }
+    }
+
+    // Amikkel a játékot vezérelni fogjuk - vagy mégsem, hiszen megoldottam keyboard listenerrel. Majd ha úgy döntünk hogy az jó akkor ezt ki lehet szedni
+
+    public void movePlayer(Player p) {
+        try {
+            System.out.print("Enter a character to move the player (W/A/S/D): ");
+            char character = (char) System.in.read();
+
+            switch (character) {
+                case 'W':
+                case 'w':
+                    //moveUp(p);
+                    break;
+                case 'A':
+                case 'a':
+                    //moveLeft(p);
+                    break;
+                case 'S':
+                case 's':
+                    //moveDown(p);
+                    break;
+                case 'D':
+                case 'd':
+                    //moveRight(p);
+                    break;
+                default:
+                    System.out.println("Invalid input. Please enter W, A, S, or D.");
+                    break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

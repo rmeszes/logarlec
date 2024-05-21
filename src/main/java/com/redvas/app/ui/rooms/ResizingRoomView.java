@@ -2,6 +2,7 @@ package com.redvas.app.ui.rooms;
 
 import com.redvas.app.App;
 import com.redvas.app.map.rooms.ResizingRoom;
+import com.redvas.app.players.Player;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -48,6 +49,16 @@ public class ResizingRoomView implements RoomChangeListener {
     public void roomGaseousnessChange(boolean isGaseous) {
         this.isGaseous = isGaseous;
         return;
+    }
+
+    @Override
+    public void occupantLeft(Player p) {
+
+    }
+
+    @Override
+    public void occupantEntered(Player p) {
+
     }
 
     public void draw(Graphics2D g) {

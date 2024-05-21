@@ -2,6 +2,7 @@ package com.redvas.app.ui.rooms;
 
 import com.redvas.app.App;
 import com.redvas.app.map.rooms.EnchantedRoom;
+import com.redvas.app.players.Player;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -14,8 +15,6 @@ public class EnchantedRoomView implements RoomChangeListener {
     private static final Logger logger = App.getConsoleLogger(EnchantedRoomView.class.getName());
 
     private final EnchantedRoom eRoom;
-    private final int x;
-    private final int y;
     private boolean isSticky = false;
     private boolean isGaseous = false;
 
@@ -23,7 +22,7 @@ public class EnchantedRoomView implements RoomChangeListener {
     BufferedImage eFloorImageWhenGaseous;
     BufferedImage eFloorImageWhenSticky;
     BufferedImage eFloorImageWhenGaseousAndSticky;
-
+private int x, y;
     public EnchantedRoomView(EnchantedRoom er, int x, int y) {
         this.eRoom = er;
         this.x = x;
@@ -46,6 +45,16 @@ public class EnchantedRoomView implements RoomChangeListener {
     @Override
     public void roomGaseousnessChange(boolean isGaseous) {
         this.isGaseous = isGaseous;
+    }
+
+    @Override
+    public void occupantLeft(Player p) {
+
+    }
+
+    @Override
+    public void occupantEntered(Player p) {
+
     }
 
     public void draw(Graphics2D g) {

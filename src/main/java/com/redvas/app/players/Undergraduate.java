@@ -5,6 +5,7 @@ import com.redvas.app.Game;
 import com.redvas.app.Steppable;
 import com.redvas.app.items.Transistor;
 import com.redvas.app.map.rooms.Room;
+import com.redvas.app.ui.players.listeners.UndergraduateChangeListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -18,14 +19,28 @@ import java.util.logging.Logger;
 public class Undergraduate extends Player implements Steppable {
     private int protection;
     private boolean dropScheduled;
+    private boolean isActive;
+    private boolean hasLogarlec;
 
     public Undergraduate(Integer id, Room room, Game game) {
         super(id, room, game);
         this.protection = 0;
         this.dropScheduled = false;
+        this.hasLogarlec = false;
         logger.fine(() -> this + " created");
         game.addUndergraduate();
-        where.addOccupant(this);
+        // where.addOccupant(this);
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean b) {
+        if(isActive != b) {
+            isActive = b;
+            if(listener != null) listener.activeStateChanged();
+        }
     }
 
     @Override
@@ -64,6 +79,7 @@ public class Undergraduate extends Player implements Steppable {
     @Override
     public void pickLogarlec() {
         getGame().undergraduateVictory();
+        hasLogarlec = true;
     }
 
     protected static final Logger logger = App.getConsoleLogger(Undergraduate.class.getName());
@@ -74,14 +90,18 @@ public class Undergraduate extends Player implements Steppable {
      */
     @Override
     public void step() {
-        if (faintCountdown > 0) {
-            logger.fine(() -> this + " is fainted for " + faintCountdown + " rounds");
-            faintCountdown--;
-        }
-        else {
-            logger.fine(() -> this.toString() + ':');
+        setActive(true);
+        if (faintCountdown == 0)
             getCommand();
-        }
+
+        super.step();
+        setActive(false);
+    }
+
+    private UndergraduateChangeListener listener = null;
+
+    public void setListener(UndergraduateChangeListener listener) {
+        this.listener = listener;
     }
 
     /**
@@ -89,7 +109,7 @@ public class Undergraduate extends Player implements Steppable {
      * like move, act, list
      */
     private void getCommand() {
-        if (ffp2Countdown > 0) ffp2Countdown--;
+        // if (ffp2Countdown > 0) ffp2Countdown--;
         HashMap<String, Supplier<Boolean>> cmds = new HashMap<>();
         cmds.put("move", this::consoleMove);
         cmds.put("act", this::consoleAct);
@@ -101,7 +121,7 @@ public class Undergraduate extends Player implements Steppable {
         man.put("pass", "pass");
         Scanner scanner = App.reader;
 
-        while (true) {
+        while (!hasLogarlec) {
             StringBuilder builder = new StringBuilder();
             builder.append("Choose command:\n");
 
@@ -145,6 +165,8 @@ public class Undergraduate extends Player implements Steppable {
             logger.fine(()->"Player " + getID() + " has dropped out");
             game.unRegisterSteppable(this);
             getGame().undergraduateDroppedout();
+            if (listener != null)
+                listener.droppedOut();
         }
     }
 

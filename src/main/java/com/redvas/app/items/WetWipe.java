@@ -32,8 +32,12 @@ public class WetWipe extends Item implements ProximityListener {
     @Override
     public void use() {
         logger.fine(() -> this + " is being used...");
-        owner.where().subscribeToProximity(this);
-        whichRoom = owner.where();
+        if(isReal) {
+            owner.where().subscribeToProximity(this);
+            whichRoom = owner.where();
+        } else {
+            logger.fine(() -> this + " was a fake item.");
+        }
         destroy();
     }
 

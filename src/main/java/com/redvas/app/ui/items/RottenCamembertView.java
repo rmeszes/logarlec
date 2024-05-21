@@ -3,37 +3,17 @@ package com.redvas.app.ui.items;
 import com.redvas.app.App;
 import com.redvas.app.items.RottenCamembert;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.logging.Logger;
 
-public class RottenCamembertView implements ItemChangeListener{
-    private static final Logger logger = App.getConsoleLogger(RottenCamembertView.class.getName());
+public class RottenCamembertView extends ItemsView implements ItemChangeListener {
     private final RottenCamembert camembert;
-    private int x;
-    private int y;
-    BufferedImage camembertImage;
 
-    public RottenCamembertView(RottenCamembert rottenCamembert, int x, int y) {
+    public RottenCamembertView(RottenCamembert rottenCamembert) {
+        super(rottenCamembert);
         this.camembert = rottenCamembert;
-        this.x = x;
-        this.y = y;
-        try {
-            camembertImage = ImageIO.read(new File("src/main/resources/floor.png"));
-        } catch (IOException e) {
-            logger.severe(e.getMessage());
-        }
+        this.itemImage = RottenCamembertImage;
+        rottenCamembert.setListener(this);
     }
 
-    public void draw(Graphics2D g) {
 
-    }
-
-    @Override
-    public void positionChanged(boolean isInRoom) {
-
-    }
 }

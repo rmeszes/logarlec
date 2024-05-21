@@ -1,9 +1,15 @@
 package com.redvas.app;
 
 
+import com.redvas.app.map.rooms.Room;
+import com.redvas.app.players.Player;
+import com.redvas.app.players.Undergraduate;
 import com.redvas.app.proto.Prototype;
+import com.redvas.app.ui.GameMenu;
+import com.redvas.app.ui.GamePanel;
 import org.xml.sax.SAXException;
 
+import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.IOException;
@@ -16,7 +22,7 @@ import java.util.logging.Logger;
 
 public class App
 {
-    private static boolean test;
+    private static boolean test = false;
 
     public static final Scanner reader = new Scanner(System.in);
 
@@ -24,9 +30,14 @@ public class App
         if(args.length > 0 && args[0].equals("test")) {
             test = true;
         }
-        new Prototype();
 
-        //probably graphic will be here
+        if (test)
+            Prototype.run();
+        else {
+            // menüből indítható, de a playerek/itemek a generálást követően eltűnnek
+            new GameMenu();
+        }
+
     }
 
     public static boolean isTest() {

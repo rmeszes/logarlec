@@ -11,32 +11,21 @@ import com.redvas.app.players.Janitor;
 import com.redvas.app.players.Player;
 import com.redvas.app.players.Professor;
 import com.redvas.app.players.Undergraduate;
+import com.redvas.app.ui.GeneratorListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 import java.util.*;
 import java.util.logging.Logger;
 
 public class Labyrinth implements Steppable {
-    BufferedImage doorImage;
-    BufferedImage floorImage;
-    BufferedImage playerImage;
-    BufferedImage profImage;
-    BufferedImage janitorImage;
-
     private final List<Door> everyDoor = new ArrayList<>();
 
-    private static class data {
+    private static class Data {
         public boolean passable;
         public boolean vanished;
         public Direction direction;
@@ -120,7 +109,7 @@ public class Labyrinth implements Steppable {
             }
         }
 
-        HashMap<Room, HashMap<Room, data>> origins = new HashMap<>();
+        HashMap<Room, HashMap<Room, Data>> origins = new HashMap<>();
         rooms = labyrinth.getElementsByTagName("room");
 
         for (int i = 0; i < rooms.getLength(); i++) {
@@ -131,7 +120,7 @@ public class Labyrinth implements Steppable {
 
             for (int j = 0; j < doors.getLength(); j++) {
                 Element door = (Element) doors.item(j);
-                data d = new data();
+                Data d = new Data();
                 Room from = id2room.get(Integer.parseInt(room.getAttribute("id")));
                 if (from.getID() == 2)
                     logger.fine("");
@@ -139,12 +128,12 @@ public class Labyrinth implements Steppable {
                 d.passable = Boolean.parseBoolean(door.getAttribute("is_passable"));
                 d.vanished = Boolean.parseBoolean(door.getAttribute("is_vanished"));
                 d.direction = Direction.valueOf(door.getAttribute("direction"));
-                HashMap<Room, data> sub;
+                HashMap<Room, Data> sub;
 
                 boolean makeEdge = false;
 
                 if ((sub = origins.getOrDefault(to, null)) != null) {
-                    data other;
+                    Data other;
 
                     if (from.getID() == 2)
                         logger.fine("");
@@ -160,16 +149,18 @@ public class Labyrinth implements Steppable {
                     if (from.getID() == 2)
                         logger.fine("");
 
-                    if ((sub = origins.getOrDefault(from, null)) == null)
-                        origins.put(from, sub = new HashMap<>());
+                    if ((sub = origins.getOrDefault(from, null)) == null) {
+                        sub = new HashMap<>();
+                        origins.put(from, sub);
+                    }
 
                     sub.put(to, d);
                 }
             }
         }
 
-        for (Map.Entry<Room, HashMap<Room, data>> e : origins.entrySet())
-            for (Map.Entry<Room, data> e2 : e.getValue().entrySet()) {
+        for (Map.Entry<Room, HashMap<Room, Data>> e : origins.entrySet())
+            for (Map.Entry<Room, Data> e2 : e.getValue().entrySet()) {
                 Door d = new Door(e.getKey(), e2.getKey(), e2.getValue().direction, e2.getValue().passable, false);
                 d.setVanished(e2.getValue().vanished);
                 l.everyDoor.add(d);
@@ -180,23 +171,6 @@ public class Labyrinth implements Steppable {
             e.getKey().loadXML(e.getValue(), id2item);
 
         return l;
-    }
-
-    public Labyrinth(int width, int height, Game game) {
-        if (height < 1) height = 1;
-        if (width < 1) width = 1;
-        this.height = height;
-        this.width = width;
-        this.game = game;
-        try {
-            doorImage = ImageIO.read(new File("src/main/resources/door.png"));
-            floorImage = ImageIO.read(new File("src/main/resources/floor.png"));
-            playerImage = ImageIO.read(new File("src/main/resources/player.png"));
-            janitorImage = ImageIO.read(new File("src/main/resources/janitor.png"));
-            profImage = ImageIO.read(new File("src/main/resources/prof.png"));
-        } catch (IOException e) {
-            logger.severe(e.getMessage());
-        }
     }
 
     public Element saveXML(Document document) {
@@ -270,7 +244,8 @@ public class Labyrinth implements Steppable {
 
     protected static final Logger logger = App.getConsoleLogger(Labyrinth.class.getName());
 
-    private final List<Room> rooms = new ArrayList<>();
+    private Room[][] rooms2D;
+    private final List<Room> rooms = new ArrayList<>();      // vez�rl�s teszt miatt public
 
     private <T> void swap(T[] array, int i, int j) {
         T tmp = array[i];
@@ -278,7 +253,7 @@ public class Labyrinth implements Steppable {
         array[j] = tmp;
     }
 
-    private <T, E, J, K, L> void shuffle(T[] array1, E[] array2, J[] array3, K[] array4) {
+    private <T, E, J, K> void shuffle(T[] array1, E[] array2, J[] array3, K[] array4) {
 
         for (int i = 0; i < array1.length - 1; i++) {
             int rid = random.nextInt(i, array1.length);
@@ -380,6 +355,12 @@ public class Labyrinth implements Steppable {
                                 true
                         ));
 
+                        listener.doorCreated(
+                                everyDoor.get(everyDoor.size()  - 1),
+                                pts.get(at).x, pts.get(at).y,
+                                pts.get(at).x + xc[i], pts.get(at).y + yc[i]
+                        );
+
                         pts.add(new PT(pts.get(at).x + xc[i], pts.get(at).y + yc[i]));
                     }
                 }
@@ -398,7 +379,8 @@ public class Labyrinth implements Steppable {
     // visitor pattern
     private Map<Direction, Door> selection;
 
-    private void resizify(Room[][] rooms) {
+
+    private boolean[][] resizify(Room[][] rooms) {
         boolean[][] resizingMap = new boolean[height][width];
         Boolean[] stat = new Boolean[2];
         reset();
@@ -410,17 +392,26 @@ public class Labyrinth implements Steppable {
                 for (int i = 0; i < 2; i++)
                     if (Boolean.TRUE.equals(stat[i]) && Math.random() > 0.85 && resizeablePair(resizingMap, x, y, x + xc[i], y + yc[i])) {
                         rooms[y][x] = rooms[y][x].convertToResizing(directions[i], random.nextInt(2, 6));
+                        if (listener != null)
+                            listener.resizingRoomCreated((ResizingRoom) rooms[y][x], x, y);
                         resizingMap[y][x] = resizingMap[y + yc[i]][x + xc[i]] = true;
                     }
             }
+
+        return resizingMap;
     }
 
-    private void enchant() {
-        for (int i = 0; i < width * height; i++)
-            if (random.nextGaussian() > 0.8) {
-                Room r = rooms.get(i).convertToEnchanted(random.nextInt(2, 6));
-                rooms.set(i, r);
-            }
+    private void enchant(Room[][] rooms, boolean[][] resizingMap) {
+        for (int y = 0; y < height; y++)
+            for (int x = 0; x < width; x++)
+                if (!resizingMap[y][x]) {
+                    if (random.nextGaussian() > 0.8) {
+                        rooms[y][x] = rooms[y][x].convertToEnchanted(random.nextInt(2, 6));
+                        if (listener != null)
+                            listener.enchantedRoomCreated((EnchantedRoom) rooms[y][x], x, y);
+                    }
+                    else if (listener != null) listener.roomCreated(rooms[y][x], x, y);
+                }
     }
 
 
@@ -435,7 +426,7 @@ public class Labyrinth implements Steppable {
 
                 for (int k = 0; k < 2; k++)
                     if (Boolean.TRUE.equals(stat[k])) {
-                        boolean makeEdge = random.nextDouble(0, 1) > 0.88;
+                        boolean makeEdge = random.nextDouble(0, 1) > 0.4;
 
                         everyDoor.add(new Door(
                                 rooms[y][x],
@@ -444,6 +435,13 @@ public class Labyrinth implements Steppable {
                                 makeEdge,
                                 random.nextDouble(0, 1) > 0.88
                         ));
+
+                        if (listener != null)
+                            listener.doorCreated(
+                                    everyDoor.get(everyDoor.size()  - 1),
+                                    x, y,
+                                    x + xc[k], y + yc[k]
+                                    );
                     }
             }
     }
@@ -451,12 +449,9 @@ public class Labyrinth implements Steppable {
     private void generate() {
         Room[][] roomsLocal = new Room[height][width];
 
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                Room room = new Room(this, i * width + j, random.nextInt(2, 6));
-                roomsLocal[i][j] = room;
-            }
-        }
+        for (int i = 0; i < height; i++)
+            for (int j = 0; j < width; j++)
+                roomsLocal[i][j] = new Room(this, i * width + j, random.nextInt(2, 6));
 
         Room[][] visits = new Room[height][width];
         Random r = random;
@@ -467,12 +462,17 @@ public class Labyrinth implements Steppable {
         randomOrderSearch(roomsLocal, visits, map, rx, ry);
         cyclicize(roomsLocal, visits, map);
 
-        resizify(roomsLocal);
+        /*boolean[][] resizingMap = resizify(roomsLocal);
+        enchant(roomsLocal, resizingMap);*/
 
+        rooms2D = roomsLocal;
+        // TODO: TO BE REMOVED IN THE FUTURE!!!!!! (NOT FOR NOW, THO...)
         for (int y = 0; y < height; y++)
-            rooms.addAll(Arrays.asList(roomsLocal[y]).subList(0, width));
-
-        enchant();
+            for (int x = 0; x < width; x++) {
+                rooms.add(roomsLocal[y][x]);
+                if (listener != null)
+                    listener.roomCreated(roomsLocal[y][x], x,y);
+            }
     }
 
     protected static HashMap<Direction, Direction> reverseDirections = new HashMap<>();
@@ -496,9 +496,26 @@ public class Labyrinth implements Steppable {
 
     private final int height;
     private final int width;
+    private GeneratorListener listener = null;
 
-    public Labyrinth(int width, int height, Game game, int playerCount) {
+    private Labyrinth(int width, int height, Game game) {
+        if (height < 1) height = 1;
+        if (width < 1) width = 1;
+        this.height = height;
+        this.width = width;
+        this.game = game;
+    }
+
+    public Labyrinth(int width, int height, int playerCount, Game game) {
         this(width, height, game);
+        generate();
+        emplacePlayers(playerCount);
+        emplaceItems();
+    }
+
+    public Labyrinth(int width, int height, Game game, int playerCount, GeneratorListener listener) {
+        this(width, height, game);
+        this.listener = listener;
         generate();
         emplacePlayers(playerCount);
         emplaceItems();
@@ -516,38 +533,125 @@ public class Labyrinth implements Steppable {
             r.step();
     }
 
+    private int randomX() {
+        return random.nextInt(width);
+    }
+
+    private int randomY() {
+        return random.nextInt(height);
+    }
+
+    public Undergraduate getTestPlayer() { return u; }
+    private Undergraduate u;
+
     private void emplacePlayers(int playerCount) {
         int nextId = 1;
         logger.fine("Placing players..");
 
         for (int i = 1; i <= playerCount; i++) {
-            game.registerSteppable(new Undergraduate(nextId++, getRandomRoom(), game));
+            int rx = randomX();
+            int ry = randomY();
+            u = new Undergraduate(nextId++, rooms2D[ry][rx], game);
+
+
+            game.registerSteppable(u);
+
+            if (listener != null)
+                listener.undergraduateCreated(u, rx, ry);
+
         }
 
-        int professorCount = random.nextInt(1, playerCount);
+        int professorCount = random.nextInt(1, playerCount + 1);
+
         for (int i = 1; i <= professorCount; i++) {
-            game.registerSteppable(new Professor(nextId, getRandomRoom(), game));
+            int rx = randomX();
+            int ry = randomY();
+            Professor p = new Professor(nextId, rooms2D[ry][rx], game);
+            game.registerSteppable(p);
+
+            if (listener != null)
+                listener.professorCreated(p, rx, ry);
         }
 
-        int janitorCount = random.nextInt(1, playerCount);
+        int janitorCount = random.nextInt(1, playerCount + 1);
 
         for (int i = 1; i <= janitorCount; i++) {
-            game.registerSteppable(new Janitor(nextId, getRandomRoom(), game));
+            int rx = randomX();
+            int ry = randomY();
+            Janitor j = new Janitor(nextId, rooms2D[ry][rx], game);
+            game.registerSteppable(j);
+
+            if (listener != null)
+                listener.janitorCreated(j, rx, ry);
         }
     }
 
+    /**
+     * I tried to do this, I modified it, so it does not use getRandomRoom but generates two ints and uses rooms2D
+     * because it needs to be stored (the x and y values) in order to draw the items in the correct room
+     */
     private void emplaceItems() {
         logger.fine("Placing items..");
 
         Map<String, Integer> numOfItems = howManyItems();
 
-        for (int i = 0; i < numOfItems.get("AirFreshener"); i++) new AirFreshener(1, getRandomRoom());
-        for (int i = 0; i < numOfItems.get("FFP2"); i++) new FFP2(2, getRandomRoom());
-        for (int i = 0; i < numOfItems.get("HolyBeer"); i++) new HolyBeer(3, getRandomRoom());
-        for (int i = 0; i < numOfItems.get("RottenCamembert"); i++) new RottenCamembert(4, getRandomRoom());
-        for (int i = 0; i < numOfItems.get("Transistor"); i++) new Transistor(5, getRandomRoom());
-        for (int i = 0; i < numOfItems.get("TVSZ"); i++) new TVSZ(6, getRandomRoom());
-        for (int i = 0; i < numOfItems.get("WetWipe"); i++) new WetWipe(7, getRandomRoom());
+        //first, the point of the game: the logarlec (only 1)
+        int lx = randomX();
+        int ly = randomY();
+        Logarlec l = new Logarlec(0, rooms2D[ly][lx]);
+        if(listener != null) listener.logarlecCreated(l, lx, ly);
+        if(Boolean.FALSE.equals(l.isReal())) {
+            lx = randomX();
+            ly = randomY();
+            l = new Logarlec(1, rooms2D[ly][lx]);
+            l.setIfReal(true);
+            if(listener != null) listener.logarlecCreated(l, lx, ly);
+        }
+
+        for (int i = 0; i < numOfItems.get("AirFreshener"); i++) {
+            int rx = randomX();
+            int ry = randomY();
+            AirFreshener a = new AirFreshener(1, rooms2D[ry][rx]);
+            if (listener != null) listener.airFreshenerCreated(a, rx, ry);
+        }
+        for (int i = 0; i < numOfItems.get("FFP2"); i++) {
+            int rx = randomX();
+            int ry = randomY();
+            FFP2 f = new FFP2(2, rooms2D[ry][rx]);
+            if (listener != null) listener.ffp2Created(f, rx, ry);
+        }
+        for (int i = 0; i < numOfItems.get("HolyBeer"); i++){
+            int rx = randomX();
+            int ry = randomY();
+            HolyBeer hb = new HolyBeer(3, rooms2D[ry][rx]);
+            if (listener != null) listener.holyBeerCreated(hb, rx, ry);
+        }
+        for (int i = 0; i < numOfItems.get("RottenCamembert"); i++) {
+            int rx = randomX();
+            int ry = randomY();
+            RottenCamembert rc = new RottenCamembert(4, rooms2D[ry][rx]);
+            if (listener != null) listener.rottenCamembertCreated(rc, rx, ry);
+        }
+        for (int i = 0; i < numOfItems.get("Transistor"); i++) {
+            int rx = randomX();
+            int ry = randomY();
+            Transistor t = new Transistor(5, rooms2D[ry][rx]);
+            if (listener != null) listener.transistorCreated(t, rx, ry);
+        }
+        for (int i = 0; i < numOfItems.get("TVSZ"); i++) {
+            int rx = randomX();
+            int ry = randomY();
+            TVSZ tvsz = new TVSZ(6, rooms2D[ry][rx]);
+            if (listener != null) listener.tvszCreated(tvsz, rx, ry);
+
+        }
+        for (int i = 0; i < numOfItems.get("WetWipe"); i++) {
+            int rx = randomX();
+            int ry = randomY();
+            WetWipe ww = new WetWipe(7, rooms2D[ry][rx]);
+            if (listener != null) listener.wetWipeCreated(ww, rx, ry);
+        }
+
     }
 
     private Map<String, Integer> howManyItems() {
@@ -573,78 +677,5 @@ public class Labyrinth implements Steppable {
     private Room getRandomRoom() {
         if (rooms.isEmpty()) throw new NoSuchElementException("Rooms not created yet!");
         return rooms.get(random.nextInt(0, rooms.size()));
-    }
-
-    public void draw(Graphics2D g) {
-        g.setColor(Color.BLACK);
-        int roomWidth = 100;
-        int roomHeight = 100;
-
-        //draw each room
-        for (int i = 0; i < rooms.size(); i++) {
-            Room room = rooms.get(i);
-
-            //position of the room
-            int x = (i % this.width) * roomWidth;
-            int y = (i / this.width) * roomHeight;
-
-            g.drawImage(floorImage, x, y, roomWidth, roomHeight, null);
-
-            //EZ ELVILEG NEM LEHET ILYEN
-            if (room instanceof EnchantedRoom) {
-                g.setColor(Color.BLUE);
-                g.fillRect(x, y, roomWidth, roomHeight);
-                g.setColor(Color.BLACK);
-            }
-
-            if (room instanceof ResizingRoom) {
-                g.setColor(Color.RED);
-                g.fillRect(x, y, roomWidth, roomHeight);
-                g.setColor(Color.BLACK);
-            }
-
-            //draw doors
-            float thickness = 3.0f; // Set the thickness you want
-            g.setStroke(new BasicStroke(thickness));
-
-            Set<Direction> accessibe = room.getAccessibleDirections();
-            for (Direction direction : accessibe) {
-                switch (direction) {
-                    case UP:
-                        g.drawLine(x + roomWidth / 2, y, x + roomWidth / 2, y + roomHeight / 2);
-                        break;
-                    case DOWN:
-                        g.drawLine(x + roomWidth / 2, y + roomHeight, x + roomWidth / 2, y + roomHeight / 2);
-                        break;
-                    case LEFT:
-                        g.drawLine(x, y + roomHeight / 2, x + roomWidth / 2, y + roomHeight / 2);
-                        break;
-                    case RIGHT:
-                        g.drawLine(x + roomWidth, y + roomHeight / 2, x + roomWidth / 2, y + roomHeight / 2);
-                        break;
-                }
-            }
-            // Draw each player
-            /*for (Steppable steppable : game.getSteppables()) {
-                if (steppable instanceof Player) {
-                    Player player = (Player) steppable;
-                    Room room2 = player.where();
-                    int index = rooms.indexOf(room2);
-
-                    // Position of the player
-                    int x2 = (index % this.width) * roomWidth;
-                    int y2 = (index / this.width) * roomHeight;
-
-                    if (player instanceof Professor) {
-                        g.drawImage(profImage, x2, y2, roomWidth, roomHeight, null);
-                    } else if (player instanceof Janitor) {
-                        g.drawImage(janitorImage, x2, y2, roomWidth, roomHeight, null);
-                    } else if (player instanceof Undergraduate) {
-
-                        g.drawImage(playerImage, x2, y2, roomWidth, roomHeight, null);
-                    }
-                }
-            }*/
-        }
     }
 }

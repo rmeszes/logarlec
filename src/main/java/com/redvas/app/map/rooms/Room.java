@@ -8,6 +8,7 @@ import com.redvas.app.map.Door;
 import com.redvas.app.map.Labyrinth;
 import com.redvas.app.players.Player;
 import com.redvas.app.players.ProximityListener;
+import com.redvas.app.ui.rooms.RoomChangeListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -23,6 +24,7 @@ public class Room implements Steppable {
     public int getCapacity() { return capacity; }
 
     public EnchantedRoom convertToEnchanted(int capacity) {
+
         EnchantedRoom er = new EnchantedRoom(labyrinth, id, capacity);
 
         for (Map.Entry<Direction, Door> e : doors.entrySet()) {
@@ -109,6 +111,7 @@ public class Room implements Steppable {
      */
     public void removeItem(Item item) {
         logger.finest(()->"Room item inventory no longer holds this " + item);
+        items.remove(item);
     }
 
     /**
@@ -124,6 +127,17 @@ public class Room implements Steppable {
         stickiness = Integer.parseInt(room.getAttribute("stickiness"));
     }
 
+    public Room(Labyrinth labyrinth, Integer id, Integer capacity, RoomChangeListener listener) {
+        this(labyrinth, id, capacity);
+        this.listener = listener;
+    }
+
+    private RoomChangeListener listener = null;
+
+    public void setListener(RoomChangeListener listener) {
+        this.listener = listener;
+    }
+
     public Room(Labyrinth labyrinth, Integer id, Integer capacity) {
         this.labyrinth = labyrinth;
         this.id = id;
@@ -135,6 +149,10 @@ public class Room implements Steppable {
      */
     public void removeOccupant(Player player) {
         logger.finest(()->"Room occupant list no longer contains this " + player);
+        occupants.remove(player);
+
+        if (listener != null)
+            listener.occupantLeft(player);
     }
 
     // to be called after subscribeToProximity()
@@ -147,6 +165,9 @@ public class Room implements Steppable {
         listeners.forEach(listener -> listener.proximityChanged(player));
         stickiness++;
         occupants.add(player);
+
+        if (listener != null)
+            listener.occupantEntered(player);
     }
 
 
@@ -169,6 +190,7 @@ public class Room implements Steppable {
         reverseDirections.put(Direction.RIGHT, Direction.LEFT);
     }
 
+    public List<Player> getOccupants() { return occupants; }
     protected List<Player> occupants = new ArrayList<>();
     protected HashMap<Direction, Door> doors = new HashMap<>(8);
 
@@ -233,7 +255,15 @@ public class Room implements Steppable {
     }
 
     public List<Room> getAccessibleRooms() {
-        return new ArrayList<>();
+
+        List<Room> accessible = new ArrayList<>();
+
+        for(Map.Entry<Direction,Door> entry : doors.entrySet()) {
+            if(entry.getValue().isPassable(entry.getKey()) && !entry.getValue().isVanished()) {
+                accessible.add(entry.getValue().connectsTo(entry.getKey()));
+            }
+        }
+        return accessible;
     }
 
     public Set<Direction> getAccessibleDirections() {

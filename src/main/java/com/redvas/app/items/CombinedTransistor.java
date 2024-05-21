@@ -14,13 +14,16 @@ public class CombinedTransistor extends Item {
 
     protected CombinedTransistor(Integer id, Player owner) {
         super(id, owner);
+        isReal = true;
     }
     public CombinedTransistor(Integer id, Room whichRoom) {
         super(id, whichRoom, false);
+        isReal = true;
     }
 
     private CombinedTransistor(Integer id, Room whichRoom, Boolean isListener) {
         super(id, whichRoom, false);
+        isReal = true;
     }
 
     /**

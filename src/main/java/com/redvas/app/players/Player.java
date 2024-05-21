@@ -6,6 +6,7 @@ import com.redvas.app.Steppable;
 import com.redvas.app.items.Item;
 import com.redvas.app.map.Direction;
 import com.redvas.app.map.rooms.Room;
+import com.redvas.app.ui.players.listeners.PlayerChangeListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -58,13 +59,19 @@ public abstract class Player implements Steppable {
     // konstruktor
     protected Player(Integer id, Room room, Game game) {
         this.id = id;
-        this.where = room;
         this.items = new ArrayList<>();
         this.faintCountdown = 0;
         this.game = game;
         moveTo(room);
         game.registerSteppable(this);
     }
+
+    private PlayerChangeListener listener = null;
+
+    public void setListener(PlayerChangeListener listener) {
+        this.listener = listener;
+    }
+
     public void loadXML(Element player) {
         faintCountdown = Integer.parseInt(player.getAttribute("faint_countdown"));
         ffp2Countdown = Integer.parseInt(player.getAttribute("ffp2_countdown"));
@@ -90,6 +97,17 @@ public abstract class Player implements Steppable {
      */
     public abstract void pickLogarlec();
 
+    @Override
+    public void step() {
+        if (faintCountdown > 0) {
+            logger.fine(() -> this + " is fainted for " + faintCountdown + " rounds");
+            faintCountdown--;
+
+            if (faintCountdown == 0 && listener != null)
+                listener.faintedChanged(false);
+        }
+    }
+
     /** drops the items from inventory
      *
      */
@@ -98,6 +116,9 @@ public abstract class Player implements Steppable {
             logger.fine("Undergraduate has fainted and dropped items");
             faintCountdown = 3;
             dropItems();
+
+            if (listener != null)
+                listener.faintedChanged(true);
         }
     }
 
@@ -121,7 +142,6 @@ public abstract class Player implements Steppable {
      * @param item: picked item that they will pick up
      */
     public void addToInventory(Item item) {
-
         if(items.size() < 5) { //ha van hely az inventoryban
             items.add(item);            // felvesszük a tárgyat az inventoryba
         }
@@ -149,7 +169,6 @@ public abstract class Player implements Steppable {
 
         where = room;
         room.addOccupant(this);
-
     }
 
     /** player chose to activate this protection
@@ -164,11 +183,11 @@ public abstract class Player implements Steppable {
      * @param index: identifier of item they want to pick UP
      */
     private boolean pickItem(int index) {
-        if (where.getItem(index) == null) {
+        if (where.getItem(index - 1) == null) {
             return false;
         }
         else {
-            where.getItem(index).pickup(this);
+            where.getItem(index - 1).pickup(this);
             return true;
         }
     }
@@ -194,15 +213,15 @@ public abstract class Player implements Steppable {
      * @param direction: where they move
      * @return
      */
-    private boolean moveTowards (Direction direction) {
-        Room r;
+    public boolean moveTowards (Direction direction) {
+        Room r = where.isAccessible(direction);
 
-        if ((r = where.isAccessible(direction)) != null && r.canAccept()) {
+        if (r != null && r.canAccept()) {
                 moveTo(r);
                 return true;
             }
 
-        game.getGamePanel().repaint();
+
         return false;
     }
 
@@ -265,6 +284,7 @@ public abstract class Player implements Steppable {
             else if (Objects.equals(cmd, "abort"))
                 return false;
             else {
+                consoleList();
                 logger.fine("Supply parameter:");
 
                 try {
@@ -327,7 +347,6 @@ public abstract class Player implements Steppable {
                 logger.fine("Could not move in direction");
             else {
                 logger.fine("Player has moved to another room.");
-                game.getGamePanel().repaint();
                 return true;
             }
         }
@@ -348,7 +367,6 @@ public abstract class Player implements Steppable {
                 return room;
             }
         }
-        game.getGamePanel().repaint();
         return null;
     }
 
@@ -369,7 +387,7 @@ public abstract class Player implements Steppable {
         if(getItems().isEmpty())
             builder.append("None.\n");
         else{
-            int i = 0;
+            int i = 1;
             for (Item item : items)
                 builder.append(i++).append(". ").append(item.toString()).append('\n');
         }
@@ -379,20 +397,11 @@ public abstract class Player implements Steppable {
         if(where().getItems().isEmpty())
             builder.append("Room has no items\n");
         else {
-            int i = 0;
+            int i = 1;
             for (Item item : where.getItems())
                 builder.append(i++).append(". ").append(item.toString()).append('\n');
         }
 
-        builder.append("Accessible rooms: (directions)\n");
-
-        if(where().getAccessibleDirections().isEmpty())
-            builder.append("No accessible rooms\n");
-        else {
-            for(Direction direction : where.getAccessibleDirections()) {
-                builder.append(direction.toString()).append('\n');
-            }
-        }
         logger.fine(builder::toString);
         return false;
     }
