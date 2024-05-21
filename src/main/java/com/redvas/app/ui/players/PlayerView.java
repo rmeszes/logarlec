@@ -19,6 +19,7 @@ public abstract class PlayerView extends JPanel  {
     protected static final BufferedImage professorParalyzedImage;
     protected static final BufferedImage drunkundergradImage;
     protected static final BufferedImage faintedjanitorImage;
+    protected static final BufferedImage activeUndergraduateImage;
 
     protected boolean heightIsGreater = true;
     protected int playerSpaceTotal;
@@ -63,6 +64,7 @@ private Player player;
             faintedjanitorImage = ImageIO.read(new File(root + "/src/main/resources/players/fainted_janitor.png"));
             professorParalyzedImage = ImageIO.read(new File(root + "/src/main/resources/players/professor_paralyzed.png"));
             drunkundergradImage = ImageIO.read(new File(root + "/src/main/resources/players/drunk_undergrad.png"));
+            activeUndergraduateImage = ImageIO.read(new File(root + "/src/main/resources/players/active_undergrad.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

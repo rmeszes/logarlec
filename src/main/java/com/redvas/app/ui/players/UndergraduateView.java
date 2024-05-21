@@ -24,4 +24,13 @@ public class UndergraduateView extends PlayerView implements PlayerChangeListene
         // TODO: switch to fainted or initial image
         repaint();
     }
+
+    @Override
+    public void activeStateChanged() {
+        if(undergraduate.isActive())
+            myImage = activeUndergraduateImage;
+        else
+            myImage = undergraduateImage;
+        repaint();
+    }
 }

@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 public class Undergraduate extends Player implements Steppable {
     private int protection;
     private boolean dropScheduled;
+    private boolean isActive;
 
     public Undergraduate(Integer id, Room room, Game game) {
         super(id, room, game);
@@ -27,6 +28,17 @@ public class Undergraduate extends Player implements Steppable {
         logger.fine(() -> this + " created");
         game.addUndergraduate();
         // where.addOccupant(this);
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean b) {
+        if(isActive != b) {
+            isActive = b;
+            listener.activeStateChanged();
+        }
     }
 
     @Override
@@ -75,10 +87,12 @@ public class Undergraduate extends Player implements Steppable {
      */
     @Override
     public void step() {
+        setActive(true);
         if (faintCountdown == 0)
             getCommand();
 
         super.step();
+        setActive(false);
     }
 
     private UndergraduateChangeListener listener = null;
