@@ -81,6 +81,7 @@ public abstract class ItemsView extends JPanel implements ItemChangeListener{
 
     @Override
     public void isInRoom(boolean isInRoom){
+        this.setVisible(isInRoom);
         repaint();
     }
 }

@@ -12,14 +12,6 @@ public class TVSZView extends ItemsView implements ItemChangeListener {
         super(tvsz);
         this.tvsz = tvsz;
         this.itemImage = TVSZImage;
-    }
-
-
-    @Override
-    public void isInRoom(boolean isInRoom) {
-        if (isInRoom)
-            this.setOpaque(true);
-        else
-            this.setOpaque(false);
+        tvsz.setListener(this);
     }
 }

@@ -12,14 +12,6 @@ public class WetWipeView extends ItemsView implements ItemChangeListener {
         super(wetWipe);
         this.wipe = wetWipe;
         this.itemImage = WetWipeImage;
-    }
-
-
-    @Override
-    public void isInRoom(boolean isInRoom) {
-        if (isInRoom)
-            this.setOpaque(true);
-        else
-            this.setOpaque(false);
+        wetWipe.setListener(this);
     }
 }

@@ -12,15 +12,7 @@ public class FFP2View extends ItemsView implements ItemChangeListener {
         super(ffp2);
         this.ffp2 = ffp2;
         this.itemImage = FFP2Image;
+        ffp2.setListener(this);
     }
 
-
-    @Override
-    public void isInRoom(boolean isInRoom) {
-        if (isInRoom)
-            this.setOpaque(true);
-        else
-            this.setOpaque(false);
-        repaint();
-    }
 }

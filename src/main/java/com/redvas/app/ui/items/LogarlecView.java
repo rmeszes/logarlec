@@ -12,14 +12,8 @@ public class LogarlecView extends ItemsView implements ItemChangeListener {
         super(l);
         this.logarlec = l;
         this.itemImage = LogarlecImage;
+        l.setListener(this);
     }
 
-    @Override
-    public void isInRoom(boolean isInRoom) {
-        if (isInRoom)
-            this.setOpaque(true);
-        else
-            this.setOpaque(false);
-    }
 
 }

@@ -14,14 +14,6 @@ public class TransistorView extends ItemsView implements ItemChangeListener {
         super(t);
         this.transistor = t;
         this.itemImage = TransistorImage;
-    }
-
-
-    @Override
-    public void isInRoom(boolean isInRoom) {
-        if (isInRoom)
-            this.setOpaque(true);
-        else
-            this.setOpaque(false);
+        t.setListener(this);
     }
 }

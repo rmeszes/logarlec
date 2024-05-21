@@ -11,13 +11,6 @@ public class CombinedTransistorView extends ItemsView implements ItemChangeListe
         super(ctransistor);
         this.ctransistor = ctransistor;
         this.itemImage = TransistorImage;
-    }
-    @Override
-    public void isInRoom(boolean isInRoom) {
-        if (isInRoom)
-            this.setOpaque(true);
-        else
-            this.setOpaque(false);
-        repaint();
+        ctransistor.setListener(this);
     }
 }

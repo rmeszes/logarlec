@@ -13,14 +13,7 @@ public class HolyBeerView extends ItemsView implements ItemChangeListener {
         super(holyBeer);
         this.beer = holyBeer;
         this.itemImage = HolyBeerImage;
+        holyBeer.setListener(this);
     }
 
-    @Override
-    public void isInRoom(boolean isInRoom) {
-        if (isInRoom)
-            this.setOpaque(true);
-        else
-            this.setOpaque(false);
-        repaint();
-    }
 }

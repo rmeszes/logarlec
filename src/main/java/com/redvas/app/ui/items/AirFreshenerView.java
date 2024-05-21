@@ -13,15 +13,7 @@ public class AirFreshenerView extends ItemsView implements ItemChangeListener {
         super(a);
         this.freshener = a;
         this.itemImage = AirFreshenerImage;
+        freshener.setListener(this);
     }
 
-
-    @Override
-    public void isInRoom(boolean isInRoom) {
-        if (isInRoom)
-            this.setOpaque(true);
-        else
-            this.setOpaque(false);
-        repaint();
-    }
 }

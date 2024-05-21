@@ -12,14 +12,8 @@ public class RottenCamembertView extends ItemsView implements ItemChangeListener
         super(rottenCamembert);
         this.camembert = rottenCamembert;
         this.itemImage = RottenCamembertImage;
+        rottenCamembert.setListener(this);
     }
 
-    @Override
-    public void isInRoom(boolean isInRoom) {
-        if (isInRoom)
-            this.setOpaque(true);
-        else
-            this.setOpaque(false);
-    }
 
 }
