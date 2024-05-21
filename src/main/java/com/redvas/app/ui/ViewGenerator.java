@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ViewGenerator implements GeneratorListener {
-    private RoomView[][] rooms;
+    public RoomView[][] rooms;
     private ArrayList<DoorView>[][] doors;
 
     private Game game;

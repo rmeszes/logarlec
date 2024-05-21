@@ -1,9 +1,11 @@
 package com.redvas.app.ui.rooms;
 
 import com.redvas.app.App;
+import com.redvas.app.items.Item;
 import com.redvas.app.map.rooms.Room;
 import com.redvas.app.players.Player;
 import com.redvas.app.ui.GamePanel;
+import com.redvas.app.ui.items.ItemChangeListener;
 import com.redvas.app.ui.items.ItemsView;
 import com.redvas.app.ui.players.PlayerView;
 
@@ -53,10 +55,13 @@ public class RoomView extends JPanel implements RoomChangeListener {
         iv.occupyRoomPosition(roomLocalX, roomLocalY);
         add(iv);
     }
+    public void removeItem(ItemsView iv){
+        items.remove(iv);
+    }
 
     private List<DoorView> doors = new ArrayList<>();
 
-    private void repaintCorrectly() {
+    public void repaintCorrectly() {
         repaint();
         repaintDoors();
     }
@@ -122,6 +127,8 @@ public class RoomView extends JPanel implements RoomChangeListener {
         addOccupant(activeLeavingPlayer);
         activeLeavingPlayer = null;
     }
+
+    private static ItemsView activeItem = null;
 
     public static final int SIZE = (int)(100 * GamePanel.getMagnification());
 

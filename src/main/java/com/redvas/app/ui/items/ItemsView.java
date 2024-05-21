@@ -1,6 +1,7 @@
 package com.redvas.app.ui.items;
 
 import com.redvas.app.items.Item;
+import com.redvas.app.ui.GameMenu;
 import com.redvas.app.ui.UITool;
 import com.redvas.app.ui.rooms.RoomView;
 
@@ -86,7 +87,16 @@ public abstract class ItemsView extends JPanel implements ItemChangeListener{
 
     @Override
     public void isInRoom(boolean isInRoom){
-        this.setVisible(isInRoom);
+        int id = this.item.getRoom().getID();
+        if (!isInRoom) { // if picked up
+            GameMenu.gameWindowContainer[0].gamePanel.generator.rooms[id / 5][id % 5].removeItem(this);
+            this.setVisible(false);
+        }
+        else { // if put down
+            GameMenu.gameWindowContainer[0].gamePanel.generator.rooms[id / 5][id % 5].addItem(this);
+            this.setVisible(true);
+        }
+        GameMenu.gameWindowContainer[0].gamePanel.generator.rooms[id / 5][id % 5].repaintCorrectly();
         repaint();
     }
 }
