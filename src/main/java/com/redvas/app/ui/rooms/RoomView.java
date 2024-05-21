@@ -64,7 +64,8 @@ public class RoomView extends JPanel implements RoomChangeListener {
             verticalSticky = ImageIO.read(new File(root + "/src/main/resources/map/vertical_sticky_room.png"));
             verticalStickyGaseous = ImageIO.read(new File(root + "/src/main/resources/map/vertical_sticky_gaseous_room.png"));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.severe(()->"Images could not be read: " + e.getMessage());
+            System.exit(2);
         }
     }
 
@@ -178,8 +179,6 @@ public class RoomView extends JPanel implements RoomChangeListener {
         addOccupant(activeLeavingPlayer);
         activeLeavingPlayer = null;
     }
-
-    private static ItemsView activeItem = null;
 
     public static final int SIZE = (int)(100 * GamePanel.getMagnification());
 

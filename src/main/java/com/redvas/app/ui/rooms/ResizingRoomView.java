@@ -1,13 +1,9 @@
 package com.redvas.app.ui.rooms;
 
-import com.redvas.app.App;
 import com.redvas.app.map.Direction;
 import com.redvas.app.map.rooms.ResizingRoom;
 
-import java.util.logging.Logger;
-
 public class ResizingRoomView extends RoomView implements ResizingRoomChangeListener {
-    private static final Logger logger = App.getConsoleLogger(ResizingRoomView.class.getName());
 
     private final transient ResizingRoom rr;
     public ResizingRoomView(ResizingRoom rr, int x, int y) {
@@ -18,7 +14,8 @@ public class ResizingRoomView extends RoomView implements ResizingRoomChangeList
         this.rr = rr;
         updateImage();
     }
-    private int originalX, originalY;
+    private final int originalX;
+    private final int originalY;
 
     @Override
     protected void updateImage() {

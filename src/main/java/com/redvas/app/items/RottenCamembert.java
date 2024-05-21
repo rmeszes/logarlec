@@ -133,9 +133,9 @@ public class RottenCamembert extends Item implements ProximityListener {
 
     @Override
     public Element savePhantomListenerXML(Document document) {
-        Element listener = document.createElement("phantom_listener");
-        listener.setAttribute("type", getClass().getName());
-        return listener;
+        Element listenerXML = document.createElement("phantom_listener");
+        listenerXML.setAttribute("type", getClass().getName());
+        return listenerXML;
     }
 
     /** makes the players in the proximity faint

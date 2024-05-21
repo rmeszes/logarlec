@@ -376,8 +376,6 @@ public class Labyrinth implements Steppable {
             Direction.RIGHT,
             Direction.DOWN
     };
-    // visitor pattern
-    private Map<Direction, Door> selection;
 
 
     private boolean[][] resizify(Room[][] rooms) {
@@ -415,7 +413,7 @@ public class Labyrinth implements Steppable {
     }
 
 
-    private void cyclicize(Room[][] rooms, Room[][] visits, boolean[][] resizingMap) {
+    private void cyclicize(Room[][] rooms, Room[][] visits) {
         Boolean[] stat = new Boolean[4];
         reset();
         // after resetting, the first 2 directions are UP and LEFT
@@ -460,9 +458,9 @@ public class Labyrinth implements Steppable {
         visits[ry][rx] = roomsLocal[ry][rx];
         boolean[][] map = new boolean[height][width];
         randomOrderSearch(roomsLocal, visits, map, rx, ry);
-        cyclicize(roomsLocal, visits, map);
+        cyclicize(roomsLocal, visits);
 
-        boolean[][] resizingMap = resizify(roomsLocal);
+        resizify(roomsLocal);
         enchant(roomsLocal, null);
 
         rooms2D = roomsLocal;
