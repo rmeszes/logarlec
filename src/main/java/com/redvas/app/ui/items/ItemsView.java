@@ -72,11 +72,16 @@ public abstract class ItemsView extends JPanel implements ItemChangeListener{
                 UITool.fitHeight2AspectRatio(itemImage, itemSpaceTotal)
         );}
 
-
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(itemImage, 0, 0, null);
+        boolean heightIsGreater = itemImage.getHeight() > itemImage.getWidth();
+        int margin = (int)(RoomView.SIZE * 0.1);
+        int contentLength = RoomView.SIZE - 2 * margin;
+        int itemSpaceTotal = contentLength / 3;
+        if (heightIsGreater)
+            g.drawImage(itemImage, 0, 0, UITool.fitWidth2AspectRatio(itemImage, itemSpaceTotal), itemSpaceTotal, null);
+        else g.drawImage(itemImage, 0, 0, itemSpaceTotal, UITool.fitHeight2AspectRatio(itemImage, itemSpaceTotal), null);
     }
 
     @Override
