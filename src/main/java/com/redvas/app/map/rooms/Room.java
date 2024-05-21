@@ -255,7 +255,15 @@ public class Room implements Steppable {
     }
 
     public List<Room> getAccessibleRooms() {
-        return new ArrayList<>();
+
+        List<Room> accessible = new ArrayList<>();
+
+        for(Map.Entry<Direction,Door> entry : doors.entrySet()) {
+            if(entry.getValue().isPassable(entry.getKey()) && !entry.getValue().isVanished()) {
+                accessible.add(entry.getValue().connectsTo(entry.getKey()));
+            }
+        }
+        return accessible;
     }
 
     public Set<Direction> getAccessibleDirections() {

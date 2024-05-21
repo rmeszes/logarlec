@@ -105,8 +105,11 @@ public class Professor extends Player implements ProximityListener{
         }
         else if (faintCountdown == 0)  {
             Room room = randomMove();
+
             if(room != null) {
+
                 room.subscribeToProximity(this);
+                moveTo(room);
             }
         }
 

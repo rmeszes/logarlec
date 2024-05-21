@@ -68,6 +68,7 @@ public class Janitor extends Player implements ProximityListener{
         Room room = randomMove();
         if(room != null) {
             room.subscribeToProximity(this);
+
         }
     }
 
