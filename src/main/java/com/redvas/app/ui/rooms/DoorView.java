@@ -70,7 +70,6 @@ public class DoorView extends JPanel implements DoorChangeListener {
             leftDoorImage = ImageIO.read(new File(root + "/src/main/resources/map/leftDoor.png"));
             verticalSymDoorImage = ImageIO.read(new File(root + "/src/main/resources/map/verticalSymDoor.png"));
             rightDoorImage = flipY(leftDoorImage);
-            ImageIO.write(rightDoorImage, "PNG", new File("right.PNG"));
             topDoorImage = rotate90(leftDoorImage);
             bottomDoorImage = flipX(topDoorImage);
             horizontalSymDoorImage = rotate90(verticalSymDoorImage);
