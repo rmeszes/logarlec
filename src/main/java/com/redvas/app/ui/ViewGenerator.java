@@ -21,7 +21,6 @@ import com.redvas.app.ui.rooms.RoomView;
 import javax.swing.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ViewGenerator implements GeneratorListener {
     public RoomView[][] rooms;

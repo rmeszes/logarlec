@@ -3,19 +3,13 @@ package com.redvas.app.ui.rooms;
 import com.redvas.app.App;
 import com.redvas.app.map.Direction;
 import com.redvas.app.map.rooms.ResizingRoom;
-import com.redvas.app.players.Player;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.logging.Logger;
 
 public class ResizingRoomView extends RoomView implements ResizingRoomChangeListener {
     private static final Logger logger = App.getConsoleLogger(ResizingRoomView.class.getName());
 
-    private ResizingRoom rr;
+    private final transient ResizingRoom rr;
     public ResizingRoomView(ResizingRoom rr, int x, int y) {
         super(rr, x, y, false);
         rr.setListener((ResizingRoomChangeListener) this);

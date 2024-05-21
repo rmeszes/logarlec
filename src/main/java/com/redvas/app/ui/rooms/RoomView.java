@@ -19,27 +19,31 @@ import java.util.logging.Logger;
 
 public class RoomView extends JPanel implements RoomChangeListener {
     private static final Logger logger = App.getConsoleLogger(RoomView.class.getName());
-    private final Room room;
+    private final transient Room room;
     protected boolean isSticky = false;       // alapból legyen hamis, de am ez nem int a modellben??
     protected boolean isGaseous = false;
 
 
 
-    protected BufferedImage myImage,
-            basic,
-            basicGaseous,
-            basicSticky,
-            basicStickyGaseous,
-            enchanted,
-            enchantedSticky,
-            enchantedGaseous,
-            enchantedStickyGaseous,
-            horizontal, vertical,
-            horizontalGaseous, verticalGaseous,
-            horizontalSticky, verticalSticky,
-            horizontalStickyGaseous, verticalStickyGaseous;
+    protected transient BufferedImage myImage;
+    protected static BufferedImage basic;
+    protected static BufferedImage basicGaseous;
+    protected static BufferedImage basicSticky;
+    protected static BufferedImage basicStickyGaseous;
+    protected static BufferedImage enchanted;
+    protected static BufferedImage enchantedSticky;
+    protected static BufferedImage enchantedGaseous;
+    protected static BufferedImage enchantedStickyGaseous;
+    protected static BufferedImage horizontal;
+    protected static BufferedImage vertical;
+    protected static BufferedImage horizontalGaseous;
+    protected static BufferedImage verticalGaseous;
+    protected static BufferedImage horizontalSticky;
+    protected static BufferedImage verticalSticky;
+    protected static BufferedImage horizontalStickyGaseous;
+    protected static BufferedImage verticalStickyGaseous;
 
-    {
+    static {
         String root = System.getProperty("user.dir");
 
         try {
@@ -106,7 +110,7 @@ public class RoomView extends JPanel implements RoomChangeListener {
         items.remove(iv);
     }
 
-    protected List<DoorView> doors = new ArrayList<>();
+    protected transient List<DoorView> doors = new ArrayList<>();
 
     public void repaintCorrectly() {
         repaint();
@@ -173,7 +177,6 @@ public class RoomView extends JPanel implements RoomChangeListener {
         if (activeLeavingPlayer == null) return;
         addOccupant(activeLeavingPlayer);
         activeLeavingPlayer = null;
-        // repaintCorrectly();
     }
 
     private static ItemsView activeItem = null;

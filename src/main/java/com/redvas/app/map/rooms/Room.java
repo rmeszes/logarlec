@@ -13,7 +13,6 @@ import com.redvas.app.ui.rooms.RoomChangeListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import javax.swing.*;
 import java.util.*;
 import java.util.logging.Logger;
 

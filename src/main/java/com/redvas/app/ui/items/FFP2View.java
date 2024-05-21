@@ -1,9 +1,6 @@
 package com.redvas.app.ui.items;
 
-import com.redvas.app.App;
 import com.redvas.app.items.FFP2;
-
-import java.util.logging.Logger;
 
 public class FFP2View extends ItemsView implements ItemChangeListener {
     private final FFP2 ffp2;

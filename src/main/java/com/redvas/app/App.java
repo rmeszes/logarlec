@@ -1,15 +1,10 @@
 package com.redvas.app;
 
 
-import com.redvas.app.map.rooms.Room;
-import com.redvas.app.players.Player;
-import com.redvas.app.players.Undergraduate;
 import com.redvas.app.proto.Prototype;
 import com.redvas.app.ui.GameMenu;
-import com.redvas.app.ui.GamePanel;
 import org.xml.sax.SAXException;
 
-import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.IOException;

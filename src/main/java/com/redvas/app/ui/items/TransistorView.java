@@ -1,10 +1,8 @@
 package com.redvas.app.ui.items;
 
-import com.redvas.app.App;
 import com.redvas.app.items.Transistor;
 
 import java.awt.image.BufferedImage;
-import java.util.logging.Logger;
 
 public class TransistorView extends ItemsView implements ItemChangeListener {
     private final Transistor transistor;
