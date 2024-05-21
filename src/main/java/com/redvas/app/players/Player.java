@@ -197,7 +197,7 @@ public abstract class Player implements Steppable {
      * @param index: identifier of item they want to put down
      */
     private boolean disposeItem(int index) {
-        Item item = getItem(index - 1);
+        Item item = getItem(index);
         if(item == null) {
             return false;
         }
