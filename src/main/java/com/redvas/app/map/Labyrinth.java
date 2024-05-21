@@ -529,8 +529,9 @@ public class Labyrinth implements Steppable {
     public void step() {
         logger.fine("Labyrinth step");
 
-        for (Room r : rooms)
-            r.step();
+        for (int i = 0; i < height; i++)
+            for (int j = 0; j < width; j++)
+                rooms2D[i][j].step();
     }
 
     private int randomX() {

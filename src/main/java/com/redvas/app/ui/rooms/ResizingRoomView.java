@@ -31,6 +31,7 @@ public class ResizingRoomView extends RoomView implements ResizingRoomChangeList
     private ResizingRoom rr;
     public ResizingRoomView(ResizingRoom rr, int x, int y) {
         super(rr, x, y, false);
+        rr.setListener((ResizingRoomChangeListener) this);
         originalX = x;
         originalY = y;
         this.rr = rr;
