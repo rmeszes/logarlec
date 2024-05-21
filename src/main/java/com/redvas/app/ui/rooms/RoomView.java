@@ -25,24 +25,30 @@ public class RoomView extends JPanel implements RoomChangeListener {
     private boolean isSticky = false;       // alapból legyen hamis, de am ez nem int a modellben??
     private boolean isGaseous = false;
 
-    private BufferedImage floorImage;               // alap
-    private BufferedImage floorImageWhenGaseous;    // amikor gázossá válik
-    private BufferedImage floorImageWhenSticky;     // amikor ragadós a szoba
-    private BufferedImage floorImageWhenEnchanted;
+    private BufferedImage myImage;
+    private static BufferedImage floorImage;               // alap
+    private static BufferedImage floorImageWhenGaseous;    // amikor gázossá válik
+    private static BufferedImage floorImageWhenSticky;     // amikor ragadós a szoba
+    private static BufferedImage floorImageWhenEnchanted;
+
+    {
+        String root = System.getProperty("user.dir");
+
+        try {
+            floorImage = ImageIO.read(new File(root + "/src/main/resources/floor.png"));
+            floorImageWhenSticky = ImageIO.read(new File(root + "/src/main/resources/map/sticky_room1000.png"));
+            floorImageWhenGaseous = ImageIO.read(new File(root + "/src/main/resources/map/gaseous_room1000.png"));
+            floorImageWhenEnchanted = ImageIO.read(new File(root + "/src/main/resources/players/fainted_janitor.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public RoomView(Room r, int x, int y) {
+        myImage = floorImage;
         r.setListener(this);
         setLayout(null);
         this.room = r;
         setBounds(x * SIZE, y * SIZE, SIZE, SIZE);
-
-        try {
-            floorImage = ImageIO.read(new File("src/main/resources/floor.png"));
-            floorImageWhenGaseous = ImageIO.read(new File("src/main/resources/map/gaseous_room1000.png"));
-            floorImageWhenSticky = ImageIO.read(new File("src/main/resources/map/sticky_room1000.png"));
-            floorImageWhenEnchanted = ImageIO.read(new File("src/main/resources/map/enchanted_room1000.png"));
-        } catch (IOException e) {
-            logger.severe(e.getMessage());
-        }
     }
 
     private final List<PlayerView> occupants = new ArrayList<>();
@@ -62,14 +68,13 @@ public class RoomView extends JPanel implements RoomChangeListener {
     private List<DoorView> doors = new ArrayList<>();
 
     public void repaintCorrectly() {
-        repaint();
+        SwingUtilities.invokeLater(() -> paintImmediately(getBounds()));
         repaintDoors();
     }
 
     private void repaintDoors() {
         for (DoorView dv : doors)
-            SwingUtilities.invokeLater(dv::repaint);
-
+            SwingUtilities.invokeLater(() -> dv.paintImmediately(dv.getBounds()));
     }
 
     public void addDoor(DoorView dv) {
@@ -97,13 +102,14 @@ public class RoomView extends JPanel implements RoomChangeListener {
 
     @Override
     public void roomStickinessChange(boolean isSticky) {    // Amikor a modellben változik, akkor ezt kell hívni és ez updateli a view-t
-        this.isSticky = isSticky;
+        if (isSticky) myImage = floorImageWhenSticky;
+        else myImage = floorImage;
     }
 
     @Override
     public void roomGaseousnessChange(boolean isGaseous) {
-        this.isGaseous = isGaseous;
-
+        if (isGaseous) myImage = floorImageWhenGaseous;
+        else myImage = floorImage;
     }
 
     private static PlayerView activeLeavingPlayer = null;
@@ -135,21 +141,6 @@ public class RoomView extends JPanel implements RoomChangeListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        if (!isGaseous && !isSticky) {      // alap
-            g.drawImage(floorImage, 0, 0, SIZE, SIZE, null);
-        }
-
-        else if (!isGaseous) {  // csak ragad
-            g.drawImage(floorImageWhenSticky, 0, 0, SIZE, SIZE, null);
-        }
-
-        else if (!isSticky) {  // csak gázos
-            g.drawImage(floorImageWhenGaseous, 0, 0, SIZE, SIZE, null);
-        }
-
-        else  {  // elvarázsolt
-            g.drawImage(floorImageWhenEnchanted, 0, 0, SIZE, SIZE, null);
-        }
+        g.drawImage(myImage, 0, 0, SIZE, SIZE, null);
     }
 }

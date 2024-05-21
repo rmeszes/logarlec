@@ -4,6 +4,7 @@ import com.redvas.app.map.rooms.Room;
 import com.redvas.app.players.Janitor;
 import com.redvas.app.players.Player;
 import com.redvas.app.players.ProximityListener;
+import com.redvas.app.ui.rooms.RoomChangeListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -12,6 +13,12 @@ import java.util.List;
 public class RottenCamembert extends Item implements ProximityListener {
     public RottenCamembert(Integer id, Room whichRoom) {
         super(id, whichRoom, false);
+    }
+
+    RoomChangeListener listener;
+
+    public void acceptListener(RoomChangeListener listener) {
+        this.listener = listener;
     }
 
     public RottenCamembert(Integer id, Room whichRoom, Boolean isListener) {
@@ -33,6 +40,8 @@ public class RottenCamembert extends Item implements ProximityListener {
         logger.finest(() -> this + " is being used...");
         if(isReal) {
             owner.where().subscribeToProximity(this);
+            owner.where().giveListener(this);
+            listener.roomGaseousnessChange(true);
             whichRoom = owner.where();
         } else
         {
@@ -97,6 +106,10 @@ public class RottenCamembert extends Item implements ProximityListener {
     @Override
     public void getAffected(Janitor by) {
         whichRoom.unsubscribeFromProximity(this);
+        whichRoom.giveListener(this);
+
+        if (listener != null)
+            listener.roomGaseousnessChange(false);
     }
     /**
      *
@@ -107,6 +120,10 @@ public class RottenCamembert extends Item implements ProximityListener {
     @Override
     public void getAffected(AirFreshener by) {
         whichRoom.unsubscribeFromProximity(this);
+        whichRoom.giveListener(this);
+
+        if (listener != null)
+            listener.roomGaseousnessChange(false);
     }
 
     @Override
