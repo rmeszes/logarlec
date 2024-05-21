@@ -90,12 +90,11 @@ public abstract class ItemsView extends JPanel implements ItemChangeListener{
         int id = this.item.getRoom().getID();
         if (!isInRoom) { // if picked up
             GameMenu.gameWindowContainer[0].gamePanel.generator.rooms[id / 5][id % 5].removeItem(this);
-            this.setVisible(false);
         }
         else { // if put down
             GameMenu.gameWindowContainer[0].gamePanel.generator.rooms[id / 5][id % 5].addItem(this);
-            this.setVisible(true);
         }
+        this.setVisible(isInRoom);
         GameMenu.gameWindowContainer[0].gamePanel.generator.rooms[id / 5][id % 5].repaintCorrectly();
         repaint();
     }

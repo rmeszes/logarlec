@@ -65,7 +65,6 @@ public class GameMenu extends JFrame implements GameOverListener {
         loadSavedGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ///TODO
 
             }
         });
