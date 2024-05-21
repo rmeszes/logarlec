@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 public class Game extends JPanel{
@@ -57,7 +58,7 @@ public class Game extends JPanel{
     private static final Random random = new Random();
     protected static final Logger logger = App.getConsoleLogger(Game.class.getName());
 
-    private final Set<Steppable> steppablesForRound = new HashSet<>();
+    private final Set<Steppable> steppablesForRound = ConcurrentHashMap.newKeySet();
 
     public transient Labyrinth labyrinth;
 
@@ -95,7 +96,7 @@ public class Game extends JPanel{
             if (!end)
                 s.step();
 
-            //if (end) return;
+            if (end) return;
         }
     }
 
